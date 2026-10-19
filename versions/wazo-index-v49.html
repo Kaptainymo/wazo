@@ -1,0 +1,1162 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Wazo</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700&family=Unbounded:wght@500;600&family=Miriam+Libre:wght@700&family=IBM+Plex+Sans+Hebrew:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<style>
+/* Mobile-first, Currency-style: the home screen is three full-bleed bands (your idea, examples, yours).
+   Tap a band and it opens full screen. A receipt is a stack of big-type rows; when the verdict is
+   revealed the whole sheet floods with the verdict color: BUILD green, PIVOT amber, KILL red. */
+:root{
+  --bg:#F6F5F2; --ink:#111; --muted:#77756F; --line:#D9D8D3; --red:#E5412B;
+  --b1:#111111; --b1-ink:#F4F3EF; --b2:#E6E5E0; --b2-ink:#111; --b3:#F6F5F2; --b3-ink:#111;
+  --night:#161616; --night-ink:#F4F3EF;
+  --build:#2DB46C; --build-ink:#0B2416; --pivot:#F6B73C; --pivot-ink:#2A1C00; --kill:#E5412B; --kill-ink:#FFFFFF;
+  --cta-h:52px;
+  --f-sans:"Hanken Grotesk","IBM Plex Sans Hebrew","Segoe UI",system-ui,sans-serif;
+  --f-wide:"Unbounded","Miriam Libre","IBM Plex Sans Hebrew",system-ui,sans-serif;
+  --f-mono:"IBM Plex Mono","IBM Plex Sans Hebrew",ui-monospace,Menlo,monospace;
+  --ease:cubic-bezier(.2,.8,.2,1);
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#0E0E0E; --ink:#F1F0EC; --muted:#8E8C87; --line:#2A2A2A;
+  --b1:#000; --b1-ink:#F4F3EF; --b2:#1C1C1C; --b2-ink:#F1F0EC; --b3:#0E0E0E; --b3-ink:#F1F0EC; --night:#0A0A0A; color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#0E0E0E; --ink:#F1F0EC; --muted:#8E8C87; --line:#2A2A2A;
+  --b1:#000; --b1-ink:#F4F3EF; --b2:#1C1C1C; --b2-ink:#F1F0EC; --b3:#0E0E0E; --b3-ink:#F1F0EC; --night:#0A0A0A; color-scheme:dark}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+html,body{margin:0;background:var(--bg);color:var(--ink)}
+body{font-family:var(--f-sans);font-size:16px;line-height:1.5;-webkit-font-smoothing:antialiased}
+html.lock{overflow:hidden}
+button,input,textarea{font:inherit;color:inherit}
+button{cursor:pointer}
+:focus-visible{outline:2px solid var(--red);outline-offset:3px}
+.mono{font-family:var(--f-mono)}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.in{width:100%;max-width:680px;margin:0 auto;padding-inline:max(20px,env(safe-area-inset-left,0px))}
+
+/* nav */
+nav.top{position:sticky;top:0;z-index:20;background:var(--b1);color:var(--b1-ink);padding-top:env(safe-area-inset-top,0px)}
+nav.top .in{display:flex;align-items:center;justify-content:space-between;height:56px;max-width:none}
+.brand{font-weight:700;font-size:19px;letter-spacing:-.02em;direction:ltr;text-decoration:none;color:inherit;display:flex;gap:2px;align-items:flex-start}
+.brand sup{font-size:9px;margin-top:3px}
+.navr{display:flex;gap:6px;align-items:center}
+.pill{height:36px;min-width:36px;padding:0 10px;border-radius:999px;border:1.3px solid color-mix(in srgb,currentColor 30%,transparent);background:transparent;font-family:var(--f-mono);font-size:12px;font-weight:600}
+.who{display:flex;align-items:center;gap:6px;font-size:13px;opacity:.8}
+.who i{width:28px;height:28px;border-radius:50%;background:var(--b1-ink);color:var(--b1);display:grid;place-items:center;font-style:normal;font-weight:700;font-size:12px}
+.who span{max-width:110px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+@media (max-width:420px){.who span{display:none}}
+
+/* home bands */
+.bands{display:flex;flex-direction:column;min-height:calc(100dvh - 56px - env(safe-area-inset-top,0px))}
+.band{all:unset;box-sizing:border-box;cursor:pointer;display:flex;flex-direction:column;justify-content:space-between;gap:18px;padding:22px max(20px,env(safe-area-inset-left,0px)) 24px;position:relative;transition:filter .25s}
+.band:active{filter:brightness(.94)}
+.band:focus-visible{outline:3px solid var(--red);outline-offset:-3px}
+.b-idea{background:var(--b1);color:var(--b1-ink);flex:1.5 1 0;min-height:280px}
+.b-ex{background:var(--b2);color:var(--b2-ink);flex:1 1 0;min-height:190px}
+.b-mine{background:var(--b3);color:var(--b3-ink);flex:1 1 0;min-height:190px;border-top:1px solid var(--line)}
+.b-lab{font-family:var(--f-mono);font-size:12px;letter-spacing:.12em;text-transform:uppercase;opacity:.65;display:flex;gap:10px}
+.b-big{font-weight:500;font-size:clamp(40px,11vw,84px);line-height:.95;letter-spacing:-.045em;display:flex;align-items:baseline;gap:14px;flex-wrap:wrap}
+.b-big b{font-weight:500;font-variant-numeric:tabular-nums;direction:ltr}
+.b-big small{font-size:clamp(17px,4.4vw,26px);letter-spacing:-.01em;opacity:.7;font-weight:500}
+.caret{display:inline-block;width:3px;height:.8em;background:var(--red);margin-inline-start:6px;animation:blink 1s steps(2) infinite;transform:translateY(.06em)}
+@keyframes blink{50%{opacity:0}}
+.b-arrow{position:absolute;top:18px;inset-inline-end:max(20px,env(safe-area-inset-right,0px));font-size:22px;opacity:.55}
+
+.b-sub{font-size:14px;opacity:.65;max-width:34ch}
+.tri{display:flex;height:10px;border-radius:999px;overflow:hidden;width:min(100%,420px)}
+.tri i{display:block}
+.legend{display:flex;gap:14px;font-family:var(--f-mono);font-size:11px;opacity:.75;flex-wrap:wrap}
+.legend span{display:flex;align-items:center;gap:6px}
+.legend span::before{content:"";width:9px;height:9px;border-radius:50%;background:var(--c)}
+.foot{padding:18px 20px 28px;font-size:12px;color:var(--muted);text-align:center}
+
+/* panels */
+.panel{position:fixed;inset:0;z-index:40;overflow-y:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;animation:rise .42s var(--ease) both;padding-bottom:env(safe-area-inset-bottom,0px)}
+@keyframes rise{from{opacity:0;transform:translateY(28px)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){.panel{animation:none}}
+.ph{position:sticky;top:0;z-index:5;display:flex;align-items:center;justify-content:space-between;gap:10px;height:56px;padding:env(safe-area-inset-top,0px) max(14px,env(safe-area-inset-left,0px)) 0;background:inherit}
+.back{border:0;background:transparent;display:flex;align-items:center;gap:6px;font-size:15px;font-weight:600;padding:8px 6px;color:inherit}
+.back .chev{font-size:22px;line-height:1;display:inline-block}
+
+.ph-t{font-family:var(--f-mono);font-size:12px;letter-spacing:.12em;text-transform:uppercase;opacity:.65}
+.ph-r{min-width:44px;display:flex;justify-content:flex-end}
+
+/* idea panel */
+.p-idea{background:var(--b1);color:var(--b1-ink)}
+.p-idea .in{display:grid;gap:18px;padding-top:12px;padding-bottom:40px}
+textarea#idea{width:100%;resize:none;border:0;background:transparent;color:inherit;caret-color:var(--red);font-weight:500;font-size:clamp(30px,8vw,52px);line-height:1.1;letter-spacing:-.03em;padding:0;min-height:4.6em;overflow:hidden}
+textarea#idea::placeholder{color:currentColor;opacity:.35}
+textarea#idea:focus{outline:none}
+.morebtn{justify-self:start;border:0;background:none;padding:4px 0;font-size:14px;font-weight:500;color:inherit;opacity:.7;text-decoration:underline;text-underline-offset:3px}
+.fields{display:none;gap:10px}
+.p-idea.more .fields{display:grid}
+.fields label{display:grid;gap:5px;font-size:12px;opacity:.75}
+.fields input{border:1.3px solid color-mix(in srgb,currentColor 25%,transparent);background:transparent;border-radius:14px;padding:13px 14px;font-size:16px;min-width:0}
+.fields input:focus{outline:none;border-color:currentColor}
+.fields input::placeholder{color:currentColor;opacity:.4}
+.cta{height:var(--cta-h);border:0;border-radius:999px;padding:0 26px;font-weight:600;font-size:16px;display:inline-flex;align-items:center;justify-content:center;gap:8px;white-space:nowrap;text-decoration:none}
+.cta.light{background:var(--b1-ink);color:var(--b1)}
+.cta.dark{background:var(--ink);color:var(--bg)}
+.cta.on{background:currentColor}
+.cta:disabled{opacity:.35}
+.p-idea .cta{width:100%}
+.note{font-size:13px;opacity:.7}
+.note.err{color:var(--red);opacity:1;font-weight:600}
+
+/* receipt panel: tone = none | night | build | pivot | kill */
+.p-receipt{background:var(--night);color:var(--night-ink);transition:background-color .7s var(--ease),color .7s var(--ease)}
+.p-receipt.t-build{background:var(--build);color:var(--build-ink)}
+.p-receipt.t-pivot{background:var(--pivot);color:var(--pivot-ink)}
+.p-receipt.t-kill{background:var(--kill);color:var(--kill-ink)}
+.rc{padding-top:6px}
+.rc-meta{font-family:var(--f-mono);font-size:12px;opacity:.6;display:flex;justify-content:space-between;gap:10px;direction:ltr}
+[dir="rtl"] .rc-meta{flex-direction:row-reverse}
+.rc-idea{font-weight:600;font-size:clamp(24px,6.4vw,38px);line-height:1.12;letter-spacing:-.025em;margin:14px 0 22px}
+.c-cnt{font-family:var(--f-mono);font-size:12px;font-weight:600;padding:3px 9px;border-radius:999px;border:1.3px solid color-mix(in srgb,currentColor 35%,transparent);direction:ltr}
+.rrow{border-top:1.3px solid color-mix(in srgb,currentColor 18%,transparent)}
+.rrow:last-of-type{border-bottom:1.3px solid color-mix(in srgb,currentColor 18%,transparent)}
+.rh{all:unset;box-sizing:border-box;cursor:pointer;width:100%;display:grid;grid-template-columns:auto minmax(0,1fr) auto;align-items:center;gap:12px;padding:16px 0;min-height:76px}
+.rh:focus-visible{outline:2px solid currentColor;outline-offset:2px}
+.rn{font-family:var(--f-mono);font-size:11px;opacity:.55;align-self:start;padding-top:6px}
+.rl{display:grid;gap:2px}
+.rl b{font-weight:600;font-size:15px}
+.rl small{font-size:12px;opacity:.6}
+.rv{font-weight:500;font-size:clamp(34px,10vw,56px);line-height:1;letter-spacing:-.045em;font-variant-numeric:tabular-nums;direction:ltr;text-align:end;white-space:nowrap}
+.rv.dim{opacity:.28}
+.rv sub{font-size:.36em;letter-spacing:0;vertical-align:baseline;opacity:.7;margin-inline-start:4px}
+.rrow.final .rv.word{font-family:var(--f-wide);font-weight:600;font-size:clamp(30px,9vw,56px);letter-spacing:-.01em;direction:inherit}
+.rb{display:grid;grid-template-rows:0fr;transition:grid-template-rows .45s var(--ease)}
+.rrow.open .rb{grid-template-rows:1fr}
+.rb>div{overflow:hidden}
+.rbi{padding:0 0 18px;display:grid;gap:10px;font-size:14.5px;line-height:1.5}
+.ln{display:flex;align-items:baseline;gap:8px}
+.ln .k{font-weight:500}
+.ln .fill{flex:1;border-bottom:1.3px dotted color-mix(in srgb,currentColor 35%,transparent);transform:translateY(-4px);min-width:12px}
+.ln .v{font-family:var(--f-mono);font-weight:600;direction:ltr}
+.ln .g{font-family:var(--f-mono);font-size:11px;font-weight:600;border:1.2px solid currentColor;border-radius:4px;padding:0 5px}
+.ev{font-size:13px;opacity:.72;margin-top:-6px}
+.nt b{font-weight:600}
+.nt ul{margin:4px 0 0;padding-inline-start:18px}
+.cav{font-size:12px;opacity:.6}
+.price-in{width:84px;border:0;border-bottom:1.5px solid currentColor;background:transparent;font-family:var(--f-mono);font-weight:600;font-size:15px;text-align:center;direction:ltr}
+.price-in:focus{outline:none}
+.ks{display:flex;gap:6px;flex-wrap:wrap;align-items:center}
+.ks button{border:1.3px solid currentColor;background:transparent;border-radius:999px;padding:4px 12px;font-family:var(--f-mono);font-size:12px}
+.ks button[aria-pressed="true"]{background:currentColor}
+.ks button[aria-pressed="true"] span{filter:invert(1)}
+.bline{font-weight:700;font-size:clamp(20px,5.4vw,26px);line-height:1.2;letter-spacing:-.02em}
+.hit{animation:hit .6s cubic-bezier(.2,1.5,.4,1) both}
+@keyframes hit{from{transform:scale(1.8);opacity:0}to{transform:none;opacity:1}}
+@media (prefers-reduced-motion:reduce){.hit{animation:none}}
+.thanks{font-family:var(--f-mono);font-size:11px;opacity:.55;text-align:center;padding:22px 0 6px}
+
+/* gate inside the bottom line */
+.gate{display:grid;gap:12px}
+.gate-t{font-weight:700;font-size:20px;line-height:1.2;letter-spacing:-.02em}
+.gl{display:grid;gap:5px;font-size:12px;opacity:.85}
+.gl input{border:0;background:rgba(255,255,255,.1);border-radius:14px;padding:13px 14px;font-size:16px;color:inherit;min-width:0;box-shadow:inset 0 0 0 1.3px color-mix(in srgb,currentColor 25%,transparent)}
+.gl input:focus{outline:none;box-shadow:inset 0 0 0 1.6px currentColor}
+.gc{display:flex;gap:10px;align-items:flex-start;font-size:13.5px;line-height:1.4}
+.gc input{margin:3px 0 0;width:18px;height:18px;accent-color:var(--red)}
+.gate .cta{background:var(--night-ink);color:var(--night);width:100%}
+.gate .err{color:#FF7A66;font-weight:600;font-size:13px}
+
+/* drawing (the lottery while Claude thinks) */
+.draw-step{font-family:var(--f-mono);font-size:13px;display:flex;gap:8px;align-items:center;min-height:20px}
+.draw-step::before{content:"▸";color:var(--red);animation:blink .8s steps(2) infinite}
+.bar{height:4px;border-radius:999px;background:color-mix(in srgb,currentColor 15%,transparent);overflow:hidden;margin:12px 0 4px;direction:ltr}
+[dir="rtl"] .bar{transform:scaleX(-1)}
+.bar i{display:block;height:100%;width:0;background:currentColor;transition:width .5s ease-out}
+
+/* actions + plans */
+.acts{position:sticky;bottom:0;padding:14px 0 calc(16px + env(safe-area-inset-bottom,0px));display:grid;gap:10px;background:linear-gradient(to top,var(--night) 70%,transparent);z-index:3}
+.p-receipt.t-build .acts{background:linear-gradient(to top,var(--build) 70%,transparent)}
+.p-receipt.t-pivot .acts{background:linear-gradient(to top,var(--pivot) 70%,transparent)}
+.p-receipt.t-kill .acts{background:linear-gradient(to top,var(--kill) 70%,transparent)}
+.acts-row{display:flex;gap:8px}
+.acts-row .cta{flex:1}
+.btn-main{background:currentColor}
+.btn-main span{filter:invert(1);mix-blend-mode:normal}
+.p-receipt .btn-main{background:var(--night-ink);color:var(--night)}
+.p-receipt.t-build .btn-main{background:var(--build-ink);color:var(--build)}
+.p-receipt.t-pivot .btn-main{background:var(--pivot-ink);color:var(--pivot)}
+.p-receipt.t-kill .btn-main{background:var(--kill-ink);color:var(--kill)}
+.btn-ghost{background:transparent;color:inherit;box-shadow:inset 0 0 0 1.4px color-mix(in srgb,currentColor 40%,transparent)}
+.acts .note{text-align:center}
+.plans{display:grid;gap:10px;padding:8px 0 28px}
+.plans-t{font-weight:700;font-size:20px;letter-spacing:-.02em}
+.plans-s{font-size:13.5px;opacity:.75;margin-top:-4px}
+.plan{display:grid;grid-template-columns:minmax(0,1fr) auto auto;align-items:center;gap:12px;padding:14px 0;border-top:1.3px solid color-mix(in srgb,currentColor 18%,transparent)}
+.plan b{font-weight:600}
+.plan .pp{font-family:var(--f-mono);font-weight:600;font-size:18px;direction:ltr}
+.plan button{border:1.4px solid currentColor;background:transparent;border-radius:999px;padding:7px 14px;font-size:13px;font-weight:600;white-space:nowrap}
+.plan button[aria-pressed="true"]{background:currentColor}
+.plan button[aria-pressed="true"] span{filter:invert(1)}
+
+/* examples panel */
+.p-ex{background:var(--b2);color:var(--b2-ink)}
+.rail{display:flex;gap:12px;overflow-x:auto;scroll-snap-type:x mandatory;padding:6px max(20px,env(safe-area-inset-left,0px)) 28px;scrollbar-width:none}
+.rail::-webkit-scrollbar{display:none}
+.xc{scroll-snap-align:center;flex:0 0 min(86vw,400px);min-height:min(68dvh,560px);border-radius:28px;padding:22px;display:flex;flex-direction:column;gap:12px;overflow:hidden;isolation:isolate}
+.xc.build{background:var(--build);color:var(--build-ink)}
+.xc.pivot{background:var(--pivot);color:var(--pivot-ink)}
+.xc.kill{background:var(--kill);color:var(--kill-ink)}
+.xc .cat{font-family:var(--f-mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;opacity:.7}
+.xc h3{margin:6px 0 0;font-weight:600;font-size:clamp(28px,7.4vw,40px);line-height:1.05;letter-spacing:-.035em}
+.xc p{margin:0;font-size:15px;line-height:1.45;opacity:.85}
+.xc .xw{margin-top:auto;font-family:var(--f-wide);font-weight:600;font-size:clamp(34px,10vw,52px);line-height:1;overflow-wrap:anywhere}
+.xc .cta{background:currentColor;align-self:stretch}
+.xc .cta span{filter:invert(1)}
+.xc.build .cta{background:var(--build-ink);color:var(--build)} .xc.pivot .cta{background:var(--pivot-ink);color:var(--pivot)} .xc.kill .cta{background:var(--kill-ink);color:var(--kill)}
+.xc .cta span{filter:none}
+.ex-intro{padding:4px 0 14px;font-size:15px;opacity:.75;max-width:40ch}
+
+/* mine panel */
+.p-mine{background:var(--b3);color:var(--b3-ink)}
+.mrow{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:14px;align-items:center;padding:18px max(20px,env(safe-area-inset-left,0px));cursor:pointer}
+.mrow.build{background:var(--build);color:var(--build-ink)} .mrow.pivot{background:var(--pivot);color:var(--pivot-ink)} .mrow.kill{background:var(--kill);color:var(--kill-ink)}
+.mrow h4{margin:0;font-weight:600;font-size:18px;line-height:1.2;letter-spacing:-.015em;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.mrow p{margin:4px 0 0;font-family:var(--f-mono);font-size:11.5px;opacity:.7}
+.mrow .mw{font-family:var(--f-wide);font-weight:600;font-size:clamp(18px,5vw,26px);white-space:nowrap}
+.mdel{border:0;background:transparent;font-size:12px;text-decoration:underline;opacity:.7;padding:4px 0;color:inherit}
+.empty{padding:36px 20px;display:grid;gap:10px;justify-items:start}
+.empty b{font-size:24px;font-weight:600;letter-spacing:-.02em}
+.empty span{opacity:.7;max-width:36ch}
+
+@media (min-width:900px){
+  .bands{flex-direction:row;flex-wrap:wrap}
+  .b-idea{flex:1 1 100%;min-height:52dvh}
+  .b-ex,.b-mine{flex:1 1 50%;min-height:calc(48dvh - 56px)}
+  .b-mine{border-top:0}
+}
+
+/* icons: Lucide geometry with Animate UI style motion, in plain SVG + CSS */
+.ic{width:1em;height:1em;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;vertical-align:-.14em;overflow:visible;flex:none}
+.ic g{transform-box:fill-box;transform-origin:center}
+@keyframes ic-wob{0%{transform:none}25%{transform:rotate(-9deg) scale(.94)}55%{transform:rotate(8deg) scale(1.06)}80%{transform:rotate(-3deg)}100%{transform:none}}
+@keyframes ic-shk{0%,100%{stroke-dasharray:1 1}45%{stroke-dasharray:.8 1}}
+@keyframes ic-open{from{stroke-dasharray:1 1;transform:none}to{stroke-dasharray:.78 1;transform:translateY(-1.5px)}}
+.ic-lock .shk{stroke-dasharray:1 1}
+.ic-lock.idle g{animation:ic-wob 1.2s ease-in-out 1.2s infinite}
+.ic-lock.idle .shk{animation:ic-shk 1.2s ease-in-out 1.2s infinite}
+.ic-lock.unlock g{animation:ic-wob .6s ease-in-out}
+.ic-lock.unlock .shk{animation:ic-open .4s ease-out .1s forwards}
+@keyframes ic-nw{0%,100%{transform:none}50%{transform:translate(3px,-3px)}}
+.band:hover .ic-arrow g,.band:focus-visible .ic-arrow g,.band:active .ic-arrow g{animation:ic-nw .6s ease-in-out}
+@keyframes ic-back{0%,100%{transform:none}50%{transform:translateX(-4px)}}
+.back:hover .ic-chev g,.back:active .ic-chev g{animation:ic-back .5s ease-in-out}
+@keyframes ic-spin{to{transform:rotate(360deg)}}
+@keyframes ic-spinb{to{transform:rotate(-360deg)}}
+.ic-moon.spin g{animation:ic-spin .7s cubic-bezier(.3,.7,.2,1)}
+.ic-plus g, .ic-plus .v{transition:transform .3s var(--ease);transform-box:fill-box;transform-origin:center}
+[aria-expanded="true"] .ic-plus g{transform:rotate(180deg)}
+[aria-expanded="true"] .ic-plus .v{transform:scaleY(0)}
+@keyframes ic-drop{0%,100%{transform:none}50%{transform:translateY(3px)}}
+.cta:hover .ic-dl .arr,.cta:active .ic-dl .arr{animation:ic-drop .6s ease-in-out;transform-box:fill-box}
+.cta:hover .ic-again g,.cta:active .ic-again g{animation:ic-spinb .7s ease-in-out}
+@keyframes ic-cp{0%,100%{transform:none}50%{transform:translate(-2px,-2px)}}
+.cta:hover .ic-copy .front,.cta:active .ic-copy .front{animation:ic-cp .5s ease-in-out;transform-box:fill-box}
+@keyframes ic-draw{from{stroke-dashoffset:1}to{stroke-dashoffset:0}}
+.ic-check path{stroke-dasharray:1;animation:ic-draw .45s ease-out both}
+@media (prefers-reduced-motion:reduce){.ic *{animation:none!important;transition:none!important}}
+.rv .ic{width:.62em;height:.62em;vertical-align:baseline}
+.gate-t .ic{margin-inline-end:8px}
+.cta .ic{font-size:18px}
+.back .ic{font-size:22px}
+[dir="rtl"] .ic-chev,[dir="rtl"] .ic-arrow{transform:scaleX(-1)}
+
+/* motion: entrances, press springs, circular panel reveal, verdict flood, parallax */
+.cta,.pill,.plan button,.back,.ks button{transition:transform .28s cubic-bezier(.3,1.6,.5,1),filter .2s,background-color .3s,color .3s}
+.cta:active,.pill:active,.plan button:active,.ks button:active{transform:scale(.95)}
+.band{transition:transform .35s cubic-bezier(.3,1.4,.5,1),filter .25s}
+.band:active{transform:scale(.985)}
+.b-big,.b-sub,.tri,.legend{will-change:transform;transition:transform .5s cubic-bezier(.2,.8,.2,1)}
+.tri i{transition:flex-grow 1s cubic-bezier(.2,.8,.2,1)}
+.panel{animation:none}
+.panel.opening{animation:reveal .62s cubic-bezier(.7,0,.2,1) both}
+.panel.closing{animation:reveal .42s cubic-bezier(.6,0,.4,1) reverse both;pointer-events:none}
+@keyframes reveal{from{clip-path:circle(0px at var(--ox,50%) var(--oy,50%))}to{clip-path:circle(150vmax at var(--ox,50%) var(--oy,50%))}}
+.panel.opening .in>*,.panel.opening .rail{animation:lift .6s var(--ease) .18s both}
+@keyframes lift{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
+@keyframes bandIn{from{opacity:0;transform:translateY(28px)}to{opacity:1;transform:none}}
+.bands.enter .band{animation:bandIn .8s var(--ease) backwards}
+.bands.enter .b-ex{animation-delay:.1s}.bands.enter .b-mine{animation-delay:.2s}
+@keyframes rowIn{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
+.rc.enter .rc-meta,.rc.enter .rc-idea,.rc.enter .rrow,.rc.enter .thanks{animation:rowIn .55s var(--ease) backwards;animation-delay:calc(var(--i,0)*60ms)}
+.mrow,.plans>*{animation:rowIn .5s var(--ease) backwards;animation-delay:calc(var(--i,0)*55ms)}
+@keyframes valIn{from{opacity:0;filter:blur(10px);transform:translateY(10px)}to{opacity:1;filter:none;transform:none}}
+.rv.pop{animation:valIn .55s var(--ease)}
+.rbi>*{animation:rowIn .45s var(--ease) backwards}
+.rrow.open .rbi>*:nth-child(2){animation-delay:.05s}.rrow.open .rbi>*:nth-child(3){animation-delay:.1s}.rrow.open .rbi>*:nth-child(4){animation-delay:.15s}.rrow.open .rbi>*:nth-child(5){animation-delay:.2s}
+.flood{position:fixed;inset:0;z-index:0;pointer-events:none;animation:flood .85s cubic-bezier(.7,0,.2,1) forwards}
+@keyframes flood{from{clip-path:circle(0px at var(--fx,50%) var(--fy,60%))}to{clip-path:circle(160vmax at var(--fx,50%) var(--fy,60%))}}
+.p-receipt>.ph,.p-receipt>.in{position:relative;z-index:1}
+.draw-step{transition:opacity .25s}
+.xc{transition:transform .12s linear;will-change:transform}
+.xc h3,.xc .xw,.xc p{will-change:transform}
+.p-idea textarea#idea::placeholder{transition:opacity .2s}
+@media (prefers-reduced-motion:reduce){
+  .panel.opening,.panel.closing,.bands.enter .band,.rc.enter *,.mrow,.plans>*,.rv.pop,.rbi>*,.flood,.panel.opening .in>*{animation:none!important}
+  .b-big,.b-sub,.tri,.legend,.xc{transform:none!important}
+}
+
+/* legal sheet */
+.foot{display:grid;gap:8px;justify-items:center}
+.legal-link{border:0;background:none;color:inherit;font-size:12px;text-decoration:underline;text-underline-offset:3px;padding:6px 8px;opacity:.85}
+dialog.sheet{border:0;padding:0;margin:auto auto 0;width:min(100%,640px);max-height:88dvh;border-radius:28px 28px 0 0;background:var(--b1);color:var(--b1-ink);overflow:hidden;display:flex;flex-direction:column}
+dialog.sheet:not([open]){display:none}
+dialog.sheet::backdrop{background:rgba(0,0,0,.45);backdrop-filter:blur(3px)}
+dialog.sheet[open]{animation:sheetUp .45s var(--ease) both}
+dialog.sheet[open]::backdrop{animation:fadeIn .3s ease both}
+@keyframes sheetUp{from{transform:translateY(40px);opacity:0}to{transform:none;opacity:1}}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+@media (min-width:700px){dialog.sheet{margin:auto;border-radius:28px}}
+.sheet-h{display:flex;align-items:center;justify-content:space-between;padding:18px 22px 10px;gap:12px}
+.sheet-h h2{margin:0;font-weight:600;font-size:24px;letter-spacing:-.02em}
+.sheet-x{border:0;background:color-mix(in srgb,currentColor 12%,transparent);color:inherit;width:36px;height:36px;border-radius:50%;font-size:20px;line-height:1;display:grid;place-items:center}
+.sheet-b{overflow-y:auto;padding:4px 22px calc(26px + env(safe-area-inset-bottom,0px));display:grid;gap:18px;font-size:15px;line-height:1.55}
+.sheet-b .lead{font-size:18px;line-height:1.4;font-weight:500;letter-spacing:-.01em}
+.sheet-b section{display:grid;gap:4px;padding-top:14px;border-top:1px solid color-mix(in srgb,currentColor 15%,transparent)}
+.sheet-b h3{margin:0;font-size:13px;font-family:var(--f-mono);letter-spacing:.1em;text-transform:uppercase;opacity:.6;font-weight:600}
+.sheet-b p{margin:0;opacity:.88}
+.sheet-b a{color:inherit}
+.sheet-b .upd{font-family:var(--f-mono);font-size:11px;opacity:.5}
+@media (prefers-reduced-motion:reduce){dialog.sheet[open],dialog.sheet[open]::backdrop{animation:none}}
+
+/* free vs pro */
+.rc.free .rc-idea{font-size:clamp(20px,5.4vw,28px);margin:10px 0 16px}
+.rc.free .rv{font-size:clamp(28px,8vw,42px)}
+.rc.free .rh{min-height:64px;padding:12px 0}
+.rrow.compact .rh{min-height:0;padding:9px 0;grid-template-columns:minmax(0,1fr) auto}
+.rrow.compact .rv{font-size:20px;letter-spacing:-.02em;opacity:.75}
+.rrow.compact .rl b{font-size:14px;font-weight:500;opacity:.8}
+.rrow.compact .rl small,.rrow.compact .rn{display:none}
+.rrow.prolock .rv{font-size:13px;font-family:var(--f-mono);font-weight:600;letter-spacing:.06em;padding:5px 10px;border-radius:999px;background:var(--red);color:#fff;opacity:1;display:inline-flex;gap:6px;align-items:center}
+.rrow.prolock .rv .ic{width:13px;height:13px}
+.pw{display:grid;gap:10px;padding:16px;border-radius:20px;background:color-mix(in srgb,currentColor 9%,transparent);box-shadow:inset 0 0 0 1.4px var(--red)}
+.pw-t{font-weight:700;font-size:19px;letter-spacing:-.02em;display:flex;gap:8px;align-items:center}
+.pw-t .ic{color:var(--red)}
+.pw p{margin:0;opacity:.85;font-size:14px}
+.pw-price{display:flex;align-items:baseline;gap:8px}
+.pw-price b{font-family:var(--f-mono);font-size:26px;font-weight:600;direction:ltr}
+.pw-price span{font-size:13px;opacity:.7}
+.pw .cta{background:var(--red);color:#fff;width:100%}
+.pw small{font-size:12px;opacity:.6}
+#proBtn[aria-pressed="true"]{background:var(--red);border-color:var(--red);color:#fff}
+.teams-f{margin:0;padding-inline-start:18px;display:grid;gap:4px}
+</style>
+</head><body>
+
+<div id="app" dir="rtl" lang="he">
+<nav class="top"><div class="in">
+  <a class="brand" href="#" aria-label="Wazo"><b>WAZO</b><sup>®</sup></a>
+  <div class="navr">
+    <div class="who" id="who" hidden><i id="whoI"></i><span id="whoN"></span></div>
+    <button class="pill" id="proBtn" type="button" hidden aria-pressed="false">FREE</button>
+    <button class="pill" id="themeBtn" type="button" aria-label="Theme" data-ic="moon"></button>
+    <button class="pill" id="langBtn" type="button" aria-label="Language">EN</button>
+  </div>
+</div></nav>
+<h1 class="sr" id="h1"></h1>
+
+<main class="bands" id="home">
+  <button class="band b-idea" type="button" data-go="idea">
+    <span class="b-lab"><span>01</span><span data-t="bIdea"></span></span>
+    <span class="b-arrow" aria-hidden="true" data-ic="arrow"></span>
+    <span class="b-big"><span data-t="bIdeaBig"></span><i class="caret" aria-hidden="true"></i></span>
+    <span class="b-sub" data-t="bIdeaSub"></span>
+  </button>
+  <button class="band b-ex" type="button" data-go="examples">
+    <span class="b-lab"><span>02</span><span data-t="bEx"></span></span>
+    <span class="b-arrow" aria-hidden="true" data-ic="arrow"></span>
+    <span class="b-big"><b id="exN">20</b><small data-t="bExBig"></small></span>
+    <span style="display:grid;gap:10px"><span class="tri" id="tri"></span><span class="legend" id="legend"></span></span>
+  </button>
+  <button class="band b-mine" type="button" data-go="mine">
+    <span class="b-lab"><span>03</span><span data-t="bMine"></span></span>
+    <span class="b-arrow" aria-hidden="true" data-ic="arrow"></span>
+    <span class="b-big"><b id="mineN">0</b><small data-t="bMineBig"></small></span>
+  </button>
+</main>
+<div class="foot"><span data-t="foot"></span><button class="legal-link" type="button" id="legalBtn" data-t="legalLink"></button></div>
+<dialog class="sheet" id="teams" aria-labelledby="teamsTitle"><div class="sheet-h"><h2 id="teamsTitle" data-t="teamsT"></h2><button class="sheet-x" type="button" data-close aria-label="Close">×</button></div><div class="sheet-b" id="teamsBody"></div></dialog>
+<dialog class="sheet" id="legal" aria-labelledby="legalTitle"><div class="sheet-h"><h2 id="legalTitle" data-t="legalT"></h2><button class="sheet-x" type="button" id="legalX" aria-label="Close">×</button></div><div class="sheet-b" id="legalBody"></div></dialog>
+
+<section class="panel p-idea" id="p-idea" hidden aria-labelledby="ideaLbl">
+  <header class="ph"><button class="back" type="button" data-back><span class="chev" data-ic="chev"></span><span data-t="back"></span></button><span class="ph-t" id="ideaLbl" data-t="bIdea"></span><span class="ph-r"></span></header>
+  <form class="in" id="askForm">
+    <label class="sr" for="idea" data-t="ideaLabel"></label>
+    <textarea id="idea" rows="3" required></textarea>
+    <button class="morebtn" type="button" id="moreBtn" aria-expanded="false" aria-controls="fieldsBox" style="display:flex;align-items:center;gap:6px"><span data-ic="plus"></span><span data-t="moreDetails"></span></button>
+    <div class="fields" id="fieldsBox">
+      <label for="fCust"><span data-t="fCust"></span><input id="fCust"></label>
+      <label for="fBudget"><span data-t="fBudget"></span><input id="fBudget" inputmode="numeric"></label>
+      <label for="fTime"><span data-t="fTime"></span><input id="fTime"></label>
+    </div>
+    <button class="cta light" id="goBtn" type="submit" data-t="go"></button>
+    <span class="note" id="askNote"></span>
+  </form>
+</section>
+
+<section class="panel p-receipt" id="p-receipt" hidden>
+  <header class="ph"><button class="back" type="button" data-back><span class="chev" data-ic="chev"></span><span data-t="back"></span></button><span class="ph-t">WAZO</span><span class="ph-r" id="cntBox"></span></header>
+  <div class="in"><div id="stage" aria-live="polite"></div><div class="acts" id="cardacts"></div></div>
+</section>
+
+<section class="panel p-ex" id="p-ex" hidden>
+  <header class="ph"><button class="back" type="button" data-back><span class="chev" data-ic="chev"></span><span data-t="back"></span></button><span class="ph-t" id="exCount">01/20</span><span class="ph-r"></span></header>
+  <div class="in"><p class="ex-intro" data-t="feedS"></p></div>
+  <div class="rail" id="rail"></div>
+</section>
+
+<section class="panel p-mine" id="p-mine" hidden>
+  <header class="ph"><button class="back" type="button" data-back><span class="chev" data-ic="chev"></span><span data-t="back"></span></button><span class="ph-t" data-t="bMine"></span><span class="ph-r"></span></header>
+  <div id="drawerList"></div>
+</section>
+</div>
+
+<script>
+(() => {
+"use strict";
+const LIVE="https://claude.ai/artifact/YUUhWngteYPkfuk5Szbs1W";
+const $ = s => document.querySelector(s);
+const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const calm = () => matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+const T = {
+he:{
+ nHow:"מה על הקבלה", nFeed:"קבלות מהעולם", nDrawer:"המגירה", navCta:"נתח רעיון",
+ eyebrow:"בוחן רעיונות לסטארטאפ", h1:"השורה התחתונה <em>על הרעיון שלך.</em>",
+ lede:"כתוב רעיון וקבל קבלה: כל ציון עם הראיה שלו, החשבון בשלושה תרחישים, ומבחן של 7 ימים שיגיד לך אם להמשיך.",
+ ideaLabel:"הרעיון", ideaPh:"למשל: אפליקציה שהופכת הקלטה קולית של קבלן בשטח להצעת מחיר וחשבונית",
+ moreDetails:"פרטים שמחדדים את התשובה (מומלץ)", phCust:"למשל: קבלני שיפוצים עצמאיים", phBudget:"למשל: 30,000", phTime:"למשל: 10 שעות", fCust:"לקוח יעד", fBudget:"תקציב לחצי שנה (₪)", fTime:"זמן פנוי בשבוע",
+ go:"נתח את הרעיון", stop:"עצור ניתוח", needIdea:"כתוב רעיון קודם.",
+ noSample:"הניתוח רץ על חשבון ה-Claude שלך. לחיצה על נתח תפתח את Wazo בתוך claude.ai.",
+ errGranted:"לא ניתנה הרשאה להשתמש ב-Claude מהעמוד הזה.", errRate:"יותר מדי בקשות כרגע. נסה שוב בעוד כמה דקות.",
+ errJson:"הוואזו יצא משובש. לחץ שוב.", errRefused:"Claude סירב לשפוט את הרעיון בניסוח הזה. נסח מחדש.", errGeneric:"משהו נתקע בניתוח. נסה שוב.",
+ steps:["קורא את הרעיון","מדרג ראיות","מחשב תרחישים","חופר בבית הקברות","בונה מבחן ל-7 ימים","מסכם"],
+ vWord:{BUILD:"לבנות",PIVOT:"לשנות כיוון",KILL:"לוותר"},
+ r:{no:"קבלה מס׳",reg:"קופה: Claude",item:"פריט",scores:"ציונים",money:"חשבון",price:"מחיר לחודש",low:"נמוך",base:"בסיס",high:"גבוה",cust:"לקוחות",
+  breaker:"שובר את המודל",kill:"מבחן 7 ימים",budget:"תקציב",pass:"עובר אם",total:"סה״כ",rests:"הכול נשען על",tip:"טיפ",fine:"פירוט מאחורי הקבלה",
+  grave:"בית הקברות",comp:"מי כבר בשטח",gap:"הפער הפתוח",il:"עדשה ישראלית",fit:"מי צריך לבנות את זה",
+  cav:"Claude לא גולש ברשת בזמן הבדיקה. שמות של חברות מגיעים מהידע שלו, בדוק לפני שאתה מסתמך.",
+  thanks:"תודה שבדקת לפני שהתפטרת", example:"דוגמה", ks:"המבחן", ksP:"ממתין", ksY:"עבר", ksN:"נכשל"},
+ sc:{pain:"כאב",demand:"ביקוש",space:"שטח פנוי",pay:"נכונות לשלם"},
+ next:"השורה הבאה", reveal:"חשוף את פסק הדין", reviewed:"נקראו", locked:"קרא את כל השורות כדי לחשוף את פסק הדין",
+ copy:"העתק כטקסט", copied:"הועתק", again:"נתח שוב", saved:"נשמר במגירה", notSaved:"התחבר ל-claude.ai כדי לשמור",
+ howEy:"01, הקבלה", howT:"ארבע שורות שמספרות את האמת.", howS:"בלי ציונים מנופחים ובלי תקרות שוק מומצאות. כל מספר מגיע עם הסיבה שלו.",
+ lines:[["ציונים עם קבלות","כאב, ביקוש, שטח פנוי ונכונות לשלם. כל ציון מדורג A עד D לפי הראיה שמאחוריו.","PAIN ........ 6/10 [B]"],
+  ["החשבון","מחיר, לקוחות משלמים בחודש 12 ושלושה תרחישים, וההנחה האחת ששוברת הכול.","BASE x12 ..... ₪14,400"],
+  ["בית הקברות","מי כבר ניסה את זה, ולמה זה לא עבד.","RIP ......... 2021 wave"],
+  ["מבחן 7 ימים","פעולה אחת, עד ₪700, ורף מעבר שנקבע מראש.","TEST ... 7d · ₪300 · 5/30"]],
+ feedEy:"02, מהעולם", feedT:"קבלות מהעולם.", feedS:"מגמות גלובליות שחושבו מחדש לשוק הישראלי. אלה בדיקות מהירות, נתח כל אחת עד הסוף.",
+ run:"קבלה מלאה", quick:"בדיקה מהירה",
+ drEy:"03, שלך", drT:"המגירה.", drS:"כל קבלה שהדפסת נשמרת כאן, פרטית לך בלבד. סמן איך נגמר המבחן.",
+ drEmpty:"המגירה ריקה", drEmptyS:"נתח את הרעיון הראשון שלך והוואזו יחכה כאן.", drOut:"התחבר ל-claude.ai כדי לשמור את הוואזו שלך", drOutS:"הכול נשמר בחשבון שלך ואף אחד אחר לא רואה.",
+ open:"פתח", del:"מחק", yes:"מחק", no:"ביטול", loading:"טוען…",
+ foot:"Wazo · וואזו מספק חוות דעת אמיתית על הרעיון שלך, לפני שאתה מתפטר בשבילו."
+},
+en:{
+ nHow:"On the receipt", nFeed:"World receipts", nDrawer:"The drawer", navCta:"Analyze an idea",
+ eyebrow:"Startup idea checker", h1:"The bottom line <em>on your idea.</em>",
+ lede:"Write an idea and get a receipt: every score with its evidence, the money in three scenarios, and a 7-day test that tells you whether to keep going.",
+ ideaLabel:"The idea", ideaPh:"e.g. an app that turns a contractor's voice note from the job site into a quote and an invoice",
+ moreDetails:"Details that sharpen the answer (recommended)", phCust:"e.g. independent renovation contractors", phBudget:"e.g. 30,000", phTime:"e.g. 10 hours", fCust:"Target customer", fBudget:"Budget for 6 months (₪)", fTime:"Time per week",
+ go:"Analyze my idea", stop:"Stop analysis", needIdea:"Write an idea first.",
+ noSample:"The analysis runs on your Claude account. Pressing Analyze opens Wazo inside claude.ai.",
+ errGranted:"This page wasn't allowed to use Claude.", errRate:"Too many requests right now. Try again in a few minutes.",
+ errJson:"The wazo came out garbled. Press again.", errRefused:"Claude declined to judge the idea as written. Rephrase it.", errGeneric:"Something jammed the analysis. Try again.",
+ steps:["READING THE IDEA","GRADING EVIDENCE","RUNNING SCENARIOS","DIGGING THE GRAVEYARD","DESIGNING A 7-DAY TEST","WRAPPING UP"],
+ vWord:{BUILD:"BUILD",PIVOT:"PIVOT",KILL:"KILL"},
+ r:{no:"Receipt no.",reg:"Register: Claude",item:"Item",scores:"Scores",money:"Money",price:"Price / month",low:"Low",base:"Base",high:"High",cust:"customers",
+  breaker:"Breaks the model",kill:"7-day test",budget:"Budget",pass:"Passes if",total:"Total",rests:"It all rests on",tip:"Tip",fine:"Fine print",
+  grave:"The graveyard",comp:"Already here",gap:"The open gap",il:"Israel lens",fit:"Who should build it",
+  cav:"Claude doesn't browse while judging. Company names come from its own knowledge, check before relying on them.",
+  thanks:"Thanks for checking before you quit your job", example:"EXAMPLE", ks:"Test", ksP:"Pending", ksY:"Passed", ksN:"Failed"},
+ sc:{pain:"Pain",demand:"Demand",space:"Open space",pay:"Will pay"},
+ next:"Next line", reveal:"Reveal the verdict", reviewed:"reviewed", locked:"Review every line to reveal the verdict",
+ copy:"Copy as text", copied:"Copied", again:"Analyze again", saved:"Saved to the drawer", notSaved:"Sign in to claude.ai to save",
+ howEy:"01, The receipt", howT:"Four lines that tell the truth.", howS:"No inflated scores and no made-up market ceilings. Every number comes with its reason.",
+ lines:[["Scores with receipts","Pain, demand, open space and willingness to pay. Each graded A to D by the evidence behind it.","PAIN ........ 6/10 [B]"],
+  ["The money","Price, paying customers at month 12, three scenarios, and the one assumption that breaks it all.","BASE x12 ..... ₪14,400"],
+  ["The graveyard","Who already tried this, and why it didn't work.","RIP ......... 2021 wave"],
+  ["The 7-day test","One action, up to ₪700, with a pass bar set in advance.","TEST ... 7d · ₪300 · 5/30"]],
+ feedEy:"02, From the world", feedT:"World receipts.", feedS:"Global trends re-scored for the Israeli market. These are quick checks, analyze any of them in full.",
+ run:"Full receipt", quick:"Quick check",
+ drEy:"03, Yours", drT:"The drawer.", drS:"Every receipt you print is kept here, private to you. Mark how the test ended.",
+ drEmpty:"The drawer is empty", drEmptyS:"Analyze your first idea and your wazo will wait here.", drOut:"Sign in to claude.ai to keep your wazos", drOutS:"Everything is saved to your account. No one else can see it.",
+ open:"Open", del:"Delete", yes:"Delete", no:"Cancel", loading:"Loading…",
+ foot:"Wazo gives you a real opinion on your idea, before you quit your job for it."
+}};
+Object.assign(T.he, {editIdea:"ערוך את הרעיון", reviewedCap:"שורות נקראו", scrollHint:"גלול", swipeHint:"החלק ←→", rowsScores:"ציונים", rowsMoney:"החשבון", rowsTest:"מבחן 7 ימים", rowsFine:"פירוט", rowsTotal:"השורה התחתונה", lockedS:"נעול", base:"בסיס", graves:"קברים", rivals:"מתחרים", howEy:"על הקבלה", feedEy:"מהעולם", drEy:"שלך", saveImg:"שמור תמונה", imgMaking:"מכין תמונה…", imgSaved:"התמונה נשמרה", imgFail:"לא הצלחתי לשמור את התמונה. נסה שוב.", imgFoot:"Wazo · חוות דעת אמיתית על הרעיון שלך", gateT:"השורה התחתונה שמורה לרשומים", gateS:"הרשמה חינם. הוואזו הראשון עלינו.", gName:"שם", gEmail:"אימייל", gMk:"שלחו לי עדכונים והצעות של Wazo", gGo:"פתח את השורה התחתונה", gPriv:"רק Wazo רואה את הפרטים. בלי ספאם.", gBad:"צריך אימייל תקין.", lockGate:"הרשמה חינם", plansT:"הוואזו הבא", plansS:"בקרוב. בחר מה מתאים לך ונשמור לך מחיר השקה.", planHold:"שמור לי", planHeld:"נשמר ✓", plans:[["one","וואזו אחד","₪19"],["pack","5 וואזו","₪69"],["pro","Pro, ללא הגבלה","₪49 לחודש"]]});
+Object.assign(T.en, {editIdea:"Edit the idea", reviewedCap:"lines reviewed", scrollHint:"Scroll", swipeHint:"Swipe ←→", rowsScores:"Scores", rowsMoney:"The money", rowsTest:"7-day test", rowsFine:"Fine print", rowsTotal:"The bottom line", lockedS:"locked", base:"base", graves:"graves", rivals:"rivals", howEy:"On the receipt", feedEy:"From the world", drEy:"Yours", saveImg:"Save image", imgMaking:"Preparing image…", imgSaved:"Image saved", imgFail:"Couldn't save the image. Try again.", imgFoot:"Wazo · A real opinion on your idea", gateT:"The bottom line is for members", gateS:"Free sign up. Your first wazo is on us.", gName:"Name", gEmail:"Email", gMk:"Send me Wazo updates and offers", gGo:"Unlock the bottom line", gPriv:"Only Wazo sees this. No spam.", gBad:"Enter a valid email.", lockGate:"free sign up", plansT:"Your next wazo", plansS:"Coming soon. Pick what fits and we'll hold a launch price for you.", planHold:"Hold it for me", planHeld:"Held ✓", plans:[["one","One wazo","₪19"],["pack","5 wazos","₪69"],["pro","Pro, unlimited","₪49/mo"]]});
+const EXAMPLE = {
+he:{idea:"שירות AI שבוחר ושולח מתנות חג לעובדים בחברות הייטק ישראליות",title:"מתנות חג ב-AI",verdict:"PIVOT",
+ headline:"התקציב אמיתי, אבל הוא מוצא פעמיים בשנה, ולקונה כבר יש ספק.",deciding:"אחוז זכייה מעל 15% מול ספקי שוברי המתנה הקיימים.",
+ tip:"תמכור רגעים לאורך כל השנה, קליטה, ימי הולדת, לידה, חזרה ממילואים, כמנוי ל-HR.",
+ scores:[{key:"pain",score:6,grade:"B",evidence:"חברות מוציאות על מתנות חג כל שנה. הכאב הוא הטרחה, לא ההוצאה."},{key:"demand",score:7,grade:"B",evidence:"מתנות חג הן נוהג כמעט אוניברסלי בחברות ישראליות."},{key:"space",score:3,grade:"A",evidence:"שוברי מתנה וספקי מארזים מחזיקים את התקציב הזה שנים."},{key:"pay",score:6,grade:"C",evidence:"משלמים על מתנות; על מנוי, לא הוכח."}],
+ money:{price:1200,low:4,base:12,high:25,breaker:"חברות קונות לפי חג, לא לפי חודש. בלי מנוי, ההכנסה בין פסח לראש השנה קרובה לאפס."},
+ graveyard:[{name:"גל פלטפורמות המתנות הארגוניות (ארה״ב, 2021)",why:"גייסו בתקופת העבודה מהבית ונחתכו כשתקציבי הרווחה התכווצו."},{name:"ספקי מארזים מקומיים",why:"עסק עונתי עם מלאי, רווח פעמיים בשנה, שריפת מזומנים בין לבין."}],
+ competition:[{name:"BuyMe",note:"שוברי מתנה, דומיננטי בתקציבי HR."},{name:"תו הזהב",note:"שוברים, הבחירה הבטוחה של הכספים."}],
+ gap:"אף אחד לא מחזיק את לוח השנה של רגעי העובד בחברות של 50 עד 300 איש.",
+ israel:"נוהג חזק ושוק קטן: כמה אלפי חברות בטווח 50 עד 300 עובדים. מתנות מעל סכום מסוים חייבות במס לעובד, בדוק את התקרה העדכנית והפוך את זה לפיצ׳ר.",
+ fit:"דורש מכירות B2B ותפעול ספקים. תקציב סביר: ₪20 עד 40 אלף לחצי השנה הראשונה.",
+ kill:{action:"פנה ל-30 מנהלי HR בחברות של 50 עד 300 עובדים עם פיילוט חינמי של מתנות יום הולדת לחודש.",budget:300,pass:"5 מסכימים לשיחה, 2 מסכימים לשלם מהחודש השני."}},
+en:{idea:"An AI service that picks and ships holiday gifts to employees at Israeli tech companies",title:"AI Holiday Gifting",verdict:"PIVOT",
+ headline:"The budget is real, but it's spent twice a year, and the buyer already has a vendor.",deciding:"A win rate above 15% against the gift-voucher vendors they already use.",
+ tip:"Sell year-round moments, onboarding, birthdays, new babies, returns from reserve duty, to HR as a subscription.",
+ scores:[{key:"pain",score:6,grade:"B",evidence:"Companies spend on holiday gifts every year. The pain is the hassle, not the spend."},{key:"demand",score:7,grade:"B",evidence:"Holiday gifts are a near-universal habit at Israeli companies."},{key:"space",score:3,grade:"A",evidence:"Gift vouchers and gift-box vendors have owned this budget for years."},{key:"pay",score:6,grade:"C",evidence:"They pay for gifts; paying for a subscription is unproven."}],
+ money:{price:1200,low:4,base:12,high:25,breaker:"Companies buy per holiday, not per month. Without a subscription, revenue between Passover and Rosh Hashanah is near zero."},
+ graveyard:[{name:"The corporate-gifting platform wave (US, 2021)",why:"Raised during remote work, cut back when perk budgets shrank."},{name:"Local gift-box vendors",why:"Seasonal inventory, profit twice a year, cash burn in between."}],
+ competition:[{name:"BuyMe",note:"Gift cards, dominant in HR budgets."},{name:"Tav Hazahav",note:"Vouchers, finance teams' safe choice."}],
+ gap:"Nobody owns the calendar of employee moments for 50 to 300 person companies.",
+ israel:"Strong habit, small market: a few thousand companies in the 50 to 300 range. Gifts above a set value are taxable to the employee, check the current threshold and make it a feature.",
+ fit:"Needs B2B sales and supplier ops. A realistic budget: ₪20 to 40K for the first six months.",
+ kill:{action:"Pitch 30 HR managers at 50 to 300 person companies a free one-month birthday-gift pilot.",budget:300,pass:"5 agree to a call, 2 agree to pay from month two."}}
+};
+const FEED = [
+ {v:"BUILD",he:{cat:"כלי עבודה · קבלנים",t:"הקלטה קולית ← הצעת מחיר",l:"זיהוי דיבור בעברית הוא החפיר. הכלים הגלובליים חלשים בו."},en:{cat:"Work tools · Trades",t:"Voice note → quote",l:"Hebrew speech recognition is the moat. Global tools are weak at it."},
+  idea:{he:"אפליקציה שבה בעלי מקצוע מקליטים את העבודה בשטח וה-AI כותב הצעת מחיר וחשבונית",en:"An app where tradespeople record the job on site and AI writes the quote and the invoice"}},
+ {v:"BUILD",he:{cat:"B2B · רגולציה",t:"עוזר פרטיות למרפאות קטנות",l:"החוק המעודכן העלה את המחיר של טעות. קונה מפחד הוא קונה טוב."},en:{cat:"B2B · Compliance",t:"Privacy copilot for small clinics",l:"Israel's updated privacy law raised the cost of a mistake. A scared buyer is a good buyer."},
+  idea:{he:"כלי שבודק עמידה בדרישות הגנת הפרטיות למרפאות ומטפלים עצמאיים ומפיק מסמכים מוכנים",en:"A tool that checks privacy compliance for clinics and solo therapists and produces ready-made documents"}},
+ {v:"BUILD",he:{cat:"B2B · משאבי אנוש",t:"קליטת עובדים בוואטסאפ",l:"בישראל הכול קורה בוואטסאפ. עסקים עם עובדים שעתיים צריכים את זה עכשיו."},en:{cat:"B2B · HR",t:"Onboarding inside WhatsApp",l:"In Israel everything happens on WhatsApp. Businesses with hourly staff need this now."},
+  idea:{he:"בוט שמלווה עובד חדש בשבועות הראשונים, טפסים, הדרכות ושאלות, בתוך וואטסאפ",en:"A bot that guides new hires through their first weeks, forms, training, questions, inside WhatsApp"}},
+ {v:"PIVOT",he:{cat:"פרילנסרים · כספים",t:"קבלה ← הנהלת חשבונות",l:"אפליקציות החשבוניות כבר מחזיקות את הלקוח. תנצח על הדוח השנתי."},en:{cat:"Freelancers · Finance",t:"Receipt → bookkeeping",l:"Invoicing apps already own the customer. Win on the annual tax report."},
+  idea:{he:"מצלמים קבלה, ה-AI מסווג ומכין את הדוח השנתי לעוסק פטור ומורשה",en:"Snap a receipt; AI categorizes it and prepares the year-end report for freelancers"}},
+ {v:"PIVOT",he:{cat:"קריאייטיב · מרחבים",t:"אולפנים לפי שעה",l:"היצע קל להשיג, ביקוש חוזר לא. תמכור לבתי ספר למוזיקה ולמותגים."},en:{cat:"Creative · Spaces",t:"Studios by the hour",l:"Supply is easy, repeat demand isn't. Sell to music schools and brands."},
+  idea:{he:"שוק להשכרת אולפני הקלטה ופודקאסט פנויים לפי שעה",en:"A marketplace for idle recording and podcast studios, rented by the hour"}},
+ {v:"KILL",he:{cat:"צרכנות · תזונה",t:"מתכנן ארוחות לאלרגיות",l:"צ'אטבוטים חינמיים כבר עושים את זה. אף אחד לא ישלם."},en:{cat:"Consumer · Food",t:"Meal planner for allergies",l:"Free chatbots already do this. Nobody will pay."},
+  idea:{he:"תפריט שבועי ורשימת קניות שמתחשבים באלרגיות של כל בני הבית",en:"A weekly menu and shopping list that respects every family member's allergies"}}
+ ,{v:"BUILD",he:{cat:"B2B · פרודוקטיביות",t:"סיכומי פגישות בעברית-אנגלית",l:"מעבר בין עברית לאנגלית באמצע משפט שובר את כלי התמלול הגלובליים. זה הפער."},en:{cat:"B2B · Productivity",t:"Meeting notes in Heblish",l:"Switching between Hebrew and English mid-sentence breaks global transcribers. That's the gap."},
+  idea:{he:"כלי AI שמתמלל ומסכם פגישות שבהן מדברים עברית ואנגלית מעורבבות",en:"An AI tool that transcribes and summarizes meetings held in mixed Hebrew and English"}}
+ ,{v:"PIVOT",he:{cat:"צרכנות · בית",t:"מנוי לצמחי בית",l:"נחמד שיש, קל לבטל. תמכור למשרדים, לא לבתים."},en:{cat:"Consumer · Home",t:"Houseplant subscription",l:"Nice to have, easy to cancel. Sell to offices, not homes."},
+  idea:{he:"מנוי חודשי שמביא צמחי בית, מחליף אותם ומטפל בהם",en:"A monthly subscription that delivers, swaps and cares for houseplants"}}
+ ,{v:"KILL",he:{cat:"צרכנות · אוכל",t:"עוד אפליקציית משלוחי אוכל",l:"השחקנים הגדולים מחזיקים את השליחים ואת ההרגל. אין זווית שמנצחת את זה."},en:{cat:"Consumer · Food",t:"Another food-delivery app",l:"The incumbents own the couriers and the habit. No angle beats that."},
+  idea:{he:"אפליקציית משלוחי אוכל חדשה עם עמלות נמוכות למסעדות",en:"A new food-delivery app with lower commissions for restaurants"}}
+ ,{v:"BUILD",he:{cat:"B2B · מסעדנות",t:"סידור משמרות בוואטסאפ",l:"מנהלים כבר מסדרים משמרות בקבוצות וואטסאפ. תפגוש אותם שם."},en:{cat:"B2B · Hospitality",t:"Shift scheduling in WhatsApp",l:"Managers already schedule shifts in WhatsApp groups. Meet them there."},
+  idea:{he:"בוט וואטסאפ שבונה סידור משמרות למסעדות ומטפל בהחלפות",en:"A WhatsApp bot that builds restaurant shift schedules and handles swaps"}}
+ ,{v:"PIVOT",he:{cat:"צרכנות · משפחה",t:"יד שנייה לציוד תינוקות",l:"קבוצות פייסבוק עושות את זה בחינם. תנצח על אמון: נבדק, נוקה, נשלח."},en:{cat:"Consumer · Family",t:"Second-hand baby gear",l:"Facebook groups do it for free. Win on trust: inspected, cleaned, delivered."},
+  idea:{he:"שוק לציוד תינוקות יד שנייה עם בדיקה וניקוי לפני משלוח",en:"A marketplace for second-hand baby gear, inspected and cleaned before delivery"}}
+ ,{v:"PIVOT",he:{cat:"B2B · שירות ציבורי",t:"תרגום ערבית-עברית למרפאות",l:"פער שפה אמיתי, אבל הקונה ממשלתי ואיטי. התחל ממרפאות פרטיות."},en:{cat:"B2B · Public services",t:"Arabic, Hebrew for clinics",l:"A real language gap, but the buyer is public and slow. Start with private clinics."},
+  idea:{he:"תרגום AI בזמן אמת בין ערבית לעברית לשיחות בקופות חולים ובמרפאות",en:"Real-time AI translation between Arabic and Hebrew for clinic and health-fund conversations"}}
+ ,{v:"PIVOT",he:{cat:"צרכנות · אופנה",t:"סטייליסט AI אישי",l:"משתמשים אוהבים, כמעט לא משלמים. תמכור סטיילינג לחנויות בוטיק."},en:{cat:"Consumer · Fashion",t:"Personal AI stylist",l:"Users love it and rarely pay. Sell styling to small boutiques."},
+  idea:{he:"אפליקציה שמצלמת את הארון ומציעה שילובים וקניות חכמות",en:"An app that photographs your closet and suggests outfits and smart purchases"}}
+ ,{v:"KILL",he:{cat:"צרכנות · קהילה",t:"רשת חברתית לשכנים",l:"כולם רוצים, אף אחד לא חוזר. קבוצות הוואטסאפ של הבניין כבר ניצחו."},en:{cat:"Consumer · Community",t:"A social network for neighbors",l:"Everyone wants it, nobody comes back. The building's WhatsApp group already won."},
+  idea:{he:"רשת חברתית לשכנים בבניין ובשכונה",en:"A social network for neighbors in the same building and neighborhood"}}
+ ,{v:"BUILD",he:{cat:"B2B · בנייה",t:"מעקב תעודות בטיחות לקבלנים",l:"תעודה שפגה שווה קנס. פחד מוכר."},en:{cat:"B2B · Construction",t:"Safety certificates tracker",l:"An expired certificate means a fine. Fear sells."},
+  idea:{he:"מערכת שעוקבת אחרי תוקף תעודות בטיחות והסמכות של עובדים אצל קבלנים קטנים ומתריעה מראש",en:"A system that tracks the expiry of workers' safety certificates for small contractors and warns ahead"}}
+ ,{v:"PIVOT",he:{cat:"חינוך · עלייה",t:"מורים לעברית לעולים",l:"קצב העלייה לא יציב. תמכור למעסיקים שמגייסים עולים."},en:{cat:"Education · Aliyah",t:"Hebrew tutors for new immigrants",l:"Immigration flow is uneven. Sell to employers who hire new immigrants."},
+  idea:{he:"שוק אונליין שמחבר עולים חדשים למורים פרטיים לעברית",en:"An online marketplace connecting new immigrants with private Hebrew tutors"}}
+ ,{v:"PIVOT",he:{cat:"B2B · עמותות",t:"דוחות שנתיים לעמותות קטנות",l:"אלפי עמותות קטנות מגישות את אותם דוחות כל שנה. המכירה לרואי החשבון שלהן, לא אליהן."},en:{cat:"B2B · Nonprofits",t:"Annual reports for small nonprofits",l:"Thousands of small nonprofits file the same reports every year. Sell to their accountants, not to them."},
+  idea:{he:"כלי AI שמכין את הדוחות השנתיים ומסמכי הדיווח לעמותות קטנות",en:"An AI tool that prepares annual reports and filings for small nonprofits"}}
+ ,{v:"KILL",he:{cat:"צרכנות · סביבה",t:"מטבעות קריפטו על מחזור",l:"תמריצי טוקנים דועכים, והרגלי המחזור לא באים אחריהם."},en:{cat:"Consumer · Climate",t:"Crypto rewards for recycling",l:"Token incentives fade, and recycling habits don't follow."},
+  idea:{he:"אפליקציה שנותנת מטבעות קריפטו על כל בקבוק שממחזרים",en:"An app that pays crypto tokens for every bottle you recycle"}}
+ ,{v:"PIVOT",he:{cat:"צרכנות · תחבורה",t:"שיתוף חניות בתל אביב",l:"כאב אמיתי, בלגן משפטי עם ועדי בתים. התחל מחניות משרדים שריקות בערב."},en:{cat:"Consumer · Mobility",t:"Parking-spot sharing in Tel Aviv",l:"Real pain, legal mess with building committees. Start with office spots that sit empty at night."},
+  idea:{he:"אפליקציה שמשכירה חניות פרטיות פנויות לפי שעה בתל אביב",en:"An app that rents out idle private parking spots by the hour in Tel Aviv"}}
+ ,{v:"BUILD",he:{cat:"B2B · עסקים קטנים",t:"מזכירה טלפונית AI בעברית",l:"שיחה שלא נענתה היא הכנסה שהלכה, והקול בעברית סוף סוף מספיק טוב."},en:{cat:"B2B · Small business",t:"Hebrew AI phone receptionist",l:"A missed call is lost revenue, and Hebrew voice AI is finally good enough."},
+  idea:{he:"מזכירה טלפונית מבוססת AI שעונה בעברית, קובעת תורים ומעבירה הודעות לעסקים קטנים",en:"An AI phone receptionist that answers in Hebrew, books appointments and takes messages for small businesses"}}
+];
+
+
+Object.assign(T.he, {tryIdea:"נסה את הרעיון הזה", back:"חזרה", bIdea:"הרעיון שלך", bIdeaBig:"כתוב רעיון.", bIdeaSub:"ניתוח חכם: ציונים, חשבון ומבחן של 7 ימים. ובסוף, פסק דין.", bEx:"דוגמאות", bExBig:"וואזו מהעולם", bMine:"שלך", bMineBig:"הוואזו שלך", ideaPh:"אפליקציה שהופכת הקלטה של קבלן בשטח להצעת מחיר", openFull:"וואזו מלא", unit:"לחודש, בסיס", unitTest:"7 ימים", unitFine:"קברים · מתחרים", unitScores:"כאב · ביקוש · שטח · תשלום", del:"מחק", sure:"בטוח?", plans:[["one","וואזו אחד","₪19"],["pack","5 וואזו","₪69"],["pro","Pro, ללא הגבלה","₪49 לחודש"]]});
+Object.assign(T.en, {tryIdea:"Try this idea", back:"Back", bIdea:"Your idea", bIdeaBig:"Type your idea.", bIdeaSub:"A smart analysis: scores, the money and a 7-day test. Then a verdict.", bEx:"Examples", bExBig:"world wazos", bMine:"Yours", bMineBig:"your wazos", ideaPh:"An app that turns a contractor's voice note into a quote", openFull:"Full wazo", unit:"per month, base", unitTest:"7 days", unitFine:"graves · rivals", unitScores:"pain · demand · space · pay", del:"Delete", sure:"Sure?", fBudget:"Budget for 6 months ($)", phBudget:"e.g. 10,000", plans:[["one","One wazo","$5"],["pack","5 wazos","$19"],["pro","Pro, unlimited","$13/mo"]]});
+T.en.r.il="Market lens";
+Object.assign(T.he,{proOnly:"Pro", pwT:"הניתוח המלא ב-Pro", pwS:"מבחן 7 ימים מוכן לביצוע, בית הקברות, המתחרים, העדשה הישראלית ומי צריך לבנות את זה.", pwPrice:"₪49", pwPer:"לחודש, ללא הגבלת וואזו", pwGo:"שמור לי מחיר השקה", pwHeld:"מחיר ההשקה שמור לך", pwNote:"בקרוב. לא ייגבה ממך כסף עכשיו.",
+ teamsBtn:"שדרג לצוותים ותוכניות", teamsT:"Wazo לצוותים ותוכניות", teamsLead:"לאקסלרטורים, תוכניות יזמות וצוותי חדשנות: כל המחזור מקבל Wazo, ואתם רואים את כל הרעיונות במקום אחד.",
+ teamsF:["מושבים לכל היזמים במחזור","לוח מחזור: כל הוואזו, הציונים ומבחני 7 הימים","ייצוא לוועדות ולדוחות"], teamsPrice:"מ-₪1,500 למחזור", teamsGo:"שמור לי מקום", teamsHeld:"המקום שמור לך"});
+Object.assign(T.en,{proOnly:"Pro", pwT:"The full analysis is Pro", pwS:"A ready-to-run 7-day test, the graveyard, the competition, the market lens and who should build it.", pwPrice:"$13", pwPer:"per month, unlimited wazos", pwGo:"Hold my launch price", pwHeld:"Launch price held for you", pwNote:"Coming soon. No charge now.",
+ teamsBtn:"Upgrade to Teams", teamsT:"Wazo for teams & programs", teamsLead:"For accelerators, founder programs and innovation teams: your whole cohort gets Wazo, and you see every idea in one place.",
+ teamsF:["Seats for every founder in the cohort","A cohort board: every wazo, score and 7-day test","Export for committees and reports"], teamsPrice:"from $400 per cohort", teamsGo:"Hold a spot", teamsHeld:"Spot held for you"});
+Object.assign(T.he,{legalLink:"משפטי ופרטיות", legalT:"מה זה Wazo, בכנות",
+ legalLead:"Wazo נותן חוות דעת מהירה וישירה על רעיון לסטארטאפ, כדי שתוכל להחליט אם להשקיע בו עוד זמן וכסף, לפני שאתה מתפטר בשבילו.",
+ legal:[["איך זה עובד","הניתוח נכתב על ידי Claude, מודל בינה מלאכותית של Anthropic, על בסיס מה שכתבת. הוא לא גולש ברשת בזמן הניתוח, ולכן מספרים, שמות חברות ותקנות עלולים להיות לא מדויקים או לא עדכניים. כל ציון מסומן בדרגת ראיה, A עד D, כדי שתדע על מה הוא נשען."],
+  ["המלצה בלבד","כל ניתוח, ציון ופסק דין ב-Wazo הם המלצה בלבד. Wazo אינו ייעוץ השקעות, משפטי, פיננסי, מס או עסקי, ואינו תחליף לאנשי מקצוע. ההחלטה והאחריות שלך. השתמש בניתוח כנקודת פתיחה, ובמבחן של 7 ימים כדי לבדוק את המציאות."],
+  ["הפרטיות שלך","הוואזו שלך נשמר בחשבון ה-claude.ai שלך ופרטי לך בלבד. אם נרשמת, השם והאימייל נשמרים כדי לתת לך גישה, ורק Wazo רואה אותם. עדכונים והצעות נשלחים רק אם סימנת זאת. אנחנו לא מוכרים מידע, והרעיון נשאר שלך."],
+  ["מחירים","השירות חינמי כרגע. תוכניות שמסומנות \"בקרוב\" אינן רכישה: לחיצה עליהן רק שומרת את העניין שלך. לא נגבה ממך כסף בלי אישור מפורש."],
+  ["בלי הבטחות","השירות ניתן כמו שהוא, בגרסה ראשונית, ועלול להשתנות או להפסיק לפעול. Wazo אינו אחראי לנזק שנובע מהחלטות שהתקבלו על סמך הניתוח."],
+  ["קשר ומחיקה","רוצה שנמחק את הפרטים שלך? לחץ על הכפתור למטה והבקשה תגיע אלינו. נבנה על ידי WAZO."]],
+ legalUpd:"עודכן: אוקטובר 2026", delReq:"בקש מחיקת פרטים", delSent:"הבקשה נשלחה. נמחק את הפרטים שלך.", delNo:"הבקשה זמינה מתוך Wazo ב-claude.ai, כשאתה מחובר."});
+Object.assign(T.en,{legalLink:"Legal & privacy", legalT:"What Wazo is, honestly",
+ legalLead:"Wazo gives you a fast, blunt opinion on a startup idea, so you can decide whether to put more time and money into it, before you quit your job for it.",
+ legal:[["How it works","The analysis is written by Claude, an AI model made by Anthropic, from what you typed. It does not browse the web while it judges, so numbers, company names and regulations can be wrong or out of date. Every score carries an evidence grade, A to D, so you can see what it rests on."],
+  ["Recommendation only","Every analysis, score and verdict on Wazo is a recommendation only. Wazo is not investment, legal, financial, tax or business advice, and it does not replace professionals. The decision and the responsibility are yours. Use the analysis as a starting point, and the 7-day test to check it against reality."],
+  ["Your privacy","Your wazos are saved in your claude.ai account and private to you. If you sign up, your name and email are kept to give you access, and only Wazo sees them. Updates and offers are sent only if you ticked the box. We don't sell data, and your idea stays yours."],
+  ["Pricing","The service is free for now. Plans marked \"coming soon\" are not purchases: tapping one only records your interest. You will never be charged without explicit approval."],
+  ["No guarantees","Wazo is provided as is, as an early version, and may change or stop working. Wazo is not liable for losses from decisions made based on an analysis."],
+  ["Contact & deletion","Want your details deleted? Tap the button below and the request reaches us. Built by WAZO."]],
+ legalUpd:"Updated: October 2026", delReq:"Request deletion", delSent:"Request sent. We'll delete your details.", delNo:"Requests work inside Wazo on claude.ai, when you're signed in."});
+const CUR = () => S.lang==="he" ? "₪" : "$";
+const CAP = () => S.lang==="he" ? 700 : 200;
+
+const S = { lang:"he", sample:null, db:null, uid:null, current:null, currentId:null, isExample:false, mine:[], mineLoaded:false, ctl:null, timer:null, busy:false, savedNote:"", confirmDel:null, ready:false, rev:new Set(), open:0, lastCnt:0, optin:false, me:{name:"",email:""}, plan:"", stampHit:false, view:"" };
+try { const l=localStorage.getItem("wz.lang"); if (l==="en"||l==="he") S.lang=l; } catch(e){}
+try { const th=localStorage.getItem("wz.theme"); if (th==="light"||th==="dark") document.documentElement.setAttribute("data-theme",th); } catch(e){}
+try { if (localStorage.getItem("wz.optin")==="1") S.optin=true; S.plan=localStorage.getItem("wz.plan")||""; S.proPreview=localStorage.getItem("wz.pro")==="1"; } catch(e){}
+S.pro=false;
+const need=()=>S.pro?[1,2,3,4]:[1,2];
+const proLocked=i=>!S.pro && (i===3||i===4);
+const unlocked=()=>S.optin||S.isExample;
+const t = k => T[S.lang][k];
+const fmt = n => Number(n||0).toLocaleString(S.lang==="he"?"he-IL":"en-US",{maximumFractionDigits:0});
+const money = n => CUR()+fmt(n);
+function setNote(s,err){ const n=$("#askNote"); n.textContent=s||""; n.className="note"+(err?" err":""); }
+const IC={
+  lock:'<g><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path class="shk" pathLength="1" d="M7 11V7a5 5 0 0 1 10 0v4"/></g>',
+  arrow:'<g><path d="M7 7h10v10"/><path d="M7 17 17 7"/></g>',
+  chev:'<g><path d="m15 18-6-6 6-6"/></g>',
+  moon:'<g><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></g>',
+  plus:'<g><path d="M5 12h14"/><path class="v" d="M12 5v14"/></g>',
+  dl:'<g><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><g class="arr"><path d="m7 10 5 5 5-5"/><path d="M12 15V3"/></g></g>',
+  copy:'<g><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/><rect class="front" width="14" height="14" x="8" y="8" rx="2" ry="2"/></g>',
+  again:'<g><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></g>',
+  check:'<g><path pathLength="1" d="M20 6 9 17l-5-5"/></g>'
+};
+const ic=(n,cls="")=>`<svg class="ic ic-${n} ${cls}" viewBox="0 0 24 24" aria-hidden="true">${IC[n]}</svg>`;
+function hydrateIcons(root=document){ root.querySelectorAll("[data-ic]").forEach(el=>{ if(!el.firstElementChild) el.innerHTML=ic(el.dataset.ic); }); }
+const VCLS = v => ({BUILD:"build",PIVOT:"pivot",KILL:"kill"}[v]||"pivot");
+
+/* ---------- data ---------- */
+function undash(x){ const he=S.lang==="he"; return String(x||"").replace(/(\d)\s*[–—]\s*(\d)/g, "$1"+(he?" עד ":" to ")+"$2").replace(/\s+[–—-]\s+|[–—]/g, ", "); }
+function norm(b){ b=JSON.parse(JSON.stringify(b||{}), (k,v)=>typeof v==="string"?undash(v):v);
+  const V=["BUILD","PIVOT","KILL"], n=x=>{const v=Number(String(x).replace(/[^\d.]/g,""));return isFinite(v)?v:0;};
+  const scores=["pain","demand","space","pay"].map(k=>{const s=(Array.isArray(b.scores)?b.scores:[]).find(x=>x&&x.key===k)||{};
+    return {key:k,score:Math.max(1,Math.min(10,Math.round(n(s.score)||1))),grade:["A","B","C","D"].includes(s.grade)?s.grade:"D",evidence:String(s.evidence||"")};});
+  const m=b.money||{}, k=b.kill||{};
+  return {idea:String(b.idea||""),title:String(b.title||"").replace(/[.־–—-]+$/,"").trim().slice(0,40),verdict:V.includes(b.verdict)?b.verdict:"PIVOT",headline:String(b.headline||""),deciding:String(b.deciding||""),tip:b.tip?String(b.tip):"",
+    scores,money:{price:n(m.price),low:n(m.low),base:n(m.base),high:n(m.high),breaker:String(m.breaker||"")},
+    graveyard:(Array.isArray(b.graveyard)?b.graveyard:[]).slice(0,4).map(g=>({name:String(g.name||""),why:String(g.why||"")})),
+    competition:(Array.isArray(b.competition)?b.competition:[]).slice(0,5).map(c=>({name:String(c.name||""),note:String(c.note||"")})),
+    gap:String(b.gap||""),israel:String(b.israel||""),fit:String(b.fit||""),cur:b.cur||CUR(),
+    kill:{action:String(k.action||""),budget:Math.min(b.cur==="$"?200:700,n(k.budget)),pass:String(k.pass||"")}};
+}
+function hash(s){ let h=2166136261; for (const c of String(s)) { h^=c.charCodeAt(0); h=Math.imul(h,16777619); } return h>>>0; }
+function ideaTitle(b){ if(b.title) return b.title; const w=String(b.idea||"").replace(/[.,;:!?]/g,"").split(/\s+/).filter(Boolean); return w.slice(0,4).join(" ")+(w.length>4?"…":""); }
+function fileSlug(str){ return String(str||"").replace(/…/g,"").trim().toLowerCase().replace(/[^\p{L}\p{N}]+/gu,"-").replace(/^-+|-+$/g,"").slice(0,40)||"idea"; }
+function receiptNo(seed){ return String(hash(seed)%1000000).padStart(6,"0"); }
+
+/* ---------- navigation: home bands + full-screen panels ---------- */
+const PANELS={idea:"#p-idea",receipt:"#p-receipt",examples:"#p-ex",mine:"#p-mine"};
+let TAP=null;
+document.addEventListener("pointerdown",e=>{ TAP={x:e.clientX,y:e.clientY}; },{capture:true,passive:true});
+function show(v){
+  const prev=S.view; S.view=v||"";
+  Object.entries(PANELS).forEach(([k,sel])=>{
+    const el=$(sel), on=k===S.view;
+    if (on && el.hidden){ el.hidden=false; if(!calm()){ const o=TAP||{x:innerWidth/2,y:innerHeight/2}; el.style.setProperty("--ox",o.x+"px"); el.style.setProperty("--oy",o.y+"px"); el.classList.remove("closing"); el.classList.add("opening"); el.addEventListener("animationend",ev=>{ if(ev.target===el) el.classList.remove("opening"); },{once:true}); } }
+    else if (!on && !el.hidden){ if (!calm() && k===prev){ el.classList.remove("opening"); el.classList.add("closing"); el.addEventListener("animationend",function done(ev){ if(ev.target!==el) return; el.removeEventListener("animationend",done); el.classList.remove("closing"); if(S.view!==k) el.hidden=true; }); } else el.hidden=true; }
+  });
+  TAP=null;
+  document.documentElement.classList.toggle("lock", !!S.view);
+  if (S.view==="idea") setTimeout(()=>{ $("#idea").focus({preventScroll:true}); fitIdea(); }, 60);
+  if (S.view==="examples") { $("#rail").scrollLeft=0; updExCount(); requestAnimationFrame(railFx); }
+  if (S.view==="mine") renderDrawer();
+  if (S.view==="receipt" && !S.current && !S.busy) { S.view=""; show(""); }
+}
+function go(v){ if (location.hash.slice(1)===v) show(v); else location.hash=v; }
+function home(){ if (location.hash) history.replaceState(null,"",location.pathname+location.search); show(""); }
+addEventListener("hashchange",()=>show(location.hash.slice(1)));
+document.addEventListener("click",e=>{
+  const g=e.target.closest("[data-go]"); if (g){ go(g.dataset.go); return; }
+  if (e.target.closest("[data-back]")){ home(); }
+});
+addEventListener("keydown",e=>{ if(e.key==="Escape" && S.view && !S.busy) home(); });
+
+/* ---------- home bands ---------- */
+function renderHome(){
+  const c={BUILD:0,PIVOT:0,KILL:0}; FEED.forEach(f=>c[f.v]++);
+  if (!S.homeDone && !calm()){ S.homeDone=true; $("#home").classList.add("enter"); setTimeout(()=>$("#home").classList.remove("enter"),1300);
+    setTimeout(()=>{ const n=$("#exN"); n.dataset.to=FEED.length; countUp(n); },250);
+    setTimeout(()=>{ document.querySelectorAll("#tri i").forEach((el,k)=>{ el.style.flexGrow=el.dataset.g; }); },300); }
+  $("#exN").textContent=FEED.length;
+  const grown=!!S.triGrown || calm(); S.triGrown=true;
+  $("#tri").innerHTML=["BUILD","PIVOT","KILL"].map(v=>`<i data-g="${c[v]}" style="flex:${grown?c[v]:0.001} 1 0;background:var(--${VCLS(v)})"></i>`).join("");
+  $("#legend").innerHTML=["BUILD","PIVOT","KILL"].map(v=>`<span style="--c:var(--${VCLS(v)})">${esc(t("vWord")[v])} ${c[v]}</span>`).join("");
+  $("#mineN").textContent = (S.db&&S.uid) ? S.mine.length : "0";
+}
+
+/* ---------- parallax: pointer depth on the home bands, scroll depth on the example cards ---------- */
+(()=>{
+  let raf=0, px=0, py=0;
+  const apply=()=>{ raf=0; if (S.view || calm()) return;
+    document.querySelectorAll(".band").forEach((b,k)=>{
+      const big=b.querySelector(".b-big"), sub=b.querySelector(".b-sub,.tri"), d=[18,12,10][k]||10;
+      if (big) big.style.transform=`translate3d(${px*d}px,${py*d*.6}px,0)`;
+      if (sub) sub.style.transform=`translate3d(${px*d*.45}px,${py*d*.3}px,0)`;
+    });
+  };
+  addEventListener("pointermove",e=>{ if(e.pointerType!=="mouse") return; px=e.clientX/innerWidth-.5; py=e.clientY/innerHeight-.5; if(!raf) raf=requestAnimationFrame(apply); },{passive:true});
+  addEventListener("deviceorientation",e=>{ if(e.gamma==null) return; px=Math.max(-.5,Math.min(.5,e.gamma/40)); py=Math.max(-.5,Math.min(.5,(e.beta-45)/40)); if(!raf) raf=requestAnimationFrame(apply); },{passive:true});
+})();
+function railFx(){
+  if (calm()) return; const r=$("#rail"), rr=r.getBoundingClientRect(), cx=rr.left+rr.width/2;
+  r.querySelectorAll(".xc").forEach(c=>{ const b=c.getBoundingClientRect(), d=Math.max(-1.4,Math.min(1.4,(b.left+b.width/2-cx)/b.width));
+    c.style.transform=`scale(${1-Math.abs(d)*.05})`;
+    const h=c.querySelector("h3"), w=c.querySelector(".xw"), p=c.querySelector("p");
+    const e=Math.max(-1,Math.min(1,d)); if(h) h.style.transform=`translateX(${e*10}px)`; if(p) p.style.transform=`translateX(${e*6}px)`; if(w) w.style.transform=`translateX(${e*-14}px)`; });
+}
+
+/* ---------- the receipt: big-type rows ---------- */
+function setTone(){
+  const p=$("#p-receipt"); p.classList.remove("t-build","t-pivot","t-kill");
+  const b=$("#stage")._b; if (b && unlocked() && S.rev.has(5)) p.classList.add("t-"+VCLS(b.verdict));
+}
+function cardHTML(b,o){
+  const L=T[S.lang], R=L.r, seed=o.id||b.idea, C=b.cur||CUR(), M=n=>C+fmt(n);
+  const d=o.date?new Date(o.date):new Date();
+  const dt=new Intl.DateTimeFormat(S.lang==="he"?"he-IL":"en-GB",{day:"2-digit",month:"2-digit",year:"2-digit"}).format(d);
+  const ln=(k,v,g)=>`<div class="ln"><span class="k">${esc(k)}</span><span class="fill"></span><span class="v">${v}</span>${g?`<span class="g">${g}</span>`:""}</div>`;
+  const ks=o.killStatus||"pending", seen=i=>S.rev.has(i), done=need().every(seen);
+  const N=(n,f)=>`<span class="num" data-to="${n}"${f?' data-f="1"':""}>${f?fmt(n):n}</span>`;
+  const big={
+    1:b.scores.map(s=>N(s.score)).join(" "),
+    2:C+N(b.money.base*b.money.price,1),
+    3:C+N(b.kill.budget,1),
+    4:`${N(b.graveyard.length)}·${N(b.competition.length)}`,
+  };
+  const sub={1:t("unitScores"),2:t("unit"),3:t("unitTest"),4:t("unitFine")};
+  const body={
+    1: b.scores.map(s=>ln(L.sc[s.key],`${s.score}/10`,s.grade)+`<div class="ev">${esc(s.evidence)}</div>`).join(""),
+    2: `<div class="ln"><span class="k">${esc(R.price)}</span><span class="fill"></span><span class="v">${C}<input class="price-in" id="priceIn" type="number" min="0" step="10" value="${b.money.price}" aria-label="${esc(R.price)}"></span></div>`
+       + ["low","base","high"].map(k=>`<div class="ln"><span class="k">${esc(R[k])} · ${fmt(b.money[k])} ${esc(R.cust)}</span><span class="fill"></span><span class="v" data-m="${k}">${M(b.money[k]*b.money.price)}</span></div>`).join("")
+       + `<div class="nt"><b>${esc(R.breaker)}:</b> ${esc(b.money.breaker)}</div>`,
+    3: proLocked(3) ? paywallHTML() : `<div class="nt">${esc(b.kill.action)}</div><div class="nt"><b>${esc(R.pass)}:</b> ${esc(b.kill.pass)}</div>`
+       + (o.id?`<div class="ks" data-kt="${esc(o.id)}"><span>${esc(R.ks)}:</span>${[["pending",R.ksP],["pass",R.ksY],["fail",R.ksN]].map(([v,l])=>`<button type="button" data-ks="${v}" aria-pressed="${ks===v}"><span>${esc(l)}</span></button>`).join("")}</div>`:""),
+    4: proLocked(4) ? paywallHTML() : `<div class="nt"><b>${esc(R.grave)}</b><ul>${b.graveyard.map(g=>`<li><b>${esc(g.name)}</b>: ${esc(g.why)}</li>`).join("")}</ul></div>`
+       + `<div class="nt"><b>${esc(R.comp)}</b><ul>${b.competition.map(c=>`<li><b>${esc(c.name)}</b>: ${esc(c.note)}</li>`).join("")}</ul></div>`
+       + `<div class="nt"><b>${esc(R.gap)}:</b> ${esc(b.gap)}</div><div class="nt"><b>${esc(R.il)}:</b> ${esc(b.israel)}</div><div class="nt"><b>${esc(R.fit)}:</b> ${esc(b.fit)}</div><div class="cav">${esc(R.cav)}</div>`,
+    5: !unlocked() ? gateHTML() : `<div class="bline">${esc(b.headline)}</div><div class="nt"><b>${esc(R.rests)}:</b> ${esc(b.deciding)}</div>` + (b.tip?`<div class="nt"><b>${esc(R.tip)}:</b> ${esc(b.tip)}</div>`:"")
+  };
+  const titles={1:t("rowsScores"),2:t("rowsMoney"),3:t("rowsTest"),4:t("rowsFine"),5:t("rowsTotal")};
+  const val=i=>{
+    if (i===5){ if (!done) return `<span class="rv dim">${ic("lock")}</span>`; if (!unlocked()) return `<span class="rv" id="vlock">${ic("lock","idle")}</span>`; if (!seen(5)) return `<span class="rv dim">?</span>`; return `<span class="rv word" id="vword">${esc(L.vWord[b.verdict])}</span>`; }
+    if (proLocked(i)) return `<span class="rv">${ic("lock")}PRO</span>`;
+    return seen(i) ? `<span class="rv">${big[i]}</span>` : `<span class="rv dim">··</span>`;
+  };
+  const lab=i=>`<span class="rl"><b>${esc(titles[i])}</b>${i<5&&seen(i)&&!proLocked(i)?`<small>${esc(sub[i])}</small>`:i===5&&done&&!unlocked()?`<small>${esc(t("lockGate"))}</small>`:""}</span>`;
+  const compact=i=>!S.pro && i<5 && S.open!==i && (seen(i)||proLocked(i));
+  const row=i=>`<section class="rrow${i===5?" final":""}${S.open===i?" open":""}${compact(i)?" compact":""}${proLocked(i)?" prolock":""}" data-row="${i}" style="--i:${i+1}">
+      <button type="button" class="rh" aria-expanded="${S.open===i}"><span class="rn">0${i}</span>${lab(i)}${val(i)}</button>
+      <div class="rb"><div><div class="rbi">${body[i]}</div></div></div></section>`;
+  return `<article class="rc ${S.pro?"pro":"free"}">
+    <div class="rc-meta" style="--i:0"><span>WAZO #${receiptNo(seed)}</span><span>${esc(dt)}</span></div>
+    <h2 class="rc-idea" style="--i:1">${esc(b.idea)}</h2>
+    ${[1,2,3,4,5].map(row).join("")}
+    <div class="thanks" style="--i:7">${esc(R.thanks)}</div>
+  </article>`;
+}
+function currentCard(){
+  if (S.current){ const it=S.currentId?S.mine.find(x=>x.id===S.currentId):null; return {b:S.current, o:{id:S.currentId,date:it?.createdAt,killStatus:it?.killStatus}}; }
+  return null;
+}
+function renderCounter(anim){
+  const nd=need(), n=nd.filter(i=>S.rev.has(i)).length, box=$("#cntBox");
+  if (!S.current || S.busy){ box.innerHTML=""; return; }
+  box.innerHTML=`<span class="c-cnt">${n}/${nd.length}</span>`;
+  if (anim && n!==S.lastCnt && !calm()) box.firstChild.classList.add("hit");
+  S.lastCnt=n;
+}
+function renderStage(){
+  if (S.busy) return;
+  const st=$("#stage"), c=currentCard();
+  if (!c){ st.innerHTML=""; $("#cardacts").innerHTML=""; return; }
+  st.innerHTML=cardHTML(c.b,c.o); st._b=c.b;
+  const rc=st.querySelector(".rc"); if(rc && !calm()){ rc.classList.add("enter"); setTimeout(()=>rc.classList.remove("enter"),1200); }
+  setTone(); renderActs(); renderCounter(false);
+}
+function renderActs(){
+  const b=$("#stage")._b; if(!b){ $("#cardacts").innerHTML=""; return; }
+  const four=need().every(i=>S.rev.has(i)), open5=S.rev.has(5)&&unlocked();
+  const nextLabel = four ? (unlocked()?t("reveal"):t("gGo")) : t("next");
+  const main = open5 ? `<button class="cta btn-main" type="button" data-act="img">${ic("dl")}${esc(t("saveImg"))}</button>` : `<button class="cta btn-main" type="button" data-act="next">${esc(nextLabel)}</button>`;
+  const second = open5 ? `<div class="acts-row"><button class="cta btn-ghost" type="button" data-act="copy">${ic("copy")}${esc(t("copy"))}</button>${S.isExample?"":`<button class="cta btn-ghost" type="button" data-act="again">${ic("again")}${esc(t("again"))}</button>`}</div>${S.pro?`<button class="cta btn-ghost" type="button" data-act="teams">${ic("arrow")}${esc(t("teamsBtn"))}</button>`:""}` : "";
+  const gateOpen = S.open===5 && !unlocked();
+  $("#cardacts").innerHTML = (gateOpen?"":main) + second + `<span class="note" id="actNote">${esc(S.savedNote)}</span>`;
+  const pl=$("#plansBox"); if (pl) pl.remove();
+  if (open5 && !S.isExample && !S.pro) $("#cardacts").insertAdjacentHTML("afterend", `<div id="plansBox">${plansHTML()}</div>`);
+}
+function openRow(i){
+  const done=need().every(x=>S.rev.has(x));
+  if (i===5 && !done) return false;
+  S.open = (S.open===i) ? 0 : i;
+  const firstSeen=!S.rev.has(i);
+  const willFlood = i===5 && unlocked() && !S.stampHit && !calm();
+  S.rev.add(i);
+  const st=$("#stage");
+  st.innerHTML=cardHTML(st._b, currentCard().o);
+  if (willFlood) floodTo(st._b.verdict, st.querySelector('.rrow[data-row="5"]')); else setTone();
+  if (firstSeen && !calm()){ const rv=st.querySelector(`.rrow[data-row="${i}"] .rv`); if(rv){ rv.classList.add("pop"); rv.querySelectorAll(".num").forEach(countUp); } }
+  const row=st.querySelector(`.rrow[data-row="${i}"]`);
+  if (row && S.open===i) setTimeout(()=>{ row.scrollIntoView({block:"start",behavior:calm()?"auto":"smooth"}); }, 80);
+  if (i===5 && unlocked() && $("#vword") && !calm() && !S.stampHit){ $("#vword").classList.add("hit"); S.stampHit=true; try{ navigator.vibrate&&navigator.vibrate(18); }catch(e){} }
+  if (i===5 && !unlocked()) setTimeout(()=>{ const g=$("#gEmail"); if(g && !g.value) g.focus({preventScroll:true}); else $("#gName")?.focus({preventScroll:true}); },140);
+  renderActs(); renderCounter(true);
+  return true;
+}
+function countUp(el){
+  const to=+el.dataset.to, f=el.dataset.f, t0=performance.now(), dur=Math.min(900, 380+String(to).length*90);
+  const step=now=>{ const k=Math.min(1,(now-t0)/dur), e=1-Math.pow(1-k,3), v=Math.round(to*e); el.textContent=f?fmt(v):v; if(k<1) requestAnimationFrame(step); };
+  requestAnimationFrame(step);
+}
+function floodTo(verdict, rowEl){
+  const p=$("#p-receipt"); p.querySelector(".flood")?.remove();
+  const r=rowEl?rowEl.getBoundingClientRect():{left:innerWidth/2,top:innerHeight/2,width:0,height:0};
+  const f=document.createElement("div"); f.className="flood";
+  f.style.background=`var(--${VCLS(verdict)})`; f.style.setProperty("--fx",(r.left+r.width/2)+"px"); f.style.setProperty("--fy",(r.top+r.height/2)+"px");
+  p.prepend(f);
+  setTimeout(()=>{ setTone(); setTimeout(()=>f.remove(),760); }, 520);
+}
+function nextLine(){ const i=need().find(x=>!S.rev.has(x)) || 5; S.open=0; openRow(i); }
+function paywallHTML(){
+  const held=S.plan==="pro";
+  return `<div class="pw"><div class="pw-t">${ic("lock")}${esc(t("pwT"))}</div><p>${esc(t("pwS"))}</p>
+    <div class="pw-price"><b>${esc(t("pwPrice"))}</b><span>${esc(t("pwPer"))}</span></div>
+    <button class="cta" type="button" data-plan="pro">${held?ic("check")+esc(t("pwHeld")):esc(t("pwGo"))}</button><small>${esc(t("pwNote"))}</small></div>`;
+}
+function openTeams(){
+  const held=S.plan==="teams";
+  $("#teamsBody").innerHTML=`<p class="lead">${esc(t("teamsLead"))}</p><ul class="teams-f">${t("teamsF").map(x=>`<li>${esc(x)}</li>`).join("")}</ul>
+    <div class="pw-price"><b style="font-size:22px">${esc(t("teamsPrice"))}</b></div>
+    <button class="cta light" type="button" data-plan="teams">${held?ic("check")+esc(t("teamsHeld")):esc(t("teamsGo"))}</button><small class="note">${esc(t("pwNote"))}</small>`;
+  const d=$("#teams"); d.dir=S.lang==="he"?"rtl":"ltr"; if(d.showModal) d.showModal(); else d.setAttribute("open","");
+}
+
+$("#stage").addEventListener("click", e=>{
+  const oi=e.target.closest("[data-optin]"); if (oi){ doOptin(oi); return; }
+  if (e.target.closest(".gate")) return;
+  const k=e.target.closest("[data-ks]"); if (k){ setKill(k.closest("[data-kt]").dataset.kt, k.dataset.ks); return; }
+  const h=e.target.closest(".rh"); if (h) openRow(+h.closest(".rrow").dataset.row);
+});
+$("#stage").addEventListener("input", e=>{
+  if (e.target.id!=="priceIn") return; const b=$("#stage")._b; const p=Math.max(0,Number(e.target.value)||0);
+  ["low","base","high"].forEach(k=>{const el=$("#stage").querySelector(`[data-m="${k}"]`); if(el) el.textContent=(b.cur||CUR())+fmt(p*b.money[k]);});
+});
+document.addEventListener("click", async e=>{
+  const pl=e.target.closest("[data-plan]"); if (pl){ holdPlan(pl.dataset.plan); return; }
+  const a=e.target.closest("[data-act]"); if(!a) return; const act=a.dataset.act, b=$("#stage")._b;
+  if (act==="stop"){ S.ctl?.abort(); return; }
+  if (act==="teams"){ openTeams(); return; }
+  if (act==="next"){ if(need().every(i=>S.rev.has(i)) && !unlocked()){ S.open=0; openRow(5); return; } nextLine(); return; }
+  if (act==="img" && b){ saveImage(b, currentCard().o, a); return; }
+  if (act==="again" && b){ $("#idea").value=b.idea; runVerdict(); return; }
+  if (act==="copy" && b){ const txt=receiptText(b), note=$("#actNote");
+    try{ await navigator.clipboard.writeText(txt); note.textContent=t("copied"); }
+    catch(_){ const ta=document.createElement("textarea"); ta.value=txt; ta.style.cssText="width:100%;min-height:160px;color:#111"; $("#cardacts").after(ta); ta.select(); } }
+});
+function receiptText(b){
+  const L=T[S.lang],R=L.r, C=b.cur||CUR(), M=n=>C+fmt(n);
+  return [`WAZO: ${L.vWord[b.verdict]}`,b.idea,"",b.headline,`${R.rests}: ${b.deciding}`,b.tip?`${R.tip}: ${b.tip}`:"","",
+   ...b.scores.map(s=>`${L.sc[s.key]} ${s.score}/10 [${s.grade}], ${s.evidence}`),"",
+   `${R.price}: ${M(b.money.price)} · ${R.low} ${M(b.money.low*b.money.price)} · ${R.base} ${M(b.money.base*b.money.price)} · ${R.high} ${M(b.money.high*b.money.price)}`,
+   `${R.breaker}: ${b.money.breaker}`,"",`${R.kill} (${M(b.kill.budget)}): ${b.kill.action}`,`${R.pass}: ${b.kill.pass}`,"",
+   `${R.grave}: `+b.graveyard.map(g=>`${g.name}: ${g.why}`).join("; "),`${R.comp}: `+b.competition.map(c=>`${c.name}: ${c.note}`).join("; "),
+   `${R.gap}: ${b.gap}`,`${R.il}: ${b.israel}`,`${R.fit}: ${b.fit}`].join("\n");
+}
+
+/* ---------- gate + plans ---------- */
+function gateHTML(){
+  return `<div class="gate">
+    <div class="gate-t">${ic("lock")}${esc(t("gateT"))}</div>
+    <div class="nt">${esc(t("gateS"))}</div>
+    <label class="gl"><span>${esc(t("gName"))}</span><input id="gName" autocomplete="name" value="${esc(S.me.name)}"></label>
+    <label class="gl"><span>${esc(t("gEmail"))}</span><input id="gEmail" type="email" autocomplete="email" inputmode="email" value="${esc(S.me.email)}"></label>
+    <label class="gc"><input type="checkbox" id="gMk"><span>${esc(t("gMk"))}</span></label>
+    <button class="cta" type="button" data-optin>${esc(t("gGo"))}</button>
+    <div class="cav" id="gNote">${esc(t("gPriv"))}</div>
+  </div>`;
+}
+async function doOptin(btn){
+  const name=($("#gName")?.value||"").trim(), email=($("#gEmail")?.value||"").trim(), mk=!!$("#gMk")?.checked, note=$("#gNote");
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){ if(note){ note.textContent=t("gBad"); note.className="err"; } $("#gEmail")?.focus(); return; }
+  btn.disabled=true;
+  const b=$("#stage")._b||{};
+  if (S.db && S.uid){ try{ await S.db.collection("leads").doc(S.uid).set({name,email,marketing:mk,lang:S.lang,idea:b.idea||"",verdict:b.verdict||"",createdAt:new Date().toISOString()}); }catch(e){} }
+  const lk=document.querySelector("#vlock .ic-lock"); if (lk && !calm()){ lk.classList.remove("idle"); lk.classList.add("unlock"); await new Promise(r=>setTimeout(r,650)); }
+  S.optin=true; try{ localStorage.setItem("wz.optin","1"); }catch(e){}
+  S.open=0; openRow(5);
+}
+async function holdPlan(k){
+  S.plan=k; try{ localStorage.setItem("wz.plan",k); }catch(e){}
+  const st=$("#stage"); if (st._b && !S.busy){ st.innerHTML=cardHTML(st._b,currentCard().o); setTone(); }
+  renderActs(); if ($("#teams").open) openTeams();
+  if (S.db && S.uid){ try{ await S.db.collection("leads").doc(S.uid).update({plan:k,planAt:new Date().toISOString()}); }catch(e){ try{ await S.db.collection("leads").doc(S.uid).set({plan:k,planAt:new Date().toISOString()},{merge:true}); }catch(_){} } }
+}
+function plansHTML(){
+  return `<div class="plans"><div class="plans-t">${esc(t("plansT"))}</div><div class="plans-s">${esc(t("plansS"))}</div>
+    ${t("plans").map(([k,n,p],j)=>`<div class="plan" style="--i:${j+2}"><b>${esc(n)}</b><span class="pp">${esc(p)}</span><button type="button" data-plan="${k}" aria-pressed="${S.plan===k}"><span style="display:inline-flex;align-items:center;gap:6px">${S.plan===k?ic("check")+esc(t("planHeld").replace(" ✓","")):esc(t("planHold"))}</span></button></div>`).join("")}</div>`;
+}
+
+/* ---------- share image ---------- */
+function wrapLines(x,str,maxW,maxLines){
+  const words=String(str||"").split(/\s+/).filter(Boolean), out=[]; let line="";
+  for (const w of words){ const tryL=line?line+" "+w:w; if (x.measureText(tryL).width<=maxW || !line) line=tryL; else { out.push(line); line=w; } }
+  if (line) out.push(line);
+  if (out.length>maxLines){ const keep=out.slice(0,maxLines); let last=keep[maxLines-1]; while(last && x.measureText(last+"…").width>maxW) last=last.slice(0,-1); keep[maxLines-1]=last.trim()+"…"; return keep; }
+  return out;
+}
+const VC={BUILD:["#2DB46C","#0B2416"],PIVOT:["#F6B73C","#2A1C00"],KILL:["#E5412B","#FFFFFF"]};
+async function receiptImage(b,o){
+  const L=T[S.lang], rtl=S.lang==="he", s=rtl?-1:1, [BG,FG]=VC[b.verdict]||VC.PIVOT;
+  const sample=rtl?"אבג abc 123":"abc 123";
+  try{ await Promise.all(['500 40px "Hanken Grotesk"','600 40px "Hanken Grotesk"','700 40px "Hanken Grotesk"','500 40px "IBM Plex Mono"','600 40px "IBM Plex Mono"','600 40px "Unbounded"','700 40px "Miriam Libre"','500 40px "IBM Plex Sans Hebrew"','600 40px "IBM Plex Sans Hebrew"','700 40px "IBM Plex Sans Hebrew"'].map(f=>document.fonts.load(f,sample))); }catch(e){}
+  const SANS='"Hanken Grotesk","IBM Plex Sans Hebrew",sans-serif', MONO='"IBM Plex Mono","IBM Plex Sans Hebrew",monospace', WIDE='"Unbounded","Miriam Libre","IBM Plex Sans Hebrew",sans-serif';
+  const W=1080,H=1350,c=document.createElement("canvas"); c.width=W; c.height=H;
+  const x=c.getContext("2d"); x.direction=rtl?"rtl":"ltr"; x.textBaseline="alphabetic";
+  x.fillStyle=BG; x.fillRect(0,0,W,H);
+  const IL=88, IR=W-88, IW=IR-IL, S0=rtl?IR:IL, E0=rtl?IL:IR;
+  const txt=(str,font,color,px,py,align)=>{ x.font=font; x.fillStyle=color; x.textAlign=align||"start"; x.fillText(str,px,py); };
+  const rule=(py)=>{ x.save(); x.globalAlpha=.25; x.strokeStyle=FG; x.lineWidth=2; x.beginPath(); x.moveTo(IL,py); x.lineTo(IR,py); x.stroke(); x.restore(); };
+  const seed=o.id||b.idea, d=o.date?new Date(o.date):new Date();
+  const dt=new Intl.DateTimeFormat(rtl?"he-IL":"en-GB",{day:"2-digit",month:"2-digit",year:"numeric"}).format(d);
+  let y=128;
+  txt("WAZO",'700 44px '+SANS,FG,S0,y);
+  x.save(); x.direction="ltr"; x.globalAlpha=.6; txt(`#${receiptNo(seed)} · ${dt}`,'500 24px '+MONO,FG,E0,y,rtl?"left":"right"); x.restore();
+  y+=92;
+  const ttl=ideaTitle(b); let tf=76; x.font=`700 ${tf}px ${WIDE}`; while(x.measureText(ttl).width>IW && tf>44){ tf-=4; x.font=`700 ${tf}px ${WIDE}`; }
+  wrapLines(x,ttl,IW,1).forEach(l=>{ txt(l,`700 ${tf}px ${WIDE}`,FG,S0,y+8); }); y+=72;
+  x.save(); x.globalAlpha=.78; x.font='500 34px '+SANS; wrapLines(x,b.idea,IW,2).forEach(l=>{ txt(l,'500 34px '+SANS,FG,S0,y); y+=46; }); x.restore();
+  y+=18; rule(y); y+=72;
+  b.scores.forEach(sc=>{
+    txt(L.sc[sc.key],'500 34px '+SANS,FG,S0,y);
+    x.save(); x.direction="ltr"; txt(`${sc.score}`,'500 64px '+SANS,FG,E0-s*70,y+6,rtl?"left":"right");
+    x.globalAlpha=.7; txt(sc.grade,'600 26px '+MONO,FG,E0,y,rtl?"left":"right"); x.restore();
+    y+=24; rule(y); y+=64;
+  });
+  y+=40;
+  const word=L.vWord[b.verdict]; let fs=150; x.font=`600 ${fs}px ${WIDE}`; while(x.measureText(word).width>IW && fs>60){ fs-=8; x.font=`600 ${fs}px ${WIDE}`; }
+  txt(word,`600 ${fs}px ${WIDE}`,FG,S0,y+fs*.75); y+=fs*.75+88;
+  x.font='700 38px '+SANS; wrapLines(x,b.headline,IW,3).forEach(l=>{ txt(l,'700 38px '+SANS,FG,S0,y); y+=50; });
+  x.save(); x.globalAlpha=.65; txt(t("imgFoot"),'500 24px '+MONO,FG,W/2,H-64,"center"); x.restore();
+  return c;
+}
+async function saveImage(b,o,btn){
+  btn.disabled=true; const say=m=>{ const n=$("#actNote"); if(n) n.textContent=m; }; say(t("imgMaking"));
+  try{
+    const canvas=await receiptImage(b,o);
+    const blob=await new Promise((res,rej)=>canvas.toBlob(bl=>bl?res(bl):rej(new Error("blob")),"image/png"));
+    const name=`wazo-${fileSlug(ideaTitle(b))}-${b.verdict.toLowerCase()}.png`;
+    if (window.claude && window.claude.use){
+      const dl=await claude.use("downloads");
+      if (dl){ try{ await dl.save({filename:name,data:blob}); say(t("imgSaved")); }catch(e){ say(e&&e.code==="declined"?"":t("imgFail")); } return; }
+    }
+    const file=new File([blob],name,{type:"image/png"});
+    if (matchMedia("(pointer:coarse)").matches && navigator.canShare && navigator.canShare({files:[file]})){
+      try{ await navigator.share({files:[file]}); say(""); return; }catch(e){ if(e&&e.name==="AbortError"){ say(""); return; } }
+    }
+    const u=URL.createObjectURL(blob), a=document.createElement("a"); a.href=u; a.download=name; document.body.appendChild(a); a.click(); a.remove(); setTimeout(()=>URL.revokeObjectURL(u),4000); say(t("imgSaved"));
+  } catch(e){ say(t("imgFail")); }
+  finally{ btn.disabled=false; }
+}
+
+/* ---------- the draw (while Claude thinks) ---------- */
+const VERD=["BUILD","PIVOT","KILL"], STEP_AT=[0,14,30,48,66,84];
+function printing(idea){
+  const L=T[S.lang], keys=["pain","demand","space","pay"];
+  $("#p-receipt").classList.remove("t-build","t-pivot","t-kill"); $("#cntBox").innerHTML="";
+  $("#stage")._b=null;
+  $("#stage").innerHTML=`<article class="rc">
+    <div class="rc-meta"><span>WAZO</span><span id="dPct">0%</span></div>
+    <h2 class="rc-idea">${esc(idea)}</h2>
+    <div class="draw-step" id="dStep">${esc(L.steps[0])}</div>
+    <div class="bar"><i id="dBar"></i></div>
+    ${keys.map((k,i)=>`<section class="rrow"><div class="rh"><span class="rn">0${i+1}</span><span class="rl"><b>${esc(L.sc[k])}</b></span><span class="rv d-roll">?</span></div></section>`).join("")}
+    <section class="rrow final"><div class="rh"><span class="rn">05</span><span class="rl"><b>${esc(t("rowsTotal"))}</b></span><span class="rv word" id="dReel">${esc(L.vWord.PIVOT)}</span></div></section>
+  </article>`;
+  $("#cardacts").innerHTML=`<button type="button" class="cta btn-ghost" data-act="stop">${esc(t("stop"))}</button>`;
+  const pb=$("#plansBox"); if(pb) pb.remove();
+  const t0=performance.now(); let tick=0, vi=0;
+  const frame=()=>{
+    const sec=(performance.now()-t0)/1000, pct=Math.round(92*(1-Math.exp(-sec/20)));
+    const bar=$("#dBar"); if(!bar) return;
+    bar.style.width=pct+"%"; $("#dPct").textContent=pct+"%";
+    const at=STEP_AT.filter(x=>pct>=x).length-1; $("#dStep").textContent=L.steps[Math.max(0,at)];
+    if (!calm()){ tick++;
+      document.querySelectorAll(".d-roll").forEach(el=>{ el.textContent=1+Math.floor(Math.random()*10); });
+      if (tick%2===0){ vi=(vi+1)%3; $("#dReel").textContent=T[S.lang].vWord[VERD[vi]]; } }
+  };
+  frame(); S.timer=setInterval(frame,110);
+}
+function land(b){
+  clearInterval(S.timer);
+  return new Promise(res=>{
+    if (!$("#dBar")) return res();
+    $("#dBar").style.width="100%"; $("#dPct").textContent="100%";
+    document.querySelectorAll(".d-roll").forEach((el,i)=>{ el.textContent=b.scores[i]?.score??"?"; });
+    $("#dReel").textContent="?";
+    setTimeout(res, calm()?250:1100);
+  });
+}
+
+/* ---------- verdict ---------- */
+function prompt(idea){
+  const he=S.lang==="he", lang=he?"Hebrew":"English";
+  const cust=$("#fCust").value.trim(), bud=$("#fBudget").value.trim(), time=$("#fTime").value.trim();
+  const market = he ? "Israel-first: judge for a founder based in Israel, priced in ILS (₪)." : "Global: judge for a founder selling to the US and global market, priced in USD ($).";
+  const cur = he ? "ILS" : "USD", cap = he ? 700 : 200;
+  return `You are Wazo, a blunt startup-idea judge. ${market} Judge the idea below honestly. Most ideas should NOT get BUILD.
+
+Rules:
+- verdict: BUILD, PIVOT or KILL.
+- Four scores, 1-10, higher is always better for the founder: pain (how much the customer hurts), demand (how many want it), space (open space: 10 = no competition, 1 = crowded), pay (willingness to pay).
+- Each score has an evidence grade: A = hard data on money people already spend, that you are confident of; B = strong documented signals; C = reasoning by analogy; D = assumption. You cannot browse, so grade honestly. If pain rests only on complaints with no sign of money already spent, pain is at most 6.
+- Never invent precise statistics or market-size ceilings. Name a company only if you are confident it exists; otherwise describe the type ("several US scheduling startups").
+- money: a monthly price per customer in ${cur}, and paying customers at month 12 for low/base/high, realistic for a small founding team. breaker = the single assumption that breaks the model.
+- kill: one concrete action doable within 7 days for at most ${cap} ${cur}, with a numeric pass threshold set in advance.
+- israel: ${he ? "does it work in Israel, is Israel big enough, local players or regulation, go global from day one or not." : "the market lens: which market to start in, is it big enough, regulation and incumbents."}
+- fit: the skills, budget and runway the idea demands.
+- Voice: blunt, short sentences, no hype, no politeness. Never use dashes (—, –, -) as punctuation; use commas or periods. tip only if genuinely useful, else an empty string.
+- Write ALL text values in ${lang}. Keep each text field to 1-2 short sentences; evidence fields under 18 words.
+
+Idea: ${idea}
+${cust?`Target customer: ${cust}\n`:""}${bud?`Founder budget for first 6 months: ${bud} ${cur}\n`:""}${time?`Founder time per week: ${time}\n`:""}
+Reply with only one JSON object in exactly this shape:
+{"idea":"one-line restatement of the idea","title":"a catchy 2-4 word name for the idea","verdict":"PIVOT","headline":"one blunt sentence","deciding":"the one assumption everything rests on","tip":"","scores":[{"key":"pain","score":6,"grade":"B","evidence":"..."},{"key":"demand","score":5,"grade":"C","evidence":"..."},{"key":"space","score":3,"grade":"B","evidence":"..."},{"key":"pay","score":4,"grade":"C","evidence":"..."}],"money":{"price":150,"low":10,"base":40,"high":120,"breaker":"..."},"graveyard":[{"name":"...","why":"..."}],"competition":[{"name":"...","note":"..."}],"gap":"...","israel":"...","fit":"...","kill":{"action":"...","budget":${he?300:100},"pass":"..."}}
+graveyard: 2-3 entries. competition: 2-4 entries.`;
+}
+const errCopy=c=>({not_granted:t("errGranted"),sampling_disabled:t("errGranted"),rate_limited:t("errRate"),invalid_json:t("errJson"),refused:t("errRefused")}[c]||t("errGeneric"));
+async function runVerdict(){
+  const idea=$("#idea").value.trim();
+  if (!S.sample && !window.claude){ window.open(LIVE,"_blank","noopener"); return; }
+  if (!idea){ setNote(t("needIdea"),true); go("idea"); $("#idea").focus(); return; }
+  if (!S.sample){ setNote(t("noSample")); return; }
+  if (S.busy) return;
+  S.busy=true; S.ctl=new AbortController(); $("#goBtn").disabled=true; setNote("");
+  go("receipt"); printing(idea);
+  try {
+    const raw=await S.sample.json(prompt(idea),{signal:S.ctl.signal,cache:false});
+    const b=norm({...(raw||{}),cur:CUR()}); if(!b.idea) b.idea=idea;
+    S.current=b; S.isExample=false; S.currentId=null; S.savedNote="";
+    await Promise.all([save(b,idea), land(b)]);
+    S.busy=false; S.rev=new Set(); S.open=0; S.stampHit=false; renderStage(); $("#p-receipt").scrollTop=0;
+  } catch(e){
+    S.busy=false; clearInterval(S.timer);
+    go("idea");
+    if (e && e.code!=="cancelled") setNote(errCopy(e&&e.code),true);
+    if (e && (e.code==="not_granted"||e.code==="sampling_disabled")) S.sample=null;
+  } finally { clearInterval(S.timer); S.busy=false; $("#goBtn").disabled=!S.sample && !!window.claude; }
+}
+$("#moreBtn").addEventListener("click", ()=>{ const p=$("#p-idea"), on=!p.classList.contains("more"); p.classList.toggle("more",on); $("#moreBtn").setAttribute("aria-expanded",on); if(on) $("#fCust").focus(); });
+$("#askForm").addEventListener("submit", e=>{ e.preventDefault(); runVerdict(); });
+$("#idea").addEventListener("keydown", e=>{ if(e.key==="Enter" && (e.metaKey||e.ctrlKey)){ e.preventDefault(); runVerdict(); } });
+(()=>{ let i=0, txt="", pos=0, dir=1, hold=0;
+  const tick=()=>{ const ta=$("#idea");
+    if (S.view==="idea" && !ta.value && !calm()){
+      const list=FEED.map(f=>f.idea[S.lang]); if(!txt) txt=list[i%list.length];
+      if (hold>0){ hold--; }
+      else if (dir>0){ pos++; if(pos>=txt.length){ dir=-1; hold=40; } }
+      else { pos-=3; if(pos<=0){ pos=0; dir=1; i++; txt=list[i%list.length]; hold=6; } }
+      ta.placeholder=txt.slice(0,pos)+(dir>0||hold?"":"");
+    } else if (!ta.value) { ta.placeholder=t("ideaPh"); txt=""; pos=0; dir=1; }
+    setTimeout(tick, dir>0?38:18);
+  };
+  setTimeout(tick, 600);
+})();
+function fitIdea(){
+  const ta=$("#idea"); ta.style.height="auto"; ta.style.height=Math.max(ta.scrollHeight, 120)+"px";
+}
+$("#idea").addEventListener("input", fitIdea);
+
+/* ---------- examples rail ---------- */
+function renderRail(){
+  const L=T[S.lang];
+  $("#rail").innerHTML=FEED.map((f,i)=>{const x=f[S.lang]; return `<article class="xc ${VCLS(f.v)}">
+    <span class="cat">${esc(x.cat)}</span><h3>${esc(x.t)}</h3><p>${esc(x.l)}</p>
+    <span class="xw">${esc(L.vWord[f.v])}</span>
+    <button class="cta" type="button" data-feed="${i}"><span>${esc(t(window.claude?"openFull":"tryIdea"))}</span>${ic("arrow")}</button></article>`;}).join("");
+}
+function updExCount(){
+  const r=$("#rail"), w=r.firstElementChild?.getBoundingClientRect().width||1;
+  const i=Math.min(FEED.length-1, Math.round(Math.abs(r.scrollLeft)/(w+12)));
+  $("#exCount").textContent=String(i+1).padStart(2,"0")+"/"+String(FEED.length).padStart(2,"0");
+}
+$("#rail").addEventListener("scroll", ()=>requestAnimationFrame(()=>{ updExCount(); railFx(); }), {passive:true});
+$("#rail").addEventListener("click", e=>{ const b=e.target.closest("[data-feed]"); if(!b) return; const ta=$("#idea"); ta.value=FEED[+b.dataset.feed].idea[S.lang]; ta.dispatchEvent(new Event("input",{bubbles:true}));
+  if (!S.sample && !window.claude){ go("idea"); setTimeout(()=>{ try{ ta.focus({preventScroll:true}); ta.setSelectionRange(ta.value.length,ta.value.length); }catch(_){} },450); return; }
+  runVerdict(); });
+
+/* ---------- yours (db) ---------- */
+const col=()=>S.db.collection("data/users/"+S.uid);
+async function save(b,raw){
+  if (!S.db||!S.uid){ S.savedNote=t("notSaved"); return; }
+  try { const ref=col().doc(); const doc={idea:b.idea,input:raw,lang:S.lang,verdict:b.verdict,brief:b,killStatus:"pending",createdAt:new Date().toISOString()};
+    await ref.set(doc); S.currentId=ref.id; S.savedNote=t("saved"); S.mine=[{id:ref.id,...doc},...S.mine.filter(x=>x.id!==ref.id)]; renderHome();
+  } catch(e){ S.savedNote=t("notSaved"); }
+}
+async function setKill(id,status){
+  const it=S.mine.find(x=>x.id===id); if(!it||!S.db) return;
+  it.killStatus=status; const st=$("#stage"); st.innerHTML=cardHTML(st._b,currentCard().o);
+  try { await col().doc(id).update({killStatus:status}); } catch(e){}
+}
+async function loadDrawer(){
+  if (!S.db||!S.uid){ renderDrawer(); return; }
+  try { const snap=await col().orderBy("createdAt","desc").limit(200).get(); S.mine=snap.docs.filter(d=>d.exists).map(d=>({id:d.id,...d.data()})); } catch(e){}
+  S.mineLoaded=true; renderDrawer(); renderHome();
+}
+function renderDrawer(){
+  const box=$("#drawerList");
+  if (!S.ready){ box.innerHTML=`<div class="empty"><span>${esc(t("loading"))}</span></div>`; return; }
+  if (!S.db||!S.uid){ box.innerHTML=`<div class="empty"><b>${esc(t("drOut"))}</b><span>${esc(t("drOutS"))}</span>${window.claude?"":`<a class="cta dark" href="${LIVE}" target="_blank" rel="noopener">claude.ai ↗</a>`}</div>`; return; }
+  if (!S.mineLoaded && !S.mine.length){ box.innerHTML=`<div class="empty"><span>${esc(t("loading"))}</span></div>`; return; }
+  if (!S.mine.length){ box.innerHTML=`<div class="empty"><b>${esc(t("drEmpty"))}</b><span>${esc(t("drEmptyS"))}</span><button class="cta dark" type="button" data-go="idea">${esc(t("navCta"))}</button></div>`; return; }
+  const L=T[S.lang], df=new Intl.DateTimeFormat(S.lang==="he"?"he-IL":"en-GB",{day:"numeric",month:"short"});
+  box.innerHTML=S.mine.map((m,k)=>{const ks=m.killStatus||"pending", c=S.confirmDel===m.id;
+    return `<div class="mrow ${VCLS(m.verdict)}" data-row="${esc(m.id)}" style="--i:${Math.min(k,12)}">
+      <div style="min-width:0"><h4>${esc(m.idea)}</h4><p>${esc(m.createdAt?df.format(new Date(m.createdAt)):"")} · ${esc(L.r.ks)}: ${esc(ks==="pass"?L.r.ksY:ks==="fail"?L.r.ksN:L.r.ksP)} · <button class="mdel" type="button" data-d="${esc(m.id)}">${esc(c?t("sure"):t("del"))}</button></p></div>
+      <span class="mw">${esc(L.vWord[m.verdict]||"")}</span></div>`;}).join("");
+}
+$("#drawerList").addEventListener("click", async e=>{
+  const d=e.target.closest("[data-d]"), row=e.target.closest("[data-row]");
+  if (d){ const id=d.dataset.d; if (S.confirmDel===id){ S.confirmDel=null; S.mine=S.mine.filter(x=>x.id!==id); if(S.currentId===id) S.currentId=null; renderDrawer(); renderHome(); try{ await col().doc(id).delete(); }catch(_){} } else { S.confirmDel=id; renderDrawer(); } return; }
+  if (row){ const m=S.mine.find(x=>x.id===row.dataset.row); if(!m) return; S.current=norm(m.brief||{}); S.currentId=m.id; S.isExample=false; S.savedNote=""; S.rev=new Set([1,2,3,4,5]); S.open=5; S.stampHit=true; go("receipt"); renderStage(); }
+});
+
+/* ---------- language / theme / boot ---------- */
+function applyLang(){
+  const app=$("#app"); app.dir=S.lang==="he"?"rtl":"ltr"; app.lang=S.lang; document.documentElement.lang=S.lang;
+  document.querySelectorAll("[data-t]").forEach(el=>el.textContent=t(el.dataset.t));
+  $("#h1").innerHTML=t("h1");
+  $("#idea").placeholder=t("ideaPh"); $("#fCust").placeholder=t("phCust"); $("#fBudget").placeholder=t("phBudget"); $("#fTime").placeholder=t("phTime");
+  $("#langBtn").textContent=S.lang==="he"?"EN":"עב";
+  if (S.ready && !S.sample) setNote(t("noSample"));
+  renderHome(); renderRail(); renderDrawer(); if (S.current && !S.busy) renderStage();
+}
+function renderLegal(){
+  $("#legalBody").innerHTML=`<p class="lead">${esc(t("legalLead"))}</p>`+t("legal").map(([h,p])=>`<section><h3>${esc(h)}</h3><p>${esc(p)}</p></section>`).join("")
+    +`<div style="display:grid;gap:8px"><button class="cta light" type="button" id="delBtn">${esc(t("delReq"))}</button><span class="note" id="delNote"></span></div><p class="upd">${esc(t("legalUpd"))}</p>`;
+  $("#delBtn").addEventListener("click", async ()=>{
+    const n=$("#delNote"), btn=$("#delBtn");
+    if (!S.db || !S.uid){ n.textContent=t("delNo"); return; }
+    btn.disabled=true;
+    try{ await S.db.collection("leads").doc(S.uid).set({deleteRequested:true,deleteAt:new Date().toISOString()},{merge:true}); n.textContent=t("delSent"); try{ localStorage.removeItem("wz.optin"); }catch(e){} }
+    catch(e){ btn.disabled=false; n.textContent=t("errGeneric"); }
+  });
+}
+$("#legalBtn").addEventListener("click",()=>{ renderLegal(); const d=$("#legal"); d.dir=S.lang==="he"?"rtl":"ltr"; if(d.showModal) d.showModal(); else d.setAttribute("open",""); });
+$("#legalX").addEventListener("click",()=>$("#legal").close());
+document.querySelectorAll("[data-close]").forEach(b=>b.addEventListener("click",()=>b.closest("dialog").close()));
+$("#teams").addEventListener("click",e=>{ if(e.target===e.currentTarget) e.currentTarget.close(); });
+function setPro(on){ S.pro=!!on; const b=$("#proBtn"); b.textContent=S.pro?"PRO":"FREE"; b.setAttribute("aria-pressed",S.pro); try{ localStorage.setItem("wz.pro",S.pro?"1":"0"); }catch(e){} if (S.current && !S.busy) renderStage(); }
+function enablePreview(){ $("#proBtn").hidden=false; setPro(S.proPreview); }
+$("#proBtn").addEventListener("click",()=>setPro(!S.pro));
+$("#legal").addEventListener("click",e=>{ if(e.target===e.currentTarget) e.currentTarget.close(); });
+$("#langBtn").addEventListener("click",()=>{ S.lang=S.lang==="he"?"en":"he"; try{localStorage.setItem("wz.lang",S.lang)}catch(e){} applyLang(); });
+$("#themeBtn").addEventListener("click",()=>{ const m=$("#themeBtn .ic"); if(m){ m.classList.remove("spin"); void m.getBoundingClientRect(); m.classList.add("spin"); } const root=document.documentElement, cur=root.getAttribute("data-theme")||(matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light"); const next=cur==="dark"?"light":"dark"; root.setAttribute("data-theme",next); try{localStorage.setItem("wz.theme",next)}catch(e){} });
+
+hydrateIcons(); applyLang();
+if (location.hash==="#demo" && !window.claude){ S.current=norm({...EXAMPLE[S.lang],cur:CUR()}); S.isExample=false; S.optin=false; history.replaceState(null,"","#receipt"); enablePreview(); }
+show(location.hash.slice(1)); if (S.current) renderStage();
+(async()=>{
+  if (!window.claude||!window.claude.use){ S.ready=true; setNote(t("noSample")); renderDrawer(); return; }
+  const [sample,db,user]=await Promise.all([claude.use("sample"),claude.use("db"),claude.use("user")]);
+  S.sample=sample; $("#goBtn").disabled=!sample; if(!sample) setNote(t("noSample"));
+  if (user){ try{ S.uid=await user.id(); const me=await user.me(); const name=(me&&me.name)||"";
+    if (S.uid){ $("#who").hidden=false; $("#whoN").textContent=name; $("#whoI").textContent=(name.trim()[0]||"·").toUpperCase(); }
+    S.me={name, email:(me&&me.email)||""};
+    if (await Promise.resolve(user.isOwner && user.isOwner())) enablePreview(); }catch(e){} }
+  S.db=(db&&S.uid)?db:null; S.ready=true; renderDrawer(); loadDrawer();
+  if (S.db && S.uid && !S.optin){ try{ const d=await S.db.collection("leads").doc(S.uid).get(); if(d.exists){ S.optin=true; const v=d.data()||{}; if(v.plan) S.plan=v.plan; if (S.current) renderStage(); } }catch(e){} }
+})();
+})();
+</script>
+</body></html>
