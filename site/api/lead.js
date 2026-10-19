@@ -1,6 +1,6 @@
 // POST /api/lead  { action: "plan" | "delete", email, plan?, lang? }
 // "plan": records which launch price someone wants held. "delete": records a deletion request.
-import { ready, send, body, cleanEmail, LANGS, getLead, upsertLead, patchLead } from "./_lib.js";
+import { ready, send, body, cleanEmail, LANGS, clientIp, human, getLead, upsertLead, patchLead } from "./_lib.js";
 
 const PLANS = ["one", "pack", "pro", "teams"];
 
@@ -10,6 +10,7 @@ export default async function handler(req, res) {
   const b = await body(req);
   const email = cleanEmail(b.email);
   if (!email) return send(res, 400, { code: "bad_email" });
+  if (!(await human(b.token, clientIp(req)))) return send(res, 403, { code: "bot" });
   try {
     if (b.action === "plan") {
       if (!PLANS.includes(b.plan)) return send(res, 400, { code: "bad_plan" });

@@ -358,7 +358,7 @@ dialog.sheet[open]::backdrop{animation:fadeIn .3s ease both}
 @media (min-width:700px){dialog.sheet{margin:auto;border-radius:28px}}
 .sheet-h{display:flex;align-items:center;justify-content:space-between;padding:18px 22px 10px;gap:12px}
 .sheet-h h2{margin:0;font-weight:600;font-size:24px;letter-spacing:-.02em}
-.sheet-x{position:relative;flex:0 0 auto;border:0;padding:0;background:var(--red);color:#fff;width:36px;height:36px;border-radius:50%;font-size:0;line-height:0;cursor:pointer;transition:transform .28s cubic-bezier(.3,1.6,.5,1),filter .2s}
+.sheet-x{position:relative;flex:0 0 auto;border:0;padding:0;background:var(--red);color:var(--kill-ink);width:36px;height:36px;border-radius:50%;font-size:0;line-height:0;cursor:pointer;transition:transform .28s cubic-bezier(.3,1.6,.5,1),filter .2s}
 .sheet-x::before,.sheet-x::after{content:"";position:absolute;left:50%;top:50%;width:15px;height:2px;border-radius:2px;background:currentColor;transform:translate(-50%,-50%) rotate(45deg)}
 .sheet-x::after{transform:translate(-50%,-50%) rotate(-45deg)}
 .sheet-x:hover{filter:brightness(1.08)} .sheet-x:active{transform:scale(.9)}
@@ -1208,7 +1208,7 @@ async function holdPlan(k){
   renderActs(); if ($("#teams").open) openTeams();
   document.querySelectorAll("#gatePlans,#ideaPlans").forEach(x=>x.innerHTML=plansHTML());
   track("plan-"+k);
-  if (S.me.email){ try{ await api("lead",{action:"plan",email:S.me.email,plan:k,lang:S.lang}); }catch(e){} }
+  if (S.me.email){ try{ const token=await humanToken(); await api("lead",{action:"plan",email:S.me.email,plan:k,lang:S.lang,token}); }catch(e){} }
 }
 function plansHTML(){
   return `<div class="plans"><div class="plans-t">${esc(t("plansT"))}</div><div class="plans-s">${esc(t("plansS"))}</div>
@@ -1456,7 +1456,7 @@ function renderLegal(){
     const email=(S.me.email||($("#delEmail")?.value||"")).trim();
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){ n.textContent=t("delNo"); $("#delEmail")?.focus(); return; }
     btn.disabled=true;
-    try{ const r=await api("lead",{action:"delete",email}); if(r.status!==200) throw 0; n.textContent=t("delSent"); S.me={name:"",email:""}; try{ localStorage.removeItem("wz.email"); localStorage.removeItem("wz.name"); }catch(e){} }
+    try{ const token=await humanToken(); const r=await api("lead",{action:"delete",email,token}); if(r.status!==200) throw 0; n.textContent=t("delSent"); S.me={name:"",email:""}; try{ localStorage.removeItem("wz.email"); localStorage.removeItem("wz.name"); }catch(e){} }
     catch(e){ btn.disabled=false; n.textContent=t("errGeneric"); }
   });
 }

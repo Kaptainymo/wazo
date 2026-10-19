@@ -1,6 +1,6 @@
 // POST /api/unlock  { id, email, name, marketing, lang, token }
 // Saves the lead and returns the full wazo if this email still has its free one (or is Pro).
-import { ready, send, body, str, cleanEmail, LANGS, clientIp, human, getLead, upsertLead, patchLead, getWazo, patchWazo } from "./_lib.js";
+import { env, ready, send, body, str, cleanEmail, LANGS, clientIp, ipHash, human, count, sinceISO, getLead, upsertLead, patchLead, claimFree, getWazo, patchWazo } from "./_lib.js";
 
 export default async function handler(req, res) {
   if (req.method !== "POST") return send(res, 405, { code: "method" });
@@ -8,11 +8,15 @@ export default async function handler(req, res) {
   const b = await body(req);
   const email = cleanEmail(b.email);
   if (!email) return send(res, 400, { code: "bad_email" });
-  if (!(await human(b.token, clientIp(req)))) return send(res, 403, { code: "bot" });
+  const ip = clientIp(req), ih = ipHash(ip);
+  if (!(await human(b.token, ip))) return send(res, 403, { code: "bot" });
 
   try {
     const w = await getWazo(b.id);
     if (!w) return send(res, 404, { code: "not_found" });
+    // One visitor can't unlock endless wazos by typing a new email each time.
+    if (!w.unlocked && (await count("wazos", `unlock_ip_hash=eq.${ih}&unlocked_at=gte.${sinceISO(24)}`)) >= Number(env("UNLOCK_PER_DAY", "3")))
+      return send(res, 429, { code: "limit" });
     const prev = await getLead(email);
     const row = { email, lang: LANGS.includes(b.lang) ? b.lang : (prev?.lang || "en") };
     const name = str(b.name, 120); if (name) row.name = name;
@@ -24,9 +28,8 @@ export default async function handler(req, res) {
       return send(res, 200, { full: true, wazo: w.result });
     }
     const pro = lead?.plan === "pro";
-    if (!pro && lead?.free_used) return send(res, 402, { code: "need_pro" });
-    await patchWazo(w.id, { email, unlocked: true });
-    if (!pro) await patchLead(email, { free_used: true });
+    if (!pro && !(await claimFree(email))) return send(res, 402, { code: "need_pro" });
+    await patchWazo(w.id, { email, unlocked: true, unlock_ip_hash: ih, unlocked_at: new Date().toISOString() });
     return send(res, 200, { full: true, wazo: w.result });
   } catch (e) {
     console.error("unlock", e.message);

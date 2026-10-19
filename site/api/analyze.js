@@ -1,7 +1,7 @@
 // POST /api/analyze  { idea, cust, budget, time, lang, token, email? }
 // Runs one analysis. Before an email is given, only the idea, scores and money are returned;
 // the 7-day test, fine print and bottom line stay on the server until /api/unlock.
-import { env, ready, send, body, str, cleanEmail, LANGS, clientIp, ipHash, human, count, getLead, patchLead, insertWazo, sinceISO, partial } from "./_lib.js";
+import { env, ready, send, body, str, cleanEmail, LANGS, clientIp, ipHash, human, count, getLead, patchLead, claimFree, insertWazo, sinceISO, partial } from "./_lib.js";
 import { buildPrompt, shape, parseJSON } from "./_prompt.js";
 
 export const config = { maxDuration: 60 };
@@ -60,16 +60,22 @@ export default async function handler(req, res) {
       return send(res, 429, { code: "limit_anon" }); // ask for an email to continue
     }
 
+    // Claim the free wazo now, so two requests fired together can't both get it.
+    const claimed = full && !pro;
+    if (claimed && !(await claimFree(email))) return send(res, 402, { code: "need_pro" });
+    const release = async () => { if (claimed) { try { await patchLead(email, { free_used: false }); } catch {} } };
+
     const ctl = new AbortController(); const timer = setTimeout(() => ctl.abort(), 55000);
     let text;
-    try { text = await askClaude(buildPrompt(fields), ctl.signal); } finally { clearTimeout(timer); }
+    try { text = await askClaude(buildPrompt(fields), ctl.signal); }
+    catch (e) { await release(); throw e; }
+    finally { clearTimeout(timer); }
     const raw = parseJSON(text);
-    if (!raw) return send(res, 502, { code: "invalid_json" });
+    if (!raw) { await release(); return send(res, 502, { code: "invalid_json" }); }
     const w = shape(raw, lang);
     if (!w.idea) w.idea = idea;
 
-    const row = await insertWazo({ ip_hash: ih, email: full ? email : null, lang, idea, verdict: w.verdict, result: w, unlocked: full });
-    if (full && !pro) await patchLead(email, { free_used: true });
+    const row = await insertWazo({ ip_hash: ih, email: full ? email : null, lang, idea, verdict: w.verdict, result: w, unlocked: full, ...(full ? { unlock_ip_hash: ih, unlocked_at: new Date().toISOString() } : {}) });
     return send(res, 200, { id: row.id, full, wazo: full ? w : partial(w) });
   } catch (e) {
     const code = e.code === "busy" ? "busy" : e.code === "refused" ? "refused" : e.name === "AbortError" ? "timeout" : "error";
