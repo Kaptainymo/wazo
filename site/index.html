@@ -979,7 +979,7 @@ function renderHome(){
   $("#tri").innerHTML=seg(c);
   const mc={BUILD:0,PIVOT:0,KILL:0}; (S.mine||[]).forEach(x=>{ if(x&&mc[x.verdict]!==undefined) mc[x.verdict]++; });
   $("#mineStrip").innerHTML=seg(mc);
-  $("#mineN").textContent = S.mine.length;
+  $("#mineN").textContent = (S.db&&S.uid) ? S.mine.length : "0";
 }
 
 /* ---------- parallax: pointer depth on the home bands, scroll depth on the example cards ---------- */
