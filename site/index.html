@@ -41,7 +41,17 @@ nav.top{position:sticky;top:0;z-index:20;background:var(--b1);color:var(--b1-ink
 nav.top .in{display:flex;align-items:center;justify-content:space-between;height:56px;max-width:none}
 .brand{font-weight:700;font-size:19px;letter-spacing:-.02em;direction:ltr;text-decoration:none;color:inherit;display:flex;gap:2px;align-items:flex-start}
 .brand sup{font-size:9px;margin-top:3px}
-.navr{display:flex;gap:6px;align-items:center}
+.navr{display:flex;gap:6px;align-items:center;position:relative}
+.langmenu{position:absolute;top:calc(100% + 10px);inset-inline-end:0;min-width:220px;background:var(--b1);color:var(--b1-ink);border-radius:18px;padding:6px;box-shadow:0 18px 50px rgba(0,0,0,.28);border:1px solid color-mix(in srgb,currentColor 14%,transparent);z-index:40;transform-origin:top right;animation:menuIn .24s var(--ease) both}
+[dir=rtl] .langmenu{transform-origin:top left}
+@keyframes menuIn{from{opacity:0;transform:translateY(-6px) scale(.96)}to{opacity:1;transform:none}}
+.lopt{display:flex;align-items:center;justify-content:space-between;gap:18px;width:100%;padding:12px 14px;border:0;background:transparent;color:inherit;border-radius:12px;font:inherit;font-size:16px;font-weight:500;text-align:start;cursor:pointer}
+.lopt:hover,.lopt:focus-visible{background:color-mix(in srgb,currentColor 9%,transparent);outline:none}
+.lopt small{font-family:var(--f-mono);font-size:11px;font-weight:600;letter-spacing:.08em;opacity:.55}
+.lopt[aria-checked="true"] small{opacity:1}
+.lopt[aria-checked="true"] small::before{content:"✓ "}
+#langSheet .sheet-b{gap:2px}
+#langSheet .lopt{padding:16px 14px;font-size:19px}
 .pill{height:36px;min-width:36px;padding:0 10px;border-radius:999px;border:1.3px solid color-mix(in srgb,currentColor 30%,transparent);background:transparent;font-family:var(--f-mono);font-size:12px;font-weight:600}
 .who{display:flex;align-items:center;gap:6px;font-size:13px;opacity:.8}
 .who i{width:28px;height:28px;border-radius:50%;background:var(--b1-ink);color:var(--b1);display:grid;place-items:center;font-style:normal;font-weight:700;font-size:12px}
@@ -60,7 +70,7 @@ nav.top .in{display:flex;align-items:center;justify-content:space-between;height
 .b-big{font-weight:500;font-size:clamp(40px,11vw,84px);line-height:.95;letter-spacing:-.045em;display:flex;align-items:baseline;gap:14px;flex-wrap:wrap}
 .b-big b{font-weight:500;font-variant-numeric:tabular-nums;direction:ltr}
 .b-big small{font-size:clamp(17px,4.4vw,26px);letter-spacing:-.01em;opacity:.7;font-weight:500}
-.caret{display:inline-block;width:3px;height:.8em;background:var(--red);margin-inline-start:6px;animation:blink 1s steps(2) infinite;transform:translateY(.06em)}
+.caret{display:inline-block;width:3px;height:.8em;background:var(--red);margin-inline-end:8px;animation:blink 1s steps(2) infinite;transform:translateY(.06em)}
 @keyframes blink{50%{opacity:0}}
 .b-arrow{position:absolute;top:18px;inset-inline-end:max(20px,env(safe-area-inset-right,0px));font-size:22px;opacity:.55}
 
@@ -199,14 +209,14 @@ textarea#idea:focus{outline:none}
 .p-ex{background:var(--b2);color:var(--b2-ink)}
 .rail{display:flex;gap:12px;overflow-x:auto;scroll-snap-type:x mandatory;padding:6px max(20px,env(safe-area-inset-left,0px)) 28px;scrollbar-width:none}
 .rail::-webkit-scrollbar{display:none}
-.xc{scroll-snap-align:center;flex:0 0 min(86vw,400px);min-height:min(68dvh,560px);border-radius:28px;padding:22px;display:flex;flex-direction:column;gap:12px}
+.xc{scroll-snap-align:center;flex:0 0 min(86vw,400px);min-height:min(68dvh,560px);border-radius:28px;padding:22px;display:flex;flex-direction:column;gap:12px;overflow:hidden;isolation:isolate}
 .xc.build{background:var(--build);color:var(--build-ink)}
 .xc.pivot{background:var(--pivot);color:var(--pivot-ink)}
 .xc.kill{background:var(--kill);color:var(--kill-ink)}
 .xc .cat{font-family:var(--f-mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;opacity:.7}
 .xc h3{margin:6px 0 0;font-weight:600;font-size:clamp(28px,7.4vw,40px);line-height:1.05;letter-spacing:-.035em}
 .xc p{margin:0;font-size:15px;line-height:1.45;opacity:.85}
-.xc .xw{margin-top:auto;font-family:var(--f-wide);font-weight:600;font-size:clamp(34px,10vw,52px);line-height:1}
+.xc .xw{margin-top:auto;font-family:var(--f-wide);font-weight:600;font-size:clamp(34px,10vw,52px);line-height:1;overflow-wrap:anywhere}
 .xc .cta{background:currentColor;align-self:stretch}
 .xc .cta span{filter:invert(1)}
 .xc.build .cta{background:var(--build-ink);color:var(--build)} .xc.pivot .cta{background:var(--pivot-ink);color:var(--pivot)} .xc.kill .cta{background:var(--kill-ink);color:var(--kill)}
@@ -356,7 +366,8 @@ dialog.sheet[open]::backdrop{animation:fadeIn .3s ease both}
     <div class="who" id="who" hidden><i id="whoI"></i><span id="whoN"></span></div>
     <button class="pill" id="proBtn" type="button" hidden aria-pressed="false">FREE</button>
     <button class="pill" id="themeBtn" type="button" aria-label="Theme" data-ic="moon"></button>
-    <button class="pill" id="langBtn" type="button" aria-label="Language">EN</button>
+    <button class="pill" id="langBtn" type="button" aria-label="Language" aria-haspopup="true" aria-expanded="false">EN</button>
+    <div class="langmenu" id="langMenu" role="menu" hidden></div>
   </div>
 </div></nav>
 <h1 class="sr" id="h1"></h1>
@@ -365,7 +376,7 @@ dialog.sheet[open]::backdrop{animation:fadeIn .3s ease both}
   <button class="band b-idea" type="button" data-go="idea">
     <span class="b-lab"><span>01</span><span data-t="bIdea"></span></span>
     <span class="b-arrow" aria-hidden="true" data-ic="arrow"></span>
-    <span class="b-big"><span data-t="bIdeaBig"></span><i class="caret" aria-hidden="true"></i></span>
+    <span class="b-big"><i class="caret" aria-hidden="true"></i><span data-t="bIdeaBig"></span></span>
     <span class="b-sub" data-t="bIdeaSub"></span>
   </button>
   <button class="band b-ex" type="button" data-go="examples">
@@ -382,6 +393,7 @@ dialog.sheet[open]::backdrop{animation:fadeIn .3s ease both}
 </main>
 <div class="foot"><span data-t="foot"></span><button class="legal-link" type="button" id="legalBtn" data-t="legalLink"></button></div>
 <dialog class="sheet" id="teams" aria-labelledby="teamsTitle"><div class="sheet-h"><h2 id="teamsTitle" data-t="teamsT"></h2><button class="sheet-x" type="button" data-close aria-label="Close">×</button></div><div class="sheet-b" id="teamsBody"></div></dialog>
+<dialog class="sheet" id="langSheet" aria-labelledby="langTitle"><div class="sheet-h"><h2 id="langTitle" data-t="langT"></h2><button class="sheet-x" type="button" data-close aria-label="Close">×</button></div><div class="sheet-b" id="langList"></div></dialog>
 <dialog class="sheet" id="legal" aria-labelledby="legalTitle"><div class="sheet-h"><h2 id="legalTitle" data-t="legalT"></h2><button class="sheet-x" type="button" id="legalX" aria-label="Close">×</button></div><div class="sheet-b" id="legalBody"></div></dialog>
 
 <section class="panel p-idea" id="p-idea" hidden aria-labelledby="ideaLbl">
@@ -587,11 +599,225 @@ Object.assign(T.en,{legalLink:"Legal & privacy", legalT:"What Wazo is, honestly"
   ["No guarantees","Wazo is provided as is, as an early version, and may change or stop working. Wazo is not liable for losses from decisions made based on an analysis."],
   ["Contact & deletion","Want your details deleted? Tap the button below and the request reaches us. Built by WAZO."]],
  legalUpd:"Updated: October 2026", delReq:"Request deletion", delSent:"Request sent. We'll delete your details.", delNo:"Requests work inside Wazo on claude.ai, when you're signed in."});
-const CUR = () => S.lang==="he" ? "₪" : "$";
+/* ---------- ES / FR + global examples (EN/ES/FR) ---------- */
+T.en.feedS="Global trends, scored for the global market. These are quick checks, analyze any of them in full.";
+T.en.lines=[["Scores with receipts","Pain, demand, open space and willingness to pay. Each graded A to D by the evidence behind it.","PAIN ........ 6/10 [B]"],
+ ["The money","Price, paying customers at month 12, three scenarios, and the one assumption that breaks it all.","BASE x12 ..... $4,800"],
+ ["The graveyard","Who already tried this, and why it didn't work.","RIP ......... 2021 wave"],
+ ["The 7-day test","One action, up to $200, with a pass bar set in advance.","TEST ... 7d · $100 · 5/30"]];
+
+T.es={
+ nHow:"En el recibo", nFeed:"Recibos del mundo", nDrawer:"El cajón", navCta:"Analiza una idea",
+ eyebrow:"Verificador de ideas de startup", h1:"La conclusión <em>sobre tu idea.</em>",
+ lede:"Escribe una idea y recibe un recibo: cada puntuación con su evidencia, el dinero en tres escenarios y una prueba de 7 días que te dice si seguir.",
+ ideaLabel:"La idea", ideaPh:"Una app que convierte la nota de voz de un técnico en un presupuesto",
+ moreDetails:"Detalles que afinan la respuesta (recomendado)", phCust:"p. ej. contratistas de reformas independientes", phBudget:"p. ej. 10.000", phTime:"p. ej. 10 horas", fCust:"Cliente objetivo", fBudget:"Presupuesto para 6 meses (€)", fTime:"Tiempo por semana",
+ go:"Analizar mi idea", stop:"Detener análisis", needIdea:"Primero escribe una idea.",
+ noSample:"El análisis corre en tu cuenta de Claude. Al pulsar Analizar se abre Wazo dentro de claude.ai.",
+ errGranted:"Esta página no tiene permiso para usar Claude.", errRate:"Demasiadas solicitudes ahora mismo. Inténtalo en unos minutos.",
+ errJson:"El wazo salió ilegible. Pulsa de nuevo.", errRefused:"Claude no quiso juzgar la idea tal como está escrita. Reformúlala.", errGeneric:"Algo trabó el análisis. Inténtalo de nuevo.",
+ steps:["LEYENDO LA IDEA","EVALUANDO LA EVIDENCIA","CORRIENDO ESCENARIOS","EXCAVANDO EL CEMENTERIO","DISEÑANDO LA PRUEBA DE 7 DÍAS","CERRANDO"],
+ vWord:{BUILD:"CONSTRUIR",PIVOT:"PIVOTAR",KILL:"DESCARTAR"},
+ r:{no:"Recibo n.º",reg:"Caja: Claude",item:"Artículo",scores:"Puntuaciones",money:"Dinero",price:"Precio / mes",low:"Bajo",base:"Base",high:"Alto",cust:"clientes",
+  breaker:"Rompe el modelo",kill:"Prueba de 7 días",budget:"Presupuesto",pass:"Se aprueba si",total:"Total",rests:"Todo depende de",tip:"Consejo",fine:"Letra pequeña",
+  grave:"El cementerio",comp:"Ya existen",gap:"El hueco abierto",il:"Lente de mercado",fit:"Quién debería construirlo",
+  cav:"Claude no navega mientras juzga. Los nombres de empresas salen de su propio conocimiento, verifícalos antes de confiar en ellos.",
+  thanks:"Gracias por comprobarlo antes de dejar tu trabajo", example:"EJEMPLO", ks:"Prueba", ksP:"Pendiente", ksY:"Aprobada", ksN:"Fallida"},
+ sc:{pain:"Dolor",demand:"Demanda",space:"Espacio libre",pay:"Pagarán"},
+ next:"Siguiente línea", reveal:"Revelar el veredicto", reviewed:"revisadas", locked:"Revisa cada línea para revelar el veredicto",
+ copy:"Copiar como texto", copied:"Copiado", again:"Analizar de nuevo", saved:"Guardado en el cajón", notSaved:"Inicia sesión en claude.ai para guardar",
+ howEy:"En el recibo", howT:"Cuatro líneas que dicen la verdad.", howS:"Sin puntuaciones infladas ni techos de mercado inventados. Cada número viene con su razón.",
+ lines:[["Puntuaciones con recibo","Dolor, demanda, espacio libre y disposición a pagar. Cada una calificada de A a D según la evidencia.","DOLOR ....... 6/10 [B]"],
+  ["El dinero","Precio, clientes que pagan en el mes 12, tres escenarios y el supuesto que lo rompe todo.","BASE x12 ..... €4,400"],
+  ["El cementerio","Quién ya lo intentó y por qué no funcionó.","RIP ......... ola de 2021"],
+  ["La prueba de 7 días","Una acción, hasta €200, con el listón fijado de antemano.","PRUEBA ... 7d · €100 · 5/30"]],
+ feedEy:"Del mundo", feedT:"Recibos del mundo.", feedS:"Tendencias globales, puntuadas para el mercado global. Son revisiones rápidas, analiza cualquiera a fondo.",
+ run:"Recibo completo", quick:"Revisión rápida",
+ drEy:"Tuyos", drT:"El cajón.", drS:"Cada recibo que generas se guarda aquí, solo para ti. Marca cómo terminó la prueba.",
+ drEmpty:"El cajón está vacío", drEmptyS:"Analiza tu primera idea y tu wazo te esperará aquí.", drOut:"Inicia sesión en claude.ai para guardar tus wazos", drOutS:"Todo se guarda en tu cuenta. Nadie más puede verlo.",
+ open:"Abrir", del:"Borrar", yes:"Borrar", no:"Cancelar", loading:"Cargando…",
+ foot:"Wazo te da una opinión real sobre tu idea, antes de que dejes tu trabajo por ella.",
+ editIdea:"Editar la idea", reviewedCap:"líneas revisadas", scrollHint:"Desplaza", swipeHint:"Desliza ←→", rowsScores:"Puntuaciones", rowsMoney:"El dinero", rowsTest:"Prueba de 7 días", rowsFine:"Letra pequeña", rowsTotal:"La conclusión", lockedS:"bloqueado", base:"base", graves:"tumbas", rivals:"rivales",
+ saveImg:"Guardar imagen", imgMaking:"Preparando imagen…", imgSaved:"Imagen guardada", imgFail:"No se pudo guardar la imagen. Inténtalo de nuevo.", imgFoot:"Wazo · Una opinión real sobre tu idea",
+ gateT:"La conclusión es para miembros", gateS:"Registro gratis. Tu primer wazo va por nuestra cuenta.", gName:"Nombre", gEmail:"Email", gMk:"Envíame novedades y ofertas de Wazo", gGo:"Desbloquear la conclusión", gPriv:"Solo Wazo ve estos datos. Sin spam.", gBad:"Introduce un email válido.", lockGate:"registro gratis",
+ plansT:"Tu próximo wazo", plansS:"Muy pronto. Elige lo que te encaje y te guardamos un precio de lanzamiento.", planHold:"Guárdamelo", planHeld:"Guardado ✓", plans:[["one","Un wazo","€5"],["pack","5 wazos","€18"],["pro","Pro, ilimitado","€12/mes"]],
+ tryIdea:"Probar esta idea", back:"Volver", bIdea:"Tu idea", bIdeaBig:"Escribe tu idea.", bIdeaSub:"Un análisis inteligente: puntuaciones, el dinero y una prueba de 7 días. Luego, un veredicto.", bEx:"Ejemplos", bExBig:"wazos del mundo", bMine:"Tuyos", bMineBig:"tus wazos", openFull:"Wazo completo",
+ unit:"al mes, base", unitTest:"7 días", unitFine:"tumbas · rivales", unitScores:"dolor · demanda · espacio · pago", sure:"¿Seguro?",
+ proOnly:"Pro", pwT:"El análisis completo es Pro", pwS:"Una prueba de 7 días lista para lanzar, el cementerio, la competencia, la lente de mercado y quién debería construirlo.", pwPrice:"€12", pwPer:"al mes, wazos ilimitados", pwGo:"Guárdame el precio de lanzamiento", pwHeld:"Precio de lanzamiento guardado", pwNote:"Muy pronto. Sin cargo ahora.",
+ teamsBtn:"Mejorar a Equipos", teamsT:"Wazo para equipos y programas", teamsLead:"Para aceleradoras, programas de emprendedores y equipos de innovación: toda tu cohorte usa Wazo y ves cada idea en un solo lugar.",
+ teamsF:["Plazas para cada emprendedor de la cohorte","Un tablero de cohorte: cada wazo, puntuación y prueba de 7 días","Exportación para comités e informes"], teamsPrice:"desde €370 por cohorte", teamsGo:"Reservar plaza", teamsHeld:"Plaza reservada",
+ legalLink:"Legal y privacidad", legalT:"Qué es Wazo, con honestidad",
+ legalLead:"Wazo te da una opinión rápida y directa sobre una idea de startup, para que decidas si invertir más tiempo y dinero en ella, antes de dejar tu trabajo por ella.",
+ legal:[["Cómo funciona","El análisis lo escribe Claude, un modelo de IA de Anthropic, a partir de lo que escribiste. No navega por la web mientras juzga, así que cifras, nombres de empresas y normativas pueden estar equivocados o desactualizados. Cada puntuación lleva una calificación de evidencia, de A a D, para que veas en qué se apoya."],
+  ["Solo una recomendación","Cada análisis, puntuación y veredicto de Wazo es solo una recomendación. Wazo no es asesoramiento de inversión, legal, financiero, fiscal ni empresarial, y no sustituye a profesionales. La decisión y la responsabilidad son tuyas. Usa el análisis como punto de partida y la prueba de 7 días para contrastarlo con la realidad."],
+  ["Tu privacidad","Tus wazos se guardan en tu cuenta de claude.ai y son privados. Si te registras, tu nombre y email se guardan para darte acceso, y solo Wazo los ve. Las novedades y ofertas se envían solo si marcaste la casilla. No vendemos datos y tu idea sigue siendo tuya."],
+  ["Precios","El servicio es gratis por ahora. Los planes marcados como \"muy pronto\" no son compras: tocarlos solo registra tu interés. Nunca se te cobrará sin tu aprobación explícita."],
+  ["Sin garantías","Wazo se ofrece tal cual, como versión temprana, y puede cambiar o dejar de funcionar. Wazo no se hace responsable de pérdidas derivadas de decisiones tomadas a partir de un análisis."],
+  ["Contacto y borrado","¿Quieres que borremos tus datos? Toca el botón de abajo y la solicitud nos llegará. Hecho por WAZO."]],
+ legalUpd:"Actualizado: octubre de 2026", delReq:"Solicitar borrado", delSent:"Solicitud enviada. Borraremos tus datos.", delNo:"Las solicitudes funcionan dentro de Wazo en claude.ai, con la sesión iniciada."
+};
+
+T.fr={
+ nHow:"Sur le reçu", nFeed:"Reçus du monde", nDrawer:"Le tiroir", navCta:"Analyser une idée",
+ eyebrow:"Testeur d'idées de startup", h1:"Le verdict <em>sur votre idée.</em>",
+ lede:"Écrivez une idée et recevez un reçu : chaque note avec ses preuves, l'argent en trois scénarios et un test de 7 jours qui vous dit s'il faut continuer.",
+ ideaLabel:"L'idée", ideaPh:"Une app qui transforme le mémo vocal d'un artisan en devis",
+ moreDetails:"Des détails qui affinent la réponse (recommandé)", phCust:"ex. artisans rénovation indépendants", phBudget:"ex. 10 000", phTime:"ex. 10 heures", fCust:"Client cible", fBudget:"Budget sur 6 mois (€)", fTime:"Temps par semaine",
+ go:"Analyser mon idée", stop:"Arrêter l'analyse", needIdea:"Écrivez d'abord une idée.",
+ noSample:"L'analyse tourne sur votre compte Claude. Appuyer sur Analyser ouvre Wazo dans claude.ai.",
+ errGranted:"Cette page n'a pas l'autorisation d'utiliser Claude.", errRate:"Trop de demandes en ce moment. Réessayez dans quelques minutes.",
+ errJson:"Le wazo est sorti illisible. Appuyez à nouveau.", errRefused:"Claude a refusé de juger l'idée telle qu'elle est écrite. Reformulez-la.", errGeneric:"Quelque chose a bloqué l'analyse. Réessayez.",
+ steps:["LECTURE DE L'IDÉE","NOTATION DES PREUVES","SCÉNARIOS EN COURS","FOUILLE DU CIMETIÈRE","CONCEPTION DU TEST DE 7 JOURS","CONCLUSION"],
+ vWord:{BUILD:"LANCER",PIVOT:"PIVOTER",KILL:"ABANDONNER"},
+ r:{no:"Reçu n°",reg:"Caisse : Claude",item:"Article",scores:"Notes",money:"Argent",price:"Prix / mois",low:"Bas",base:"Base",high:"Haut",cust:"clients",
+  breaker:"Casse le modèle",kill:"Test de 7 jours",budget:"Budget",pass:"Réussi si",total:"Total",rests:"Tout repose sur",tip:"Conseil",fine:"Petites lignes",
+  grave:"Le cimetière",comp:"Déjà là",gap:"Le créneau libre",il:"Lentille marché",fit:"Qui devrait le construire",
+  cav:"Claude ne navigue pas pendant qu'il juge. Les noms d'entreprises viennent de ses propres connaissances, vérifiez-les avant de vous y fier.",
+  thanks:"Merci d'avoir vérifié avant de quitter votre emploi", example:"EXEMPLE", ks:"Test", ksP:"En attente", ksY:"Réussi", ksN:"Échoué"},
+ sc:{pain:"Douleur",demand:"Demande",space:"Espace libre",pay:"Prêts à payer"},
+ next:"Ligne suivante", reveal:"Révéler le verdict", reviewed:"lues", locked:"Lisez chaque ligne pour révéler le verdict",
+ copy:"Copier en texte", copied:"Copié", again:"Analyser à nouveau", saved:"Rangé dans le tiroir", notSaved:"Connectez-vous à claude.ai pour enregistrer",
+ howEy:"Sur le reçu", howT:"Quatre lignes qui disent la vérité.", howS:"Pas de notes gonflées ni de plafonds de marché inventés. Chaque chiffre vient avec sa raison.",
+ lines:[["Des notes justifiées","Douleur, demande, espace libre et volonté de payer. Chacune notée de A à D selon les preuves.","DOULEUR ..... 6/10 [B]"],
+  ["L'argent","Prix, clients payants au mois 12, trois scénarios et l'hypothèse qui fait tout tomber.","BASE x12 ..... €4,400"],
+  ["Le cimetière","Qui a déjà essayé, et pourquoi ça n'a pas marché.","RIP ......... vague 2021"],
+  ["Le test de 7 jours","Une action, jusqu'à €200, avec un seuil de réussite fixé à l'avance.","TEST ... 7j · €100 · 5/30"]],
+ feedEy:"Du monde", feedT:"Reçus du monde.", feedS:"Tendances mondiales, notées pour le marché mondial. Ce sont des vérifications rapides, analysez-en une en entier.",
+ run:"Reçu complet", quick:"Vérification rapide",
+ drEy:"Les vôtres", drT:"Le tiroir.", drS:"Chaque reçu que vous générez est gardé ici, privé. Indiquez comment le test s'est terminé.",
+ drEmpty:"Le tiroir est vide", drEmptyS:"Analysez votre première idée et votre wazo vous attendra ici.", drOut:"Connectez-vous à claude.ai pour garder vos wazos", drOutS:"Tout est enregistré dans votre compte. Personne d'autre ne peut le voir.",
+ open:"Ouvrir", del:"Supprimer", yes:"Supprimer", no:"Annuler", loading:"Chargement…",
+ foot:"Wazo vous donne un vrai avis sur votre idée, avant que vous quittiez votre emploi pour elle.",
+ editIdea:"Modifier l'idée", reviewedCap:"lignes lues", scrollHint:"Faites défiler", swipeHint:"Balayez ←→", rowsScores:"Notes", rowsMoney:"L'argent", rowsTest:"Test de 7 jours", rowsFine:"Petites lignes", rowsTotal:"Le verdict", lockedS:"verrouillé", base:"base", graves:"tombes", rivals:"rivaux",
+ saveImg:"Enregistrer l'image", imgMaking:"Préparation de l'image…", imgSaved:"Image enregistrée", imgFail:"Impossible d'enregistrer l'image. Réessayez.", imgFoot:"Wazo · Un vrai avis sur votre idée",
+ gateT:"Le verdict est réservé aux membres", gateS:"Inscription gratuite. Votre premier wazo est offert.", gName:"Nom", gEmail:"Email", gMk:"Envoyez-moi les nouveautés et offres Wazo", gGo:"Débloquer le verdict", gPriv:"Seul Wazo voit ces informations. Pas de spam.", gBad:"Saisissez un email valide.", lockGate:"inscription gratuite",
+ plansT:"Votre prochain wazo", plansS:"Bientôt disponible. Choisissez ce qui vous convient et on vous garde un prix de lancement.", planHold:"Gardez-le-moi", planHeld:"Réservé ✓", plans:[["one","Un wazo","€5"],["pack","5 wazos","€18"],["pro","Pro, illimité","€12/mois"]],
+ tryIdea:"Tester cette idée", back:"Retour", bIdea:"Votre idée", bIdeaBig:"Écrivez votre idée.", bIdeaSub:"Une analyse intelligente : des notes, l'argent et un test de 7 jours. Puis un verdict.", bEx:"Exemples", bExBig:"wazos du monde", bMine:"Les vôtres", bMineBig:"vos wazos", openFull:"Wazo complet",
+ unit:"par mois, base", unitTest:"7 jours", unitFine:"tombes · rivaux", unitScores:"douleur · demande · espace · paiement", sure:"Sûr ?",
+ proOnly:"Pro", pwT:"L'analyse complète est Pro", pwS:"Un test de 7 jours prêt à lancer, le cimetière, la concurrence, la lentille marché et qui devrait le construire.", pwPrice:"€12", pwPer:"par mois, wazos illimités", pwGo:"Garder mon prix de lancement", pwHeld:"Prix de lancement réservé", pwNote:"Bientôt disponible. Aucun paiement maintenant.",
+ teamsBtn:"Passer à Équipes", teamsT:"Wazo pour équipes et programmes", teamsLead:"Pour les accélérateurs, programmes d'entrepreneurs et équipes innovation : toute votre promo utilise Wazo et vous voyez chaque idée au même endroit.",
+ teamsF:["Des places pour chaque entrepreneur de la promo","Un tableau de promo : chaque wazo, note et test de 7 jours","Export pour les comités et les rapports"], teamsPrice:"à partir de €370 par promo", teamsGo:"Réserver une place", teamsHeld:"Place réservée",
+ legalLink:"Mentions légales et confidentialité", legalT:"Ce qu'est Wazo, honnêtement",
+ legalLead:"Wazo vous donne un avis rapide et franc sur une idée de startup, pour décider s'il faut y mettre plus de temps et d'argent, avant de quitter votre emploi pour elle.",
+ legal:[["Comment ça marche","L'analyse est rédigée par Claude, un modèle d'IA d'Anthropic, à partir de ce que vous avez écrit. Il ne navigue pas sur le web pendant qu'il juge, donc les chiffres, noms d'entreprises et réglementations peuvent être faux ou dépassés. Chaque note porte un niveau de preuve, de A à D, pour voir sur quoi elle repose."],
+  ["Une recommandation seulement","Chaque analyse, note et verdict de Wazo est une recommandation seulement. Wazo n'est pas un conseil en investissement, juridique, financier, fiscal ou commercial, et ne remplace pas des professionnels. La décision et la responsabilité vous appartiennent. Utilisez l'analyse comme point de départ, et le test de 7 jours pour la confronter à la réalité."],
+  ["Votre vie privée","Vos wazos sont enregistrés dans votre compte claude.ai et restent privés. Si vous vous inscrivez, votre nom et votre email sont conservés pour vous donner accès, et seul Wazo les voit. Les nouveautés et offres ne sont envoyées que si vous avez coché la case. Nous ne vendons pas de données, et votre idée reste la vôtre."],
+  ["Tarifs","Le service est gratuit pour l'instant. Les offres marquées \"bientôt\" ne sont pas des achats : les toucher enregistre seulement votre intérêt. Vous ne serez jamais facturé sans votre accord explicite."],
+  ["Aucune garantie","Wazo est fourni en l'état, en version précoce, et peut changer ou cesser de fonctionner. Wazo n'est pas responsable des pertes liées à des décisions prises sur la base d'une analyse."],
+  ["Contact et suppression","Vous voulez que vos données soient supprimées ? Touchez le bouton ci-dessous et la demande nous parvient. Conçu par WAZO."]],
+ legalUpd:"Mis à jour : octobre 2026", delReq:"Demander la suppression", delSent:"Demande envoyée. Nous supprimerons vos données.", delNo:"Les demandes fonctionnent dans Wazo sur claude.ai, une fois connecté."
+};
+
+/* Global trend set, shared by EN / ES / FR. Hebrew keeps the Israel-scored set. */
+const GLOBAL_FEED=[
+ {en:["Work tools · Trades","Voice note → quote","Tradespeople hate paperwork, and voice AI finally handles job-site noise.","An app where tradespeople record the job on site and AI writes the quote and the invoice"],
+  es:["Herramientas · Oficios","Nota de voz → presupuesto","Los técnicos odian el papeleo, y la IA de voz por fin entiende el ruido de obra.","Una app donde los técnicos graban el trabajo en obra y la IA redacta el presupuesto y la factura"],
+  fr:["Outils · Artisans","Mémo vocal → devis","Les artisans détestent la paperasse, et l'IA vocale gère enfin le bruit de chantier.","Une app où les artisans enregistrent le chantier et l'IA rédige le devis et la facture"]},
+ {en:["B2B · Compliance","Privacy copilot for small clinics","Privacy fines keep rising everywhere. A scared buyer is a good buyer.","A tool that checks privacy compliance for clinics and solo therapists and produces ready-made documents"],
+  es:["B2B · Cumplimiento","Copiloto de privacidad para clínicas","Las multas por privacidad suben en todas partes. Un comprador asustado es un buen comprador.","Una herramienta que revisa el cumplimiento de privacidad de clínicas y terapeutas y genera los documentos listos"],
+  fr:["B2B · Conformité","Copilote RGPD pour petits cabinets","Les amendes pour la vie privée montent partout. Un acheteur inquiet est un bon acheteur.","Un outil qui vérifie la conformité RGPD des cabinets et thérapeutes et produit les documents prêts à l'emploi"]},
+ {en:["B2B · HR","Onboarding inside WhatsApp","Hourly staff live in WhatsApp, not in HR portals. Meet them there.","A bot that guides new hires through their first weeks, forms, training, questions, inside WhatsApp"],
+  es:["B2B · RR. HH.","Onboarding dentro de WhatsApp","El personal por horas vive en WhatsApp, no en portales de RR. HH. Ve a buscarlos ahí.","Un bot que guía a las nuevas contrataciones en sus primeras semanas, formularios, formación y dudas, dentro de WhatsApp"],
+  fr:["B2B · RH","Onboarding dans WhatsApp","Le personnel horaire vit sur WhatsApp, pas dans les portails RH. Allez les chercher là.","Un bot qui accompagne les nouvelles recrues pendant leurs premières semaines, formulaires, formation, questions, dans WhatsApp"]},
+ {en:["Freelancers · Finance","Receipt → bookkeeping","Invoicing apps already own the customer. Win on the year-end tax report.","Snap a receipt; AI categorizes it and prepares the year-end report for freelancers"],
+  es:["Freelancers · Finanzas","Ticket → contabilidad","Las apps de facturación ya tienen al cliente. Gana con la declaración anual.","Fotografía un ticket; la IA lo clasifica y prepara el informe anual para freelancers"],
+  fr:["Freelances · Finance","Ticket → comptabilité","Les apps de facturation ont déjà le client. Gagnez sur la déclaration annuelle.","Photographiez un ticket ; l'IA le classe et prépare le bilan annuel des freelances"]},
+ {en:["Creative · Spaces","Studios by the hour","Supply is easy, repeat demand isn't. Sell to music schools and brands.","A marketplace for idle recording and podcast studios, rented by the hour"],
+  es:["Creativos · Espacios","Estudios por horas","La oferta es fácil, la demanda recurrente no. Vende a escuelas de música y marcas.","Un marketplace de estudios de grabación y pódcast ociosos, alquilados por horas"],
+  fr:["Créatifs · Espaces","Studios à l'heure","L'offre est facile, la demande récurrente non. Vendez aux écoles de musique et aux marques.","Une place de marché pour studios d'enregistrement et de podcast inutilisés, loués à l'heure"]},
+ {en:["Consumer · Food","Meal planner for allergies","Free chatbots already do this. Nobody will pay.","A weekly menu and shopping list that respects every family member's allergies"],
+  es:["Consumo · Comida","Menús para alergias","Los chatbots gratuitos ya lo hacen. Nadie pagará.","Un menú semanal y una lista de la compra que respetan las alergias de toda la familia"],
+  fr:["Grand public · Alimentation","Menus pour allergies","Les chatbots gratuits le font déjà. Personne ne paiera.","Un menu hebdomadaire et une liste de courses qui respectent les allergies de chaque membre de la famille"]},
+ {en:["B2B · Productivity","Notes for mixed-language meetings","Global teams switch languages mid-sentence, and transcribers break. That's the gap.","An AI tool that transcribes and summarizes meetings held in a mix of languages"],
+  es:["B2B · Productividad","Actas de reuniones multilingües","Los equipos globales cambian de idioma a mitad de frase y los transcriptores fallan. Ahí está el hueco.","Una herramienta de IA que transcribe y resume reuniones en varios idiomas mezclados"],
+  fr:["B2B · Productivité","Comptes rendus multilingues","Les équipes internationales changent de langue en pleine phrase, et les transcripteurs cassent. Voilà le créneau.","Un outil d'IA qui transcrit et résume les réunions tenues dans plusieurs langues mélangées"]},
+ {en:["Consumer · Home","Houseplant subscription","Nice to have, easy to cancel. Sell to offices, not homes.","A monthly subscription that delivers, swaps and cares for houseplants"],
+  es:["Consumo · Hogar","Suscripción de plantas","Bonito de tener, fácil de cancelar. Vende a oficinas, no a hogares.","Una suscripción mensual que entrega, cambia y cuida plantas de interior"],
+  fr:["Grand public · Maison","Abonnement plantes","Agréable, facile à résilier. Vendez aux bureaux, pas aux foyers.","Un abonnement mensuel qui livre, échange et entretient des plantes d'intérieur"]},
+ {en:["Consumer · Food","Another food-delivery app","The incumbents own the couriers and the habit. No angle beats that.","A new food-delivery app with lower commissions for restaurants"],
+  es:["Consumo · Comida","Otra app de reparto","Los líderes tienen los repartidores y el hábito. Ningún ángulo supera eso.","Una nueva app de reparto de comida con comisiones más bajas para restaurantes"],
+  fr:["Grand public · Alimentation","Encore une app de livraison","Les leaders ont les livreurs et l'habitude. Aucun angle ne bat ça.","Une nouvelle app de livraison de repas avec des commissions plus basses pour les restaurants"]},
+ {en:["B2B · Hospitality","Shift scheduling in WhatsApp","Managers already schedule shifts in WhatsApp groups. Meet them there.","A WhatsApp bot that builds restaurant shift schedules and handles swaps"],
+  es:["B2B · Hostelería","Turnos en WhatsApp","Los encargados ya organizan turnos en grupos de WhatsApp. Ve a buscarlos ahí.","Un bot de WhatsApp que arma los turnos de restaurantes y gestiona los cambios"],
+  fr:["B2B · Restauration","Plannings dans WhatsApp","Les managers font déjà les plannings dans des groupes WhatsApp. Allez les chercher là.","Un bot WhatsApp qui construit les plannings des restaurants et gère les échanges"]},
+ {en:["Consumer · Family","Second-hand baby gear","Facebook groups do it for free. Win on trust: inspected, cleaned, delivered.","A marketplace for second-hand baby gear, inspected and cleaned before delivery"],
+  es:["Consumo · Familia","Artículos de bebé usados","Los grupos de Facebook lo hacen gratis. Gana con confianza: revisado, limpio, entregado.","Un marketplace de artículos de bebé de segunda mano, revisados y limpiados antes de la entrega"],
+  fr:["Grand public · Famille","Puériculture d'occasion","Les groupes Facebook le font gratuitement. Gagnez sur la confiance : vérifié, nettoyé, livré.","Une place de marché de puériculture d'occasion, vérifiée et nettoyée avant livraison"]},
+ {en:["B2B · Healthcare","Live translation for clinics","A real language gap, but public health buyers are slow. Start with private clinics.","Real-time AI translation between patients and staff in clinic conversations"],
+  es:["B2B · Salud","Traducción en vivo para clínicas","Una brecha de idioma real, pero la sanidad pública compra lento. Empieza por clínicas privadas.","Traducción con IA en tiempo real entre pacientes y personal en consultas médicas"],
+  fr:["B2B · Santé","Traduction en direct pour cliniques","Un vrai fossé linguistique, mais le secteur public achète lentement. Commencez par les cliniques privées.","Traduction IA en temps réel entre patients et soignants pendant les consultations"]},
+ {en:["Consumer · Fashion","Personal AI stylist","Users love it and rarely pay. Sell styling to small boutiques.","An app that photographs your closet and suggests outfits and smart purchases"],
+  es:["Consumo · Moda","Estilista personal con IA","A los usuarios les encanta y casi nunca pagan. Vende estilismo a pequeñas boutiques.","Una app que fotografía tu armario y sugiere conjuntos y compras inteligentes"],
+  fr:["Grand public · Mode","Styliste IA personnel","Les utilisateurs adorent et paient rarement. Vendez le stylisme aux petites boutiques.","Une app qui photographie votre garde-robe et suggère des tenues et des achats malins"]},
+ {en:["Consumer · Community","A social network for neighbors","Everyone wants it, nobody comes back. The building's WhatsApp group already won.","A social network for neighbors in the same building and neighborhood"],
+  es:["Consumo · Comunidad","Una red social de vecinos","Todos la quieren, nadie vuelve. El grupo de WhatsApp del edificio ya ganó.","Una red social para vecinos del mismo edificio y barrio"],
+  fr:["Grand public · Communauté","Un réseau social de voisins","Tout le monde le veut, personne ne revient. Le groupe WhatsApp de l'immeuble a déjà gagné.","Un réseau social pour les voisins d'un même immeuble et quartier"]},
+ {en:["B2B · Construction","Safety certificates tracker","An expired certificate means a fine. Fear sells.","A system that tracks the expiry of workers' safety certificates for small contractors and warns ahead"],
+  es:["B2B · Construcción","Control de certificados de seguridad","Un certificado caducado significa una multa. El miedo vende.","Un sistema que controla la caducidad de los certificados de seguridad de los trabajadores y avisa con antelación"],
+  fr:["B2B · BTP","Suivi des habilitations","Une habilitation expirée, c'est une amende. La peur fait vendre.","Un système qui suit l'expiration des habilitations de sécurité des ouvriers pour les petites entreprises et prévient à l'avance"]},
+ {en:["Education · Immigration","Language tutors for newcomers","Immigration flows are uneven. Sell to employers who hire newcomers.","An online marketplace connecting new immigrants with private local-language tutors"],
+  es:["Educación · Inmigración","Profesores de idioma para recién llegados","Los flujos migratorios son irregulares. Vende a empleadores que contratan recién llegados.","Un marketplace online que conecta a inmigrantes recién llegados con profesores particulares del idioma local"],
+  fr:["Éducation · Immigration","Profs de langue pour nouveaux arrivants","Les flux migratoires sont irréguliers. Vendez aux employeurs qui recrutent des nouveaux arrivants.","Une place de marché en ligne qui met en relation les nouveaux arrivants avec des profs particuliers de la langue locale"]},
+ {en:["B2B · Nonprofits","Annual reports for small nonprofits","Thousands of small nonprofits file the same reports every year. Sell to their accountants, not to them.","An AI tool that prepares annual reports and filings for small nonprofits"],
+  es:["B2B · ONG","Informes anuales para ONG pequeñas","Miles de ONG pequeñas presentan los mismos informes cada año. Vende a sus contables, no a ellas.","Una herramienta de IA que prepara informes anuales y trámites para ONG pequeñas"],
+  fr:["B2B · Associations","Rapports annuels pour petites associations","Des milliers de petites associations déposent les mêmes rapports chaque année. Vendez à leurs comptables, pas à elles.","Un outil d'IA qui prépare les rapports annuels et les déclarations des petites associations"]},
+ {en:["Consumer · Climate","Crypto rewards for recycling","Token incentives fade, and recycling habits don't follow.","An app that pays crypto tokens for every bottle you recycle"],
+  es:["Consumo · Clima","Cripto por reciclar","Los incentivos en tokens se desvanecen y los hábitos de reciclaje no los siguen.","Una app que paga tokens cripto por cada botella que reciclas"],
+  fr:["Grand public · Climat","Crypto contre recyclage","Les incitations en jetons s'essoufflent, et les habitudes de recyclage ne suivent pas.","Une app qui paie des jetons crypto pour chaque bouteille recyclée"]},
+ {en:["Consumer · Mobility","Parking-spot sharing in big cities","Real pain, legal mess with building owners. Start with office spots that sit empty at night.","An app that rents out idle private parking spots by the hour in dense cities"],
+  es:["Consumo · Movilidad","Plazas de parking compartidas","Dolor real, lío legal con las comunidades. Empieza por plazas de oficina vacías de noche.","Una app que alquila por horas plazas de parking privadas ociosas en ciudades densas"],
+  fr:["Grand public · Mobilité","Parkings partagés en ville","Vraie douleur, casse-tête juridique avec les copropriétés. Commencez par les places de bureau vides la nuit.","Une app qui loue à l'heure des places de parking privées inutilisées dans les grandes villes"]},
+ {en:["B2B · Small business","AI phone receptionist","A missed call is lost revenue, and voice AI finally sounds human.","An AI phone receptionist that answers calls, books appointments and takes messages for small businesses"],
+  es:["B2B · Pymes","Recepcionista telefónica con IA","Una llamada perdida es dinero perdido, y la IA de voz por fin suena humana.","Una recepcionista telefónica con IA que atiende llamadas, agenda citas y toma recados para pequeños negocios"],
+  fr:["B2B · TPE","Standardiste IA","Un appel manqué, c'est du chiffre perdu, et l'IA vocale sonne enfin humaine.","Un standardiste IA qui répond aux appels, prend les rendez-vous et les messages pour les petites entreprises"]}
+];
+GLOBAL_FEED.forEach((g,i)=>{ const f=FEED[i]; if(!f) return; ["en","es","fr"].forEach(l=>{ const [cat,t,l2,idea]=g[l]; f[l]={cat,t,l:l2}; f.idea[l]=idea; }); });
+
+/* Global example receipt (EN / ES / FR) */
+const exG=(o)=>o;
+EXAMPLE.en={idea:"An AI service that picks and ships holiday gifts to employees at tech companies",title:"AI Holiday Gifting",verdict:"PIVOT",
+ headline:"The budget is real, but it's spent twice a year, and the buyer already has a vendor.",deciding:"A win rate above 15% against the gifting platforms they already use.",
+ tip:"Sell year-round moments, onboarding, birthdays, new babies, work anniversaries, to HR as a subscription.",
+ scores:[{key:"pain",score:6,grade:"B",evidence:"Companies spend on holiday gifts every year. The pain is the hassle, not the spend."},{key:"demand",score:7,grade:"B",evidence:"Holiday gifts are a near-universal habit at tech companies."},{key:"space",score:3,grade:"A",evidence:"Corporate gifting platforms and gift-card vendors have owned this budget for years."},{key:"pay",score:6,grade:"C",evidence:"They pay for gifts; paying for a subscription is unproven."}],
+ money:{price:350,low:4,base:12,high:25,breaker:"Companies buy per holiday, not per month. Without a subscription, revenue between the big holidays is near zero."},
+ graveyard:[{name:"The corporate-gifting platform wave (2021)",why:"Raised during remote work, cut back when perk budgets shrank."},{name:"Seasonal gift-box vendors",why:"Seasonal inventory, profit twice a year, cash burn in between."}],
+ competition:[{name:"Sendoso",note:"Enterprise gifting, strong with sales teams."},{name:"Snappy",note:"Curated employee gifts, already sells to HR."}],
+ gap:"Nobody owns the calendar of employee moments for 50 to 300 person companies.",
+ israel:"Start in one market where you can sell in person. Gifts above a set value can be taxable to the employee in many countries, check the local rule and make it a feature.",
+ fit:"Needs B2B sales and supplier ops. A realistic budget: $5 to 10K for the first six months.",
+ kill:{action:"Pitch 30 HR managers at 50 to 300 person companies a free one-month birthday-gift pilot.",budget:100,pass:"5 agree to a call, 2 agree to pay from month two."}};
+EXAMPLE.es={idea:"Un servicio de IA que elige y envía regalos de fiestas a los empleados de empresas tecnológicas",title:"Regalos de empresa con IA",verdict:"PIVOT",
+ headline:"El presupuesto es real, pero se gasta dos veces al año, y el comprador ya tiene proveedor.",deciding:"Ganar más del 15% de las veces frente a las plataformas de regalos que ya usan.",
+ tip:"Vende momentos de todo el año, incorporaciones, cumpleaños, nacimientos, aniversarios, a RR. HH. como suscripción.",
+ scores:[{key:"pain",score:6,grade:"B",evidence:"Las empresas gastan en regalos cada año. El dolor es la gestión, no el gasto."},{key:"demand",score:7,grade:"B",evidence:"Los regalos de fiestas son un hábito casi universal en las tecnológicas."},{key:"space",score:3,grade:"A",evidence:"Las plataformas de regalos corporativos y las tarjetas regalo dominan este presupuesto hace años."},{key:"pay",score:6,grade:"C",evidence:"Pagan por los regalos; pagar una suscripción no está probado."}],
+ money:{price:320,low:4,base:12,high:25,breaker:"Las empresas compran por fiesta, no por mes. Sin suscripción, los ingresos entre fiestas son casi cero."},
+ graveyard:[{name:"La ola de plataformas de regalos corporativos (2021)",why:"Crecieron con el teletrabajo y recortaron cuando bajaron los presupuestos de beneficios."},{name:"Proveedores de cestas de temporada",why:"Inventario estacional, beneficio dos veces al año, gasto de caja entre medias."}],
+ competition:[{name:"Sendoso",note:"Regalos corporativos, fuerte en equipos de ventas."},{name:"Snappy",note:"Regalos curados para empleados, ya vende a RR. HH."}],
+ gap:"Nadie es dueño del calendario de momentos del empleado en empresas de 50 a 300 personas.",
+ israel:"Empieza en un mercado donde puedas vender en persona. En muchos países los regalos por encima de cierto valor tributan para el empleado, revisa la norma local y conviértela en una ventaja.",
+ fit:"Requiere ventas B2B y operaciones con proveedores. Un presupuesto realista: €5.000 a €10.000 para los primeros seis meses.",
+ kill:{action:"Ofrece a 30 responsables de RR. HH. de empresas de 50 a 300 personas un piloto gratis de un mes de regalos de cumpleaños.",budget:100,pass:"5 aceptan una llamada y 2 aceptan pagar desde el segundo mes."}};
+EXAMPLE.fr={idea:"Un service d'IA qui choisit et envoie des cadeaux de fin d'année aux salariés des entreprises tech",title:"Cadeaux d'entreprise IA",verdict:"PIVOT",
+ headline:"Le budget est réel, mais il se dépense deux fois par an, et l'acheteur a déjà un fournisseur.",deciding:"Gagner plus de 15% des appels d'offres face aux plateformes de cadeaux déjà en place.",
+ tip:"Vendez les moments de toute l'année, arrivées, anniversaires, naissances, ancienneté, aux RH sous forme d'abonnement.",
+ scores:[{key:"pain",score:6,grade:"B",evidence:"Les entreprises dépensent en cadeaux chaque année. La douleur, c'est la logistique, pas la dépense."},{key:"demand",score:7,grade:"B",evidence:"Les cadeaux de fin d'année sont une habitude quasi universelle dans la tech."},{key:"space",score:3,grade:"A",evidence:"Les plateformes de cadeaux d'entreprise et les cartes cadeaux tiennent ce budget depuis des années."},{key:"pay",score:6,grade:"C",evidence:"Ils paient les cadeaux ; payer un abonnement n'est pas prouvé."}],
+ money:{price:320,low:4,base:12,high:25,breaker:"Les entreprises achètent par fête, pas par mois. Sans abonnement, le chiffre entre deux fêtes est quasi nul."},
+ graveyard:[{name:"La vague des plateformes de cadeaux d'entreprise (2021)",why:"Elles ont levé pendant le télétravail, puis réduit quand les budgets avantages ont baissé."},{name:"Fournisseurs de coffrets saisonniers",why:"Stock saisonnier, marge deux fois par an, trésorerie qui fond entre les deux."}],
+ competition:[{name:"Sendoso",note:"Cadeaux d'entreprise, fort auprès des équipes commerciales."},{name:"Snappy",note:"Cadeaux salariés sélectionnés, vend déjà aux RH."}],
+ gap:"Personne ne tient le calendrier des moments salariés pour les entreprises de 50 à 300 personnes.",
+ israel:"Commencez sur un marché où vous pouvez vendre en direct. Dans beaucoup de pays, les cadeaux au-delà d'un certain montant sont imposables pour le salarié, vérifiez la règle locale et faites-en un argument.",
+ fit:"Demande de la vente B2B et de la gestion fournisseurs. Un budget réaliste : €5 000 à €10 000 pour les six premiers mois.",
+ kill:{action:"Proposez à 30 responsables RH d'entreprises de 50 à 300 personnes un pilote gratuit d'un mois de cadeaux d'anniversaire.",budget:100,pass:"5 acceptent un appel, 2 acceptent de payer dès le deuxième mois."}};
+
+const LANGS=[["en","English","EN"],["es","Español","ES"],["fr","Français","FR"],["he","עברית","עב"]];
+const LOC={he:"he-IL",en:"en-GB",es:"es-ES",fr:"fr-FR"};
+Object.assign(T.he,{langT:"שפה"}); Object.assign(T.en,{langT:"Language"}); Object.assign(T.es,{langT:"Idioma"}); Object.assign(T.fr,{langT:"Langue"});
+for (let i=FEED.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [FEED[i],FEED[j]]=[FEED[j],FEED[i]]; }
+const CUR = () => S.lang==="he" ? "₪" : S.lang==="en" ? "$" : "€";
 const CAP = () => S.lang==="he" ? 700 : 200;
 
 const S = { lang:"he", sample:null, db:null, uid:null, current:null, currentId:null, isExample:false, mine:[], mineLoaded:false, ctl:null, timer:null, busy:false, savedNote:"", confirmDel:null, ready:false, rev:new Set(), open:0, lastCnt:0, optin:false, me:{name:"",email:""}, plan:"", stampHit:false, view:"" };
-try { const l=localStorage.getItem("wz.lang"); if (l==="en"||l==="he") S.lang=l; } catch(e){}
+try { const l=localStorage.getItem("wz.lang"); if (LANGS.some(x=>x[0]===l)) S.lang=l; } catch(e){}
 try { const th=localStorage.getItem("wz.theme"); if (th==="light"||th==="dark") document.documentElement.setAttribute("data-theme",th); } catch(e){}
 try { if (localStorage.getItem("wz.optin")==="1") S.optin=true; S.plan=localStorage.getItem("wz.plan")||""; S.proPreview=localStorage.getItem("wz.pro")==="1"; } catch(e){}
 S.pro=false;
@@ -618,7 +844,7 @@ function hydrateIcons(root=document){ root.querySelectorAll("[data-ic]").forEach
 const VCLS = v => ({BUILD:"build",PIVOT:"pivot",KILL:"kill"}[v]||"pivot");
 
 /* ---------- data ---------- */
-function undash(x){ const he=S.lang==="he"; return String(x||"").replace(/(\d)\s*[–—]\s*(\d)/g, "$1"+(he?" עד ":" to ")+"$2").replace(/\s+[–—-]\s+|[–—]/g, ", "); }
+function undash(x){ const he=S.lang==="he"; return String(x||"").replace(/(\d)\s*[–—]\s*(\d)/g, "$1"+({he:" עד ",en:" to ",es:" a ",fr:" à "}[S.lang]||" to ")+"$2").replace(/\s+[–—-]\s+|[–—]/g, ", "); }
 function norm(b){ b=JSON.parse(JSON.stringify(b||{}), (k,v)=>typeof v==="string"?undash(v):v);
   const V=["BUILD","PIVOT","KILL"], n=x=>{const v=Number(String(x).replace(/[^\d.]/g,""));return isFinite(v)?v:0;};
   const scores=["pain","demand","space","pay"].map(k=>{const s=(Array.isArray(b.scores)?b.scores:[]).find(x=>x&&x.key===k)||{};
@@ -629,7 +855,7 @@ function norm(b){ b=JSON.parse(JSON.stringify(b||{}), (k,v)=>typeof v==="string"
     graveyard:(Array.isArray(b.graveyard)?b.graveyard:[]).slice(0,4).map(g=>({name:String(g.name||""),why:String(g.why||"")})),
     competition:(Array.isArray(b.competition)?b.competition:[]).slice(0,5).map(c=>({name:String(c.name||""),note:String(c.note||"")})),
     gap:String(b.gap||""),israel:String(b.israel||""),fit:String(b.fit||""),cur:b.cur||CUR(),
-    kill:{action:String(k.action||""),budget:Math.min(b.cur==="$"?200:700,n(k.budget)),pass:String(k.pass||"")}};
+    kill:{action:String(k.action||""),budget:Math.min(b.cur==="₪"?700:200,n(k.budget)),pass:String(k.pass||"")}};
 }
 function hash(s){ let h=2166136261; for (const c of String(s)) { h^=c.charCodeAt(0); h=Math.imul(h,16777619); } return h>>>0; }
 function ideaTitle(b){ if(b.title) return b.title; const w=String(b.idea||"").replace(/[.,;:!?]/g,"").split(/\s+/).filter(Boolean); return w.slice(0,4).join(" ")+(w.length>4?"…":""); }
@@ -694,7 +920,7 @@ function railFx(){
   r.querySelectorAll(".xc").forEach(c=>{ const b=c.getBoundingClientRect(), d=Math.max(-1.4,Math.min(1.4,(b.left+b.width/2-cx)/b.width));
     c.style.transform=`scale(${1-Math.abs(d)*.05})`;
     const h=c.querySelector("h3"), w=c.querySelector(".xw"), p=c.querySelector("p");
-    if(h) h.style.transform=`translateX(${d*28}px)`; if(p) p.style.transform=`translateX(${d*16}px)`; if(w) w.style.transform=`translateX(${d*-42}px)`; });
+    const e=Math.max(-1,Math.min(1,d)); if(h) h.style.transform=`translateX(${e*10}px)`; if(p) p.style.transform=`translateX(${e*6}px)`; if(w) w.style.transform=`translateX(${e*-14}px)`; });
 }
 
 /* ---------- the receipt: big-type rows ---------- */
@@ -705,7 +931,7 @@ function setTone(){
 function cardHTML(b,o){
   const L=T[S.lang], R=L.r, seed=o.id||b.idea, C=b.cur||CUR(), M=n=>C+fmt(n);
   const d=o.date?new Date(o.date):new Date();
-  const dt=new Intl.DateTimeFormat(S.lang==="he"?"he-IL":"en-GB",{day:"2-digit",month:"2-digit",year:"2-digit"}).format(d);
+  const dt=new Intl.DateTimeFormat(LOC[S.lang],{day:"2-digit",month:"2-digit",year:"2-digit"}).format(d);
   const ln=(k,v,g)=>`<div class="ln"><span class="k">${esc(k)}</span><span class="fill"></span><span class="v">${v}</span>${g?`<span class="g">${g}</span>`:""}</div>`;
   const ks=o.killStatus||"pending", seen=i=>S.rev.has(i), done=need().every(seen);
   const N=(n,f)=>`<span class="num" data-to="${n}"${f?' data-f="1"':""}>${f?fmt(n):n}</span>`;
@@ -908,7 +1134,7 @@ async function receiptImage(b,o){
   const txt=(str,font,color,px,py,align)=>{ x.font=font; x.fillStyle=color; x.textAlign=align||"start"; x.fillText(str,px,py); };
   const rule=(py)=>{ x.save(); x.globalAlpha=.25; x.strokeStyle=FG; x.lineWidth=2; x.beginPath(); x.moveTo(IL,py); x.lineTo(IR,py); x.stroke(); x.restore(); };
   const seed=o.id||b.idea, d=o.date?new Date(o.date):new Date();
-  const dt=new Intl.DateTimeFormat(rtl?"he-IL":"en-GB",{day:"2-digit",month:"2-digit",year:"numeric"}).format(d);
+  const dt=new Intl.DateTimeFormat(LOC[S.lang],{day:"2-digit",month:"2-digit",year:"numeric"}).format(d);
   let y=128;
   txt("WAZO",'700 44px '+SANS,FG,S0,y);
   x.save(); x.direction="ltr"; x.globalAlpha=.6; txt(`#${receiptNo(seed)} · ${dt}`,'500 24px '+MONO,FG,E0,y,rtl?"left":"right"); x.restore();
@@ -990,10 +1216,10 @@ function land(b){
 
 /* ---------- verdict ---------- */
 function prompt(idea){
-  const he=S.lang==="he", lang=he?"Hebrew":"English";
+  const he=S.lang==="he", lang={he:"Hebrew",en:"English",es:"neutral international Spanish (natural for Spain and Latin America, use tú)",fr:"French (use vous)"}[S.lang]||"English", eur=S.lang==="es"||S.lang==="fr";
   const cust=$("#fCust").value.trim(), bud=$("#fBudget").value.trim(), time=$("#fTime").value.trim();
-  const market = he ? "Israel-first: judge for a founder based in Israel, priced in ILS (₪)." : "Global: judge for a founder selling to the US and global market, priced in USD ($).";
-  const cur = he ? "ILS" : "USD", cap = he ? 700 : 200;
+  const market = he ? "Israel-first: judge for a founder based in Israel, priced in ILS (₪)." : eur ? "Global: judge for a founder selling to the global market (Europe, the US and beyond), priced in EUR (€)." : "Global: judge for a founder selling to the US and global market, priced in USD ($).";
+  const cur = he ? "ILS" : eur ? "EUR" : "USD", cap = he ? 700 : 200;
   return `You are Wazo, a blunt startup-idea judge. ${market} Judge the idea below honestly. Most ideas should NOT get BUILD.
 
 Rules:
@@ -1099,7 +1325,7 @@ function renderDrawer(){
   if (!S.db||!S.uid){ box.innerHTML=`<div class="empty"><b>${esc(t("drOut"))}</b><span>${esc(t("drOutS"))}</span>${window.claude?"":`<a class="cta dark" href="${LIVE}" target="_blank" rel="noopener">claude.ai ↗</a>`}</div>`; return; }
   if (!S.mineLoaded && !S.mine.length){ box.innerHTML=`<div class="empty"><span>${esc(t("loading"))}</span></div>`; return; }
   if (!S.mine.length){ box.innerHTML=`<div class="empty"><b>${esc(t("drEmpty"))}</b><span>${esc(t("drEmptyS"))}</span><button class="cta dark" type="button" data-go="idea">${esc(t("navCta"))}</button></div>`; return; }
-  const L=T[S.lang], df=new Intl.DateTimeFormat(S.lang==="he"?"he-IL":"en-GB",{day:"numeric",month:"short"});
+  const L=T[S.lang], df=new Intl.DateTimeFormat(LOC[S.lang],{day:"numeric",month:"short"});
   box.innerHTML=S.mine.map((m,k)=>{const ks=m.killStatus||"pending", c=S.confirmDel===m.id;
     return `<div class="mrow ${VCLS(m.verdict)}" data-row="${esc(m.id)}" style="--i:${Math.min(k,12)}">
       <div style="min-width:0"><h4>${esc(m.idea)}</h4><p>${esc(m.createdAt?df.format(new Date(m.createdAt)):"")} · ${esc(L.r.ks)}: ${esc(ks==="pass"?L.r.ksY:ks==="fail"?L.r.ksN:L.r.ksP)} · <button class="mdel" type="button" data-d="${esc(m.id)}">${esc(c?t("sure"):t("del"))}</button></p></div>
@@ -1117,7 +1343,9 @@ function applyLang(){
   document.querySelectorAll("[data-t]").forEach(el=>el.textContent=t(el.dataset.t));
   $("#h1").innerHTML=t("h1");
   $("#idea").placeholder=t("ideaPh"); $("#fCust").placeholder=t("phCust"); $("#fBudget").placeholder=t("phBudget"); $("#fTime").placeholder=t("phTime");
-  $("#langBtn").textContent=S.lang==="he"?"EN":"עב";
+  $("#langBtn").textContent=(LANGS.find(x=>x[0]===S.lang)||LANGS[0])[2];
+  let thUser=null; try{ thUser=localStorage.getItem("wz.theme"); }catch(e){}
+  if (!thUser){ if (S.lang==="en") document.documentElement.setAttribute("data-theme","dark"); else document.documentElement.removeAttribute("data-theme"); }
   if (S.ready && !S.sample) setNote(t("noSample"));
   renderHome(); renderRail(); renderDrawer(); if (S.current && !S.busy) renderStage();
 }
@@ -1140,7 +1368,18 @@ function setPro(on){ S.pro=!!on; const b=$("#proBtn"); b.textContent=S.pro?"PRO"
 function enablePreview(){ $("#proBtn").hidden=false; setPro(S.proPreview); }
 $("#proBtn").addEventListener("click",()=>setPro(!S.pro));
 $("#legal").addEventListener("click",e=>{ if(e.target===e.currentTarget) e.currentTarget.close(); });
-$("#langBtn").addEventListener("click",()=>{ S.lang=S.lang==="he"?"en":"he"; try{localStorage.setItem("wz.lang",S.lang)}catch(e){} applyLang(); });
+const langOpts=()=>LANGS.map(([k,name,code])=>`<button class="lopt" type="button" role="menuitemradio" data-lang="${k}" aria-checked="${k===S.lang}" lang="${k}" dir="${k==="he"?"rtl":"ltr"}"><span>${name}</span><small>${code}</small></button>`).join("");
+const isSheet=()=>matchMedia("(max-width:699px)").matches;
+function closeLangMenu(){ const m=$("#langMenu"); if(!m.hidden){ m.hidden=true; $("#langBtn").setAttribute("aria-expanded","false"); } }
+function setLang(k){ if(!LANGS.some(x=>x[0]===k)) return; closeLangMenu(); const d=$("#langSheet"); if(d.open) d.close(); if(k===S.lang) return; S.lang=k; try{localStorage.setItem("wz.lang",k)}catch(e){} applyLang(); }
+$("#langBtn").addEventListener("click",e=>{ e.stopPropagation();
+  if (isSheet()){ $("#langList").innerHTML=langOpts(); const d=$("#langSheet"); d.dir=S.lang==="he"?"rtl":"ltr"; $("#langTitle").textContent=t("langT"); if(d.showModal) d.showModal(); else d.setAttribute("open",""); return; }
+  const m=$("#langMenu"); if(!m.hidden){ closeLangMenu(); return; } m.innerHTML=langOpts(); m.hidden=false; $("#langBtn").setAttribute("aria-expanded","true"); m.querySelector('[aria-checked="true"]')?.focus({preventScroll:true}); });
+$("#langMenu").addEventListener("click",e=>{ const b=e.target.closest("[data-lang]"); if(b) setLang(b.dataset.lang); });
+$("#langList").addEventListener("click",e=>{ const b=e.target.closest("[data-lang]"); if(b) setLang(b.dataset.lang); });
+$("#langSheet").addEventListener("click",e=>{ if(e.target===e.currentTarget) e.currentTarget.close(); });
+document.addEventListener("click",e=>{ if(!e.target.closest("#langMenu")) closeLangMenu(); });
+document.addEventListener("keydown",e=>{ if(e.key==="Escape"){ closeLangMenu(); } });
 $("#themeBtn").addEventListener("click",()=>{ const m=$("#themeBtn .ic"); if(m){ m.classList.remove("spin"); void m.getBoundingClientRect(); m.classList.add("spin"); } const root=document.documentElement, cur=root.getAttribute("data-theme")||(matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light"); const next=cur==="dark"?"light":"dark"; root.setAttribute("data-theme",next); try{localStorage.setItem("wz.theme",next)}catch(e){} });
 
 hydrateIcons(); applyLang();
