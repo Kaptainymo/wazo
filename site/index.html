@@ -493,7 +493,7 @@ en:{
 Object.assign(T.he, {editIdea:"ערוך את הרעיון", reviewedCap:"שורות נקראו", scrollHint:"גלול", swipeHint:"החלק ←→", rowsScores:"ציונים", rowsMoney:"החשבון", rowsTest:"מבחן 7 ימים", rowsFine:"פירוט", rowsTotal:"השורה התחתונה", lockedS:"נעול", base:"בסיס", graves:"קברים", rivals:"מתחרים", howEy:"על הקבלה", feedEy:"מהעולם", drEy:"שלך", saveImg:"שמור תמונה", imgMaking:"מכין תמונה…", imgSaved:"התמונה נשמרה", imgFail:"לא הצלחתי לשמור את התמונה. נסה שוב.", imgFoot:"Wazo · חוות דעת אמיתית על הרעיון שלך", gateT:"השורה התחתונה שמורה לרשומים", gateS:"הרשמה חינם. הוואזו הראשון עלינו.", gName:"שם", gEmail:"אימייל", gMk:"שלחו לי עדכונים והצעות של Wazo", gGo:"פתח את השורה התחתונה", gPriv:"רק Wazo רואה את הפרטים. בלי ספאם.", gBad:"צריך אימייל תקין.", lockGate:"הרשמה חינם", plansT:"הוואזו הבא", plansS:"בקרוב. בחר מה מתאים לך ונשמור לך מחיר השקה.", planHold:"שמור לי", planHeld:"נשמר ✓", plans:[["one","וואזו אחד","₪19"],["pack","5 וואזו","₪69"],["pro","Pro, ללא הגבלה","₪49 לחודש"]]});
 Object.assign(T.en, {editIdea:"Edit the idea", reviewedCap:"lines reviewed", scrollHint:"Scroll", swipeHint:"Swipe ←→", rowsScores:"Scores", rowsMoney:"The money", rowsTest:"7-day test", rowsFine:"Fine print", rowsTotal:"The bottom line", lockedS:"locked", base:"base", graves:"graves", rivals:"rivals", howEy:"On the receipt", feedEy:"From the world", drEy:"Yours", saveImg:"Save image", imgMaking:"Preparing image…", imgSaved:"Image saved", imgFail:"Couldn't save the image. Try again.", imgFoot:"Wazo · A real opinion on your idea", gateT:"The bottom line is for members", gateS:"Free sign up. Your first wazo is on us.", gName:"Name", gEmail:"Email", gMk:"Send me Wazo updates and offers", gGo:"Unlock the bottom line", gPriv:"Only Wazo sees this. No spam.", gBad:"Enter a valid email.", lockGate:"free sign up", plansT:"Your next wazo", plansS:"Coming soon. Pick what fits and we'll hold a launch price for you.", planHold:"Hold it for me", planHeld:"Held ✓", plans:[["one","One wazo","₪19"],["pack","5 wazos","₪69"],["pro","Pro, unlimited","₪49/mo"]]});
 const EXAMPLE = {
-he:{idea:"שירות AI שבוחר ושולח מתנות חג לעובדים בחברות הייטק ישראליות",verdict:"PIVOT",
+he:{idea:"שירות AI שבוחר ושולח מתנות חג לעובדים בחברות הייטק ישראליות",title:"מתנות חג ב-AI",verdict:"PIVOT",
  headline:"התקציב אמיתי, אבל הוא מוצא פעמיים בשנה, ולקונה כבר יש ספק.",deciding:"אחוז זכייה מעל 15% מול ספקי שוברי המתנה הקיימים.",
  tip:"תמכור רגעים לאורך כל השנה, קליטה, ימי הולדת, לידה, חזרה ממילואים, כמנוי ל-HR.",
  scores:[{key:"pain",score:6,grade:"B",evidence:"חברות מוציאות על מתנות חג כל שנה. הכאב הוא הטרחה, לא ההוצאה."},{key:"demand",score:7,grade:"B",evidence:"מתנות חג הן נוהג כמעט אוניברסלי בחברות ישראליות."},{key:"space",score:3,grade:"A",evidence:"שוברי מתנה וספקי מארזים מחזיקים את התקציב הזה שנים."},{key:"pay",score:6,grade:"C",evidence:"משלמים על מתנות; על מנוי, לא הוכח."}],
@@ -504,7 +504,7 @@ he:{idea:"שירות AI שבוחר ושולח מתנות חג לעובדים ב�
  israel:"נוהג חזק ושוק קטן: כמה אלפי חברות בטווח 50 עד 300 עובדים. מתנות מעל סכום מסוים חייבות במס לעובד, בדוק את התקרה העדכנית והפוך את זה לפיצ׳ר.",
  fit:"דורש מכירות B2B ותפעול ספקים. תקציב סביר: ₪20 עד 40 אלף לחצי השנה הראשונה.",
  kill:{action:"פנה ל-30 מנהלי HR בחברות של 50 עד 300 עובדים עם פיילוט חינמי של מתנות יום הולדת לחודש.",budget:300,pass:"5 מסכימים לשיחה, 2 מסכימים לשלם מהחודש השני."}},
-en:{idea:"An AI service that picks and ships holiday gifts to employees at Israeli tech companies",verdict:"PIVOT",
+en:{idea:"An AI service that picks and ships holiday gifts to employees at Israeli tech companies",title:"AI Holiday Gifting",verdict:"PIVOT",
  headline:"The budget is real, but it's spent twice a year, and the buyer already has a vendor.",deciding:"A win rate above 15% against the gift-voucher vendors they already use.",
  tip:"Sell year-round moments, onboarding, birthdays, new babies, returns from reserve duty, to HR as a subscription.",
  scores:[{key:"pain",score:6,grade:"B",evidence:"Companies spend on holiday gifts every year. The pain is the hassle, not the spend."},{key:"demand",score:7,grade:"B",evidence:"Holiday gifts are a near-universal habit at Israeli companies."},{key:"space",score:3,grade:"A",evidence:"Gift vouchers and gift-box vendors have owned this budget for years."},{key:"pay",score:6,grade:"C",evidence:"They pay for gifts; paying for a subscription is unproven."}],
@@ -624,7 +624,7 @@ function norm(b){ b=JSON.parse(JSON.stringify(b||{}), (k,v)=>typeof v==="string"
   const scores=["pain","demand","space","pay"].map(k=>{const s=(Array.isArray(b.scores)?b.scores:[]).find(x=>x&&x.key===k)||{};
     return {key:k,score:Math.max(1,Math.min(10,Math.round(n(s.score)||1))),grade:["A","B","C","D"].includes(s.grade)?s.grade:"D",evidence:String(s.evidence||"")};});
   const m=b.money||{}, k=b.kill||{};
-  return {idea:String(b.idea||""),verdict:V.includes(b.verdict)?b.verdict:"PIVOT",headline:String(b.headline||""),deciding:String(b.deciding||""),tip:b.tip?String(b.tip):"",
+  return {idea:String(b.idea||""),title:String(b.title||"").replace(/[.־–—-]+$/,"").trim().slice(0,40),verdict:V.includes(b.verdict)?b.verdict:"PIVOT",headline:String(b.headline||""),deciding:String(b.deciding||""),tip:b.tip?String(b.tip):"",
     scores,money:{price:n(m.price),low:n(m.low),base:n(m.base),high:n(m.high),breaker:String(m.breaker||"")},
     graveyard:(Array.isArray(b.graveyard)?b.graveyard:[]).slice(0,4).map(g=>({name:String(g.name||""),why:String(g.why||"")})),
     competition:(Array.isArray(b.competition)?b.competition:[]).slice(0,5).map(c=>({name:String(c.name||""),note:String(c.note||"")})),
@@ -632,6 +632,8 @@ function norm(b){ b=JSON.parse(JSON.stringify(b||{}), (k,v)=>typeof v==="string"
     kill:{action:String(k.action||""),budget:Math.min(b.cur==="$"?200:700,n(k.budget)),pass:String(k.pass||"")}};
 }
 function hash(s){ let h=2166136261; for (const c of String(s)) { h^=c.charCodeAt(0); h=Math.imul(h,16777619); } return h>>>0; }
+function ideaTitle(b){ if(b.title) return b.title; const w=String(b.idea||"").replace(/[.,;:!?]/g,"").split(/\s+/).filter(Boolean); return w.slice(0,4).join(" ")+(w.length>4?"…":""); }
+function fileSlug(str){ return String(str||"").replace(/…/g,"").trim().toLowerCase().replace(/[^\p{L}\p{N}]+/gu,"-").replace(/^-+|-+$/g,"").slice(0,40)||"idea"; }
 function receiptNo(seed){ return String(hash(seed)%1000000).padStart(6,"0"); }
 
 /* ---------- navigation: home bands + full-screen panels ---------- */
@@ -911,7 +913,9 @@ async function receiptImage(b,o){
   txt("WAZO",'700 44px '+SANS,FG,S0,y);
   x.save(); x.direction="ltr"; x.globalAlpha=.6; txt(`#${receiptNo(seed)} · ${dt}`,'500 24px '+MONO,FG,E0,y,rtl?"left":"right"); x.restore();
   y+=92;
-  x.font='600 50px '+SANS; wrapLines(x,b.idea,IW,3).forEach(l=>{ txt(l,'600 50px '+SANS,FG,S0,y); y+=62; });
+  const ttl=ideaTitle(b); let tf=76; x.font=`700 ${tf}px ${WIDE}`; while(x.measureText(ttl).width>IW && tf>44){ tf-=4; x.font=`700 ${tf}px ${WIDE}`; }
+  wrapLines(x,ttl,IW,1).forEach(l=>{ txt(l,`700 ${tf}px ${WIDE}`,FG,S0,y+8); }); y+=72;
+  x.save(); x.globalAlpha=.78; x.font='500 34px '+SANS; wrapLines(x,b.idea,IW,2).forEach(l=>{ txt(l,'500 34px '+SANS,FG,S0,y); y+=46; }); x.restore();
   y+=18; rule(y); y+=72;
   b.scores.forEach(sc=>{
     txt(L.sc[sc.key],'500 34px '+SANS,FG,S0,y);
@@ -931,7 +935,7 @@ async function saveImage(b,o,btn){
   try{
     const canvas=await receiptImage(b,o);
     const blob=await new Promise((res,rej)=>canvas.toBlob(bl=>bl?res(bl):rej(new Error("blob")),"image/png"));
-    const name=`wazo-${receiptNo(o.id||b.idea)}.png`;
+    const name=`wazo-${fileSlug(ideaTitle(b))}-${b.verdict.toLowerCase()}.png`;
     if (window.claude && window.claude.use){
       const dl=await claude.use("downloads");
       if (dl){ try{ await dl.save({filename:name,data:blob}); say(t("imgSaved")); }catch(e){ say(e&&e.code==="declined"?"":t("imgFail")); } return; }
@@ -1007,7 +1011,7 @@ Rules:
 Idea: ${idea}
 ${cust?`Target customer: ${cust}\n`:""}${bud?`Founder budget for first 6 months: ${bud} ${cur}\n`:""}${time?`Founder time per week: ${time}\n`:""}
 Reply with only one JSON object in exactly this shape:
-{"idea":"one-line restatement of the idea","verdict":"PIVOT","headline":"one blunt sentence","deciding":"the one assumption everything rests on","tip":"","scores":[{"key":"pain","score":6,"grade":"B","evidence":"..."},{"key":"demand","score":5,"grade":"C","evidence":"..."},{"key":"space","score":3,"grade":"B","evidence":"..."},{"key":"pay","score":4,"grade":"C","evidence":"..."}],"money":{"price":150,"low":10,"base":40,"high":120,"breaker":"..."},"graveyard":[{"name":"...","why":"..."}],"competition":[{"name":"...","note":"..."}],"gap":"...","israel":"...","fit":"...","kill":{"action":"...","budget":${he?300:100},"pass":"..."}}
+{"idea":"one-line restatement of the idea","title":"a catchy 2-4 word name for the idea","verdict":"PIVOT","headline":"one blunt sentence","deciding":"the one assumption everything rests on","tip":"","scores":[{"key":"pain","score":6,"grade":"B","evidence":"..."},{"key":"demand","score":5,"grade":"C","evidence":"..."},{"key":"space","score":3,"grade":"B","evidence":"..."},{"key":"pay","score":4,"grade":"C","evidence":"..."}],"money":{"price":150,"low":10,"base":40,"high":120,"breaker":"..."},"graveyard":[{"name":"...","why":"..."}],"competition":[{"name":"...","note":"..."}],"gap":"...","israel":"...","fit":"...","kill":{"action":"...","budget":${he?300:100},"pass":"..."}}
 graveyard: 2-3 entries. competition: 2-4 entries.`;
 }
 const errCopy=c=>({not_granted:t("errGranted"),sampling_disabled:t("errGranted"),rate_limited:t("errRate"),invalid_json:t("errJson"),refused:t("errRefused")}[c]||t("errGeneric"));
