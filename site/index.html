@@ -560,8 +560,8 @@ const FEED = [
 ];
 
 
-Object.assign(T.he, {back:"חזרה", bIdea:"הרעיון שלך", bIdeaBig:"כתוב רעיון.", bIdeaSub:"ניתוח חכם: ציונים, חשבון ומבחן של 7 ימים. ובסוף, פסק דין.", bEx:"דוגמאות", bExBig:"וואזו מהעולם", bMine:"שלך", bMineBig:"הוואזו שלך", ideaPh:"אפליקציה שהופכת הקלטה של קבלן בשטח להצעת מחיר", openFull:"וואזו מלא", unit:"לחודש, בסיס", unitTest:"7 ימים", unitFine:"קברים · מתחרים", unitScores:"כאב · ביקוש · שטח · תשלום", del:"מחק", sure:"בטוח?", plans:[["one","וואזו אחד","₪19"],["pack","5 וואזו","₪69"],["pro","Pro, ללא הגבלה","₪49 לחודש"]]});
-Object.assign(T.en, {back:"Back", bIdea:"Your idea", bIdeaBig:"Type your idea.", bIdeaSub:"A smart analysis: scores, the money and a 7-day test. Then a verdict.", bEx:"Examples", bExBig:"world wazos", bMine:"Yours", bMineBig:"your wazos", ideaPh:"An app that turns a contractor's voice note into a quote", openFull:"Full wazo", unit:"per month, base", unitTest:"7 days", unitFine:"graves · rivals", unitScores:"pain · demand · space · pay", del:"Delete", sure:"Sure?", fBudget:"Budget for 6 months ($)", phBudget:"e.g. 10,000", plans:[["one","One wazo","$5"],["pack","5 wazos","$19"],["pro","Pro, unlimited","$13/mo"]]});
+Object.assign(T.he, {tryIdea:"נסה את הרעיון הזה", back:"חזרה", bIdea:"הרעיון שלך", bIdeaBig:"כתוב רעיון.", bIdeaSub:"ניתוח חכם: ציונים, חשבון ומבחן של 7 ימים. ובסוף, פסק דין.", bEx:"דוגמאות", bExBig:"וואזו מהעולם", bMine:"שלך", bMineBig:"הוואזו שלך", ideaPh:"אפליקציה שהופכת הקלטה של קבלן בשטח להצעת מחיר", openFull:"וואזו מלא", unit:"לחודש, בסיס", unitTest:"7 ימים", unitFine:"קברים · מתחרים", unitScores:"כאב · ביקוש · שטח · תשלום", del:"מחק", sure:"בטוח?", plans:[["one","וואזו אחד","₪19"],["pack","5 וואזו","₪69"],["pro","Pro, ללא הגבלה","₪49 לחודש"]]});
+Object.assign(T.en, {tryIdea:"Try this idea", back:"Back", bIdea:"Your idea", bIdeaBig:"Type your idea.", bIdeaSub:"A smart analysis: scores, the money and a 7-day test. Then a verdict.", bEx:"Examples", bExBig:"world wazos", bMine:"Yours", bMineBig:"your wazos", ideaPh:"An app that turns a contractor's voice note into a quote", openFull:"Full wazo", unit:"per month, base", unitTest:"7 days", unitFine:"graves · rivals", unitScores:"pain · demand · space · pay", del:"Delete", sure:"Sure?", fBudget:"Budget for 6 months ($)", phBudget:"e.g. 10,000", plans:[["one","One wazo","$5"],["pack","5 wazos","$19"],["pro","Pro, unlimited","$13/mo"]]});
 T.en.r.il="Market lens";
 Object.assign(T.he,{proOnly:"Pro", pwT:"הניתוח המלא ב-Pro", pwS:"מבחן 7 ימים מוכן לביצוע, בית הקברות, המתחרים, העדשה הישראלית ומי צריך לבנות את זה.", pwPrice:"₪49", pwPer:"לחודש, ללא הגבלת וואזו", pwGo:"שמור לי מחיר השקה", pwHeld:"מחיר ההשקה שמור לך", pwNote:"בקרוב. לא ייגבה ממך כסף עכשיו.",
  teamsBtn:"שדרג לצוותים ותוכניות", teamsT:"Wazo לצוותים ותוכניות", teamsLead:"לאקסלרטורים, תוכניות יזמות וצוותי חדשנות: כל המחזור מקבל Wazo, ואתם רואים את כל הרעיונות במקום אחד.",
@@ -1063,7 +1063,7 @@ function renderRail(){
   $("#rail").innerHTML=FEED.map((f,i)=>{const x=f[S.lang]; return `<article class="xc ${VCLS(f.v)}">
     <span class="cat">${esc(x.cat)}</span><h3>${esc(x.t)}</h3><p>${esc(x.l)}</p>
     <span class="xw">${esc(L.vWord[f.v])}</span>
-    <button class="cta" type="button" data-feed="${i}"><span>${esc(t("openFull"))}</span>${ic("arrow")}</button></article>`;}).join("");
+    <button class="cta" type="button" data-feed="${i}"><span>${esc(t(window.claude?"openFull":"tryIdea"))}</span>${ic("arrow")}</button></article>`;}).join("");
 }
 function updExCount(){
   const r=$("#rail"), w=r.firstElementChild?.getBoundingClientRect().width||1;
@@ -1071,7 +1071,9 @@ function updExCount(){
   $("#exCount").textContent=String(i+1).padStart(2,"0")+"/"+String(FEED.length).padStart(2,"0");
 }
 $("#rail").addEventListener("scroll", ()=>requestAnimationFrame(()=>{ updExCount(); railFx(); }), {passive:true});
-$("#rail").addEventListener("click", e=>{ const b=e.target.closest("[data-feed]"); if(!b) return; $("#idea").value=FEED[+b.dataset.feed].idea[S.lang]; runVerdict(); });
+$("#rail").addEventListener("click", e=>{ const b=e.target.closest("[data-feed]"); if(!b) return; const ta=$("#idea"); ta.value=FEED[+b.dataset.feed].idea[S.lang]; ta.dispatchEvent(new Event("input",{bubbles:true}));
+  if (!S.sample && !window.claude){ go("idea"); setTimeout(()=>{ try{ ta.focus({preventScroll:true}); ta.setSelectionRange(ta.value.length,ta.value.length); }catch(_){} },450); return; }
+  runVerdict(); });
 
 /* ---------- yours (db) ---------- */
 const col=()=>S.db.collection("data/users/"+S.uid);
