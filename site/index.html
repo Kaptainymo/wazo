@@ -136,7 +136,7 @@ textarea#idea:focus{outline:none}
 .rv{font-weight:500;font-size:clamp(34px,10vw,56px);line-height:1;letter-spacing:-.045em;font-variant-numeric:tabular-nums;direction:ltr;text-align:end;white-space:nowrap}
 .rv.dim{opacity:.28}
 .rv sub{font-size:.36em;letter-spacing:0;vertical-align:baseline;opacity:.7;margin-inline-start:4px}
-.rrow.final .rv.word{font-family:var(--f-wide);font-weight:600;font-size:clamp(30px,9vw,56px);letter-spacing:-.01em;direction:inherit}
+.rrow.final .rv.word{font-family:var(--f-wide);font-weight:600;font-size:clamp(30px,9vw,56px);letter-spacing:-.01em;direction:inherit;white-space:nowrap}
 .rb{display:grid;grid-template-rows:0fr;transition:grid-template-rows .45s var(--ease)}
 .rrow.open .rb{grid-template-rows:1fr}
 .rb>div{overflow:hidden}
@@ -216,7 +216,10 @@ textarea#idea:focus{outline:none}
 .xc .cat{font-family:var(--f-mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;opacity:.7}
 .xc h3{margin:6px 0 0;font-weight:600;font-size:clamp(28px,7.4vw,40px);line-height:1.05;letter-spacing:-.035em}
 .xc p{margin:0;font-size:15px;line-height:1.45;opacity:.85}
-.xc .xw{margin-top:auto;font-family:var(--f-wide);font-weight:600;font-size:clamp(34px,10vw,52px);line-height:1;overflow-wrap:anywhere}
+.xc .xw{margin-top:auto;font-family:var(--f-wide);font-weight:600;font-size:clamp(34px,10vw,52px);line-height:1;white-space:nowrap}
+.xc{cursor:pointer;-webkit-tap-highlight-color:transparent}
+.xc:focus-visible{outline:3px solid var(--ink);outline-offset:3px}
+.xc:active .cta{transform:scale(.97)}
 .xc .cta{background:currentColor;align-self:stretch}
 .xc .cta span{filter:invert(1)}
 .xc.build .cta{background:var(--build-ink);color:var(--build)} .xc.pivot .cta{background:var(--pivot-ink);color:var(--pivot)} .xc.kill .cta{background:var(--kill-ink);color:var(--kill)}
@@ -879,7 +882,8 @@ function show(v){
   TAP=null;
   document.documentElement.classList.toggle("lock", !!S.view);
   if (S.view==="idea") setTimeout(()=>{ $("#idea").focus({preventScroll:true}); fitIdea(); }, 60);
-  if (S.view==="examples") { $("#rail").scrollLeft=0; updExCount(); requestAnimationFrame(railFx); }
+  if (S.view==="examples") { $("#rail").scrollLeft=0; updExCount(); requestAnimationFrame(()=>{ fitWords(); railFx(); }); setTimeout(fitWords,500); }
+  if (S.view==="receipt") setTimeout(fitWords,60);
   if (S.view==="mine") renderDrawer();
   if (S.view==="receipt" && !S.current && !S.busy) { S.view=""; show(""); }
 }
@@ -918,6 +922,17 @@ function renderHome(){
   addEventListener("pointermove",e=>{ if(e.pointerType!=="mouse") return; px=e.clientX/innerWidth-.5; py=e.clientY/innerHeight-.5; if(!raf) raf=requestAnimationFrame(apply); },{passive:true});
   addEventListener("deviceorientation",e=>{ if(e.gamma==null) return; px=Math.max(-.5,Math.min(.5,e.gamma/40)); py=Math.max(-.5,Math.min(.5,(e.beta-45)/40)); if(!raf) raf=requestAnimationFrame(apply); },{passive:true});
 })();
+/* keep big verdict words on one line: shrink to fit */
+function textW(el){ const r=document.createRange(); r.selectNodeContents(el); const c=el.closest(".xc"); const k=c&&c.offsetWidth?c.getBoundingClientRect().width/c.offsetWidth:1; return r.getBoundingClientRect().width/(k||1); }
+function fitWord(el,maxW){ if(!el||maxW<=0) return; el.style.fontSize=""; let fs=parseFloat(getComputedStyle(el).fontSize), g=40; while(textW(el)>maxW && fs>16 && g--){ fs-=2; el.style.fontSize=fs+"px"; } }
+function fitWords(){
+  document.querySelectorAll(".xc .xw").forEach(w=>{ const c=w.parentElement, cs=getComputedStyle(c); fitWord(w, c.clientWidth-parseFloat(cs.paddingLeft)-parseFloat(cs.paddingRight)-20); });
+  const v=document.getElementById("vword"); if(v){ const row=v.closest(".rrow"); if(row) fitWord(v, row.clientWidth*0.62); }
+  document.querySelectorAll(".mw").forEach(w=>{ const c=w.parentElement; if(c) fitWord(w, c.clientWidth*0.9); });
+}
+let fitQ=0; const fitSoon=()=>{ if(fitQ) return; fitQ=requestAnimationFrame(()=>{ fitQ=0; fitWords(); }); };
+addEventListener("resize",fitSoon);
+try{ document.fonts.ready.then(fitSoon); }catch(e){}
 function railFx(){
   if (calm()) return; const r=$("#rail"), rr=r.getBoundingClientRect(), cx=rr.left+rr.width/2;
   r.querySelectorAll(".xc").forEach(c=>{ const b=c.getBoundingClientRect(), d=Math.max(-1.4,Math.min(1.4,(b.left+b.width/2-cx)/b.width));
@@ -1289,10 +1304,10 @@ $("#idea").addEventListener("input", fitIdea);
 /* ---------- examples rail ---------- */
 function renderRail(){
   const L=T[S.lang];
-  $("#rail").innerHTML=FEED.map((f,i)=>{const x=f[S.lang]; return `<article class="xc ${VCLS(f.v)}">
+  $("#rail").innerHTML=FEED.map((f,i)=>{const x=f[S.lang]; return `<article class="xc ${VCLS(f.v)}" data-feed="${i}" role="button" tabindex="0" aria-label="${esc(x.t)}">
     <span class="cat">${esc(x.cat)}</span><h3>${esc(x.t)}</h3><p>${esc(x.l)}</p>
     <span class="xw">${esc(L.vWord[f.v])}</span>
-    <button class="cta" type="button" data-feed="${i}"><span>${esc(t(window.claude?"openFull":"tryIdea"))}</span>${ic("arrow")}</button></article>`;}).join("");
+    <button class="cta" type="button" tabindex="-1"><span>${esc(t(window.claude?"openFull":"tryIdea"))}</span>${ic("arrow")}</button></article>`;}).join("");
 }
 function updExCount(){
   const r=$("#rail"), w=r.firstElementChild?.getBoundingClientRect().width||1;
@@ -1300,6 +1315,7 @@ function updExCount(){
   $("#exCount").textContent=String(i+1).padStart(2,"0")+"/"+String(FEED.length).padStart(2,"0");
 }
 $("#rail").addEventListener("scroll", ()=>requestAnimationFrame(()=>{ updExCount(); railFx(); }), {passive:true});
+$("#rail").addEventListener("keydown", e=>{ if((e.key==="Enter"||e.key===" ") && e.target.matches(".xc")){ e.preventDefault(); e.target.click(); } });
 $("#rail").addEventListener("click", e=>{ const b=e.target.closest("[data-feed]"); if(!b) return; const ta=$("#idea"); ta.value=FEED[+b.dataset.feed].idea[S.lang]; ta.dispatchEvent(new Event("input",{bubbles:true}));
   if (!S.sample && !window.claude){ go("idea"); setTimeout(()=>{ try{ ta.focus({preventScroll:true}); ta.setSelectionRange(ta.value.length,ta.value.length); }catch(_){} },450); return; }
   runVerdict(); });
@@ -1386,6 +1402,8 @@ document.addEventListener("keydown",e=>{ if(e.key==="Escape"){ closeLangMenu(); 
 $("#themeBtn").addEventListener("click",()=>{ const m=$("#themeBtn .ic"); if(m){ m.classList.remove("spin"); void m.getBoundingClientRect(); m.classList.add("spin"); } const root=document.documentElement, cur=root.getAttribute("data-theme")||(matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light"); const next=cur==="dark"?"light":"dark"; root.setAttribute("data-theme",next); try{localStorage.setItem("wz.theme",next)}catch(e){} });
 
 hydrateIcons(); applyLang();
+["#rail","#stage","#drawerList"].forEach(sel=>{ const n=document.querySelector(sel); if(n) new MutationObserver(fitSoon).observe(n,{childList:true,subtree:true}); });
+fitSoon();
 if (location.hash==="#demo" && !window.claude){ S.current=norm({...EXAMPLE[S.lang],cur:CUR()}); S.isExample=false; S.optin=false; history.replaceState(null,"","#receipt"); enablePreview(); }
 show(location.hash.slice(1)); if (S.current) renderStage();
 (async()=>{
