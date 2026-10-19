@@ -817,7 +817,7 @@ EXAMPLE.fr={idea:"Un service d'IA qui choisit et envoie des cadeaux de fin d'ann
 
 const LANGS=[["en","English","EN"],["es","Español","ES"],["fr","Français","FR"],["he","עברית","עב"]];
 const LOC={he:"he-IL",en:"en-GB",es:"es-ES",fr:"fr-FR"};
-Object.assign(T.he,{langT:"שפה"}); Object.assign(T.en,{langT:"Language"}); Object.assign(T.es,{langT:"Idioma"}); Object.assign(T.fr,{langT:"Langue"});
+Object.assign(T.he,{langT:"שפה",copiedGo:"הרעיון הועתק. הדבק אותו ב-Wazo שנפתח ב-claude.ai."}); Object.assign(T.en,{langT:"Language",copiedGo:"Your idea is copied. Paste it into Wazo on claude.ai."}); Object.assign(T.es,{langT:"Idioma",copiedGo:"Tu idea está copiada. Pégala en Wazo en claude.ai."}); Object.assign(T.fr,{langT:"Langue",copiedGo:"Votre idée est copiée. Collez-la dans Wazo sur claude.ai."});
 for (let i=FEED.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [FEED[i],FEED[j]]=[FEED[j],FEED[i]]; }
 const CUR = () => S.lang==="he" ? "₪" : S.lang==="en" ? "$" : "€";
 const CAP = () => S.lang==="he" ? 700 : 200;
@@ -1261,7 +1261,15 @@ graveyard: 2-3 entries. competition: 2-4 entries.`;
 const errCopy=c=>({not_granted:t("errGranted"),sampling_disabled:t("errGranted"),rate_limited:t("errRate"),invalid_json:t("errJson"),refused:t("errRefused")}[c]||t("errGeneric"));
 async function runVerdict(){
   const idea=$("#idea").value.trim();
-  if (!S.sample && !window.claude){ window.open(LIVE,"_blank","noopener"); return; }
+  if (!S.sample && !window.claude){
+    if (idea){
+      const extra=[["fCust","fCust"],["fBudget","fBudget"],["fTime","fTime"]].map(([id,k])=>{ const v=$("#"+id).value.trim(); return v?`${t(k)}: ${v}`:""; }).filter(Boolean);
+      const txt=[idea,...extra].join("\n");
+      let ok=false; try{ if(navigator.clipboard&&navigator.clipboard.writeText){ navigator.clipboard.writeText(txt).catch(()=>{}); ok=true; } }catch(e){}
+      if(!ok){ try{ const ta=document.createElement("textarea"); ta.value=txt; ta.style.cssText="position:fixed;opacity:0"; document.body.appendChild(ta); ta.select(); document.execCommand("copy"); ta.remove(); ok=true; }catch(e){} }
+      setNote(ok?t("copiedGo"):t("noSample"));
+    }
+    window.open(LIVE,"_blank","noopener"); return; }
   if (!idea){ setNote(t("needIdea"),true); go("idea"); $("#idea").focus(); return; }
   if (!S.sample){ setNote(t("noSample")); return; }
   if (S.busy) return;
