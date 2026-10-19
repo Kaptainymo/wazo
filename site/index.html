@@ -1,5 +1,5 @@
 <!doctype html>
-<html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<html lang="en" data-theme="dark"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Wazo</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -365,7 +365,7 @@ dialog.sheet[open]::backdrop{animation:fadeIn .3s ease both}
 </style>
 </head><body>
 
-<div id="app" dir="rtl" lang="he">
+<div id="app" dir="ltr" lang="en">
 <nav class="top"><div class="in">
   <a class="brand" href="#" aria-label="Wazo"><b>WAZO</b><sup>®</sup></a>
   <div class="navr">
@@ -822,7 +822,7 @@ for (let i=FEED.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [FEE
 const CUR = () => S.lang==="he" ? "₪" : S.lang==="en" ? "$" : "€";
 const CAP = () => S.lang==="he" ? 700 : 200;
 
-const S = { lang:"he", sample:null, db:null, uid:null, current:null, currentId:null, isExample:false, mine:[], mineLoaded:false, ctl:null, timer:null, busy:false, savedNote:"", confirmDel:null, ready:false, rev:new Set(), open:0, lastCnt:0, optin:false, me:{name:"",email:""}, plan:"", stampHit:false, view:"" };
+const S = { lang:"en", sample:null, db:null, uid:null, current:null, currentId:null, isExample:false, mine:[], mineLoaded:false, ctl:null, timer:null, busy:false, savedNote:"", confirmDel:null, ready:false, rev:new Set(), open:0, lastCnt:0, optin:false, me:{name:"",email:""}, plan:"", stampHit:false, view:"" };
 try { const l=localStorage.getItem("wz.lang"); if (LANGS.some(x=>x[0]===l)) S.lang=l; } catch(e){}
 try { const th=localStorage.getItem("wz.theme"); if (th==="light"||th==="dark") document.documentElement.setAttribute("data-theme",th); } catch(e){}
 try { if (localStorage.getItem("wz.optin")==="1") S.optin=true; S.plan=localStorage.getItem("wz.plan")||""; S.proPreview=localStorage.getItem("wz.pro")==="1"; } catch(e){}
