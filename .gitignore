@@ -1,0 +1,7 @@
+.DS_Store
+.vercel
+node_modules
+*.mp4
+data/
+*.csv
+.env*
