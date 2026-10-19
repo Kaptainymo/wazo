@@ -42,6 +42,9 @@ nav.top .in{display:flex;align-items:center;justify-content:space-between;height
 .brand{font-weight:700;font-size:19px;letter-spacing:-.02em;direction:ltr;text-decoration:none;color:inherit;display:flex;gap:2px;align-items:flex-start}
 .brand sup{font-size:9px;margin-top:3px}
 .navr{display:flex;gap:6px;align-items:center;position:relative}
+.ts{position:fixed;left:50%;bottom:calc(16px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);z-index:80}
+.ts:empty{display:none}
+#ideaPlans,#gatePlans{margin-top:14px}
 .langmenu{position:absolute;top:calc(100% + 10px);inset-inline-end:0;min-width:220px;background:var(--b1);color:var(--b1-ink);border-radius:18px;padding:6px;box-shadow:0 18px 50px rgba(0,0,0,.28);border:1px solid color-mix(in srgb,currentColor 14%,transparent);z-index:40;transform-origin:top right;animation:menuIn .24s var(--ease) both}
 [dir=rtl] .langmenu{transform-origin:top left}
 @keyframes menuIn{from{opacity:0;transform:translateY(-6px) scale(.96)}to{opacity:1;transform:none}}
@@ -75,6 +78,14 @@ nav.top .in{display:flex;align-items:center;justify-content:space-between;height
 .b-arrow{position:absolute;top:18px;inset-inline-end:max(20px,env(safe-area-inset-right,0px));font-size:22px;opacity:.55}
 
 .b-sub{font-size:14px;opacity:.65;max-width:34ch}
+/* Layout B (test): idea 50%, examples 25%, yours 25% of the screen */
+.lay-b .bands{height:calc(100dvh - 56px - env(safe-area-inset-top,0px));min-height:560px;flex-direction:column!important;flex-wrap:nowrap!important}
+.lay-b .b-idea{flex:2 1 0!important;min-height:0!important}
+.lay-b .b-ex,.lay-b .b-mine{flex:1 1 0!important;min-height:0!important;overflow:hidden;gap:10px;padding-top:16px;padding-bottom:16px;border-top:1px solid var(--line)}
+.lay-b .b-ex .b-big,.lay-b .b-mine .b-big{font-size:clamp(34px,8.5vw,60px)}
+.lay-b .b-ex .legend{display:none}
+@media (min-width:900px){.lay-b .b-ex .legend{display:flex}}
+
 .tri{display:flex;height:10px;border-radius:999px;overflow:hidden;width:min(100%,420px)}
 .tri i{display:block}
 .legend{display:flex;gap:14px;font-family:var(--f-mono);font-size:11px;opacity:.75;flex-wrap:wrap}
@@ -377,6 +388,7 @@ dialog.sheet[open]::backdrop{animation:fadeIn .3s ease both}
   </div>
 </div></nav>
 <h1 class="sr" id="h1"></h1>
+<div id="ts" class="ts" aria-live="polite"></div>
 
 <main class="bands" id="home">
   <button class="band b-idea" type="button" data-go="idea">
@@ -438,7 +450,7 @@ dialog.sheet[open]::backdrop{animation:fadeIn .3s ease both}
 <script>
 (() => {
 "use strict";
-const LIVE="https://claude.ai/artifact/YUUhWngteYPkfuk5Szbs1W";
+if(/^\/b\/?$/.test(location.pathname)||/[?&]layout=b\b/.test(location.search)) document.documentElement.classList.add("lay-b");
 const $ = s => document.querySelector(s);
 const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 const calm = () => matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -815,6 +827,41 @@ EXAMPLE.fr={idea:"Un service d'IA qui choisit et envoie des cadeaux de fin d'ann
  fit:"Demande de la vente B2B et de la gestion fournisseurs. Un budget réaliste : €5 000 à €10 000 pour les six premiers mois.",
  kill:{action:"Proposez à 30 responsables RH d'entreprises de 50 à 300 personnes un pilote gratuit d'un mois de cadeaux d'anniversaire.",budget:100,pass:"5 acceptent un appel, 2 acceptent de payer dès le deuxième mois."}};
 
+/* ---------- standalone (usewazo.com) strings ---------- */
+(()=>{
+const W={
+ en:{errBot:"Couldn't confirm you're human. Refresh the page and try again.",errBusy:"Wazo is busy right now. Try again in a few minutes.",errLimit:"That's today's limit. Come back tomorrow.",errLimitAnon:"Free tries are used up for today. Unlock a wazo with your email to keep going.",errNeedPro:"Your free wazo is used. Pro is coming soon: hold your launch price below.",errSetup:"Wazo is warming up. Analyses open very soon.",errTimeout:"The analysis took too long. Press again.",
+  pwT:"Free with your sign-up",pwS:"The 7-day test, the graveyard, the competition and who should build it open with the bottom line.",pwGo:"Unlock free",saved:"Saved on this device",
+  drS:"Every wazo you run is kept here, on this device. Mark how the test ended.",delNo:"Enter the email you signed up with.",gateS:"Free sign up. Your first full wazo is on us.",
+  legal:{0:["How it works","The analysis is written by Claude, an AI model made by Anthropic, through Anthropic's API, from what you typed. It does not browse the web while it judges, so numbers, company names and regulations can be wrong or out of date. Every score carries an evidence grade, A to D, so you can see what it rests on."],
+   2:["Your privacy","Your idea and its analysis are stored on Wazo's servers (Supabase, in the EU) and sent to Anthropic only to produce the analysis. Your wazos are also kept on your device. If you sign up, your name and email are kept to give you access, and only Wazo sees them. Updates and offers are sent only if you ticked the box. We use Cloudflare's bot check and cookie-free analytics. We don't sell data, and your idea stays yours."],
+   3:["Pricing","Your first full wazo is free with your email. Plans marked \"coming soon\" are not purchases: tapping one only records your interest. You will never be charged without explicit approval."],
+   5:["Contact & deletion","Want your details deleted? Enter the email you signed up with, tap the button below, and the request reaches us. Built by WAZO."]}},
+ he:{errBot:"לא הצלחנו לוודא שאתה אנושי. רענן את העמוד ונסה שוב.",errBusy:"Wazo עמוס כרגע. נסה שוב בעוד כמה דקות.",errLimit:"זה הגבול להיום. חזור מחר.",errLimitAnon:"הניסיונות החינמיים להיום נגמרו. פתח וואזו עם האימייל שלך כדי להמשיך.",errNeedPro:"הוואזו החינמי שלך נוצל. Pro בקרוב: שמור לעצמך מחיר השקה למטה.",errSetup:"Wazo מתחמם. הניתוחים ייפתחו ממש בקרוב.",errTimeout:"הניתוח לקח יותר מדי זמן. לחץ שוב.",
+  pwT:"חינם עם הרשמה",pwS:"מבחן 7 הימים, בית הקברות, המתחרים ומי צריך לבנות את זה נפתחים יחד עם השורה התחתונה.",pwGo:"פתח בחינם",saved:"נשמר במכשיר הזה",
+  drS:"כל וואזו שהרצת נשמר כאן, במכשיר הזה. סמן איך נגמר המבחן.",delNo:"הזן את האימייל שנרשמת איתו.",gateS:"הרשמה חינם. הוואזו המלא הראשון עלינו.",
+  legal:{0:["איך זה עובד","הניתוח נכתב על ידי Claude, מודל בינה מלאכותית של Anthropic, דרך ה-API שלה, על בסיס מה שכתבת. הוא לא גולש ברשת בזמן השיפוט, כך שמספרים, שמות חברות ורגולציה עלולים להיות שגויים או לא עדכניים. לכל ציון יש דירוג ראיות, מ-A עד D, כדי שתראה על מה הוא נשען."],
+   2:["הפרטיות שלך","הרעיון והניתוח נשמרים בשרתים של Wazo (Supabase, באירופה) ונשלחים ל-Anthropic רק כדי להפיק את הניתוח. הוואזו שלך נשמרים גם במכשיר שלך. אם נרשמת, השם והאימייל נשמרים כדי לתת לך גישה, ורק Wazo רואה אותם. עדכונים והצעות נשלחים רק אם סימנת את התיבה. אנחנו משתמשים בבדיקת בוטים של Cloudflare ובאנליטיקה בלי עוגיות. אנחנו לא מוכרים מידע, והרעיון שלך נשאר שלך."],
+   3:["מחירים","הוואזו המלא הראשון חינם עם האימייל שלך. תוכניות שמסומנות \"בקרוב\" אינן רכישה: לחיצה עליהן רק שומרת את ההתעניינות שלך. לעולם לא נחייב אותך בלי אישור מפורש."],
+   5:["קשר ומחיקה","רוצה שנמחק את הפרטים שלך? הזן את האימייל שנרשמת איתו, לחץ על הכפתור למטה והבקשה תגיע אלינו. נבנה על ידי WAZO."]}},
+ es:{errBot:"No pudimos confirmar que eres humano. Recarga la página e inténtalo de nuevo.",errBusy:"Wazo está ocupado ahora mismo. Inténtalo en unos minutos.",errLimit:"Ese es el límite de hoy. Vuelve mañana.",errLimitAnon:"Se acabaron los intentos gratis de hoy. Desbloquea un wazo con tu email para seguir.",errNeedPro:"Ya usaste tu wazo gratis. Pro llega pronto: guarda tu precio de lanzamiento abajo.",errSetup:"Wazo está calentando motores. Los análisis abren muy pronto.",errTimeout:"El análisis tardó demasiado. Pulsa de nuevo.",
+  pwT:"Gratis al registrarte",pwS:"La prueba de 7 días, el cementerio, la competencia y quién debería construirlo se abren con la conclusión.",pwGo:"Desbloquear gratis",saved:"Guardado en este dispositivo",
+  drS:"Cada wazo que haces se guarda aquí, en este dispositivo. Marca cómo terminó la prueba.",delNo:"Introduce el email con el que te registraste.",gateS:"Registro gratis. Tu primer wazo completo va por nuestra cuenta.",
+  legal:{0:["Cómo funciona","El análisis lo escribe Claude, un modelo de IA de Anthropic, a través de la API de Anthropic, a partir de lo que escribiste. No navega por la web mientras juzga, así que cifras, nombres de empresas y normativas pueden estar equivocados o desactualizados. Cada puntuación lleva una calificación de evidencia, de A a D, para que veas en qué se apoya."],
+   2:["Tu privacidad","Tu idea y su análisis se guardan en los servidores de Wazo (Supabase, en la UE) y se envían a Anthropic solo para producir el análisis. Tus wazos también se guardan en tu dispositivo. Si te registras, tu nombre y email se guardan para darte acceso, y solo Wazo los ve. Las novedades y ofertas se envían solo si marcaste la casilla. Usamos la verificación antibots de Cloudflare y analítica sin cookies. No vendemos datos y tu idea sigue siendo tuya."],
+   3:["Precios","Tu primer wazo completo es gratis con tu email. Los planes marcados como \"muy pronto\" no son compras: tocarlos solo registra tu interés. Nunca se te cobrará sin tu aprobación explícita."],
+   5:["Contacto y borrado","¿Quieres que borremos tus datos? Introduce el email con el que te registraste, toca el botón de abajo y la solicitud nos llegará. Hecho por WAZO."]}},
+ fr:{errBot:"Impossible de confirmer que vous êtes humain. Rechargez la page et réessayez.",errBusy:"Wazo est très sollicité. Réessayez dans quelques minutes.",errLimit:"C'est la limite du jour. Revenez demain.",errLimitAnon:"Les essais gratuits du jour sont épuisés. Débloquez un wazo avec votre email pour continuer.",errNeedPro:"Votre wazo gratuit est utilisé. Pro arrive bientôt : réservez votre prix de lancement ci-dessous.",errSetup:"Wazo chauffe. Les analyses ouvrent très bientôt.",errTimeout:"L'analyse a pris trop de temps. Appuyez à nouveau.",
+  pwT:"Gratuit avec l'inscription",pwS:"Le test de 7 jours, le cimetière, la concurrence et qui devrait le construire s'ouvrent avec le verdict.",pwGo:"Débloquer gratuitement",saved:"Enregistré sur cet appareil",
+  drS:"Chaque wazo est gardé ici, sur cet appareil. Indiquez comment le test s'est terminé.",delNo:"Saisissez l'email utilisé à l'inscription.",gateS:"Inscription gratuite. Votre premier wazo complet est offert.",
+  legal:{0:["Comment ça marche","L'analyse est rédigée par Claude, un modèle d'IA d'Anthropic, via l'API d'Anthropic, à partir de ce que vous avez écrit. Il ne navigue pas sur le web pendant qu'il juge, donc les chiffres, noms d'entreprises et réglementations peuvent être faux ou dépassés. Chaque note porte un niveau de preuve, de A à D, pour voir sur quoi elle repose."],
+   2:["Votre vie privée","Votre idée et son analyse sont stockées sur les serveurs de Wazo (Supabase, dans l'UE) et envoyées à Anthropic uniquement pour produire l'analyse. Vos wazos sont aussi gardés sur votre appareil. Si vous vous inscrivez, votre nom et votre email sont conservés pour vous donner accès, et seul Wazo les voit. Les nouveautés et offres ne sont envoyées que si vous avez coché la case. Nous utilisons la vérification anti-bots de Cloudflare et une mesure d'audience sans cookies. Nous ne vendons pas de données, et votre idée reste la vôtre."],
+   3:["Tarifs","Votre premier wazo complet est gratuit avec votre email. Les offres marquées \"bientôt\" ne sont pas des achats : les toucher enregistre seulement votre intérêt. Vous ne serez jamais facturé sans votre accord explicite."],
+   5:["Contact et suppression","Vous voulez que vos données soient supprimées ? Saisissez l'email utilisé à l'inscription, touchez le bouton ci-dessous et la demande nous parvient. Conçu par WAZO."]}}
+};
+Object.entries(W).forEach(([l,o])=>{ const {legal,...rest}=o; Object.assign(T[l],rest); const arr=T[l].legal.slice(); Object.entries(legal).forEach(([i,v])=>{arr[+i]=v;}); T[l].legal=arr; });
+})();
+
 const LANGS=[["en","English","EN"],["es","Español","ES"],["fr","Français","FR"],["he","עברית","עב"]];
 const LOC={he:"he-IL",en:"en-GB",es:"es-ES",fr:"fr-FR"};
 Object.assign(T.he,{langT:"שפה",copiedGo:"הרעיון הועתק. הדבק אותו ב-Wazo שנפתח ב-claude.ai."}); Object.assign(T.en,{langT:"Language",copiedGo:"Your idea is copied. Paste it into Wazo on claude.ai."}); Object.assign(T.es,{langT:"Idioma",copiedGo:"Tu idea está copiada. Pégala en Wazo en claude.ai."}); Object.assign(T.fr,{langT:"Langue",copiedGo:"Votre idée est copiée. Collez-la dans Wazo sur claude.ai."});
@@ -825,11 +872,14 @@ const CAP = () => S.lang==="he" ? 700 : 200;
 const S = { lang:"en", sample:null, db:null, uid:null, current:null, currentId:null, isExample:false, mine:[], mineLoaded:false, ctl:null, timer:null, busy:false, savedNote:"", confirmDel:null, ready:false, rev:new Set(), open:0, lastCnt:0, optin:false, me:{name:"",email:""}, plan:"", stampHit:false, view:"" };
 try { const l=localStorage.getItem("wz.lang"); if (LANGS.some(x=>x[0]===l)) S.lang=l; } catch(e){}
 try { const th=localStorage.getItem("wz.theme"); if (th==="light"||th==="dark") document.documentElement.setAttribute("data-theme",th); } catch(e){}
-try { if (localStorage.getItem("wz.optin")==="1") S.optin=true; S.plan=localStorage.getItem("wz.plan")||""; S.proPreview=localStorage.getItem("wz.pro")==="1"; } catch(e){}
+S.cfg={ready:false,siteKey:"",umami:""};
+try { S.plan=localStorage.getItem("wz.plan")||""; S.proPreview=localStorage.getItem("wz.pro")==="1"; S.me={name:localStorage.getItem("wz.name")||"",email:localStorage.getItem("wz.email")||""}; } catch(e){}
+if(!S.me) S.me={name:"",email:""};
 S.pro=false;
-const need=()=>S.pro?[1,2,3,4]:[1,2];
-const proLocked=i=>!S.pro && (i===3||i===4);
-const unlocked=()=>S.optin||S.isExample;
+const isFull=()=>S.isExample||S.pro||!!(S.current&&S.current.full);
+const need=()=>isFull()?[1,2,3,4]:[1,2];
+const proLocked=i=>!isFull() && (i===3||i===4);
+const unlocked=()=>isFull();
 const t = k => T[S.lang][k];
 const fmt = n => Number(n||0).toLocaleString(S.lang==="he"?"he-IL":"en-US",{maximumFractionDigits:0});
 const money = n => CUR()+fmt(n);
@@ -906,7 +956,7 @@ function renderHome(){
   const grown=!!S.triGrown || calm(); S.triGrown=true;
   $("#tri").innerHTML=["BUILD","PIVOT","KILL"].map(v=>`<i data-g="${c[v]}" style="flex:${grown?c[v]:0.001} 1 0;background:var(--${VCLS(v)})"></i>`).join("");
   $("#legend").innerHTML=["BUILD","PIVOT","KILL"].map(v=>`<span style="--c:var(--${VCLS(v)})">${esc(t("vWord")[v])} ${c[v]}</span>`).join("");
-  $("#mineN").textContent = (S.db&&S.uid) ? S.mine.length : "0";
+  $("#mineN").textContent = S.mine.length;
 }
 
 /* ---------- parallax: pointer depth on the home bands, scroll depth on the example cards ---------- */
@@ -975,7 +1025,7 @@ function cardHTML(b,o){
   const titles={1:t("rowsScores"),2:t("rowsMoney"),3:t("rowsTest"),4:t("rowsFine"),5:t("rowsTotal")};
   const val=i=>{
     if (i===5){ if (!done) return `<span class="rv dim">${ic("lock")}</span>`; if (!unlocked()) return `<span class="rv" id="vlock">${ic("lock","idle")}</span>`; if (!seen(5)) return `<span class="rv dim">?</span>`; return `<span class="rv word" id="vword">${esc(L.vWord[b.verdict])}</span>`; }
-    if (proLocked(i)) return `<span class="rv">${ic("lock")}PRO</span>`;
+    if (proLocked(i)) return `<span class="rv">${ic("lock")}</span>`;
     return seen(i) ? `<span class="rv">${big[i]}</span>` : `<span class="rv dim">··</span>`;
   };
   const lab=i=>`<span class="rl"><b>${esc(titles[i])}</b>${i<5&&seen(i)&&!proLocked(i)?`<small>${esc(sub[i])}</small>`:i===5&&done&&!unlocked()?`<small>${esc(t("lockGate"))}</small>`:""}</span>`;
@@ -983,7 +1033,7 @@ function cardHTML(b,o){
   const row=i=>`<section class="rrow${i===5?" final":""}${S.open===i?" open":""}${compact(i)?" compact":""}${proLocked(i)?" prolock":""}" data-row="${i}" style="--i:${i+1}">
       <button type="button" class="rh" aria-expanded="${S.open===i}"><span class="rn">0${i}</span>${lab(i)}${val(i)}</button>
       <div class="rb"><div><div class="rbi">${body[i]}</div></div></div></section>`;
-  return `<article class="rc ${S.pro?"pro":"free"}">
+  return `<article class="rc ${isFull()?"pro":"free"}">
     <div class="rc-meta" style="--i:0"><span>WAZO #${receiptNo(seed)}</span><span>${esc(dt)}</span></div>
     <h2 class="rc-idea" style="--i:1">${esc(b.idea)}</h2>
     ${[1,2,3,4,5].map(row).join("")}
@@ -1014,7 +1064,7 @@ function renderActs(){
   const four=need().every(i=>S.rev.has(i)), open5=S.rev.has(5)&&unlocked();
   const nextLabel = four ? (unlocked()?t("reveal"):t("gGo")) : t("next");
   const main = open5 ? `<button class="cta btn-main" type="button" data-act="img">${ic("dl")}${esc(t("saveImg"))}</button>` : `<button class="cta btn-main" type="button" data-act="next">${esc(nextLabel)}</button>`;
-  const second = open5 ? `<div class="acts-row"><button class="cta btn-ghost" type="button" data-act="copy">${ic("copy")}${esc(t("copy"))}</button>${S.isExample?"":`<button class="cta btn-ghost" type="button" data-act="again">${ic("again")}${esc(t("again"))}</button>`}</div>${S.pro?`<button class="cta btn-ghost" type="button" data-act="teams">${ic("arrow")}${esc(t("teamsBtn"))}</button>`:""}` : "";
+  const second = open5 ? `<div class="acts-row"><button class="cta btn-ghost" type="button" data-act="copy">${ic("copy")}${esc(t("copy"))}</button>${S.isExample?"":`<button class="cta btn-ghost" type="button" data-act="again">${ic("again")}${esc(t("again"))}</button>`}</div>${(isFull()&&!S.isExample)?`<button class="cta btn-ghost" type="button" data-act="teams">${ic("arrow")}${esc(t("teamsBtn"))}</button>`:""}` : "";
   const gateOpen = S.open===5 && !unlocked();
   $("#cardacts").innerHTML = (gateOpen?"":main) + second + `<span class="note" id="actNote">${esc(S.savedNote)}</span>`;
   const pl=$("#plansBox"); if (pl) pl.remove();
@@ -1053,10 +1103,8 @@ function floodTo(verdict, rowEl){
 }
 function nextLine(){ const i=need().find(x=>!S.rev.has(x)) || 5; S.open=0; openRow(i); }
 function paywallHTML(){
-  const held=S.plan==="pro";
   return `<div class="pw"><div class="pw-t">${ic("lock")}${esc(t("pwT"))}</div><p>${esc(t("pwS"))}</p>
-    <div class="pw-price"><b>${esc(t("pwPrice"))}</b><span>${esc(t("pwPer"))}</span></div>
-    <button class="cta" type="button" data-plan="pro">${held?ic("check")+esc(t("pwHeld")):esc(t("pwGo"))}</button><small>${esc(t("pwNote"))}</small></div>`;
+    <button class="cta" type="button" data-act="unlockfree">${esc(t("pwGo"))}</button></div>`;
 }
 function openTeams(){
   const held=S.plan==="teams";
@@ -1081,6 +1129,7 @@ document.addEventListener("click", async e=>{
   const a=e.target.closest("[data-act]"); if(!a) return; const act=a.dataset.act, b=$("#stage")._b;
   if (act==="stop"){ S.ctl?.abort(); return; }
   if (act==="teams"){ openTeams(); return; }
+  if (act==="unlockfree"){ if(need().every(i=>S.rev.has(i))){ S.open=0; openRow(5); } else nextLine(); return; }
   if (act==="next"){ if(need().every(i=>S.rev.has(i)) && !unlocked()){ S.open=0; openRow(5); return; } nextLine(); return; }
   if (act==="img" && b){ saveImage(b, currentCard().o, a); return; }
   if (act==="again" && b){ $("#idea").value=b.idea; runVerdict(); return; }
@@ -1113,18 +1162,30 @@ function gateHTML(){
 async function doOptin(btn){
   const name=($("#gName")?.value||"").trim(), email=($("#gEmail")?.value||"").trim(), mk=!!$("#gMk")?.checked, note=$("#gNote");
   if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){ if(note){ note.textContent=t("gBad"); note.className="err"; } $("#gEmail")?.focus(); return; }
-  btn.disabled=true;
-  const b=$("#stage")._b||{};
-  if (S.db && S.uid){ try{ await S.db.collection("leads").doc(S.uid).set({name,email,marketing:mk,lang:S.lang,idea:b.idea||"",verdict:b.verdict||"",createdAt:new Date().toISOString()}); }catch(e){} }
-  const lk=document.querySelector("#vlock .ic-lock"); if (lk && !calm()){ lk.classList.remove("idle"); lk.classList.add("unlock"); await new Promise(r=>setTimeout(r,650)); }
-  S.optin=true; try{ localStorage.setItem("wz.optin","1"); }catch(e){}
-  S.open=0; openRow(5);
+  const b=S.current; if(!b) return;
+  btn.disabled=true; if(note){ note.textContent=t("loading"); note.className="cav"; }
+  S.me={name,email}; try{ localStorage.setItem("wz.email",email); localStorage.setItem("wz.name",name); }catch(e){}
+  let r={status:0,data:{code:"error"}};
+  if (S.isExample || !b.sid){ r={status:200,data:{full:true,wazo:b}}; }
+  else { try{ const token=await humanToken(); r=await api("unlock",{id:b.sid,email,name,marketing:mk,lang:S.lang,token}); }catch(e){} }
+  if (r.status===200 && r.data.full){
+    const nb=norm({...r.data.wazo,cur:b.cur}); nb.full=true; nb.sid=b.sid; if(!nb.idea) nb.idea=b.idea;
+    S.current=nb; $("#stage")._b=nb; updateMine(nb); S.rev.add(3); S.rev.add(4); track("unlock");
+    const lk=document.querySelector("#vlock .ic-lock"); if (lk && !calm()){ lk.classList.remove("idle"); lk.classList.add("unlock"); await new Promise(res=>setTimeout(res,650)); }
+    S.open=0; openRow(5); return;
+  }
+  btn.disabled=false;
+  const code=r.data&&r.data.code;
+  if(note){ note.textContent=errCopy(code); note.className="err"; }
+  if (code==="need_pro" && !$("#gatePlans")) note?.insertAdjacentHTML("afterend",`<div id="gatePlans">${plansHTML()}</div>`);
 }
 async function holdPlan(k){
   S.plan=k; try{ localStorage.setItem("wz.plan",k); }catch(e){}
   const st=$("#stage"); if (st._b && !S.busy){ st.innerHTML=cardHTML(st._b,currentCard().o); setTone(); }
   renderActs(); if ($("#teams").open) openTeams();
-  if (S.db && S.uid){ try{ await S.db.collection("leads").doc(S.uid).update({plan:k,planAt:new Date().toISOString()}); }catch(e){ try{ await S.db.collection("leads").doc(S.uid).set({plan:k,planAt:new Date().toISOString()},{merge:true}); }catch(_){} } }
+  document.querySelectorAll("#gatePlans,#ideaPlans").forEach(x=>x.innerHTML=plansHTML());
+  track("plan-"+k);
+  if (S.me.email){ try{ await api("lead",{action:"plan",email:S.me.email,plan:k,lang:S.lang}); }catch(e){} }
 }
 function plansHTML(){
   return `<div class="plans"><div class="plans-t">${esc(t("plansT"))}</div><div class="plans-s">${esc(t("plansS"))}</div>
@@ -1233,60 +1294,46 @@ function land(b){
 }
 
 /* ---------- verdict ---------- */
-function prompt(idea){
-  const he=S.lang==="he", lang={he:"Hebrew",en:"English",es:"neutral international Spanish (natural for Spain and Latin America, use tú)",fr:"French (use vous)"}[S.lang]||"English", eur=S.lang==="es"||S.lang==="fr";
-  const cust=$("#fCust").value.trim(), bud=$("#fBudget").value.trim(), time=$("#fTime").value.trim();
-  const market = he ? "Israel-first: judge for a founder based in Israel, priced in ILS (₪)." : eur ? "Global: judge for a founder selling to the global market (Europe, the US and beyond), priced in EUR (€)." : "Global: judge for a founder selling to the US and global market, priced in USD ($).";
-  const cur = he ? "ILS" : eur ? "EUR" : "USD", cap = he ? 700 : 200;
-  return `You are Wazo, a blunt startup-idea judge. ${market} Judge the idea below honestly. Most ideas should NOT get BUILD.
-
-Rules:
-- verdict: BUILD, PIVOT or KILL.
-- Four scores, 1-10, higher is always better for the founder: pain (how much the customer hurts), demand (how many want it), space (open space: 10 = no competition, 1 = crowded), pay (willingness to pay).
-- Each score has an evidence grade: A = hard data on money people already spend, that you are confident of; B = strong documented signals; C = reasoning by analogy; D = assumption. You cannot browse, so grade honestly. If pain rests only on complaints with no sign of money already spent, pain is at most 6.
-- Never invent precise statistics or market-size ceilings. Name a company only if you are confident it exists; otherwise describe the type ("several US scheduling startups").
-- money: a monthly price per customer in ${cur}, and paying customers at month 12 for low/base/high, realistic for a small founding team. breaker = the single assumption that breaks the model.
-- kill: one concrete action doable within 7 days for at most ${cap} ${cur}, with a numeric pass threshold set in advance.
-- israel: ${he ? "does it work in Israel, is Israel big enough, local players or regulation, go global from day one or not." : "the market lens: which market to start in, is it big enough, regulation and incumbents."}
-- fit: the skills, budget and runway the idea demands.
-- Voice: blunt, short sentences, no hype, no politeness. Never use dashes (—, –, -) as punctuation; use commas or periods. tip only if genuinely useful, else an empty string.
-- Write ALL text values in ${lang}. Keep each text field to 1-2 short sentences; evidence fields under 18 words.
-
-Idea: ${idea}
-${cust?`Target customer: ${cust}\n`:""}${bud?`Founder budget for first 6 months: ${bud} ${cur}\n`:""}${time?`Founder time per week: ${time}\n`:""}
-Reply with only one JSON object in exactly this shape:
-{"idea":"one-line restatement of the idea","title":"a catchy 2-4 word name for the idea","verdict":"PIVOT","headline":"one blunt sentence","deciding":"the one assumption everything rests on","tip":"","scores":[{"key":"pain","score":6,"grade":"B","evidence":"..."},{"key":"demand","score":5,"grade":"C","evidence":"..."},{"key":"space","score":3,"grade":"B","evidence":"..."},{"key":"pay","score":4,"grade":"C","evidence":"..."}],"money":{"price":150,"low":10,"base":40,"high":120,"breaker":"..."},"graveyard":[{"name":"...","why":"..."}],"competition":[{"name":"...","note":"..."}],"gap":"...","israel":"...","fit":"...","kill":{"action":"...","budget":${he?300:100},"pass":"..."}}
-graveyard: 2-3 entries. competition: 2-4 entries.`;
+const errCopy=c=>({bot:t("errBot"),busy:t("errBusy"),limit:t("errLimit"),limit_anon:t("errLimitAnon"),need_pro:t("errNeedPro"),not_configured:t("errSetup"),timeout:t("errTimeout"),invalid_json:t("errJson"),refused:t("errRefused"),bad_email:t("gBad"),need_idea:t("needIdea")}[c]||t("errGeneric"));
+async function api(path,payload,signal){
+  const r=await fetch("/api/"+path,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(payload),signal});
+  let data={}; try{ data=await r.json(); }catch(e){} return {status:r.status,data};
 }
-const errCopy=c=>({not_granted:t("errGranted"),sampling_disabled:t("errGranted"),rate_limited:t("errRate"),invalid_json:t("errJson"),refused:t("errRefused")}[c]||t("errGeneric"));
+const track=(name,data)=>{ try{ window.umami&&window.umami.track(name,data); }catch(e){} };
+const TS={id:null,cb:null};
+function humanToken(){
+  if (!S.cfg.siteKey || !window.turnstile) return Promise.resolve("");
+  return new Promise(res=>{
+    let fin=false; const done=v=>{ if(fin) return; fin=true; clearTimeout(to); res(v||""); }; const to=setTimeout(()=>done(""),20000); TS.cb=done;
+    try{
+      if (TS.id===null) TS.id=turnstile.render("#ts",{sitekey:S.cfg.siteKey,execution:"execute",appearance:"interaction-only",callback:v=>TS.cb&&TS.cb(v),"error-callback":()=>TS.cb&&TS.cb(""),"timeout-callback":()=>TS.cb&&TS.cb("")});
+      else turnstile.reset(TS.id);
+      turnstile.execute(TS.id);
+    }catch(e){ done(""); }
+  });
+}
+function showIdeaPlans(){ $("#ideaPlans")?.remove(); $("#askNote").insertAdjacentHTML("afterend",`<div id="ideaPlans">${plansHTML()}</div>`); }
 async function runVerdict(){
   const idea=$("#idea").value.trim();
-  if (!S.sample && !window.claude){
-    if (idea){
-      const extra=[["fCust","fCust"],["fBudget","fBudget"],["fTime","fTime"]].map(([id,k])=>{ const v=$("#"+id).value.trim(); return v?`${t(k)}: ${v}`:""; }).filter(Boolean);
-      const txt=[idea,...extra].join("\n");
-      let ok=false; try{ if(navigator.clipboard&&navigator.clipboard.writeText){ navigator.clipboard.writeText(txt).catch(()=>{}); ok=true; } }catch(e){}
-      if(!ok){ try{ const ta=document.createElement("textarea"); ta.value=txt; ta.style.cssText="position:fixed;opacity:0"; document.body.appendChild(ta); ta.select(); document.execCommand("copy"); ta.remove(); ok=true; }catch(e){} }
-      setNote(ok?t("copiedGo"):t("noSample"));
-    }
-    window.open(LIVE,"_blank","noopener"); return; }
   if (!idea){ setNote(t("needIdea"),true); go("idea"); $("#idea").focus(); return; }
-  if (!S.sample){ setNote(t("noSample")); return; }
   if (S.busy) return;
+  $("#ideaPlans")?.remove();
   S.busy=true; S.ctl=new AbortController(); $("#goBtn").disabled=true; setNote("");
+  const token=await humanToken();
   go("receipt"); printing(idea);
   try {
-    const raw=await S.sample.json(prompt(idea),{signal:S.ctl.signal,cache:false});
-    const b=norm({...(raw||{}),cur:CUR()}); if(!b.idea) b.idea=idea;
+    const r=await api("analyze",{idea,cust:$("#fCust").value.trim(),budget:$("#fBudget").value.trim(),time:$("#fTime").value.trim(),lang:S.lang,token,email:S.me.email||""},S.ctl.signal);
+    if (r.status!==200) throw {code:(r.data&&r.data.code)||"error"};
+    const b=norm({...(r.data.wazo||{}),cur:CUR()}); b.full=!!r.data.full; b.sid=r.data.id; if(!b.idea) b.idea=idea;
     S.current=b; S.isExample=false; S.currentId=null; S.savedNote="";
-    await Promise.all([save(b,idea), land(b)]);
+    save(b,idea); await land(b); track("analyze",{lang:S.lang,full:b.full});
     S.busy=false; S.rev=new Set(); S.open=0; S.stampHit=false; renderStage(); $("#p-receipt").scrollTop=0;
   } catch(e){
     S.busy=false; clearInterval(S.timer);
     go("idea");
-    if (e && e.code!=="cancelled") setNote(errCopy(e&&e.code),true);
-    if (e && (e.code==="not_granted"||e.code==="sampling_disabled")) S.sample=null;
-  } finally { clearInterval(S.timer); S.busy=false; $("#goBtn").disabled=!S.sample && !!window.claude; }
+    if (!(e && e.name==="AbortError")) setNote(errCopy(e&&e.code),true);
+    if (e && e.code==="need_pro") showIdeaPlans();
+  } finally { clearInterval(S.timer); S.busy=false; $("#goBtn").disabled=false; }
 }
 $("#moreBtn").addEventListener("click", ()=>{ const p=$("#p-idea"), on=!p.classList.contains("more"); p.classList.toggle("more",on); $("#moreBtn").setAttribute("aria-expanded",on); if(on) $("#fCust").focus(); });
 $("#askForm").addEventListener("submit", e=>{ e.preventDefault(); runVerdict(); });
@@ -1315,7 +1362,7 @@ function renderRail(){
   $("#rail").innerHTML=FEED.map((f,i)=>{const x=f[S.lang]; return `<article class="xc ${VCLS(f.v)}" data-feed="${i}" role="button" tabindex="0" aria-label="${esc(x.t)}">
     <span class="cat">${esc(x.cat)}</span><h3>${esc(x.t)}</h3><p>${esc(x.l)}</p>
     <span class="xw">${esc(L.vWord[f.v])}</span>
-    <button class="cta" type="button" tabindex="-1"><span>${esc(t(window.claude?"openFull":"tryIdea"))}</span>${ic("arrow")}</button></article>`;}).join("");
+    <button class="cta" type="button" tabindex="-1"><span>${esc(t("tryIdea"))}</span>${ic("arrow")}</button></article>`;}).join("");
 }
 function updExCount(){
   const r=$("#rail"), w=r.firstElementChild?.getBoundingClientRect().width||1;
@@ -1325,43 +1372,40 @@ function updExCount(){
 $("#rail").addEventListener("scroll", ()=>requestAnimationFrame(()=>{ updExCount(); railFx(); }), {passive:true});
 $("#rail").addEventListener("keydown", e=>{ if((e.key==="Enter"||e.key===" ") && e.target.matches(".xc")){ e.preventDefault(); e.target.click(); } });
 $("#rail").addEventListener("click", e=>{ const b=e.target.closest("[data-feed]"); if(!b) return; const ta=$("#idea"); ta.value=FEED[+b.dataset.feed].idea[S.lang]; ta.dispatchEvent(new Event("input",{bubbles:true}));
-  if (!S.sample && !window.claude){ go("idea"); setTimeout(()=>{ try{ ta.focus({preventScroll:true}); ta.setSelectionRange(ta.value.length,ta.value.length); }catch(_){} },450); return; }
-  runVerdict(); });
+  go("idea"); setTimeout(()=>{ try{ ta.focus({preventScroll:true}); ta.setSelectionRange(ta.value.length,ta.value.length); }catch(_){} },450); });
 
 /* ---------- yours (db) ---------- */
-const col=()=>S.db.collection("data/users/"+S.uid);
-async function save(b,raw){
-  if (!S.db||!S.uid){ S.savedNote=t("notSaved"); return; }
-  try { const ref=col().doc(); const doc={idea:b.idea,input:raw,lang:S.lang,verdict:b.verdict,brief:b,killStatus:"pending",createdAt:new Date().toISOString()};
-    await ref.set(doc); S.currentId=ref.id; S.savedNote=t("saved"); S.mine=[{id:ref.id,...doc},...S.mine.filter(x=>x.id!==ref.id)]; renderHome();
-  } catch(e){ S.savedNote=t("notSaved"); }
+const MINE_KEY="wz.mine";
+function persistMine(){ try{ localStorage.setItem(MINE_KEY, JSON.stringify(S.mine.slice(0,100))); }catch(e){} }
+function save(b,raw){
+  const id=b.sid||("l"+Date.now());
+  const doc={id,idea:b.idea,input:raw,lang:S.lang,verdict:b.full?b.verdict:"",brief:b,killStatus:"pending",createdAt:new Date().toISOString()};
+  S.mine=[doc,...S.mine.filter(x=>x.id!==id)]; S.currentId=id; S.savedNote=t("saved"); persistMine(); renderHome();
 }
-async function setKill(id,status){
-  const it=S.mine.find(x=>x.id===id); if(!it||!S.db) return;
-  it.killStatus=status; const st=$("#stage"); st.innerHTML=cardHTML(st._b,currentCard().o);
-  try { await col().doc(id).update({killStatus:status}); } catch(e){}
+function updateMine(b){ const it=S.mine.find(x=>x.id===b.sid); if(it){ it.brief=b; it.verdict=b.verdict; it.idea=b.idea; persistMine(); renderDrawer(); renderHome(); } }
+function setKill(id,status){
+  const it=S.mine.find(x=>x.id===id); if(!it) return;
+  it.killStatus=status; persistMine(); const st=$("#stage"); st.innerHTML=cardHTML(st._b,currentCard().o);
 }
-async function loadDrawer(){
-  if (!S.db||!S.uid){ renderDrawer(); return; }
-  try { const snap=await col().orderBy("createdAt","desc").limit(200).get(); S.mine=snap.docs.filter(d=>d.exists).map(d=>({id:d.id,...d.data()})); } catch(e){}
+function loadDrawer(){
+  try{ const v=JSON.parse(localStorage.getItem(MINE_KEY)||"[]"); S.mine=Array.isArray(v)?v:[]; }catch(e){ S.mine=[]; }
   S.mineLoaded=true; renderDrawer(); renderHome();
 }
 function renderDrawer(){
   const box=$("#drawerList");
   if (!S.ready){ box.innerHTML=`<div class="empty"><span>${esc(t("loading"))}</span></div>`; return; }
-  if (!S.db||!S.uid){ box.innerHTML=`<div class="empty"><b>${esc(t("drOut"))}</b><span>${esc(t("drOutS"))}</span>${window.claude?"":`<a class="cta dark" href="${LIVE}" target="_blank" rel="noopener">claude.ai ↗</a>`}</div>`; return; }
   if (!S.mineLoaded && !S.mine.length){ box.innerHTML=`<div class="empty"><span>${esc(t("loading"))}</span></div>`; return; }
   if (!S.mine.length){ box.innerHTML=`<div class="empty"><b>${esc(t("drEmpty"))}</b><span>${esc(t("drEmptyS"))}</span><button class="cta dark" type="button" data-go="idea">${esc(t("navCta"))}</button></div>`; return; }
   const L=T[S.lang], df=new Intl.DateTimeFormat(LOC[S.lang],{day:"numeric",month:"short"});
   box.innerHTML=S.mine.map((m,k)=>{const ks=m.killStatus||"pending", c=S.confirmDel===m.id;
-    return `<div class="mrow ${VCLS(m.verdict)}" data-row="${esc(m.id)}" style="--i:${Math.min(k,12)}">
+    return `<div class="mrow ${m.verdict?VCLS(m.verdict):"lockd"}" data-row="${esc(m.id)}" style="--i:${Math.min(k,12)}">
       <div style="min-width:0"><h4>${esc(m.idea)}</h4><p>${esc(m.createdAt?df.format(new Date(m.createdAt)):"")} · ${esc(L.r.ks)}: ${esc(ks==="pass"?L.r.ksY:ks==="fail"?L.r.ksN:L.r.ksP)} · <button class="mdel" type="button" data-d="${esc(m.id)}">${esc(c?t("sure"):t("del"))}</button></p></div>
-      <span class="mw">${esc(L.vWord[m.verdict]||"")}</span></div>`;}).join("");
+      <span class="mw">${m.verdict?esc(L.vWord[m.verdict]||""):ic("lock")}</span></div>`;}).join("");
 }
 $("#drawerList").addEventListener("click", async e=>{
   const d=e.target.closest("[data-d]"), row=e.target.closest("[data-row]");
-  if (d){ const id=d.dataset.d; if (S.confirmDel===id){ S.confirmDel=null; S.mine=S.mine.filter(x=>x.id!==id); if(S.currentId===id) S.currentId=null; renderDrawer(); renderHome(); try{ await col().doc(id).delete(); }catch(_){} } else { S.confirmDel=id; renderDrawer(); } return; }
-  if (row){ const m=S.mine.find(x=>x.id===row.dataset.row); if(!m) return; S.current=norm(m.brief||{}); S.currentId=m.id; S.isExample=false; S.savedNote=""; S.rev=new Set([1,2,3,4,5]); S.open=5; S.stampHit=true; go("receipt"); renderStage(); }
+  if (d){ const id=d.dataset.d; if (S.confirmDel===id){ S.confirmDel=null; S.mine=S.mine.filter(x=>x.id!==id); if(S.currentId===id) S.currentId=null; persistMine(); renderDrawer(); renderHome(); } else { S.confirmDel=id; renderDrawer(); } return; }
+  if (row){ const m=S.mine.find(x=>x.id===row.dataset.row); if(!m) return; const nb=norm(m.brief||{}); nb.full=!!(m.brief&&m.brief.full); nb.sid=m.brief&&m.brief.sid; S.current=nb; S.currentId=m.id; S.isExample=false; S.savedNote=""; if(nb.full){ S.rev=new Set([1,2,3,4,5]); S.open=5; S.stampHit=true; } else { S.rev=new Set([1,2]); S.open=0; S.stampHit=false; } go("receipt"); renderStage(); }
 });
 
 /* ---------- language / theme / boot ---------- */
@@ -1373,17 +1417,18 @@ function applyLang(){
   $("#langBtn").textContent=(LANGS.find(x=>x[0]===S.lang)||LANGS[0])[2];
   let thUser=null; try{ thUser=localStorage.getItem("wz.theme"); }catch(e){}
   if (!thUser){ if (S.lang==="en") document.documentElement.setAttribute("data-theme","dark"); else document.documentElement.removeAttribute("data-theme"); }
-  if (S.ready && !S.sample) setNote(t("noSample"));
+  if (S.ready && !S.cfg.ready) setNote(t("errSetup"));
   renderHome(); renderRail(); renderDrawer(); if (S.current && !S.busy) renderStage();
 }
 function renderLegal(){
   $("#legalBody").innerHTML=`<p class="lead">${esc(t("legalLead"))}</p>`+t("legal").map(([h,p])=>`<section><h3>${esc(h)}</h3><p>${esc(p)}</p></section>`).join("")
-    +`<div style="display:grid;gap:8px"><button class="cta light" type="button" id="delBtn">${esc(t("delReq"))}</button><span class="note" id="delNote"></span></div><p class="upd">${esc(t("legalUpd"))}</p>`;
+    +`<div style="display:grid;gap:8px">${S.me.email?"":`<label class="gl"><span>${esc(t("gEmail"))}</span><input id="delEmail" type="email" autocomplete="email" inputmode="email"></label>`}<button class="cta light" type="button" id="delBtn">${esc(t("delReq"))}</button><span class="note" id="delNote"></span></div><p class="upd">${esc(t("legalUpd"))}</p>`;
   $("#delBtn").addEventListener("click", async ()=>{
     const n=$("#delNote"), btn=$("#delBtn");
-    if (!S.db || !S.uid){ n.textContent=t("delNo"); return; }
+    const email=(S.me.email||($("#delEmail")?.value||"")).trim();
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){ n.textContent=t("delNo"); $("#delEmail")?.focus(); return; }
     btn.disabled=true;
-    try{ await S.db.collection("leads").doc(S.uid).set({deleteRequested:true,deleteAt:new Date().toISOString()},{merge:true}); n.textContent=t("delSent"); try{ localStorage.removeItem("wz.optin"); }catch(e){} }
+    try{ const r=await api("lead",{action:"delete",email}); if(r.status!==200) throw 0; n.textContent=t("delSent"); S.me={name:"",email:""}; try{ localStorage.removeItem("wz.email"); localStorage.removeItem("wz.name"); }catch(e){} }
     catch(e){ btn.disabled=false; n.textContent=t("errGeneric"); }
   });
 }
@@ -1412,18 +1457,16 @@ $("#themeBtn").addEventListener("click",()=>{ const m=$("#themeBtn .ic"); if(m){
 hydrateIcons(); applyLang();
 ["#rail","#stage","#drawerList"].forEach(sel=>{ const n=document.querySelector(sel); if(n) new MutationObserver(fitSoon).observe(n,{childList:true,subtree:true}); });
 fitSoon();
-if (location.hash==="#demo" && !window.claude){ S.current=norm({...EXAMPLE[S.lang],cur:CUR()}); S.isExample=false; S.optin=false; history.replaceState(null,"","#receipt"); enablePreview(); }
+if (location.hash==="#demo"){ S.current=norm({...EXAMPLE[S.lang],cur:CUR()}); S.current.full=false; S.isExample=false; history.replaceState(null,"","#receipt"); enablePreview(); }
 show(location.hash.slice(1)); if (S.current) renderStage();
+loadDrawer();
 (async()=>{
-  if (!window.claude||!window.claude.use){ S.ready=true; setNote(t("noSample")); renderDrawer(); return; }
-  const [sample,db,user]=await Promise.all([claude.use("sample"),claude.use("db"),claude.use("user")]);
-  S.sample=sample; $("#goBtn").disabled=!sample; if(!sample) setNote(t("noSample"));
-  if (user){ try{ S.uid=await user.id(); const me=await user.me(); const name=(me&&me.name)||"";
-    if (S.uid){ $("#who").hidden=false; $("#whoN").textContent=name; $("#whoI").textContent=(name.trim()[0]||"·").toUpperCase(); }
-    S.me={name, email:(me&&me.email)||""};
-    if (await Promise.resolve(user.isOwner && user.isOwner())) enablePreview(); }catch(e){} }
-  S.db=(db&&S.uid)?db:null; S.ready=true; renderDrawer(); loadDrawer();
-  if (S.db && S.uid && !S.optin){ try{ const d=await S.db.collection("leads").doc(S.uid).get(); if(d.exists){ S.optin=true; const v=d.data()||{}; if(v.plan) S.plan=v.plan; if (S.current) renderStage(); } }catch(e){} }
+  try{ const r=await fetch("/api/config",{cache:"no-store"}); if(r.ok) S.cfg={...S.cfg,...(await r.json())}; }catch(e){}
+  S.ready=true; renderDrawer();
+  const add=(src,attrs)=>{ const sc=document.createElement("script"); sc.src=src; sc.async=true; sc.defer=true; Object.entries(attrs||{}).forEach(([k,v])=>sc.setAttribute(k,v)); document.head.appendChild(sc); };
+  if (S.cfg.siteKey) add("https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit");
+  if (S.cfg.umami) add("https://cloud.umami.is/script.js",{"data-website-id":S.cfg.umami});
+  if (!S.cfg.ready) setNote(t("errSetup"));
 })();
 })();
 </script>
