@@ -235,6 +235,17 @@ textarea#idea:focus{outline:none}
 .cc .gate .cta{background:#F1F0EC;color:#0E0E0E}
 .cc .pw{padding:0;background:none;box-shadow:none}
 .cdots{display:flex;justify-content:center;gap:0;padding:2px 0 0}
+.cc{container-type:inline-size}
+.cc-big{font-size:clamp(34px,19cqw,64px)}
+@media (min-width:900px){
+  .p-receipt .in:has(.rc.cards){max-width:1360px;padding-inline:40px}
+  .rc.cards .rc-idea{font-size:clamp(24px,2.4vw,34px);max-width:960px}
+  .cs{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:16px;overflow:visible;scroll-snap-type:none;margin:0;padding:4px 0 8px}
+  .cc{flex:none;height:clamp(420px,calc(100dvh - 400px),560px);scroll-snap-align:none}
+  .cdots{display:none}
+  .p-receipt .acts,#plansBox{max-width:560px;margin-inline:auto;width:100%}
+}
+@media (min-width:1200px){.cs{grid-template-columns:repeat(5,minmax(0,1fr))}}
 .cdots button{all:unset;cursor:pointer;box-sizing:border-box;width:28px;height:28px;display:grid;place-items:center}
 .cdots button::before{content:"";width:8px;height:8px;border-radius:999px;background:currentColor;opacity:.28;transition:width .3s var(--ease),opacity .3s}
 .cdots button[aria-current="true"]::before{width:22px;opacity:.9}
@@ -1069,7 +1080,7 @@ function fitWords(){
   const v=document.getElementById("vword"); if(v){ const cc=v.closest(".cc"), row=cc||v.closest(".rrow"); if(row) fitWord(v, cc?row.clientWidth-44:row.clientWidth*0.62); }
   document.querySelectorAll(".mw").forEach(w=>{ const c=w.parentElement; if(c) fitWord(w, c.clientWidth*0.9); });
 }
-addEventListener("resize",()=>{ if (S.current && !S.busy && S.view==="receipt" && isCards()!==S._cm) renderStage(); });
+addEventListener("resize",()=>{ if (S.current && !S.busy && S.view==="receipt" && isWide()!==S._cm) renderStage(); });
 let fitQ=0; const fitSoon=()=>{ if(fitQ) return; fitQ=requestAnimationFrame(()=>{ fitQ=0; fitWords(); }); };
 addEventListener("resize",fitSoon);
 try{ document.fonts.ready.then(fitSoon); }catch(e){}
@@ -1084,7 +1095,7 @@ function railFx(){
 /* ---------- the receipt: big-type rows ---------- */
 function setTone(){
   const p=$("#p-receipt"); p.classList.remove("t-build","t-pivot","t-kill");
-  const b=$("#stage")._b; if (b && unlocked() && S.rev.has(5) && !isCards()) p.classList.add("t-"+VCLS(b.verdict));
+  const b=$("#stage")._b; void b;
 }
 function cardHTML(b,o,only){
   const L=T[S.lang], R=L.r, seed=o.id||b.idea, C=b.cur||CUR(), M=n=>C+fmt(n);
@@ -1113,15 +1124,8 @@ function cardHTML(b,o,only){
     5: !unlocked() ? gateHTML() : `<div class="bline">${esc(b.headline)}</div><div class="nt"><b>${esc(R.rests)}:</b> ${esc(b.deciding)}</div>` + (b.tip?`<div class="nt"><b>${esc(R.tip)}:</b> ${esc(b.tip)}</div>`:"")
   };
   const titles={1:t("rowsScores"),2:t("rowsMoney"),3:t("rowsTest"),4:t("rowsFine"),5:t("rowsTotal")};
-  const val=i=>{
-    if (i===5){ if (!done) return `<span class="rv dim">${ic("lock")}</span>`; if (!unlocked()) return `<span class="rv" id="vlock">${ic("lock","idle")}</span>`; if (!seen(5)) return `<span class="rv dim">?</span>`; return `<span class="rv word" id="vword">${esc(L.vWord[b.verdict])}</span>`; }
-    if (proLocked(i)) return `<span class="rv">${ic("lock")}</span>`;
-    return seen(i) ? `<span class="rv">${big[i]}</span>` : `<span class="rv dim">··</span>`;
-  };
-  const lab=i=>`<span class="rl"><b>${esc(titles[i])}</b>${i<5&&seen(i)&&!proLocked(i)?`<small>${esc(sub[i])}</small>`:i===5&&done&&!unlocked()?`<small>${esc(t("lockGate"))}</small>`:""}</span>`;
-  const compact=i=>!S.pro && i<5 && S.open!==i && (seen(i)||proLocked(i));
-  S._cm=isCards();
-  if (S._cm){
+  S._cm=isWide();
+  {
     const seen5=S.rev.has(5)&&unlocked();
     const remind=`<button class="cta" type="button" data-act="remind">${ic("arrow")}${esc(t("remind"))}</button>`;
     const cc=i=>{
@@ -1131,7 +1135,7 @@ function cardHTML(b,o,only){
       if (i<5) inner = lk ? paywallHTML() : `<div class="cc-big">${big[i]}</div><div class="cc-cap">${esc(sub[i])}</div><div class="cc-body">${body[i]}</div>${i===3?`<div class="cc-cta">${remind}</div>`:""}`;
       else if (!done) inner = `<div class="cc-big lk">${ic("lock")}</div><div class="cc-cap">${esc(t("locked"))}</div>`;
       else if (!unlocked()) inner = `<div class="cc-body">${gateHTML()}</div>`;
-      else if (!seen5) inner = `<div class="cc-big lk">${ic("lock","idle")}</div>`;
+      else if (!seen5) inner = `<div class="cc-big lk">${ic("lock","idle")}</div>${S._cm?`<div class="cc-cta"><button class="cta" type="button" data-act="reveal">${esc(t("reveal"))}</button></div>`:""}`;
       else inner = `<div class="cc-big word" id="vword">${esc(L.vWord[b.verdict])}</div><div class="cc-body">${body[5]}</div>`;
       return `<article class="${cls}" data-card="${i}" aria-label="${esc(titles[i])}"><div class="cc-top"><span>0${i} · ${esc(titles[i])}</span>${(lk||(i===5&&!seen5))?ic("lock"):""}</div>${inner}</article>`;
     };
@@ -1143,21 +1147,13 @@ function cardHTML(b,o,only){
       <div class="cdots" id="cdots">${[1,2,3,4,5].map(i=>`<button type="button" data-dot="${i}" aria-label="${i}/5" aria-current="${(S.card||1)===i}"></button>`).join("")}</div>
     </article>`;
   }
-  const row=i=>`<section class="rrow${i===5?" final":""}${S.open===i?" open":""}${compact(i)?" compact":""}${proLocked(i)?" prolock":""}" data-row="${i}" style="--i:${i+1}">
-      <button type="button" class="rh" aria-expanded="${S.open===i}"><span class="rn">0${i}</span>${lab(i)}${val(i)}</button>
-      <div class="rb"><div><div class="rbi">${body[i]}</div></div></div></section>`;
-  return `<article class="rc ${isFull()?"pro":"free"}">
-    <div class="rc-meta" style="--i:0"><span>WAZO #${receiptNo(seed)}</span><span>${esc(dt)}</span></div>
-    <h2 class="rc-idea" style="--i:1">${esc(b.idea)}</h2>
-    ${[1,2,3,4,5].map(row).join("")}
-    <div class="thanks" style="--i:7">${esc(R.thanks)}</div>
-  </article>`;
 }
 function currentCard(){
   if (S.current){ const it=S.currentId?S.mine.find(x=>x.id===S.currentId):null; return {b:S.current, o:{id:S.currentId,date:it?.createdAt,killStatus:it?.killStatus}}; }
   return null;
 }
 const isCards=()=>matchMedia("(max-width:899px)").matches;
+const isWide=()=>!isCards();
 function goCard(i,instant){ const cs=$("#cs"), el=cs&&cs.querySelector(`.cc[data-card="${i}"]`); if(!el) return; S._tgt=i; const a=el.getBoundingClientRect(), r=cs.getBoundingClientRect(); cs.scrollBy({left:(a.left+a.width/2)-(r.left+r.width/2),behavior:(instant||calm())?"auto":"smooth"}); }
 function syncDots(){ document.querySelectorAll("#cdots [data-dot]").forEach(d=>d.setAttribute("aria-current",String(+d.dataset.dot===S.card))); }
 function refreshCard5(){ const st=$("#stage"), old=st.querySelector('.cc[data-card="5"]'); if(old) old.outerHTML=cardHTML(st._b,currentCard().o,5); }
@@ -1195,7 +1191,7 @@ function remindIcs(b){
 function renderCounter(anim){
   const nd=need(), n=nd.filter(i=>S.rev.has(i)).length, box=$("#cntBox");
   if (!S.current || S.busy){ box.innerHTML=""; return; }
-  box.innerHTML=isCards()?`<span class="c-cnt">${S.card||1}/5</span>`:`<span class="c-cnt">${n}/${nd.length}</span>`;
+  box.innerHTML=isCards()?`<span class="c-cnt">${S.card||1}/5</span>`:"";
   if (anim && n!==S.lastCnt && !calm()) box.firstChild.classList.add("hit");
   S.lastCnt=n;
 }
@@ -1203,43 +1199,29 @@ function renderStage(){
   if (S.busy) return;
   const st=$("#stage"), c=currentCard();
   if (!c){ st.innerHTML=""; $("#cardacts").innerHTML=""; return; }
+  if (isWide()) [1,2,3,4].forEach(i=>{ if(!proLocked(i)) S.rev.add(i); });
   st.innerHTML=cardHTML(c.b,c.o); st._b=c.b;
   const rc=st.querySelector(".rc"); if(rc && !calm()){ rc.classList.add("enter"); setTimeout(()=>rc.classList.remove("enter"),1200); }
   setTone(); renderActs(); renderCounter(false);
-  if (isCards()){ const c=S.card||S.open||1; S.card=0; goCard(c,true); viewCard(c); fitSoon(); }
+  if (isCards()){ const c=S.card||S.open||1; S.card=0; goCard(c,true); viewCard(c); fitSoon(); } else fitSoon();
 }
 function renderActs(){
   const b=$("#stage")._b; if(!b){ $("#cardacts").innerHTML=""; return; }
-  const cards=isCards(), four=need().every(i=>S.rev.has(i)), open5=S.rev.has(5)&&unlocked()&&(!cards||S.card===5);
-  const nextLabel = cards ? t("nextCard") : (four ? (unlocked()?t("reveal"):t("gGo")) : t("next"));
-  const main = open5 ? `<button class="cta btn-main" type="button" data-act="copy">${ic("copy")}${esc(t("copy"))}</button>` : ((cards&&(S.card||1)>=5)?"":`<button class="cta btn-main" type="button" data-act="next">${esc(nextLabel)}</button>`);
-  const skip = (!open5 && !four && !cards) ? `<button class="cta btn-ghost" type="button" data-act="skip">${esc(t("skipEnd"))}</button>` : "";
+  const narrow=isCards(), open5=S.rev.has(5)&&unlocked()&&(!narrow||S.card===5);
+  const main = open5 ? `<button class="cta btn-main" type="button" data-act="copy">${ic("copy")}${esc(t("copy"))}</button>` : ((!narrow||(S.card||1)>=5)?"":`<button class="cta btn-main" type="button" data-act="next">${esc(t("nextCard"))}</button>`);
   const tri=(a,i,l)=>`<button class="cta btn-ghost" type="button" data-act="${a}">${ic(i)}<span>${esc(l)}</span></button>`;
-  const second = open5 ? (cards
-    ? `<div class="acts-row tri">${tri("img","dl",t("saveImg"))}${S.isExample?"":tri("deep","again",t("deepBtn"))}${(isFull()&&!S.isExample)?tri("teams","arrow",t("teamsBtn")):""}</div>`
-    : `<div class="acts-row"><button class="cta btn-ghost" type="button" data-act="img">${ic("dl")}${esc(t("saveImg"))}</button>${S.isExample?"":`<button class="cta btn-ghost" type="button" data-act="deep">${ic("again")}${esc(t("deepBtn"))}</button>`}</div>${(isFull()&&!S.isExample)?`<button class="cta btn-ghost" type="button" data-act="teams">${ic("arrow")}${esc(t("teamsBtn"))}</button>`:""}`) : skip;
-  const gateOpen = cards ? ((S.card||1)===5 && !unlocked() && four) : (S.open===5 && !unlocked());
-  $("#cardacts").innerHTML = (gateOpen?"":main) + second + `<span class="note" id="actNote">${esc(S.savedNote)}</span>`;
+  const second = open5 ? `<div class="acts-row tri">${tri("img","dl",t("saveImg"))}${S.isExample?"":tri("deep","again",t("deepBtn"))}${(isFull()&&!S.isExample)?tri("teams","arrow",t("teamsBtn")):""}</div>` : "";
+  $("#cardacts").innerHTML = main + second + `<span class="note" id="actNote">${esc(S.savedNote)}</span>`;
   const pl=$("#plansBox"); if (pl) pl.remove();
   if (open5 && !S.isExample && !S.pro) $("#cardacts").insertAdjacentHTML("afterend", `<div id="plansBox">${plansHTML()}</div>`);
 }
 function openRow(i){
-  if (isCards()){ const st=$("#stage"); st.innerHTML=cardHTML(st._b,currentCard().o); S.card=0; goCard(i,true); viewCard(i); return true; }
-  const done=need().every(x=>S.rev.has(x));
-  if (i===5 && !done) return false;
-  S.open = (S.open===i) ? 0 : i;
-  const firstSeen=!S.rev.has(i);
-  const willFlood = i===5 && unlocked() && !S.stampHit && !calm();
-  S.rev.add(i);
   const st=$("#stage");
-  st.innerHTML=cardHTML(st._b, currentCard().o);
-  if (willFlood) floodTo(st._b.verdict, st.querySelector('.rrow[data-row="5"]')); else setTone();
-  if (firstSeen && !calm()){ const rv=st.querySelector(`.rrow[data-row="${i}"] .rv`); if(rv){ rv.classList.add("pop"); rv.querySelectorAll(".num").forEach(countUp); } }
-  const row=st.querySelector(`.rrow[data-row="${i}"]`);
-  if (row && S.open===i) setTimeout(()=>{ row.scrollIntoView({block:"start",behavior:calm()?"auto":"smooth"}); }, 80);
-  if (i===5 && unlocked() && $("#vword") && !calm() && !S.stampHit){ $("#vword").classList.add("hit"); S.stampHit=true; try{ navigator.vibrate&&navigator.vibrate(18); }catch(e){} }
-  if (i===5 && !unlocked()) setTimeout(()=>{ const g=$("#gEmail"); if(g && !g.value) g.focus({preventScroll:true}); else $("#gName")?.focus({preventScroll:true}); },140);
-  renderActs(); renderCounter(true);
+  if (isCards()){ st.innerHTML=cardHTML(st._b,currentCard().o); S.card=0; goCard(i,true); viewCard(i); return true; }
+  [1,2,3,4].forEach(k=>{ if(!proLocked(k)) S.rev.add(k); });
+  st.innerHTML=cardHTML(st._b,currentCard().o);
+  if (i===5 && unlocked()) revealFinal();
+  renderActs(); renderCounter(true); fitSoon();
   return true;
 }
 function countUp(el){
@@ -1247,15 +1229,6 @@ function countUp(el){
   const step=now=>{ const k=Math.min(1,(now-t0)/dur), e=1-Math.pow(1-k,3), v=Math.round(to*e); el.textContent=f?fmt(v):v; if(k<1) requestAnimationFrame(step); };
   requestAnimationFrame(step);
 }
-function floodTo(verdict, rowEl){
-  const p=$("#p-receipt"); p.querySelector(".flood")?.remove();
-  const r=rowEl?rowEl.getBoundingClientRect():{left:innerWidth/2,top:innerHeight/2,width:0,height:0};
-  const f=document.createElement("div"); f.className="flood";
-  f.style.background=`var(--${VCLS(verdict)})`; f.style.setProperty("--fx",(r.left+r.width/2)+"px"); f.style.setProperty("--fy",(r.top+r.height/2)+"px");
-  p.prepend(f);
-  setTimeout(()=>{ setTone(); setTimeout(()=>f.remove(),760); }, 520);
-}
-function nextLine(){ const i=need().find(x=>!S.rev.has(x)) || 5; S.open=0; openRow(i); }
 function paywallHTML(){
   return `<div class="pw"><div class="pw-t">${ic("lock")}${esc(t("pwT"))}</div><p>${esc(t("pwS"))}</p>
     <button class="cta" type="button" data-act="unlockfree">${esc(t("pwGo"))}</button></div>`;
@@ -1307,7 +1280,7 @@ $("#stage").addEventListener("click", e=>{
   const oi=e.target.closest("[data-optin]"); if (oi){ doOptin(oi); return; }
   if (e.target.closest(".gate")) return;
   const k=e.target.closest("[data-ks]"); if (k){ setKill(k.closest("[data-kt]").dataset.kt, k.dataset.ks); return; }
-  const h=e.target.closest(".rh"); if (h) openRow(+h.closest(".rrow").dataset.row);
+  
 });
 $("#stage").addEventListener("input", e=>{
   if (e.target.id!=="priceIn") return; const b=$("#stage")._b; const p=Math.max(0,Number(e.target.value)||0);
@@ -1321,9 +1294,8 @@ document.addEventListener("click", async e=>{
   if (act==="teams"){ openTeams(); return; }
   if (isCards() && act==="next"){ goCard(Math.min(5,(S._tgt||S.card||1)+1)); return; }
   if (act==="remind" && b){ remindIcs(b); return; }
-  if (act==="unlockfree"){ if(need().every(i=>S.rev.has(i))){ S.open=0; openRow(5); } else nextLine(); return; }
-  if (act==="next"){ if(need().every(i=>S.rev.has(i)) && !unlocked()){ S.open=0; openRow(5); return; } nextLine(); return; }
-  if (act==="skip"){ need().forEach(i=>S.rev.add(i)); S.open=0; openRow(5); return; }
+  if (act==="unlockfree"){ if (isCards()) goCard(5); else $("#gEmail")?.focus(); return; }
+  if (act==="reveal"){ revealFinal(); renderActs(); return; }
   if (act==="img" && b){ saveImage(b, currentCard().o, a); return; }
   if (act==="deep" && b){ openDeep(b); return; }
   if (act==="copy" && b){ const txt=receiptText(b), note=$("#actNote");
