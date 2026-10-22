@@ -10,7 +10,7 @@
    revealed the whole sheet floods with the verdict color: BUILD green, PIVOT amber, KILL red. */
 :root{
   --bg:#F6F5F2; --ink:#111; --muted:#77756F; --line:#D9D8D3; --red:#F07167;
-  --b1:#111111; --b1-ink:#F4F3EF; --b2:#E6E5E0; --b2-ink:#111; --b3:#F6F5F2; --b3-ink:#111;
+  --b1:#111111; --b1-ink:#F4F3EF; --b2:#E6E5E0; --b2-ink:#111; --b3:#F6F5F2; --b3-ink:#111; --b2m:#E6E5E0;
   --night:#161616; --night-ink:#F4F3EF;
   --build:#A8DADC; --build-ink:#0F2A2C; --pivot:#F1FAEE; --pivot-ink:#1B2626; --kill:#F07167; --kill-ink:#2B0B07;
   --cta-h:52px;
@@ -21,9 +21,9 @@
 }
 @media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
   --bg:#0E0E0E; --ink:#F1F0EC; --muted:#8E8C87; --line:#2A2A2A;
-  --b1:#000; --b1-ink:#F4F3EF; --b2:#1C1C1C; --b2-ink:#F1F0EC; --b3:#0E0E0E; --b3-ink:#F1F0EC; --night:#0A0A0A; color-scheme:dark}}
+  --b1:#000; --b1-ink:#F4F3EF; --b2:#1C1C1C; --b2-ink:#F1F0EC; --b3:#0E0E0E; --b3-ink:#F1F0EC; --b2m:#0E0E0E; --night:#0A0A0A; color-scheme:dark}}
 :root[data-theme="dark"]{--bg:#0E0E0E; --ink:#F1F0EC; --muted:#8E8C87; --line:#2A2A2A;
-  --b1:#000; --b1-ink:#F4F3EF; --b2:#1C1C1C; --b2-ink:#F1F0EC; --b3:#0E0E0E; --b3-ink:#F1F0EC; --night:#0A0A0A; color-scheme:dark}
+  --b1:#000; --b1-ink:#F4F3EF; --b2:#1C1C1C; --b2-ink:#F1F0EC; --b3:#0E0E0E; --b3-ink:#F1F0EC; --b2m:#0E0E0E; --night:#0A0A0A; color-scheme:dark}
 *{box-sizing:border-box}
 [hidden]{display:none!important}
 html,body{margin:0;background:var(--bg);color:var(--ink)}
@@ -112,6 +112,7 @@ nav.top .in{display:flex;align-items:center;justify-content:space-between;height
   .b-idea .b-sub{margin-inline:0;text-align:start;max-width:300px}
   .bands .b-ex,.bands .b-mine{padding:22px 20px 0!important;gap:0}
   .b-mine{background:var(--b3);color:var(--b3-ink)}
+  .b-ex{background:var(--b2m)}
   .b-ex .b-big,.b-mine .b-big{font-size:34px;justify-content:flex-start;flex-wrap:nowrap;gap:14px;width:auto;margin:47px 0 0}
   .b-ex .b-big small,.b-mine .b-big small{font-size:17px;letter-spacing:-.01em}
   .strip{bottom:14px}
