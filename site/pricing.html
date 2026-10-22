@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Pricing · Wazo</title>
+<meta name="description" content="Wazo pricing: free unlimited idea scoring, Pro for the full deep-dive analysis.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700&family=Unbounded:wght@500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<style>
+  :root{--bg:#0E0E0E;--ink:#F1F0EC;--muted:#8E8C87;--line:#2A2A2A;--accent:#F07167}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:"Hanken Grotesk",sans-serif;line-height:1.5;padding:64px 20px 96px}
+  .wrap{max-width:720px;margin:0 auto}
+  a.logo{font-family:"Unbounded",sans-serif;font-weight:600;font-size:20px;color:var(--ink);text-decoration:none}
+  h1{font-family:"Unbounded",sans-serif;font-weight:600;font-size:clamp(32px,6vw,48px);margin:40px 0 8px;letter-spacing:-.02em}
+  .sub{color:var(--muted);font-size:17px;margin:0 0 48px;max-width:46ch}
+  .plans{display:grid;gap:20px;grid-template-columns:1fr 1fr}
+  @media (max-width:640px){.plans{grid-template-columns:1fr}}
+  .plan{border:1px solid var(--line);border-radius:20px;padding:28px}
+  .plan h2{font-family:"Unbounded",sans-serif;font-size:20px;font-weight:600;margin:0 0 4px}
+  .price{font-family:"IBM Plex Mono",monospace;font-size:32px;font-weight:600;margin:16px 0}
+  .price span{font-size:14px;color:var(--muted);font-weight:400}
+  .plan.pro{border-color:var(--accent)}
+  .tag{display:inline-block;font-family:"IBM Plex Mono",monospace;font-size:11px;letter-spacing:.08em;text-transform:uppercase;background:var(--accent);color:#2B0B07;padding:4px 10px;border-radius:999px;margin-bottom:12px}
+  ul{margin:16px 0 0;padding:0 0 0 18px;color:var(--muted);font-size:15px}
+  li{margin:6px 0}
+  .faq{margin-top:64px}
+  .faq h2{font-family:"Unbounded",sans-serif;font-size:22px;font-weight:600;margin:0 0 20px}
+  .qa{border-top:1px solid var(--line);padding:18px 0}
+  .qa b{display:block;margin-bottom:6px}
+  .qa p{margin:0;color:var(--muted);font-size:15px}
+  footer{margin-top:64px;color:var(--muted);font-size:13px}
+  footer a{color:var(--ink)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <a class="logo" href="/">Wazo</a>
+  <h1>Pricing</h1>
+  <p class="sub">Run as many ideas through Wazo as you like, for free. Pro unlocks the full breakdown on every one.</p>
+
+  <div class="plans">
+    <div class="plan">
+      <h2>Free</h2>
+      <div class="price">$0<span> / forever</span></div>
+      <ul>
+        <li>Unlimited idea analyses</li>
+        <li>Verdict preview, scores and evidence grades</li>
+        <li>Money estimate (price, low/base/high)</li>
+        <li>No signup required</li>
+      </ul>
+    </div>
+    <div class="plan pro">
+      <span class="tag">Pro</span>
+      <h2>Pro</h2>
+      <div class="price">$13<span> / month</span></div>
+      <ul>
+        <li>Everything in Free</li>
+        <li>Full bottom-line verdict</li>
+        <li>Ready-to-run 7-day validation test</li>
+        <li>Graveyard &amp; competition research</li>
+        <li>Market lens and who should build it</li>
+        <li>Deep Analyze: risks, strategy and 90-day milestones for any idea</li>
+        <li>Cancel anytime</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="faq">
+    <h2>Questions</h2>
+    <div class="qa"><b>Is the free tier really unlimited?</b><p>Yes. Running an idea and seeing its scores, evidence and money estimate costs nothing and has no cap.</p></div>
+    <div class="qa"><b>What does Pro actually unlock?</b><p>The parts of the analysis that take Wazo the longest to reason through: the 7-day test, competitive research, and a Deep Analyze follow-up with named risks and a 90-day plan.</p></div>
+    <div class="qa"><b>Can I cancel?</b><p>Yes, anytime. You keep Pro access until the end of the billing period you already paid for.</p></div>
+    <div class="qa"><b>How is this billed?</b><p>Payments are processed by Paddle.com, who handle billing, invoicing and tax compliance as merchant of record.</p></div>
+  </div>
+
+  <footer>© 2026 Wazo · <a href="/">Back to Wazo</a></footer>
+</div>
+</body>
+</html>
