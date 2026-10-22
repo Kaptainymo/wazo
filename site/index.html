@@ -220,6 +220,7 @@ textarea#idea:focus{outline:none}
 .p-receipt.t-pivot .btn-main{background:var(--pivot-ink);color:var(--pivot)}
 .p-receipt.t-kill .btn-main{background:var(--kill-ink);color:var(--kill)}
 .btn-ghost{background:transparent;color:inherit;box-shadow:inset 0 0 0 1.4px color-mix(in srgb,currentColor 40%,transparent)}
+.btn-ai{background:color-mix(in srgb,#7C6CFF 16%,transparent);box-shadow:inset 0 0 0 1.4px color-mix(in srgb,#7C6CFF 65%,transparent);color:#7C6CFF}
 .acts .note{text-align:center}
 .plans{display:grid;gap:10px;padding:8px 0 28px}
 .plans-t{font-weight:700;font-size:20px;letter-spacing:-.02em}
@@ -501,7 +502,7 @@ he:{
   thanks:"תודה שבדקת לפני שהתפטרת", example:"דוגמה", ks:"המבחן", ksP:"ממתין", ksY:"עבר", ksN:"נכשל"},
  sc:{pain:"כאב",demand:"ביקוש",space:"שטח פנוי",pay:"נכונות לשלם"},
  next:"השורה הבאה", reveal:"חשוף את פסק הדין", reviewed:"נקראו", locked:"קרא את כל השורות כדי לחשוף את פסק הדין",
- copy:"העתק כטקסט", copied:"הועתק", again:"נתח שוב", saved:"נשמר במגירה", notSaved:"התחבר ל-claude.ai כדי לשמור",
+ copy:"העתק טקסט ל-AI", copied:"הועתק", again:"נתח שוב", saved:"נשמר במגירה", notSaved:"התחבר ל-claude.ai כדי לשמור",
  howEy:"01, הקבלה", howT:"ארבע שורות שמספרות את האמת.", howS:"בלי ציונים מנופחים ובלי תקרות שוק מומצאות. כל מספר מגיע עם הסיבה שלו.",
  lines:[["ציונים עם קבלות","כאב, ביקוש, שטח פנוי ונכונות לשלם. כל ציון מדורג A עד D לפי הראיה שמאחוריו.","PAIN ........ 6/10 [B]"],
   ["החשבון","מחיר, לקוחות משלמים בחודש 12 ושלושה תרחישים, וההנחה האחת ששוברת הכול.","BASE x12 ..... ₪14,400"],
@@ -533,7 +534,7 @@ en:{
   thanks:"Thanks for checking before you quit your job", example:"EXAMPLE", ks:"Test", ksP:"Pending", ksY:"Passed", ksN:"Failed"},
  sc:{pain:"Pain",demand:"Demand",space:"Open space",pay:"Will pay"},
  next:"Next line", reveal:"Reveal the verdict", reviewed:"reviewed", locked:"Review every line to reveal the verdict",
- copy:"Copy as text", copied:"Copied", again:"Analyze again", saved:"Saved to the drawer", notSaved:"Sign in to claude.ai to save",
+ copy:"Copy text for AI", copied:"Copied", again:"Analyze again", saved:"Saved to the drawer", notSaved:"Sign in to claude.ai to save",
  howEy:"01, The receipt", howT:"Four lines that tell the truth.", howS:"No inflated scores and no made-up market ceilings. Every number comes with its reason.",
  lines:[["Scores with receipts","Pain, demand, open space and willingness to pay. Each graded A to D by the evidence behind it.","PAIN ........ 6/10 [B]"],
   ["The money","Price, paying customers at month 12, three scenarios, and the one assumption that breaks it all.","BASE x12 ..... ₪14,400"],
@@ -669,7 +670,7 @@ T.es={
   thanks:"Gracias por comprobarlo antes de dejar tu trabajo", example:"EJEMPLO", ks:"Prueba", ksP:"Pendiente", ksY:"Aprobada", ksN:"Fallida"},
  sc:{pain:"Dolor",demand:"Demanda",space:"Espacio libre",pay:"Pagarán"},
  next:"Siguiente línea", reveal:"Revelar el veredicto", reviewed:"revisadas", locked:"Revisa cada línea para revelar el veredicto",
- copy:"Copiar como texto", copied:"Copiado", again:"Analizar de nuevo", saved:"Guardado en el cajón", notSaved:"Inicia sesión en claude.ai para guardar",
+ copy:"Copiar texto para IA", copied:"Copiado", again:"Analizar de nuevo", saved:"Guardado en el cajón", notSaved:"Inicia sesión en claude.ai para guardar",
  howEy:"En el recibo", howT:"Cuatro líneas que dicen la verdad.", howS:"Sin puntuaciones infladas ni techos de mercado inventados. Cada número viene con su razón.",
  lines:[["Puntuaciones con recibo","Dolor, demanda, espacio libre y disposición a pagar. Cada una calificada de A a D según la evidencia.","DOLOR ....... 6/10 [B]"],
   ["El dinero","Precio, clientes que pagan en el mes 12, tres escenarios y el supuesto que lo rompe todo.","BASE x12 ..... €4,400"],
@@ -720,7 +721,7 @@ T.fr={
   thanks:"Merci d'avoir vérifié avant de quitter votre emploi", example:"EXEMPLE", ks:"Test", ksP:"En attente", ksY:"Réussi", ksN:"Échoué"},
  sc:{pain:"Douleur",demand:"Demande",space:"Espace libre",pay:"Prêts à payer"},
  next:"Ligne suivante", reveal:"Révéler le verdict", reviewed:"lues", locked:"Lisez chaque ligne pour révéler le verdict",
- copy:"Copier en texte", copied:"Copié", again:"Analyser à nouveau", saved:"Rangé dans le tiroir", notSaved:"Connectez-vous à claude.ai pour enregistrer",
+ copy:"Copier le texte pour l'IA", copied:"Copié", again:"Analyser à nouveau", saved:"Rangé dans le tiroir", notSaved:"Connectez-vous à claude.ai pour enregistrer",
  howEy:"Sur le reçu", howT:"Quatre lignes qui disent la vérité.", howS:"Pas de notes gonflées ni de plafonds de marché inventés. Chaque chiffre vient avec sa raison.",
  lines:[["Des notes justifiées","Douleur, demande, espace libre et volonté de payer. Chacune notée de A à D selon les preuves.","DOULEUR ..... 6/10 [B]"],
   ["L'argent","Prix, clients payants au mois 12, trois scénarios et l'hypothèse qui fait tout tomber.","BASE x12 ..... €4,400"],
@@ -1095,7 +1096,7 @@ function renderActs(){
   const nextLabel = four ? (unlocked()?t("reveal"):t("gGo")) : t("next");
   const main = open5 ? `<button class="cta btn-main" type="button" data-act="img">${ic("dl")}${esc(t("saveImg"))}</button>` : `<button class="cta btn-main" type="button" data-act="next">${esc(nextLabel)}</button>`;
   const skip = (!open5 && !four) ? `<button class="cta btn-ghost" type="button" data-act="skip">${esc(t("skipEnd"))}</button>` : "";
-  const second = open5 ? `<div class="acts-row"><button class="cta btn-ghost" type="button" data-act="copy">${ic("copy")}${esc(t("copy"))}</button>${S.isExample?"":`<button class="cta btn-ghost" type="button" data-act="again">${ic("again")}${esc(t("again"))}</button>`}</div>${(isFull()&&!S.isExample)?`<button class="cta btn-ghost" type="button" data-act="teams">${ic("arrow")}${esc(t("teamsBtn"))}</button>`:""}` : skip;
+  const second = open5 ? `<div class="acts-row"><button class="cta btn-ghost btn-ai" type="button" data-act="copy">${ic("copy")}${esc(t("copy"))}</button>${S.isExample?"":`<button class="cta btn-ghost" type="button" data-act="again">${ic("again")}${esc(t("again"))}</button>`}</div>${(isFull()&&!S.isExample)?`<button class="cta btn-ghost" type="button" data-act="teams">${ic("arrow")}${esc(t("teamsBtn"))}</button>`:""}` : skip;
   const gateOpen = S.open===5 && !unlocked();
   $("#cardacts").innerHTML = (gateOpen?"":main) + second + `<span class="note" id="actNote">${esc(S.savedNote)}</span>`;
   const pl=$("#plansBox"); if (pl) pl.remove();
