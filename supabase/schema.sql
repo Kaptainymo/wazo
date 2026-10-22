@@ -66,6 +66,7 @@ $$;
 -- Purchased wazo credits (from the 5-pack). Never expire, separate from the free count.
 alter table leads add column if not exists paid_credits integer not null default 0;
 alter table leads add column if not exists stripe_customer_id text;
+alter table leads add column if not exists paddle_customer_id text;
 
 -- Add n purchased credits, creating the lead row if it doesn't exist yet
 -- (someone can buy before ever signing up through the normal flow).

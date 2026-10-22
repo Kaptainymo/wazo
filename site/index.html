@@ -1221,17 +1221,13 @@ async function holdPlan(k,btn){
     if (S.me.email){ try{ const token=await humanToken(); await api("lead",{action:"plan",email:S.me.email,plan:k,lang:S.lang,token}); }catch(e){} }
     return;
   }
-  // one / pack / pro: go straight to a real Stripe Checkout.
+  // pro: open Paddle's checkout overlay directly (no server round trip needed).
   const wrap=btn?.closest(".plans"), note=wrap?.querySelector(".plan-note");
-  if (btn) btn.disabled=true;
-  if (note) note.textContent=t("loading");
-  try{
-    const token=await humanToken();
-    const r=await api("checkout",{plan:k,lang:S.lang,email:S.me.email||"",token});
-    if (r.status===200 && r.data.url){ location.href=r.data.url; return; }
-    if (note) note.textContent=errCopy(r.data&&r.data.code);
-  }catch(e){ if (note) note.textContent=t("errGeneric"); }
-  if (btn) btn.disabled=false;
+  if (!window.Paddle || !S.cfg.paddlePricePro){ if (note) note.textContent=t("errSetup"); return; }
+  const items=[{priceId:S.cfg.paddlePricePro,quantity:1}];
+  const opts={items, customData:{lang:S.lang}};
+  if (S.me.email) opts.customer={email:S.me.email};
+  Paddle.Checkout.open(opts);
 }
 function plansHTML(){
   return `<div class="plans"><div class="plans-t">${esc(t("plansT"))}</div><div class="plans-s">${esc(t("plansS"))}</div>
@@ -1510,15 +1506,19 @@ hydrateIcons(); applyLang();
 ["#rail","#stage","#drawerList"].forEach(sel=>{ const n=document.querySelector(sel); if(n) new MutationObserver(fitSoon).observe(n,{childList:true,subtree:true}); });
 fitSoon();
 if (location.hash==="#demo"){ S.current=norm({...EXAMPLE[S.lang],cur:CUR()}); S.current.full=false; S.isExample=false; history.replaceState(null,"","#receipt"); enablePreview(); }
-if (/[?&]paid=/.test(location.search)){ setNote(t("paidOk")); history.replaceState(null,"",location.pathname+location.hash); }
 show(location.hash.slice(1)); if (S.current) renderStage();
 loadDrawer();
 (async()=>{
   try{ const r=await fetch("/api/config",{cache:"no-store"}); if(r.ok) S.cfg={...S.cfg,...(await r.json())}; }catch(e){}
   S.ready=true; renderDrawer();
-  const add=(src,attrs)=>{ const sc=document.createElement("script"); sc.src=src; sc.async=true; sc.defer=true; Object.entries(attrs||{}).forEach(([k,v])=>sc.setAttribute(k,v)); document.head.appendChild(sc); };
+  const add=(src,attrs,onload)=>{ const sc=document.createElement("script"); sc.src=src; sc.async=true; sc.defer=true; if(onload) sc.onload=onload; Object.entries(attrs||{}).forEach(([k,v])=>sc.setAttribute(k,v)); document.head.appendChild(sc); };
   if (S.cfg.siteKey) add("https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit");
   if (S.cfg.umami) add("https://cloud.umami.is/script.js",{"data-website-id":S.cfg.umami});
+  if (S.cfg.paddleToken) add("https://cdn.paddle.com/paddle/v2/paddle.js",{},()=>{
+    if (!window.Paddle) return;
+    if (S.cfg.paddleEnv==="sandbox") Paddle.Environment.set("sandbox");
+    Paddle.Initialize({ token:S.cfg.paddleToken, eventCallback:e=>{ if(e.name==="checkout.completed") setNote(t("paidOk")); } });
+  });
   if (!S.cfg.ready) setNote(t("errSetup"));
 })();
 })();

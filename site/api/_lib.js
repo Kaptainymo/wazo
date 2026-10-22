@@ -90,37 +90,29 @@ export const sinceISO = (hours) => new Date(Date.now() - hours * 3600e3).toISOSt
 // What a visitor sees before giving an email: the idea, scores and money.
 export const partial = (w) => ({ idea: w.idea, title: w.title, scores: w.scores, money: w.money });
 
-// ---------- Stripe (REST, secret key; server only) ----------
-export async function stripe(path, params) {
-  const r = await fetch(`https://api.stripe.com/v1/${path}`, {
-    method: "POST",
-    headers: { Authorization: "Basic " + Buffer.from(env("STRIPE_SECRET_KEY") + ":").toString("base64"), "Content-Type": "application/x-www-form-urlencoded" },
-    body: params,
+// ---------- Paddle (REST, API key; server only) ----------
+const paddleBase = () => (env("PADDLE_ENV", "sandbox") === "production" ? "https://api.paddle.com" : "https://sandbox-api.paddle.com");
+export async function paddleGet(path) {
+  const r = await fetch(`${paddleBase()}/${path}`, {
+    headers: { Authorization: "Bearer " + env("PADDLE_API_KEY") },
   });
   const j = await r.json();
-  if (!r.ok) throw Object.assign(new Error(j?.error?.message || "stripe " + r.status), { code: "stripe" });
-  return j;
+  if (!r.ok) throw Object.assign(new Error(j?.error?.detail || "paddle " + r.status), { code: "paddle" });
+  return j.data;
 }
-export async function stripeGet(path) {
-  const r = await fetch(`https://api.stripe.com/v1/${path}`, {
-    headers: { Authorization: "Basic " + Buffer.from(env("STRIPE_SECRET_KEY") + ":").toString("base64") },
-  });
-  const j = await r.json();
-  if (!r.ok) throw Object.assign(new Error(j?.error?.message || "stripe " + r.status), { code: "stripe" });
-  return j;
-}
-// The raw request bytes, needed to verify a Stripe webhook signature before parsing JSON.
+// The raw request bytes, needed to verify a webhook signature before parsing JSON.
 export async function rawBody(req) {
   const chunks = []; let size = 0;
   for await (const c of req) { size += c.length; if (size > 200000) break; chunks.push(c); }
   return Buffer.concat(chunks);
 }
-export function verifyStripeSig(raw, header, secret) {
+// Paddle-Signature: "ts=<unix>;h1=<hex>", signed payload is "ts:rawBody".
+export function verifyPaddleSig(raw, header, secret) {
   if (!header || !secret) return false;
-  const parts = Object.fromEntries(String(header).split(",").map((p) => p.split("=")));
-  const t = parts.t, v1 = parts.v1;
-  if (!t || !v1) return false;
-  if (Math.abs(Date.now() / 1000 - Number(t)) > 300) return false; // 5 min tolerance
-  const expected = crypto.createHmac("sha256", secret).update(`${t}.${raw}`).digest("hex");
-  try { return crypto.timingSafeEqual(Buffer.from(expected, "hex"), Buffer.from(v1, "hex")); } catch { return false; }
+  const parts = Object.fromEntries(String(header).split(";").map((p) => p.split("=")));
+  const ts = parts.ts, h1 = parts.h1;
+  if (!ts || !h1) return false;
+  if (Math.abs(Date.now() / 1000 - Number(ts)) > 30) return false; // small clock-skew tolerance
+  const expected = crypto.createHmac("sha256", secret).update(`${ts}:${raw}`).digest("hex");
+  try { return crypto.timingSafeEqual(Buffer.from(expected, "hex"), Buffer.from(h1, "hex")); } catch { return false; }
 }
