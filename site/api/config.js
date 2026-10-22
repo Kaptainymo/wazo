@@ -2,6 +2,7 @@
 import { env, ready, send } from "./_lib.js";
 
 export default function handler(req, res) {
+  const country = String(req.headers["x-vercel-ip-country"] || "").toUpperCase();
   send(res, 200, {
     ready: ready(),
     siteKey: env("TURNSTILE_SITEKEY"),
@@ -9,5 +10,6 @@ export default function handler(req, res) {
     paddleToken: env("PADDLE_CLIENT_TOKEN"),
     paddleEnv: env("PADDLE_ENV", "sandbox"),
     paddlePricePro: env("PADDLE_PRICE_PRO"),
+    lang: country === "IL" ? "he" : "en",
   });
 }

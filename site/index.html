@@ -1482,7 +1482,7 @@ function applyLang(){
   $("#idea").placeholder=t("ideaPh"); $("#fCust").placeholder=t("phCust"); $("#fBudget").placeholder=t("phBudget"); $("#fTime").placeholder=t("phTime");
   $("#langBtn").textContent=(LANGS.find(x=>x[0]===S.lang)||LANGS[0])[2];
   let thUser=null; try{ thUser=localStorage.getItem("wz.theme"); }catch(e){}
-  if (!thUser){ if (S.lang==="en") document.documentElement.setAttribute("data-theme","dark"); else document.documentElement.removeAttribute("data-theme"); }
+  if (!thUser) document.documentElement.setAttribute("data-theme","dark");
   if (S.ready && !S.cfg.ready) setNote(t("errSetup"));
   renderHome(); renderRail(); renderDrawer(); if (S.current && !S.busy) renderStage();
 }
@@ -1528,6 +1528,8 @@ show(location.hash.slice(1)); if (S.current) renderStage();
 loadDrawer();
 (async()=>{
   try{ const r=await fetch("/api/config",{cache:"no-store"}); if(r.ok) S.cfg={...S.cfg,...(await r.json())}; }catch(e){}
+  let langSaved=null; try{ langSaved=localStorage.getItem("wz.lang"); }catch(e){}
+  if (!langSaved && S.cfg.lang && LANGS.some(x=>x[0]===S.cfg.lang) && S.cfg.lang!==S.lang){ S.lang=S.cfg.lang; applyLang(); if (S.current) renderStage(); }
   S.ready=true; renderDrawer();
   const add=(src,attrs,onload)=>{ const sc=document.createElement("script"); sc.src=src; sc.async=true; sc.defer=true; if(onload) sc.onload=onload; Object.entries(attrs||{}).forEach(([k,v])=>sc.setAttribute(k,v)); document.head.appendChild(sc); };
   if (S.cfg.siteKey) add("https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit");
