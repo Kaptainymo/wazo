@@ -70,6 +70,7 @@ nav.top .in{display:flex;align-items:center;justify-content:space-between;height
 .b-ex{background:var(--b2);color:var(--b2-ink);flex:1 1 0;min-height:190px}
 .b-mine{background:var(--b1);color:var(--b1-ink);flex:1 1 0;min-height:190px}
 .b-lab{font-family:var(--f-mono);font-size:12px;letter-spacing:.12em;text-transform:uppercase;opacity:.65;display:flex;gap:10px}
+#app[dir="rtl"] .b-lab,#app[dir="rtl"] .ph-t{letter-spacing:0}
 .b-big{font-weight:500;font-size:clamp(40px,11vw,84px);line-height:.95;letter-spacing:-.045em;display:flex;align-items:baseline;justify-content:center;gap:14px;flex-wrap:wrap;width:100%}
 .b-big b{font-weight:500;font-variant-numeric:tabular-nums;direction:ltr}
 .b-big small{font-size:clamp(17px,4.4vw,26px);letter-spacing:-.01em;opacity:.7;font-weight:500}
@@ -95,7 +96,7 @@ nav.top .in{display:flex;align-items:center;justify-content:space-between;height
 .b-ex .b-big,.b-mine .b-big{margin-block:auto}
 /* Phone (Figma 390x844): nav 56, 24 gaps, bands 313 / 190 / 189, left-aligned copy */
 @media (max-width:899px){
-  .bands{background:var(--b1);height:calc(100dvh - 56px - env(safe-area-inset-top,0px));min-height:620px;display:grid;grid-template-rows:minmax(0,313fr) minmax(0,190fr) minmax(0,189fr);gap:24px;padding-block:24px}
+  .bands{background:var(--b1);height:auto;min-height:calc(100dvh - 56px - env(safe-area-inset-top,0px));display:grid;grid-template-rows:minmax(240px,313fr) minmax(190px,190fr) minmax(189px,189fr);gap:24px;padding-block:24px}
   .bands>.band{min-height:0!important;overflow:hidden}
   .b-arrow{top:22px;height:22px;line-height:22px}
   .bands .b-idea{padding:22px 32px 24px}
@@ -115,7 +116,7 @@ nav.top .in{display:flex;align-items:center;justify-content:space-between;height
 .legend{display:flex;gap:14px;font-family:var(--f-mono);font-size:11px;opacity:.75;flex-wrap:wrap}
 .legend span{display:flex;align-items:center;gap:6px}
 .legend span::before{content:"";width:9px;height:9px;border-radius:50%;background:var(--c)}
-.foot{padding:18px 20px 28px;font-size:12px;color:var(--muted);text-align:center}
+.foot{padding:18px 20px calc(28px + env(safe-area-inset-bottom,0px));font-size:12px;color:var(--muted);text-align:center}
 
 /* panels */
 .panel{position:fixed;inset:0;z-index:40;overflow-y:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;animation:rise .42s var(--ease) both;padding-bottom:env(safe-area-inset-bottom,0px)}
