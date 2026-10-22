@@ -99,8 +99,6 @@ nav.top .in{display:flex;align-items:center;justify-content:space-between;height
 .strip i{display:block;position:relative;flex:0 0 auto;width:37px;height:35px;border-radius:5px;overflow:hidden;font-style:normal}
 @media (min-width:900px){.strip i{width:70px;height:80px;border-radius:10px}}
 .strip i::before{content:"";position:absolute;inset:0;opacity:.55;mix-blend-mode:overlay;pointer-events:none;background-repeat:repeat;background-size:64px 64px;background-image:url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64"><filter id="n"><feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" stitchTiles="stitch"/><feColorMatrix type="saturate" values="0"/></filter><rect width="100%25" height="100%25" filter="url(%23n)"/></svg>')}
-.strip i::after{content:attr(data-l);position:absolute;inset-inline-start:12px;top:50%;transform:translateY(-50%);font-family:var(--f-mono);font-size:11px;font-weight:600;letter-spacing:.08em;color:#121a1a;opacity:0;transition:opacity .2s;white-space:nowrap;pointer-events:none}
-@media (hover:hover) and (pointer:fine){.strip i:hover::after{opacity:.85}}
 .strip i.empty-seg{flex:1 1 0;width:auto;height:100%;align-self:stretch;border-radius:0;background:#292929}
 .strip i.empty-seg::before{content:none}
 .b-ex,.b-mine{padding-bottom:44px!important;justify-content:flex-start!important}
@@ -983,7 +981,7 @@ function renderHome(){
   if (!S.homeDone && !calm()){ S.homeDone=true; $("#home").classList.add("enter"); setTimeout(()=>$("#home").classList.remove("enter"),1300);
     setTimeout(()=>{ const n=$("#exN"); n.dataset.to=FEED.length; countUp(n); },250); }
   $("#exN").textContent=FEED.length;
-  const tiles=verdicts=>verdicts.length ? verdicts.slice(0,9).map(v=>`<i data-l="${esc(t("vWord")[v]||v)}" style="background:var(--${VCLS(v)})"></i>`).join("") : `<i class="empty-seg"></i>`;
+  const tiles=verdicts=>verdicts.length ? verdicts.slice(0,9).map(v=>`<i style="background:var(--${VCLS(v)})"></i>`).join("") : `<i class="empty-seg"></i>`;
   $("#tri").innerHTML=tiles(FEED.map(f=>f.v));
   $("#mineStrip").innerHTML=tiles((S.mine||[]).map(x=>x&&x.verdict).filter(Boolean));
   $("#mineN").textContent = S.mine.length;
