@@ -379,6 +379,10 @@ dialog.sheet[open]::backdrop{animation:fadeIn .3s ease both}
 .sheet-x::before,.sheet-x::after{content:"";position:absolute;left:50%;top:50%;width:15px;height:2px;border-radius:2px;background:currentColor;transform:translate(-50%,-50%) rotate(45deg)}
 .sheet-x::after{transform:translate(-50%,-50%) rotate(-45deg)}
 .sheet-x:hover{filter:brightness(1.08)} .sheet-x:active{transform:scale(.9)}
+.sheet-btns{display:flex;align-items:center;gap:10px;flex:0 0 auto}
+.sheet-cp{width:36px;height:36px;border-radius:50%;border:1.3px solid color-mix(in srgb,currentColor 30%,transparent);background:transparent;color:inherit;display:grid;place-items:center;padding:0;font-size:18px;cursor:pointer;transition:transform .28s cubic-bezier(.3,1.4,.5,1),background-color .2s}
+.sheet-cp[hidden]{display:none}
+.sheet-cp:hover{background:color-mix(in srgb,currentColor 12%,transparent)} .sheet-cp:active{transform:scale(.9)}
 .sheet-b{overflow-y:auto;padding:4px 22px calc(26px + env(safe-area-inset-bottom,0px));display:grid;gap:18px;font-size:15px;line-height:1.55}
 .sheet-b .lead{font-size:18px;line-height:1.4;font-weight:500;letter-spacing:-.01em}
 .sheet-b section{display:grid;gap:4px;padding-top:14px;border-top:1px solid color-mix(in srgb,currentColor 15%,transparent)}
@@ -448,7 +452,7 @@ dialog.sheet[open]::backdrop{animation:fadeIn .3s ease both}
 </main>
 <div class="foot"><span data-t="foot"></span><button class="legal-link" type="button" id="legalBtn" data-t="legalLink"></button></div>
 <dialog class="sheet" id="teams" aria-labelledby="teamsTitle"><div class="sheet-h"><h2 id="teamsTitle" data-t="teamsT"></h2><button class="sheet-x" type="button" data-close aria-label="Close">×</button></div><div class="sheet-b" id="teamsBody"></div></dialog>
-<dialog class="sheet" id="deep" aria-labelledby="deepTitle"><div class="sheet-h"><h2 id="deepTitle" data-t="deepT"></h2><button class="sheet-x" type="button" data-close aria-label="Close">×</button></div><div class="sheet-b" id="deepBody"></div></dialog>
+<dialog class="sheet" id="deep" aria-labelledby="deepTitle"><div class="sheet-h"><h2 id="deepTitle" data-t="deepT"></h2><span class="sheet-btns"><button class="sheet-cp" id="deepCopy" type="button" data-ic="copy" hidden></button><button class="sheet-x" type="button" data-close aria-label="Close">×</button></span></div><div class="sheet-b" id="deepBody"></div></dialog>
 <dialog class="sheet" id="langSheet" aria-labelledby="langTitle"><div class="sheet-h"><h2 id="langTitle" data-t="langT"></h2><button class="sheet-x" type="button" data-close aria-label="Close">×</button></div><div class="sheet-b" id="langList"></div></dialog>
 <dialog class="sheet" id="legal" aria-labelledby="legalTitle"><div class="sheet-h"><h2 id="legalTitle" data-t="legalT"></h2><button class="sheet-x" type="button" id="legalX" aria-label="Close">×</button></div><div class="sheet-b" id="legalBody"></div></dialog>
 
@@ -1157,15 +1161,32 @@ function deepHTML(d){
     <div class="nt"><b>${esc(t("deepRisks"))}</b><ul>${d.risks.map(r=>`<li><b>${esc(r.name)}</b> (${esc(sevWord[r.severity]||r.severity)}): ${esc(r.note)}</li>`).join("")}</ul></div>
     <div class="nt"><b>${esc(t("deepMilestones"))}</b><ul>${d.milestones.map(m=>`<li>${esc(t("deepDay"))} ${m.day}: ${esc(m.goal)}</li>`).join("")}</ul></div>`;
 }
+function deepText(d,b){
+  const sevWord={high:t("deepHigh"),medium:t("deepMed"),low:t("deepLow")};
+  return [`WAZO: ${t("deepT")}`,b.idea,"",`${t("deepStrategy")}:`,d.strategy,"",`${t("deepRisks")}:`,
+    ...d.risks.map(r=>`- ${r.name} (${sevWord[r.severity]||r.severity}): ${r.note}`),"",`${t("deepMilestones")}:`,
+    ...d.milestones.map(m=>`- ${t("deepDay")} ${m.day}: ${m.goal}`)].join("\n");
+}
+function showDeep(b){
+  const btn=$("#deepCopy"); $("#deepBody").innerHTML=deepHTML(b.deep);
+  btn._txt=deepText(b.deep,b); btn.innerHTML=ic("copy"); btn.setAttribute("aria-label",t("copy")); btn.title=t("copy"); btn.hidden=false;
+}
+$("#deepCopy").addEventListener("click", async e=>{
+  const btn=e.currentTarget, txt=btn._txt; if(!txt) return;
+  try{ await navigator.clipboard.writeText(txt); }
+  catch(_){ const ta=document.createElement("textarea"); ta.value=txt; ta.style.cssText="position:fixed;opacity:0"; document.body.appendChild(ta); ta.select(); try{ document.execCommand("copy"); }catch(__){} ta.remove(); }
+  btn.innerHTML=ic("check"); btn.title=t("copied"); btn.setAttribute("aria-label",t("copied"));
+  clearTimeout(btn._t); btn._t=setTimeout(()=>{ btn.innerHTML=ic("copy"); btn.title=t("copy"); btn.setAttribute("aria-label",t("copy")); },1600);
+});
 async function openDeep(b){
-  const d=$("#deep"), body=$("#deepBody"); d.dir=S.lang==="he"?"rtl":"ltr";
-  if (b.deep){ body.innerHTML=deepHTML(b.deep); if(d.showModal) d.showModal(); else d.setAttribute("open",""); return; }
+  const d=$("#deep"), body=$("#deepBody"); d.dir=S.lang==="he"?"rtl":"ltr"; $("#deepCopy").hidden=true;
+  if (b.deep){ showDeep(b); if(d.showModal) d.showModal(); else d.setAttribute("open",""); return; }
   body.innerHTML=`<p class="lead">${esc(t("deepLoading"))}</p>`;
   if(d.showModal) d.showModal(); else d.setAttribute("open","");
   try{
     const token=await humanToken();
     const r=await api("deepen",{id:b.sid,email:S.me.email||"",lang:S.lang,token});
-    if (r.status===200 && r.data.deep){ b.deep=r.data.deep; updateMine(b); body.innerHTML=deepHTML(b.deep); }
+    if (r.status===200 && r.data.deep){ b.deep=r.data.deep; updateMine(b); showDeep(b); }
     else { body.innerHTML=`<p class="err">${esc(errCopy(r.data&&r.data.code))}</p>`; }
   }catch(e){ body.innerHTML=`<p class="err">${esc(t("errGeneric"))}</p>`; }
 }
