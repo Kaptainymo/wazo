@@ -62,3 +62,28 @@ language sql
 as $$
   update leads set free_claimed = greatest(free_claimed - 1, 0) where email = p_email;
 $$;
+
+-- Purchased wazo credits (from the 5-pack). Never expire, separate from the free count.
+alter table leads add column if not exists paid_credits integer not null default 0;
+alter table leads add column if not exists stripe_customer_id text;
+
+-- Add n purchased credits, creating the lead row if it doesn't exist yet
+-- (someone can buy before ever signing up through the normal flow).
+create or replace function add_paid_credits(p_email text, p_n int)
+returns setof leads
+language sql
+as $$
+  insert into leads (email, paid_credits) values (p_email, p_n)
+  on conflict (email) do update set paid_credits = leads.paid_credits + excluded.paid_credits
+  returning *;
+$$;
+
+-- Atomically spend one purchased credit. Only succeeds if at least one is left.
+create or replace function claim_paid_wazo(p_email text)
+returns setof leads
+language sql
+as $$
+  update leads set paid_credits = paid_credits - 1
+  where email = p_email and paid_credits > 0
+  returning *;
+$$;

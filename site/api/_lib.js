@@ -82,6 +82,15 @@ export async function claimFree(email, limit) {
 export async function releaseFree(email) {
   await sb("rpc/release_free_wazo", { method: "POST", body: { p_email: email }, headers: { Prefer: "return=minimal" } });
 }
+// Atomically spend one purchased credit (from the 5-pack). Never expires, never resets.
+export async function claimPaid(email) {
+  const r = await sb("rpc/claim_paid_wazo", { method: "POST", body: { p_email: email } });
+  const rows = await r.json(); return Array.isArray(rows) && rows.length > 0;
+}
+// Add n purchased credits, creating the lead if it doesn't exist yet.
+export async function addPaidCredits(email, n) {
+  await sb("rpc/add_paid_credits", { method: "POST", body: { p_email: email, p_n: n }, headers: { Prefer: "return=minimal" } });
+}
 export async function insertWazo(row) {
   const r = await sb("wazos", { method: "POST", body: row, headers: { Prefer: "return=representation" } });
   const rows = await r.json(); return rows[0];
@@ -98,3 +107,38 @@ export const sinceISO = (hours) => new Date(Date.now() - hours * 3600e3).toISOSt
 
 // What a visitor sees before giving an email: the idea, scores and money.
 export const partial = (w) => ({ idea: w.idea, title: w.title, scores: w.scores, money: w.money });
+
+// ---------- Stripe (REST, secret key; server only) ----------
+export async function stripe(path, params) {
+  const r = await fetch(`https://api.stripe.com/v1/${path}`, {
+    method: "POST",
+    headers: { Authorization: "Basic " + Buffer.from(env("STRIPE_SECRET_KEY") + ":").toString("base64"), "Content-Type": "application/x-www-form-urlencoded" },
+    body: params,
+  });
+  const j = await r.json();
+  if (!r.ok) throw Object.assign(new Error(j?.error?.message || "stripe " + r.status), { code: "stripe" });
+  return j;
+}
+export async function stripeGet(path) {
+  const r = await fetch(`https://api.stripe.com/v1/${path}`, {
+    headers: { Authorization: "Basic " + Buffer.from(env("STRIPE_SECRET_KEY") + ":").toString("base64") },
+  });
+  const j = await r.json();
+  if (!r.ok) throw Object.assign(new Error(j?.error?.message || "stripe " + r.status), { code: "stripe" });
+  return j;
+}
+// The raw request bytes, needed to verify a Stripe webhook signature before parsing JSON.
+export async function rawBody(req) {
+  const chunks = []; let size = 0;
+  for await (const c of req) { size += c.length; if (size > 200000) break; chunks.push(c); }
+  return Buffer.concat(chunks);
+}
+export function verifyStripeSig(raw, header, secret) {
+  if (!header || !secret) return false;
+  const parts = Object.fromEntries(String(header).split(",").map((p) => p.split("=")));
+  const t = parts.t, v1 = parts.v1;
+  if (!t || !v1) return false;
+  if (Math.abs(Date.now() / 1000 - Number(t)) > 300) return false; // 5 min tolerance
+  const expected = crypto.createHmac("sha256", secret).update(`${t}.${raw}`).digest("hex");
+  try { return crypto.timingSafeEqual(Buffer.from(expected, "hex"), Buffer.from(v1, "hex")); } catch { return false; }
+}

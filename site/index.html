@@ -502,7 +502,7 @@ he:{
   thanks:"תודה שבדקת לפני שהתפטרת", example:"דוגמה", ks:"המבחן", ksP:"ממתין", ksY:"עבר", ksN:"נכשל"},
  sc:{pain:"כאב",demand:"ביקוש",space:"שטח פנוי",pay:"נכונות לשלם"},
  next:"השורה הבאה", reveal:"חשוף את פסק הדין", reviewed:"נקראו", locked:"קרא את כל השורות כדי לחשוף את פסק הדין",
- copy:"העתק טקסט ל-AI", copied:"הועתק", again:"נתח שוב", saved:"נשמר במגירה", notSaved:"התחבר ל-claude.ai כדי לשמור",
+ copy:"העתק טקסט ל-AI", copied:"הועתק", paidOk:"התשלום התקבל. הוואזו שלך מוכן.", again:"נתח שוב", saved:"נשמר במגירה", notSaved:"התחבר ל-claude.ai כדי לשמור",
  howEy:"01, הקבלה", howT:"ארבע שורות שמספרות את האמת.", howS:"בלי ציונים מנופחים ובלי תקרות שוק מומצאות. כל מספר מגיע עם הסיבה שלו.",
  lines:[["ציונים עם קבלות","כאב, ביקוש, שטח פנוי ונכונות לשלם. כל ציון מדורג A עד D לפי הראיה שמאחוריו.","PAIN ........ 6/10 [B]"],
   ["החשבון","מחיר, לקוחות משלמים בחודש 12 ושלושה תרחישים, וההנחה האחת ששוברת הכול.","BASE x12 ..... ₪14,400"],
@@ -534,7 +534,7 @@ en:{
   thanks:"Thanks for checking before you quit your job", example:"EXAMPLE", ks:"Test", ksP:"Pending", ksY:"Passed", ksN:"Failed"},
  sc:{pain:"Pain",demand:"Demand",space:"Open space",pay:"Will pay"},
  next:"Next line", reveal:"Reveal the verdict", reviewed:"reviewed", locked:"Review every line to reveal the verdict",
- copy:"Copy text for AI", copied:"Copied", again:"Analyze again", saved:"Saved to the drawer", notSaved:"Sign in to claude.ai to save",
+ copy:"Copy text for AI", copied:"Copied", paidOk:"Payment received. Your wazo is ready.", again:"Analyze again", saved:"Saved to the drawer", notSaved:"Sign in to claude.ai to save",
  howEy:"01, The receipt", howT:"Four lines that tell the truth.", howS:"No inflated scores and no made-up market ceilings. Every number comes with its reason.",
  lines:[["Scores with receipts","Pain, demand, open space and willingness to pay. Each graded A to D by the evidence behind it.","PAIN ........ 6/10 [B]"],
   ["The money","Price, paying customers at month 12, three scenarios, and the one assumption that breaks it all.","BASE x12 ..... ₪14,400"],
@@ -670,7 +670,7 @@ T.es={
   thanks:"Gracias por comprobarlo antes de dejar tu trabajo", example:"EJEMPLO", ks:"Prueba", ksP:"Pendiente", ksY:"Aprobada", ksN:"Fallida"},
  sc:{pain:"Dolor",demand:"Demanda",space:"Espacio libre",pay:"Pagarán"},
  next:"Siguiente línea", reveal:"Revelar el veredicto", reviewed:"revisadas", locked:"Revisa cada línea para revelar el veredicto",
- copy:"Copiar texto para IA", copied:"Copiado", again:"Analizar de nuevo", saved:"Guardado en el cajón", notSaved:"Inicia sesión en claude.ai para guardar",
+ copy:"Copiar texto para IA", copied:"Copiado", paidOk:"Pago recibido. Tu wazo está listo.", again:"Analizar de nuevo", saved:"Guardado en el cajón", notSaved:"Inicia sesión en claude.ai para guardar",
  howEy:"En el recibo", howT:"Cuatro líneas que dicen la verdad.", howS:"Sin puntuaciones infladas ni techos de mercado inventados. Cada número viene con su razón.",
  lines:[["Puntuaciones con recibo","Dolor, demanda, espacio libre y disposición a pagar. Cada una calificada de A a D según la evidencia.","DOLOR ....... 6/10 [B]"],
   ["El dinero","Precio, clientes que pagan en el mes 12, tres escenarios y el supuesto que lo rompe todo.","BASE x12 ..... €4,400"],
@@ -721,7 +721,7 @@ T.fr={
   thanks:"Merci d'avoir vérifié avant de quitter votre emploi", example:"EXEMPLE", ks:"Test", ksP:"En attente", ksY:"Réussi", ksN:"Échoué"},
  sc:{pain:"Douleur",demand:"Demande",space:"Espace libre",pay:"Prêts à payer"},
  next:"Ligne suivante", reveal:"Révéler le verdict", reviewed:"lues", locked:"Lisez chaque ligne pour révéler le verdict",
- copy:"Copier le texte pour l'IA", copied:"Copié", again:"Analyser à nouveau", saved:"Rangé dans le tiroir", notSaved:"Connectez-vous à claude.ai pour enregistrer",
+ copy:"Copier le texte pour l'IA", copied:"Copié", paidOk:"Paiement reçu. Votre wazo est prêt.", again:"Analyser à nouveau", saved:"Rangé dans le tiroir", notSaved:"Connectez-vous à claude.ai pour enregistrer",
  howEy:"Sur le reçu", howT:"Quatre lignes qui disent la vérité.", howS:"Pas de notes gonflées ni de plafonds de marché inventés. Chaque chiffre vient avec sa raison.",
  lines:[["Des notes justifiées","Douleur, demande, espace libre et volonté de payer. Chacune notée de A à D selon les preuves.","DOULEUR ..... 6/10 [B]"],
   ["L'argent","Prix, clients payants au mois 12, trois scénarios et l'hypothèse qui fait tout tomber.","BASE x12 ..... €4,400"],
@@ -1157,7 +1157,7 @@ $("#stage").addEventListener("input", e=>{
   ["low","base","high"].forEach(k=>{const el=$("#stage").querySelector(`[data-m="${k}"]`); if(el) el.textContent=(b.cur||CUR())+fmt(p*b.money[k]);});
 });
 document.addEventListener("click", async e=>{
-  const pl=e.target.closest("[data-plan]"); if (pl){ holdPlan(pl.dataset.plan); return; }
+  const pl=e.target.closest("[data-plan]"); if (pl){ holdPlan(pl.dataset.plan,pl); return; }
   const a=e.target.closest("[data-act]"); if(!a) return; const act=a.dataset.act, b=$("#stage")._b;
   if (act==="stop"){ S.ctl?.abort(); return; }
   if (act==="teams"){ openTeams(); return; }
@@ -1212,17 +1212,31 @@ async function doOptin(btn){
   if(note){ note.textContent=errCopy(code); note.className="err"; }
   if (code==="need_pro" && !$("#gatePlans")) note?.insertAdjacentHTML("afterend",`<div id="gatePlans">${plansHTML()}</div>`);
 }
-async function holdPlan(k){
-  S.plan=k; try{ localStorage.setItem("wz.plan",k); }catch(e){}
-  const st=$("#stage"); if (st._b && !S.busy){ st.innerHTML=cardHTML(st._b,currentCard().o); setTone(); }
-  renderActs(); if ($("#teams").open) openTeams();
-  document.querySelectorAll("#gatePlans,#ideaPlans").forEach(x=>x.innerHTML=plansHTML());
+async function holdPlan(k,btn){
   track("plan-"+k);
-  if (S.me.email){ try{ const token=await humanToken(); await api("lead",{action:"plan",email:S.me.email,plan:k,lang:S.lang,token}); }catch(e){} }
+  if (k==="teams"){
+    S.plan=k; try{ localStorage.setItem("wz.plan",k); }catch(e){}
+    const st=$("#stage"); if (st._b && !S.busy){ st.innerHTML=cardHTML(st._b,currentCard().o); setTone(); }
+    renderActs(); if ($("#teams").open) openTeams();
+    if (S.me.email){ try{ const token=await humanToken(); await api("lead",{action:"plan",email:S.me.email,plan:k,lang:S.lang,token}); }catch(e){} }
+    return;
+  }
+  // one / pack / pro: go straight to a real Stripe Checkout.
+  const wrap=btn?.closest(".plans"), note=wrap?.querySelector(".plan-note");
+  if (btn) btn.disabled=true;
+  if (note) note.textContent=t("loading");
+  try{
+    const token=await humanToken();
+    const r=await api("checkout",{plan:k,lang:S.lang,email:S.me.email||"",token});
+    if (r.status===200 && r.data.url){ location.href=r.data.url; return; }
+    if (note) note.textContent=errCopy(r.data&&r.data.code);
+  }catch(e){ if (note) note.textContent=t("errGeneric"); }
+  if (btn) btn.disabled=false;
 }
 function plansHTML(){
   return `<div class="plans"><div class="plans-t">${esc(t("plansT"))}</div><div class="plans-s">${esc(t("plansS"))}</div>
-    ${t("plans").map(([k,n,p],j)=>`<div class="plan" style="--i:${j+2}"><b>${esc(n)}</b><span class="pp">${esc(p)}</span><button type="button" data-plan="${k}" aria-pressed="${S.plan===k}"><span style="display:inline-flex;align-items:center;gap:6px">${S.plan===k?ic("check")+esc(t("planHeld").replace(" ✓","")):esc(t("planHold"))}</span></button></div>`).join("")}</div>`;
+    ${t("plans").map(([k,n,p],j)=>`<div class="plan" style="--i:${j+2}"><b>${esc(n)}</b><span class="pp">${esc(p)}</span><button type="button" data-plan="${k}">${esc(t("planHold"))}</button></div>`).join("")}
+    <div class="cav plan-note"></div></div>`;
 }
 
 /* ---------- share image ---------- */
@@ -1496,6 +1510,7 @@ hydrateIcons(); applyLang();
 ["#rail","#stage","#drawerList"].forEach(sel=>{ const n=document.querySelector(sel); if(n) new MutationObserver(fitSoon).observe(n,{childList:true,subtree:true}); });
 fitSoon();
 if (location.hash==="#demo"){ S.current=norm({...EXAMPLE[S.lang],cur:CUR()}); S.current.full=false; S.isExample=false; history.replaceState(null,"","#receipt"); enablePreview(); }
+if (/[?&]paid=/.test(location.search)){ setNote(t("paidOk")); history.replaceState(null,"",location.pathname+location.hash); }
 show(location.hash.slice(1)); if (S.current) renderStage();
 loadDrawer();
 (async()=>{

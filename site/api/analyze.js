@@ -1,7 +1,7 @@
 // POST /api/analyze  { idea, cust, budget, time, lang, token, email? }
 // Runs one analysis. Before an email is given, only the idea, scores and money are returned;
 // the 7-day test, fine print and bottom line stay on the server until /api/unlock.
-import { env, ready, send, body, str, cleanEmail, LANGS, clientIp, ipHash, human, count, getLead, claimFree, releaseFree, insertWazo, sinceISO, partial } from "./_lib.js";
+import { env, ready, send, body, str, cleanEmail, LANGS, clientIp, ipHash, human, count, getLead, claimFree, releaseFree, claimPaid, addPaidCredits, insertWazo, sinceISO, partial } from "./_lib.js";
 import { buildPrompt, shape, parseJSON } from "./_prompt.js";
 
 export const config = { maxDuration: 60 };
@@ -53,18 +53,26 @@ export default async function handler(req, res) {
     if (pro) {
       if ((await count("wazos", `email=eq.${encodeURIComponent(email)}&created_at=gte.${day}`)) >= L.proPerDay) return send(res, 429, { code: "limit" });
       full = true;
-    } else if (lead && lead.free_claimed >= L.freePerLead) {
-      return send(res, 402, { code: "need_pro" });
+    } else if (lead && (lead.free_claimed < L.freePerLead || lead.paid_credits > 0)) {
+      full = true;                                   // a free or purchased wazo
     } else if (lead) {
-      full = true;                                   // one of their free full wazos
+      return send(res, 402, { code: "need_pro" });   // free used up, no credits left
     } else if (ipCount >= L.anonPerDay) {
       return send(res, 429, { code: "limit_anon" }); // ask for an email to continue
     }
 
-    // Claim the free wazo now, so two requests fired together can't both get it.
+    // Claim a wazo now (free first, then a purchased credit), so two requests
+    // fired together can't both get it.
     const claimed = full && !pro;
-    if (claimed && !(await claimFree(email, L.freePerLead))) return send(res, 402, { code: "need_pro" });
-    const release = async () => { if (claimed) { try { await releaseFree(email); } catch {} } };
+    let usedPaid = false;
+    if (claimed) {
+      const gotFree = lead.free_claimed < L.freePerLead && (await claimFree(email, L.freePerLead));
+      if (!gotFree) {
+        if (!(await claimPaid(email))) return send(res, 402, { code: "need_pro" });
+        usedPaid = true;
+      }
+    }
+    const release = async () => { if (claimed) { try { usedPaid ? await addPaidCredits(email, 1) : await releaseFree(email); } catch {} } };
 
     const ctl = new AbortController(); const timer = setTimeout(() => ctl.abort(), 55000);
     let text;
