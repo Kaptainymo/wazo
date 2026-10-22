@@ -211,6 +211,35 @@ textarea#idea:focus{outline:none}
 .gate .cta{background:var(--night-ink);color:var(--night);width:100%}
 .gate .err{color:#FF7A66;font-weight:600;font-size:13px}
 
+/* receipt as swipeable cards (phones) */
+.rc.cards .rc-idea{font-size:20px;line-height:1.2;margin:10px 0 14px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.cs{display:flex;gap:12px;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;overscroll-behavior-x:contain;-webkit-overflow-scrolling:touch;margin-inline:calc(-1*max(20px,env(safe-area-inset-left,0px)));padding:4px max(20px,env(safe-area-inset-left,0px)) 8px}
+.cs::-webkit-scrollbar{display:none}
+.cc{scroll-snap-align:center;scroll-snap-stop:always;flex:0 0 min(86vw,400px);height:clamp(360px,calc(100dvh - 360px),540px);border-radius:28px;padding:22px;display:flex;flex-direction:column;gap:12px;overflow:hidden;background:#1C1C1C;color:#F1F0EC;position:relative}
+.cc.is-lock{background:#292929}
+.cc.v-build{background:var(--build);color:var(--build-ink)}
+.cc.v-pivot{background:var(--pivot);color:var(--pivot-ink)}
+.cc.v-kill{background:var(--kill);color:var(--kill-ink)}
+.cc.final[class*="v-"]{animation:ccFlood .8s var(--ease) both}
+@keyframes ccFlood{from{background-color:#1C1C1C;color:#F1F0EC}}
+.cc-top{display:flex;align-items:center;justify-content:space-between;gap:10px;font-family:var(--f-mono);font-size:12px;letter-spacing:.12em;text-transform:uppercase;opacity:.7}
+.cc-top .ic{font-size:16px}
+.cc-big{font-weight:500;font-size:clamp(44px,13vw,64px);line-height:1;letter-spacing:-.045em;font-variant-numeric:tabular-nums;direction:ltr;white-space:nowrap;margin-top:6px}
+.cc-big.word{font-family:var(--f-wide);font-weight:600;letter-spacing:-.01em;direction:inherit;font-size:clamp(34px,11vw,52px)}
+.cc-big.lk{margin-top:auto;font-size:56px;opacity:.5}
+.cc-cap{font-size:14px;opacity:.7;margin-top:-4px}
+.cc-body{flex:1;min-height:0;overflow-y:auto;overscroll-behavior:contain;display:grid;gap:10px;align-content:start;font-size:14.5px;line-height:1.5;padding-bottom:4px;-webkit-mask-image:linear-gradient(to bottom,#000 calc(100% - 26px),transparent);mask-image:linear-gradient(to bottom,#000 calc(100% - 26px),transparent)}
+.cc-cta{margin-top:auto}
+.cc .cta{width:100%;background:#F1F0EC;color:#0E0E0E}
+.cc.is-lock .cta{background:var(--red);color:#fff}
+.cc .gate .cta{background:#F1F0EC;color:#0E0E0E}
+.cc .pw{padding:0;background:none;box-shadow:none}
+.cdots{display:flex;justify-content:center;gap:0;padding:2px 0 0}
+.cdots button{all:unset;cursor:pointer;box-sizing:border-box;width:28px;height:28px;display:grid;place-items:center}
+.cdots button::before{content:"";width:8px;height:8px;border-radius:999px;background:currentColor;opacity:.28;transition:width .3s var(--ease),opacity .3s}
+.cdots button[aria-current="true"]::before{width:22px;opacity:.9}
+@media (prefers-reduced-motion:reduce){.cc.final[class*="v-"]{animation:none}}
+
 /* drawing (the lottery while Claude thinks) */
 .draw-step{font-family:var(--f-mono);font-size:13px;display:flex;gap:8px;align-items:center;min-height:20px}
 .draw-step::before{content:"▸";color:var(--red);animation:blink .8s steps(2) infinite}
@@ -224,7 +253,11 @@ textarea#idea:focus{outline:none}
 .p-receipt.t-pivot .acts{background:linear-gradient(to top,var(--pivot) 70%,transparent)}
 .p-receipt.t-kill .acts{background:linear-gradient(to top,var(--kill) 70%,transparent)}
 .acts-row{display:flex;gap:8px}
-.acts-row .cta{flex:1}
+.acts-row .cta{flex:1;min-width:0}
+.acts-row.tri .cta{flex-direction:column;gap:4px;height:auto;padding:10px 6px;border-radius:20px;font-size:12px;line-height:1.15;font-weight:500;white-space:normal;text-align:center}
+.acts-row.tri .cta .ic{font-size:20px}
+.acts-row.tri{min-height:72px;overflow:visible}
+.acts-row.tri .cta{min-height:72px}
 .btn-main{background:currentColor}
 .btn-main span{filter:invert(1);mix-blend-mode:normal}
 .p-receipt .btn-main{background:var(--night-ink);color:var(--night)}
@@ -940,6 +973,10 @@ const IC={
 const ic=(n,cls="")=>`<svg class="ic ic-${n} ${cls}" viewBox="0 0 24 24" aria-hidden="true">${IC[n]}</svg>`;
 function hydrateIcons(root=document){ root.querySelectorAll("[data-ic]").forEach(el=>{ if(!el.firstElementChild) el.innerHTML=ic(el.dataset.ic); }); }
 const VCLS = v => ({BUILD:"build",PIVOT:"pivot",KILL:"kill"}[v]||"pivot");
+Object.assign(T.he,{nextCard:"הבא", remind:"הזכר לי בעוד 7 ימים", remindTitle:"Wazo: תוצאות מבחן 7 הימים"});
+Object.assign(T.en,{nextCard:"Next", remind:"Remind me in 7 days", remindTitle:"Wazo: 7-day test result"});
+Object.assign(T.es,{nextCard:"Siguiente", remind:"Recuérdame en 7 días", remindTitle:"Wazo: resultado de la prueba de 7 días"});
+Object.assign(T.fr,{nextCard:"Suivant", remind:"Me le rappeler dans 7 jours", remindTitle:"Wazo : résultat du test de 7 jours"});
 
 /* ---------- data ---------- */
 function undash(x){ const he=S.lang==="he"; return String(x||"").replace(/(\d)\s*[–—]\s*(\d)/g, "$1"+({he:" עד ",en:" to ",es:" a ",fr:" à "}[S.lang]||" to ")+"$2").replace(/\s+[–—-]\s+|[–—]/g, ", "); }
@@ -1029,9 +1066,10 @@ function textW(el){ const r=document.createRange(); r.selectNodeContents(el); co
 function fitWord(el,maxW){ if(!el||maxW<=0) return; el.style.fontSize=""; let fs=parseFloat(getComputedStyle(el).fontSize), g=40; while(textW(el)>maxW && fs>16 && g--){ fs-=2; el.style.fontSize=fs+"px"; } }
 function fitWords(){
   document.querySelectorAll(".xc .xw").forEach(w=>{ const c=w.parentElement, cs=getComputedStyle(c); fitWord(w, c.clientWidth-parseFloat(cs.paddingLeft)-parseFloat(cs.paddingRight)-20); });
-  const v=document.getElementById("vword"); if(v){ const row=v.closest(".rrow"); if(row) fitWord(v, row.clientWidth*0.62); }
+  const v=document.getElementById("vword"); if(v){ const cc=v.closest(".cc"), row=cc||v.closest(".rrow"); if(row) fitWord(v, cc?row.clientWidth-44:row.clientWidth*0.62); }
   document.querySelectorAll(".mw").forEach(w=>{ const c=w.parentElement; if(c) fitWord(w, c.clientWidth*0.9); });
 }
+addEventListener("resize",()=>{ if (S.current && !S.busy && S.view==="receipt" && isCards()!==S._cm) renderStage(); });
 let fitQ=0; const fitSoon=()=>{ if(fitQ) return; fitQ=requestAnimationFrame(()=>{ fitQ=0; fitWords(); }); };
 addEventListener("resize",fitSoon);
 try{ document.fonts.ready.then(fitSoon); }catch(e){}
@@ -1046,9 +1084,9 @@ function railFx(){
 /* ---------- the receipt: big-type rows ---------- */
 function setTone(){
   const p=$("#p-receipt"); p.classList.remove("t-build","t-pivot","t-kill");
-  const b=$("#stage")._b; if (b && unlocked() && S.rev.has(5)) p.classList.add("t-"+VCLS(b.verdict));
+  const b=$("#stage")._b; if (b && unlocked() && S.rev.has(5) && !isCards()) p.classList.add("t-"+VCLS(b.verdict));
 }
-function cardHTML(b,o){
+function cardHTML(b,o,only){
   const L=T[S.lang], R=L.r, seed=o.id||b.idea, C=b.cur||CUR(), M=n=>C+fmt(n);
   const d=o.date?new Date(o.date):new Date();
   const dt=new Intl.DateTimeFormat(LOC[S.lang],{day:"2-digit",month:"2-digit",year:"2-digit"}).format(d);
@@ -1082,6 +1120,29 @@ function cardHTML(b,o){
   };
   const lab=i=>`<span class="rl"><b>${esc(titles[i])}</b>${i<5&&seen(i)&&!proLocked(i)?`<small>${esc(sub[i])}</small>`:i===5&&done&&!unlocked()?`<small>${esc(t("lockGate"))}</small>`:""}</span>`;
   const compact=i=>!S.pro && i<5 && S.open!==i && (seen(i)||proLocked(i));
+  S._cm=isCards();
+  if (S._cm){
+    const seen5=S.rev.has(5)&&unlocked();
+    const remind=`<button class="cta" type="button" data-act="remind">${ic("arrow")}${esc(t("remind"))}</button>`;
+    const cc=i=>{
+      const lk=proLocked(i);
+      const cls="cc"+(lk?" is-lock":"")+(i===5?" final":"")+(i===5&&seen5?" v-"+VCLS(b.verdict):"");
+      let inner;
+      if (i<5) inner = lk ? paywallHTML() : `<div class="cc-big">${big[i]}</div><div class="cc-cap">${esc(sub[i])}</div><div class="cc-body">${body[i]}</div>${i===3?`<div class="cc-cta">${remind}</div>`:""}`;
+      else if (!done) inner = `<div class="cc-big lk">${ic("lock")}</div><div class="cc-cap">${esc(t("locked"))}</div>`;
+      else if (!unlocked()) inner = `<div class="cc-body">${gateHTML()}</div>`;
+      else if (!seen5) inner = `<div class="cc-big lk">${ic("lock","idle")}</div>`;
+      else inner = `<div class="cc-big word" id="vword">${esc(L.vWord[b.verdict])}</div><div class="cc-body">${body[5]}</div>`;
+      return `<article class="${cls}" data-card="${i}" aria-label="${esc(titles[i])}"><div class="cc-top"><span>0${i} · ${esc(titles[i])}</span>${(lk||(i===5&&!seen5))?ic("lock"):""}</div>${inner}</article>`;
+    };
+    if (only) return cc(only);
+    return `<article class="rc cards ${isFull()?"pro":"free"}">
+      <div class="rc-meta"><span>WAZO #${receiptNo(seed)}</span><span>${esc(dt)}</span></div>
+      <h2 class="rc-idea">${esc(b.idea)}</h2>
+      <div class="cs" id="cs">${[1,2,3,4,5].map(cc).join("")}</div>
+      <div class="cdots" id="cdots">${[1,2,3,4,5].map(i=>`<button type="button" data-dot="${i}" aria-label="${i}/5" aria-current="${(S.card||1)===i}"></button>`).join("")}</div>
+    </article>`;
+  }
   const row=i=>`<section class="rrow${i===5?" final":""}${S.open===i?" open":""}${compact(i)?" compact":""}${proLocked(i)?" prolock":""}" data-row="${i}" style="--i:${i+1}">
       <button type="button" class="rh" aria-expanded="${S.open===i}"><span class="rn">0${i}</span>${lab(i)}${val(i)}</button>
       <div class="rb"><div><div class="rbi">${body[i]}</div></div></div></section>`;
@@ -1096,10 +1157,45 @@ function currentCard(){
   if (S.current){ const it=S.currentId?S.mine.find(x=>x.id===S.currentId):null; return {b:S.current, o:{id:S.currentId,date:it?.createdAt,killStatus:it?.killStatus}}; }
   return null;
 }
+const isCards=()=>matchMedia("(max-width:899px)").matches;
+function goCard(i,instant){ const cs=$("#cs"), el=cs&&cs.querySelector(`.cc[data-card="${i}"]`); if(!el) return; S._tgt=i; const a=el.getBoundingClientRect(), r=cs.getBoundingClientRect(); cs.scrollBy({left:(a.left+a.width/2)-(r.left+r.width/2),behavior:(instant||calm())?"auto":"smooth"}); }
+function syncDots(){ document.querySelectorAll("#cdots [data-dot]").forEach(d=>d.setAttribute("aria-current",String(+d.dataset.dot===S.card))); }
+function refreshCard5(){ const st=$("#stage"), old=st.querySelector('.cc[data-card="5"]'); if(old) old.outerHTML=cardHTML(st._b,currentCard().o,5); }
+function revealFinal(){
+  S.rev.add(5); refreshCard5();
+  const v=$("#vword"); if (v && !calm() && !S.stampHit){ v.classList.add("hit"); S.stampHit=true; try{ navigator.vibrate&&navigator.vibrate(18); }catch(e){} }
+  fitSoon();
+}
+function viewCard(i){
+  const st=$("#stage"), b=st._b; if (!b||S.busy) return;
+  const done0=need().every(x=>S.rev.has(x)), first=!S.rev.has(i);
+  S.card=i; S.open=i; S._tgt=0;
+  if (i<5){ if (!proLocked(i)) S.rev.add(i); } else if (done0 && unlocked() && first) revealFinal();
+  if (i<5 && first && !proLocked(i) && !calm()) st.querySelectorAll(`.cc[data-card="${i}"] .num`).forEach(countUp);
+  if (need().every(x=>S.rev.has(x)) && !done0 && i<5) refreshCard5();
+  renderCounter(true); renderActs(); syncDots();
+}
+function settleCards(){
+  const cs=$("#cs"); if(!cs) return; const r=cs.getBoundingClientRect(), mid=r.left+r.width/2; let best=0,bd=1e9;
+  cs.querySelectorAll(".cc").forEach(c=>{ const k=c.getBoundingClientRect(), d=Math.abs(k.left+k.width/2-mid); if(d<bd){ bd=d; best=+c.dataset.card; } });
+  if (best && best!==S.card) viewCard(best);
+}
+let csT; document.addEventListener("scroll",e=>{ if(e.target&&e.target.id==="cs"){ clearTimeout(csT); csT=setTimeout(settleCards,90); } },true);
+function redrawStage(){ const st=$("#stage"); st.innerHTML=cardHTML(st._b,currentCard().o); if (isCards()){ const c=S.card||1; S.card=0; goCard(c,true); S.card=c; syncDots(); } }
+function remindIcs(b){
+  const p=n=>String(n).padStart(2,"0"), ymd=x=>`${x.getFullYear()}${p(x.getMonth()+1)}${p(x.getDate())}`;
+  const d=new Date(); d.setDate(d.getDate()+7); const e=new Date(d); e.setDate(e.getDate()+1);
+  const ie=x=>String(x||"").replace(/[\\;,]/g,m=>"\\"+m).replace(/\n/g,"\\n"), R=T[S.lang].r;
+  const ics=["BEGIN:VCALENDAR","VERSION:2.0","PRODID:-//Wazo//EN","BEGIN:VEVENT",`UID:wazo-${b.sid||Date.now()}@wazo`,`DTSTAMP:${new Date().toISOString().replace(/[-:]|\.\d{3}/g,"")}`,
+    `DTSTART;VALUE=DATE:${ymd(d)}`,`DTEND;VALUE=DATE:${ymd(e)}`,`SUMMARY:${ie(t("remindTitle"))}`,`DESCRIPTION:${ie(b.idea+" | "+R.pass+": "+b.kill.pass)}`,
+    "BEGIN:VALARM","TRIGGER:PT9H","ACTION:DISPLAY","DESCRIPTION:Wazo","END:VALARM","END:VEVENT","END:VCALENDAR"].join("\r\n");
+  const blob=new Blob([ics],{type:"text/calendar;charset=utf-8"}), u=URL.createObjectURL(blob), a=document.createElement("a");
+  a.href=u; a.download="wazo-7-day-test.ics"; document.body.appendChild(a); a.click(); a.remove(); setTimeout(()=>URL.revokeObjectURL(u),4000);
+}
 function renderCounter(anim){
   const nd=need(), n=nd.filter(i=>S.rev.has(i)).length, box=$("#cntBox");
   if (!S.current || S.busy){ box.innerHTML=""; return; }
-  box.innerHTML=`<span class="c-cnt">${n}/${nd.length}</span>`;
+  box.innerHTML=isCards()?`<span class="c-cnt">${S.card||1}/5</span>`:`<span class="c-cnt">${n}/${nd.length}</span>`;
   if (anim && n!==S.lastCnt && !calm()) box.firstChild.classList.add("hit");
   S.lastCnt=n;
 }
@@ -1110,20 +1206,25 @@ function renderStage(){
   st.innerHTML=cardHTML(c.b,c.o); st._b=c.b;
   const rc=st.querySelector(".rc"); if(rc && !calm()){ rc.classList.add("enter"); setTimeout(()=>rc.classList.remove("enter"),1200); }
   setTone(); renderActs(); renderCounter(false);
+  if (isCards()){ const c=S.card||S.open||1; S.card=0; goCard(c,true); viewCard(c); fitSoon(); }
 }
 function renderActs(){
   const b=$("#stage")._b; if(!b){ $("#cardacts").innerHTML=""; return; }
-  const four=need().every(i=>S.rev.has(i)), open5=S.rev.has(5)&&unlocked();
-  const nextLabel = four ? (unlocked()?t("reveal"):t("gGo")) : t("next");
-  const main = open5 ? `<button class="cta btn-main" type="button" data-act="copy">${ic("copy")}${esc(t("copy"))}</button>` : `<button class="cta btn-main" type="button" data-act="next">${esc(nextLabel)}</button>`;
-  const skip = (!open5 && !four) ? `<button class="cta btn-ghost" type="button" data-act="skip">${esc(t("skipEnd"))}</button>` : "";
-  const second = open5 ? `<div class="acts-row"><button class="cta btn-ghost" type="button" data-act="img">${ic("dl")}${esc(t("saveImg"))}</button>${S.isExample?"":`<button class="cta btn-ghost" type="button" data-act="deep">${ic("again")}${esc(t("deepBtn"))}</button>`}</div>${(isFull()&&!S.isExample)?`<button class="cta btn-ghost" type="button" data-act="teams">${ic("arrow")}${esc(t("teamsBtn"))}</button>`:""}` : skip;
-  const gateOpen = S.open===5 && !unlocked();
+  const cards=isCards(), four=need().every(i=>S.rev.has(i)), open5=S.rev.has(5)&&unlocked()&&(!cards||S.card===5);
+  const nextLabel = cards ? t("nextCard") : (four ? (unlocked()?t("reveal"):t("gGo")) : t("next"));
+  const main = open5 ? `<button class="cta btn-main" type="button" data-act="copy">${ic("copy")}${esc(t("copy"))}</button>` : ((cards&&(S.card||1)>=5)?"":`<button class="cta btn-main" type="button" data-act="next">${esc(nextLabel)}</button>`);
+  const skip = (!open5 && !four && !cards) ? `<button class="cta btn-ghost" type="button" data-act="skip">${esc(t("skipEnd"))}</button>` : "";
+  const tri=(a,i,l)=>`<button class="cta btn-ghost" type="button" data-act="${a}">${ic(i)}<span>${esc(l)}</span></button>`;
+  const second = open5 ? (cards
+    ? `<div class="acts-row tri">${tri("img","dl",t("saveImg"))}${S.isExample?"":tri("deep","again",t("deepBtn"))}${(isFull()&&!S.isExample)?tri("teams","arrow",t("teamsBtn")):""}</div>`
+    : `<div class="acts-row"><button class="cta btn-ghost" type="button" data-act="img">${ic("dl")}${esc(t("saveImg"))}</button>${S.isExample?"":`<button class="cta btn-ghost" type="button" data-act="deep">${ic("again")}${esc(t("deepBtn"))}</button>`}</div>${(isFull()&&!S.isExample)?`<button class="cta btn-ghost" type="button" data-act="teams">${ic("arrow")}${esc(t("teamsBtn"))}</button>`:""}`) : skip;
+  const gateOpen = cards ? ((S.card||1)===5 && !unlocked() && four) : (S.open===5 && !unlocked());
   $("#cardacts").innerHTML = (gateOpen?"":main) + second + `<span class="note" id="actNote">${esc(S.savedNote)}</span>`;
   const pl=$("#plansBox"); if (pl) pl.remove();
   if (open5 && !S.isExample && !S.pro) $("#cardacts").insertAdjacentHTML("afterend", `<div id="plansBox">${plansHTML()}</div>`);
 }
 function openRow(i){
+  if (isCards()){ const st=$("#stage"); st.innerHTML=cardHTML(st._b,currentCard().o); S.card=0; goCard(i,true); viewCard(i); return true; }
   const done=need().every(x=>S.rev.has(x));
   if (i===5 && !done) return false;
   S.open = (S.open===i) ? 0 : i;
@@ -1213,10 +1314,13 @@ $("#stage").addEventListener("input", e=>{
   ["low","base","high"].forEach(k=>{const el=$("#stage").querySelector(`[data-m="${k}"]`); if(el) el.textContent=(b.cur||CUR())+fmt(p*b.money[k]);});
 });
 document.addEventListener("click", async e=>{
+  const dt=e.target.closest("[data-dot]"); if (dt){ let i=+dt.dataset.dot; if (i===5 && !need().every(x=>S.rev.has(x))) i=need().find(x=>!S.rev.has(x)); goCard(i); return; }
   const pl=e.target.closest("[data-plan]"); if (pl){ holdPlan(pl.dataset.plan,pl); return; }
   const a=e.target.closest("[data-act]"); if(!a) return; const act=a.dataset.act, b=$("#stage")._b;
   if (act==="stop"){ S.ctl?.abort(); return; }
   if (act==="teams"){ openTeams(); return; }
+  if (isCards() && act==="next"){ goCard(Math.min(5,(S._tgt||S.card||1)+1)); return; }
+  if (act==="remind" && b){ remindIcs(b); return; }
   if (act==="unlockfree"){ if(need().every(i=>S.rev.has(i))){ S.open=0; openRow(5); } else nextLine(); return; }
   if (act==="next"){ if(need().every(i=>S.rev.has(i)) && !unlocked()){ S.open=0; openRow(5); return; } nextLine(); return; }
   if (act==="skip"){ need().forEach(i=>S.rev.add(i)); S.open=0; openRow(5); return; }
@@ -1272,7 +1376,7 @@ async function holdPlan(k,btn){
   track("plan-"+k);
   if (k==="teams"){
     S.plan=k; try{ localStorage.setItem("wz.plan",k); }catch(e){}
-    const st=$("#stage"); if (st._b && !S.busy){ st.innerHTML=cardHTML(st._b,currentCard().o); setTone(); }
+    const st=$("#stage"); if (st._b && !S.busy){ if (isCards()) redrawStage(); else { st.innerHTML=cardHTML(st._b,currentCard().o); setTone(); } }
     renderActs(); if ($("#teams").open) openTeams();
     if (S.me.email){ try{ const token=await humanToken(); await api("lead",{action:"plan",email:S.me.email,plan:k,lang:S.lang,token}); }catch(e){} }
     return;
@@ -1426,7 +1530,7 @@ async function runVerdict(){
     const b=norm({...(r.data.wazo||{}),cur:CUR()}); b.full=!!r.data.full; b.sid=r.data.id; if(!b.idea) b.idea=idea;
     S.current=b; S.isExample=false; S.currentId=null; S.savedNote="";
     save(b,idea); await land(b); track("analyze",{lang:S.lang,full:b.full});
-    S.busy=false; S.rev=new Set(); S.open=0; S.stampHit=false; renderStage(); $("#p-receipt").scrollTop=0;
+    S.busy=false; S.rev=new Set(); S.open=0; S.card=0; S.stampHit=false; renderStage(); $("#p-receipt").scrollTop=0;
   } catch(e){
     S.busy=false; clearInterval(S.timer);
     go("idea");
@@ -1484,7 +1588,7 @@ function save(b,raw){
 function updateMine(b){ const it=S.mine.find(x=>x.id===b.sid); if(it){ it.brief=b; it.verdict=b.verdict; it.idea=b.idea; persistMine(); renderDrawer(); renderHome(); } }
 function setKill(id,status){
   const it=S.mine.find(x=>x.id===id); if(!it) return;
-  it.killStatus=status; persistMine(); const st=$("#stage"); st.innerHTML=cardHTML(st._b,currentCard().o);
+  it.killStatus=status; persistMine(); const st=$("#stage"); if (isCards()) st.querySelectorAll(`[data-kt="${CSS.escape(id)}"] [data-ks]`).forEach(x=>x.setAttribute("aria-pressed",String(x.dataset.ks===status))); else st.innerHTML=cardHTML(st._b,currentCard().o);
 }
 function loadDrawer(){
   try{ const v=JSON.parse(localStorage.getItem(MINE_KEY)||"[]"); S.mine=Array.isArray(v)?v:[]; }catch(e){ S.mine=[]; }
@@ -1509,7 +1613,7 @@ $("#drawerList").addEventListener("keydown", e=>{ if((e.key==="Enter"||e.key==="
 $("#drawerList").addEventListener("click", async e=>{
   const d=e.target.closest("[data-d]"), row=e.target.closest("[data-row]");
   if (d){ const id=d.dataset.d; if (S.confirmDel===id){ S.confirmDel=null; S.mine=S.mine.filter(x=>x.id!==id); if(S.currentId===id) S.currentId=null; persistMine(); renderDrawer(); renderHome(); } else { S.confirmDel=id; renderDrawer(); } return; }
-  if (row){ const m=S.mine.find(x=>x.id===row.dataset.row); if(!m) return; const nb=norm(m.brief||{}); nb.full=!!(m.brief&&m.brief.full); nb.sid=m.brief&&m.brief.sid; S.current=nb; S.currentId=m.id; S.isExample=false; S.savedNote=""; if(nb.full){ S.rev=new Set([1,2,3,4,5]); S.open=5; S.stampHit=true; } else { S.rev=new Set([1,2]); S.open=0; S.stampHit=false; } go("receipt"); renderStage(); }
+  if (row){ const m=S.mine.find(x=>x.id===row.dataset.row); if(!m) return; const nb=norm(m.brief||{}); nb.full=!!(m.brief&&m.brief.full); nb.sid=m.brief&&m.brief.sid; S.current=nb; S.currentId=m.id; S.isExample=false; S.savedNote=""; if(nb.full){ S.rev=new Set([1,2,3,4,5]); S.open=5; S.card=5; S.stampHit=true; } else { S.rev=new Set([1,2]); S.open=0; S.card=0; S.stampHit=false; } go("receipt"); renderStage(); }
 });
 
 /* ---------- language / theme / boot ---------- */
