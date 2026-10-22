@@ -220,7 +220,6 @@ textarea#idea:focus{outline:none}
 .p-receipt.t-pivot .btn-main{background:var(--pivot-ink);color:var(--pivot)}
 .p-receipt.t-kill .btn-main{background:var(--kill-ink);color:var(--kill)}
 .btn-ghost{background:transparent;color:inherit;box-shadow:inset 0 0 0 1.4px color-mix(in srgb,currentColor 40%,transparent)}
-.btn-ai{background:color-mix(in srgb,#7C6CFF 16%,transparent);box-shadow:inset 0 0 0 1.4px color-mix(in srgb,#7C6CFF 65%,transparent);color:#7C6CFF}
 .acts .note{text-align:center}
 .plans{display:grid;gap:10px;padding:8px 0 28px}
 .plans-t{font-weight:700;font-size:20px;letter-spacing:-.02em}
@@ -438,6 +437,7 @@ dialog.sheet[open]::backdrop{animation:fadeIn .3s ease both}
 </main>
 <div class="foot"><span data-t="foot"></span><button class="legal-link" type="button" id="legalBtn" data-t="legalLink"></button></div>
 <dialog class="sheet" id="teams" aria-labelledby="teamsTitle"><div class="sheet-h"><h2 id="teamsTitle" data-t="teamsT"></h2><button class="sheet-x" type="button" data-close aria-label="Close">×</button></div><div class="sheet-b" id="teamsBody"></div></dialog>
+<dialog class="sheet" id="deep" aria-labelledby="deepTitle"><div class="sheet-h"><h2 id="deepTitle" data-t="deepT"></h2><button class="sheet-x" type="button" data-close aria-label="Close">×</button></div><div class="sheet-b" id="deepBody"></div></dialog>
 <dialog class="sheet" id="langSheet" aria-labelledby="langTitle"><div class="sheet-h"><h2 id="langTitle" data-t="langT"></h2><button class="sheet-x" type="button" data-close aria-label="Close">×</button></div><div class="sheet-b" id="langList"></div></dialog>
 <dialog class="sheet" id="legal" aria-labelledby="legalTitle"><div class="sheet-h"><h2 id="legalTitle" data-t="legalT"></h2><button class="sheet-x" type="button" id="legalX" aria-label="Close">×</button></div><div class="sheet-b" id="legalBody"></div></dialog>
 
@@ -502,7 +502,7 @@ he:{
   thanks:"תודה שבדקת לפני שהתפטרת", example:"דוגמה", ks:"המבחן", ksP:"ממתין", ksY:"עבר", ksN:"נכשל"},
  sc:{pain:"כאב",demand:"ביקוש",space:"שטח פנוי",pay:"נכונות לשלם"},
  next:"השורה הבאה", reveal:"חשוף את פסק הדין", reviewed:"נקראו", locked:"קרא את כל השורות כדי לחשוף את פסק הדין",
- copy:"העתק טקסט ל-AI", copied:"הועתק", paidOk:"התשלום התקבל. הוואזו שלך מוכן.", again:"נתח שוב", saved:"נשמר במגירה", notSaved:"התחבר ל-claude.ai כדי לשמור",
+ copy:"העתק טקסט ל-AI", copied:"הועתק", paidOk:"התשלום התקבל. הוואזו שלך מוכן.", deepBtn:"ניתוח מעמיק", deepT:"ניתוח מעמיק", deepLoading:"מעמיקים…", deepStrategy:"אסטרטגיה", deepRisks:"סיכונים", deepMilestones:"אבני דרך ל-90 יום", deepDay:"יום", deepHigh:"גבוה", deepMed:"בינוני", deepLow:"נמוך", again:"נתח שוב", saved:"נשמר במגירה", notSaved:"התחבר ל-claude.ai כדי לשמור",
  howEy:"01, הקבלה", howT:"ארבע שורות שמספרות את האמת.", howS:"בלי ציונים מנופחים ובלי תקרות שוק מומצאות. כל מספר מגיע עם הסיבה שלו.",
  lines:[["ציונים עם קבלות","כאב, ביקוש, שטח פנוי ונכונות לשלם. כל ציון מדורג A עד D לפי הראיה שמאחוריו.","PAIN ........ 6/10 [B]"],
   ["החשבון","מחיר, לקוחות משלמים בחודש 12 ושלושה תרחישים, וההנחה האחת ששוברת הכול.","BASE x12 ..... ₪14,400"],
@@ -534,7 +534,7 @@ en:{
   thanks:"Thanks for checking before you quit your job", example:"EXAMPLE", ks:"Test", ksP:"Pending", ksY:"Passed", ksN:"Failed"},
  sc:{pain:"Pain",demand:"Demand",space:"Open space",pay:"Will pay"},
  next:"Next line", reveal:"Reveal the verdict", reviewed:"reviewed", locked:"Review every line to reveal the verdict",
- copy:"Copy text for AI", copied:"Copied", paidOk:"Payment received. Your wazo is ready.", again:"Analyze again", saved:"Saved to the drawer", notSaved:"Sign in to claude.ai to save",
+ copy:"Copy text for AI", copied:"Copied", paidOk:"Payment received. Your wazo is ready.", deepBtn:"Deep Analyze", deepT:"Deeper analysis", deepLoading:"Going deeper…", deepStrategy:"Strategy", deepRisks:"Risks", deepMilestones:"90-day milestones", deepDay:"Day", deepHigh:"high", deepMed:"medium", deepLow:"low", again:"Analyze again", saved:"Saved to the drawer", notSaved:"Sign in to claude.ai to save",
  howEy:"01, The receipt", howT:"Four lines that tell the truth.", howS:"No inflated scores and no made-up market ceilings. Every number comes with its reason.",
  lines:[["Scores with receipts","Pain, demand, open space and willingness to pay. Each graded A to D by the evidence behind it.","PAIN ........ 6/10 [B]"],
   ["The money","Price, paying customers at month 12, three scenarios, and the one assumption that breaks it all.","BASE x12 ..... ₪14,400"],
@@ -670,7 +670,7 @@ T.es={
   thanks:"Gracias por comprobarlo antes de dejar tu trabajo", example:"EJEMPLO", ks:"Prueba", ksP:"Pendiente", ksY:"Aprobada", ksN:"Fallida"},
  sc:{pain:"Dolor",demand:"Demanda",space:"Espacio libre",pay:"Pagarán"},
  next:"Siguiente línea", reveal:"Revelar el veredicto", reviewed:"revisadas", locked:"Revisa cada línea para revelar el veredicto",
- copy:"Copiar texto para IA", copied:"Copiado", paidOk:"Pago recibido. Tu wazo está listo.", again:"Analizar de nuevo", saved:"Guardado en el cajón", notSaved:"Inicia sesión en claude.ai para guardar",
+ copy:"Copiar texto para IA", copied:"Copiado", paidOk:"Pago recibido. Tu wazo está listo.", deepBtn:"Análisis profundo", deepT:"Análisis más profundo", deepLoading:"Profundizando…", deepStrategy:"Estrategia", deepRisks:"Riesgos", deepMilestones:"Hitos a 90 días", deepDay:"Día", deepHigh:"alto", deepMed:"medio", deepLow:"bajo", again:"Analizar de nuevo", saved:"Guardado en el cajón", notSaved:"Inicia sesión en claude.ai para guardar",
  howEy:"En el recibo", howT:"Cuatro líneas que dicen la verdad.", howS:"Sin puntuaciones infladas ni techos de mercado inventados. Cada número viene con su razón.",
  lines:[["Puntuaciones con recibo","Dolor, demanda, espacio libre y disposición a pagar. Cada una calificada de A a D según la evidencia.","DOLOR ....... 6/10 [B]"],
   ["El dinero","Precio, clientes que pagan en el mes 12, tres escenarios y el supuesto que lo rompe todo.","BASE x12 ..... €4,400"],
@@ -721,7 +721,7 @@ T.fr={
   thanks:"Merci d'avoir vérifié avant de quitter votre emploi", example:"EXEMPLE", ks:"Test", ksP:"En attente", ksY:"Réussi", ksN:"Échoué"},
  sc:{pain:"Douleur",demand:"Demande",space:"Espace libre",pay:"Prêts à payer"},
  next:"Ligne suivante", reveal:"Révéler le verdict", reviewed:"lues", locked:"Lisez chaque ligne pour révéler le verdict",
- copy:"Copier le texte pour l'IA", copied:"Copié", paidOk:"Paiement reçu. Votre wazo est prêt.", again:"Analyser à nouveau", saved:"Rangé dans le tiroir", notSaved:"Connectez-vous à claude.ai pour enregistrer",
+ copy:"Copier le texte pour l'IA", copied:"Copié", paidOk:"Paiement reçu. Votre wazo est prêt.", deepBtn:"Analyse approfondie", deepT:"Analyse plus approfondie", deepLoading:"Approfondissement…", deepStrategy:"Stratégie", deepRisks:"Risques", deepMilestones:"Étapes à 90 jours", deepDay:"Jour", deepHigh:"élevé", deepMed:"moyen", deepLow:"faible", again:"Analyser à nouveau", saved:"Rangé dans le tiroir", notSaved:"Connectez-vous à claude.ai pour enregistrer",
  howEy:"Sur le reçu", howT:"Quatre lignes qui disent la vérité.", howS:"Pas de notes gonflées ni de plafonds de marché inventés. Chaque chiffre vient avec sa raison.",
  lines:[["Des notes justifiées","Douleur, demande, espace libre et volonté de payer. Chacune notée de A à D selon les preuves.","DOULEUR ..... 6/10 [B]"],
   ["L'argent","Prix, clients payants au mois 12, trois scénarios et l'hypothèse qui fait tout tomber.","BASE x12 ..... €4,400"],
@@ -1094,9 +1094,9 @@ function renderActs(){
   const b=$("#stage")._b; if(!b){ $("#cardacts").innerHTML=""; return; }
   const four=need().every(i=>S.rev.has(i)), open5=S.rev.has(5)&&unlocked();
   const nextLabel = four ? (unlocked()?t("reveal"):t("gGo")) : t("next");
-  const main = open5 ? `<button class="cta btn-main" type="button" data-act="img">${ic("dl")}${esc(t("saveImg"))}</button>` : `<button class="cta btn-main" type="button" data-act="next">${esc(nextLabel)}</button>`;
+  const main = open5 ? `<button class="cta btn-main" type="button" data-act="copy">${ic("copy")}${esc(t("copy"))}</button>` : `<button class="cta btn-main" type="button" data-act="next">${esc(nextLabel)}</button>`;
   const skip = (!open5 && !four) ? `<button class="cta btn-ghost" type="button" data-act="skip">${esc(t("skipEnd"))}</button>` : "";
-  const second = open5 ? `<div class="acts-row"><button class="cta btn-ghost btn-ai" type="button" data-act="copy">${ic("copy")}${esc(t("copy"))}</button>${S.isExample?"":`<button class="cta btn-ghost" type="button" data-act="again">${ic("again")}${esc(t("again"))}</button>`}</div>${(isFull()&&!S.isExample)?`<button class="cta btn-ghost" type="button" data-act="teams">${ic("arrow")}${esc(t("teamsBtn"))}</button>`:""}` : skip;
+  const second = open5 ? `<div class="acts-row"><button class="cta btn-ghost" type="button" data-act="img">${ic("dl")}${esc(t("saveImg"))}</button>${S.isExample?"":`<button class="cta btn-ghost" type="button" data-act="deep">${ic("again")}${esc(t("deepBtn"))}</button>`}</div>${(isFull()&&!S.isExample)?`<button class="cta btn-ghost" type="button" data-act="teams">${ic("arrow")}${esc(t("teamsBtn"))}</button>`:""}` : skip;
   const gateOpen = S.open===5 && !unlocked();
   $("#cardacts").innerHTML = (gateOpen?"":main) + second + `<span class="note" id="actNote">${esc(S.savedNote)}</span>`;
   const pl=$("#plansBox"); if (pl) pl.remove();
@@ -1145,6 +1145,24 @@ function openTeams(){
     <button class="cta light" type="button" data-plan="teams">${held?ic("check")+esc(t("teamsHeld")):esc(t("teamsGo"))}</button><small class="note">${esc(t("pwNote"))}</small>`;
   const d=$("#teams"); d.dir=S.lang==="he"?"rtl":"ltr"; if(d.showModal) d.showModal(); else d.setAttribute("open","");
 }
+function deepHTML(d){
+  const sevWord={high:t("deepHigh"),medium:t("deepMed"),low:t("deepLow")};
+  return `<div class="nt"><b>${esc(t("deepStrategy"))}</b><p>${esc(d.strategy)}</p></div>
+    <div class="nt"><b>${esc(t("deepRisks"))}</b><ul>${d.risks.map(r=>`<li><b>${esc(r.name)}</b> (${esc(sevWord[r.severity]||r.severity)}): ${esc(r.note)}</li>`).join("")}</ul></div>
+    <div class="nt"><b>${esc(t("deepMilestones"))}</b><ul>${d.milestones.map(m=>`<li>${esc(t("deepDay"))} ${m.day}: ${esc(m.goal)}</li>`).join("")}</ul></div>`;
+}
+async function openDeep(b){
+  const d=$("#deep"), body=$("#deepBody"); d.dir=S.lang==="he"?"rtl":"ltr";
+  if (b.deep){ body.innerHTML=deepHTML(b.deep); if(d.showModal) d.showModal(); else d.setAttribute("open",""); return; }
+  body.innerHTML=`<p class="lead">${esc(t("deepLoading"))}</p>`;
+  if(d.showModal) d.showModal(); else d.setAttribute("open","");
+  try{
+    const token=await humanToken();
+    const r=await api("deepen",{id:b.sid,email:S.me.email||"",lang:S.lang,token});
+    if (r.status===200 && r.data.deep){ b.deep=r.data.deep; updateMine(b); body.innerHTML=deepHTML(b.deep); }
+    else { body.innerHTML=`<p class="err">${esc(errCopy(r.data&&r.data.code))}</p>`; }
+  }catch(e){ body.innerHTML=`<p class="err">${esc(t("errGeneric"))}</p>`; }
+}
 
 $("#stage").addEventListener("click", e=>{
   const oi=e.target.closest("[data-optin]"); if (oi){ doOptin(oi); return; }
@@ -1165,7 +1183,7 @@ document.addEventListener("click", async e=>{
   if (act==="next"){ if(need().every(i=>S.rev.has(i)) && !unlocked()){ S.open=0; openRow(5); return; } nextLine(); return; }
   if (act==="skip"){ need().forEach(i=>S.rev.add(i)); S.open=0; openRow(5); return; }
   if (act==="img" && b){ saveImage(b, currentCard().o, a); return; }
-  if (act==="again" && b){ $("#idea").value=b.idea; runVerdict(); return; }
+  if (act==="deep" && b){ openDeep(b); return; }
   if (act==="copy" && b){ const txt=receiptText(b), note=$("#actNote");
     try{ await navigator.clipboard.writeText(txt); note.textContent=t("copied"); }
     catch(_){ const ta=document.createElement("textarea"); ta.value=txt; ta.style.cssText="width:100%;min-height:160px;color:#111"; $("#cardacts").after(ta); ta.select(); } }

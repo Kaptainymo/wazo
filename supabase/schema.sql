@@ -34,6 +34,9 @@ create index if not exists wazos_ip_time on wazos (ip_hash, created_at desc);
 create index if not exists wazos_time    on wazos (created_at desc);
 create index if not exists wazos_unlock  on wazos (unlock_ip_hash, unlocked_at desc);
 
+-- Cached Pro-only follow-up analysis (risks, strategy, 90-day milestones). Generated once, then reused.
+alter table wazos add column if not exists deep jsonb;
+
 -- If you already ran an older version of this file, these two lines add the new columns:
 alter table wazos add column if not exists unlock_ip_hash text;
 alter table wazos add column if not exists unlocked_at timestamptz;
