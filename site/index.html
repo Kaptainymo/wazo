@@ -982,7 +982,7 @@ function renderHome(){
   $("#exN").textContent=FEED.length;
   const grown=!!S.triGrown || calm(); S.triGrown=true;
   const seg=cc=>{ const tot=cc.BUILD+cc.PIVOT+cc.KILL; if(!tot) return `<i class="empty-seg"></i>`;
-    return ["BUILD","PIVOT","KILL"].filter(v=>cc[v]).map(v=>`<i data-g="${cc[v]}" data-l="${esc(t("vWord")[v])} ${cc[v]}" style="flex:${grown?cc[v]:0.001} 1 0;background:var(--${VCLS(v)})"></i>`).join(""); };
+    return ["KILL","BUILD","PIVOT"].filter(v=>cc[v]).map(v=>`<i data-g="${cc[v]}" data-l="${esc(t("vWord")[v])} ${cc[v]}" style="flex:${grown?cc[v]:0.001} 1 0;background:var(--${VCLS(v)})"></i>`).join(""); };
   $("#tri").innerHTML=seg(c);
   const mc={BUILD:0,PIVOT:0,KILL:0}; (S.mine||[]).forEach(x=>{ if(x&&mc[x.verdict]!==undefined) mc[x.verdict]++; });
   $("#mineStrip").innerHTML=seg(mc);
