@@ -73,10 +73,14 @@ export async function upsertLead(row) {
 export async function patchLead(email, patch) {
   await sb(`leads?email=eq.${encodeURIComponent(email)}`, { method: "PATCH", body: patch, headers: { Prefer: "return=minimal" } });
 }
-// Atomically take this email's free wazo: only succeeds if it is still unused.
-export async function claimFree(email) {
-  const r = await sb(`leads?email=eq.${encodeURIComponent(email)}&free_used=eq.false`, { method: "PATCH", body: { free_used: true }, headers: { Prefer: "return=representation" } });
-  const rows = await r.json(); return rows.length > 0;
+// Atomically take one of this email's free wazos: only succeeds under the limit.
+export async function claimFree(email, limit) {
+  const r = await sb("rpc/claim_free_wazo", { method: "POST", body: { p_email: email, p_limit: limit } });
+  const rows = await r.json(); return Array.isArray(rows) && rows.length > 0;
+}
+// Give back a claim when the analysis that used it failed.
+export async function releaseFree(email) {
+  await sb("rpc/release_free_wazo", { method: "POST", body: { p_email: email }, headers: { Prefer: "return=minimal" } });
 }
 export async function insertWazo(row) {
   const r = await sb("wazos", { method: "POST", body: row, headers: { Prefer: "return=representation" } });

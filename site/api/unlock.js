@@ -28,7 +28,7 @@ export default async function handler(req, res) {
       return send(res, 200, { full: true, wazo: w.result });
     }
     const pro = lead?.plan === "pro";
-    if (!pro && !(await claimFree(email))) return send(res, 402, { code: "need_pro" });
+    if (!pro && !(await claimFree(email, Number(env("FREE_PER_LEAD", "3"))))) return send(res, 402, { code: "need_pro" });
     await patchWazo(w.id, { email, unlocked: true, unlock_ip_hash: ih, unlocked_at: new Date().toISOString() });
     return send(res, 200, { full: true, wazo: w.result });
   } catch (e) {

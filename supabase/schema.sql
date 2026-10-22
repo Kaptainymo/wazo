@@ -38,5 +38,27 @@ create index if not exists wazos_unlock  on wazos (unlock_ip_hash, unlocked_at d
 alter table wazos add column if not exists unlock_ip_hash text;
 alter table wazos add column if not exists unlocked_at timestamptz;
 
+-- How many free wazos a lead has claimed so far (replaces the old free_used flag).
+alter table leads add column if not exists free_claimed integer not null default 0;
+
 alter table leads enable row level security;
 alter table wazos enable row level security;
+
+-- Atomically claim one free wazo for this email, up to p_limit total. Returns the
+-- updated row if it claimed one, or nothing if the lead is already at the limit.
+create or replace function claim_free_wazo(p_email text, p_limit int)
+returns setof leads
+language sql
+as $$
+  update leads set free_claimed = free_claimed + 1
+  where email = p_email and free_claimed < p_limit
+  returning *;
+$$;
+
+-- Give back a free wazo claim if the analysis that used it failed.
+create or replace function release_free_wazo(p_email text)
+returns void
+language sql
+as $$
+  update leads set free_claimed = greatest(free_claimed - 1, 0) where email = p_email;
+$$;
