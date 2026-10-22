@@ -70,14 +70,14 @@ nav.top .in{display:flex;align-items:center;justify-content:space-between;height
 .b-ex{background:var(--b2);color:var(--b2-ink);flex:1 1 0;min-height:190px}
 .b-mine{background:var(--b1);color:var(--b1-ink);flex:1 1 0;min-height:190px}
 .b-lab{font-family:var(--f-mono);font-size:12px;letter-spacing:.12em;text-transform:uppercase;opacity:.65;display:flex;gap:10px}
-.b-big{font-weight:500;font-size:clamp(40px,11vw,84px);line-height:.95;letter-spacing:-.045em;display:flex;align-items:baseline;gap:14px;flex-wrap:wrap}
+.b-big{font-weight:500;font-size:clamp(40px,11vw,84px);line-height:.95;letter-spacing:-.045em;display:flex;align-items:baseline;justify-content:center;gap:14px;flex-wrap:wrap;width:100%}
 .b-big b{font-weight:500;font-variant-numeric:tabular-nums;direction:ltr}
 .b-big small{font-size:clamp(17px,4.4vw,26px);letter-spacing:-.01em;opacity:.7;font-weight:500}
 .caret{display:inline-block;width:3px;height:.8em;background:var(--red);margin-inline-end:8px;animation:blink 1s steps(2) infinite;transform:translateY(.06em)}
 @keyframes blink{50%{opacity:0}}
 .b-arrow{position:absolute;top:18px;inset-inline-end:max(20px,env(safe-area-inset-right,0px));font-size:22px;opacity:.55}
 
-.b-sub{font-size:14px;opacity:.65;max-width:34ch}
+.b-sub{display:block;font-size:14px;opacity:.65;max-width:34ch;margin-inline:auto;text-align:center}
 /* Phone: idea 50%, examples 25%, yours 25% of the screen */
 @media (max-width:899px){
   .bands{height:calc(100dvh - 56px - env(safe-area-inset-top,0px));min-height:560px;display:grid;grid-template-rows:minmax(0,2fr) minmax(0,1fr) minmax(0,1fr)}
