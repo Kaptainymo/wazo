@@ -895,7 +895,7 @@ for (let i=FEED.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [FEE
 const CUR = () => S.lang==="he" ? "₪" : S.lang==="en" ? "$" : "€";
 const CAP = () => S.lang==="he" ? 700 : 200;
 
-const S = { lang:"en", sample:null, db:null, uid:null, current:null, currentId:null, isExample:false, mine:[], mineLoaded:false, ctl:null, timer:null, busy:false, savedNote:"", confirmDel:null, ready:false, rev:new Set(), open:0, lastCnt:0, optin:false, me:{name:"",email:""}, plan:"", stampHit:false, view:"" };
+const S = { lang:"he", sample:null, db:null, uid:null, current:null, currentId:null, isExample:false, mine:[], mineLoaded:false, ctl:null, timer:null, busy:false, savedNote:"", confirmDel:null, ready:false, rev:new Set(), open:0, lastCnt:0, optin:false, me:{name:"",email:""}, plan:"", stampHit:false, view:"" };
 try { const l=localStorage.getItem("wz.lang"); if (LANGS.some(x=>x[0]===l)) S.lang=l; } catch(e){}
 try { const th=localStorage.getItem("wz.theme"); if (th==="light"||th==="dark") document.documentElement.setAttribute("data-theme",th); } catch(e){}
 S.cfg={ready:false,siteKey:"",umami:""};
