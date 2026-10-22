@@ -73,24 +73,6 @@ export async function upsertLead(row) {
 export async function patchLead(email, patch) {
   await sb(`leads?email=eq.${encodeURIComponent(email)}`, { method: "PATCH", body: patch, headers: { Prefer: "return=minimal" } });
 }
-// Atomically take one of this email's free wazos: only succeeds under the limit.
-export async function claimFree(email, limit) {
-  const r = await sb("rpc/claim_free_wazo", { method: "POST", body: { p_email: email, p_limit: limit } });
-  const rows = await r.json(); return Array.isArray(rows) && rows.length > 0;
-}
-// Give back a claim when the analysis that used it failed.
-export async function releaseFree(email) {
-  await sb("rpc/release_free_wazo", { method: "POST", body: { p_email: email }, headers: { Prefer: "return=minimal" } });
-}
-// Atomically spend one purchased credit (from the 5-pack). Never expires, never resets.
-export async function claimPaid(email) {
-  const r = await sb("rpc/claim_paid_wazo", { method: "POST", body: { p_email: email } });
-  const rows = await r.json(); return Array.isArray(rows) && rows.length > 0;
-}
-// Add n purchased credits, creating the lead if it doesn't exist yet.
-export async function addPaidCredits(email, n) {
-  await sb("rpc/add_paid_credits", { method: "POST", body: { p_email: email, p_n: n }, headers: { Prefer: "return=minimal" } });
-}
 export async function insertWazo(row) {
   const r = await sb("wazos", { method: "POST", body: row, headers: { Prefer: "return=representation" } });
   const rows = await r.json(); return rows[0];

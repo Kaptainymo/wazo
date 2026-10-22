@@ -1,8 +1,6 @@
 // POST /api/stripe-webhook  (called by Stripe, not the browser)
-// Credits a purchase once Stripe confirms it. Verifies the signature first.
-import { env, send, rawBody, verifyStripeSig, addPaidCredits, upsertLead, patchLead, stripeGet } from "./_lib.js";
-
-const CREDITS = { one: 1, pack: 5 };
+// Activates or cancels the Pro subscription once Stripe confirms it. Verifies the signature first.
+import { env, send, rawBody, verifyStripeSig, upsertLead, patchLead, stripeGet } from "./_lib.js";
 
 export default async function handler(req, res) {
   if (req.method !== "POST") return send(res, 405, { code: "method" });
@@ -18,13 +16,8 @@ export default async function handler(req, res) {
     if (event.type === "checkout.session.completed") {
       const s = event.data.object;
       const email = (s.customer_details?.email || s.customer_email || "").toLowerCase().trim();
-      const plan = s.metadata?.plan;
-      if (email && plan) {
-        if (plan === "pro") {
-          await upsertLead({ email, plan: "pro", stripe_customer_id: s.customer || null });
-        } else if (CREDITS[plan]) {
-          await addPaidCredits(email, CREDITS[plan]);
-        }
+      if (email && s.metadata?.plan === "pro") {
+        await upsertLead({ email, plan: "pro", stripe_customer_id: s.customer || null });
       }
     } else if (event.type === "customer.subscription.deleted" || event.type === "customer.subscription.updated") {
       const sub = event.data.object;

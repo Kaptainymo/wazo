@@ -1,17 +1,15 @@
 // POST /api/analyze  { idea, cust, budget, time, lang, token, email? }
-// Runs one analysis. Before an email is given, only the idea, scores and money are returned;
-// the 7-day test, fine print and bottom line stay on the server until /api/unlock.
-import { env, ready, send, body, str, cleanEmail, LANGS, clientIp, ipHash, human, count, getLead, claimFree, releaseFree, claimPaid, addPaidCredits, insertWazo, sinceISO, partial } from "./_lib.js";
+// Runs one analysis. The surface result (idea, scores, money) is free and unlimited
+// for everyone; the 7-day test, fine print and bottom line are Pro, revealed via /api/unlock.
+import { env, ready, send, body, str, cleanEmail, LANGS, clientIp, ipHash, human, count, getLead, insertWazo, sinceISO, partial } from "./_lib.js";
 import { buildPrompt, shape, parseJSON } from "./_prompt.js";
 
 export const config = { maxDuration: 60 };
 
 const LIMITS = () => ({
-  anonPerDay: Number(env("ANON_PER_DAY", "2")),   // analyses per IP per day without an email
-  ipPerDay: Number(env("IP_PER_DAY", "12")),      // hard ceiling per IP per day, everyone
+  ipPerDay: Number(env("IP_PER_DAY", "40")),      // per-IP abuse throttle, not a business limit
   proPerDay: Number(env("PRO_PER_DAY", "30")),
   dailyCap: Number(env("DAILY_CAP", "300")),      // whole site per day, protects the API bill
-  freePerLead: Number(env("FREE_PER_LEAD", "3")), // free full wazos per signed-up email
 });
 
 async function askClaude(prompt, signal) {
@@ -47,40 +45,18 @@ export default async function handler(req, res) {
     const ipCount = await count("wazos", `ip_hash=eq.${ih}&created_at=gte.${day}`);
     if (ipCount >= L.ipPerDay) return send(res, 429, { code: "limit" });
 
-    let lead = email ? await getLead(email) : null;
+    const lead = email ? await getLead(email) : null;
     const pro = lead?.plan === "pro";
-    let full = false;
-    if (pro) {
-      if ((await count("wazos", `email=eq.${encodeURIComponent(email)}&created_at=gte.${day}`)) >= L.proPerDay) return send(res, 429, { code: "limit" });
-      full = true;
-    } else if (lead && (lead.free_claimed < L.freePerLead || lead.paid_credits > 0)) {
-      full = true;                                   // a free or purchased wazo
-    } else if (lead) {
-      return send(res, 402, { code: "need_pro" });   // free used up, no credits left
-    } else if (ipCount >= L.anonPerDay) {
-      return send(res, 429, { code: "limit_anon" }); // ask for an email to continue
+    if (pro && (await count("wazos", `email=eq.${encodeURIComponent(email)}&created_at=gte.${day}`)) >= L.proPerDay) {
+      return send(res, 429, { code: "limit" });
     }
-
-    // Claim a wazo now (free first, then a purchased credit), so two requests
-    // fired together can't both get it.
-    const claimed = full && !pro;
-    let usedPaid = false;
-    if (claimed) {
-      const gotFree = lead.free_claimed < L.freePerLead && (await claimFree(email, L.freePerLead));
-      if (!gotFree) {
-        if (!(await claimPaid(email))) return send(res, 402, { code: "need_pro" });
-        usedPaid = true;
-      }
-    }
-    const release = async () => { if (claimed) { try { usedPaid ? await addPaidCredits(email, 1) : await releaseFree(email); } catch {} } };
+    const full = pro;
 
     const ctl = new AbortController(); const timer = setTimeout(() => ctl.abort(), 55000);
-    let text;
-    try { text = await askClaude(buildPrompt(fields), ctl.signal); }
-    catch (e) { await release(); throw e; }
-    finally { clearTimeout(timer); }
+    const text = await askClaude(buildPrompt(fields), ctl.signal);
+    clearTimeout(timer);
     const raw = parseJSON(text);
-    if (!raw) { await release(); return send(res, 502, { code: "invalid_json" }); }
+    if (!raw) return send(res, 502, { code: "invalid_json" });
     const w = shape(raw, lang);
     if (!w.idea) w.idea = idea;
 
