@@ -1645,7 +1645,7 @@ loadDrawer();
   S.ready=true; renderDrawer();
   if (S.cfg.open){ const tg=$("#testTag"); tg.hidden=false; tg.textContent=t("testTag"); }
   const add=(src,attrs,onload)=>{ const sc=document.createElement("script"); sc.src=src; sc.async=true; sc.defer=true; if(onload) sc.onload=onload; Object.entries(attrs||{}).forEach(([k,v])=>sc.setAttribute(k,v)); document.head.appendChild(sc); };
-  if (S.cfg.siteKey) add("https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit");
+  if (S.cfg.siteKey && !S.cfg.open) add("https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit");
   if (S.cfg.umami) add("https://cloud.umami.is/script.js",{"data-website-id":S.cfg.umami});
   if (S.cfg.paddleToken && !S.cfg.open) add("https://cdn.paddle.com/paddle/v2/paddle.js",{},()=>{
     if (!window.Paddle) return;

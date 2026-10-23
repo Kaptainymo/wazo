@@ -3,7 +3,7 @@ import crypto from "node:crypto";
 
 export const env = (k, d = "") => (process.env[k] ?? d).toString().trim();
 export const LANGS = ["en", "es", "fr", "he"];
-// WAZO_OPEN=1 is the test switch: every feature is open to everyone and nothing is charged. Remove it to go back to paid Pro.
+// WAZO_OPEN=1 is the test switch: every feature is open, nothing is charged and the bot check is off. Remove it to go back to normal.
 export const open = () => env("WAZO_OPEN") === "1";
 export const ready = () => !!(env("ANTHROPIC_API_KEY") && env("SUPABASE_URL") && env("SUPABASE_SERVICE_KEY") && (env("TURNSTILE_SECRET") || env("WAZO_DEV") === "1"));
 
@@ -33,6 +33,7 @@ export const ipHash = (ip) => crypto.createHash("sha256").update(ip + "|" + env(
 
 // ---------- Cloudflare Turnstile ----------
 export async function human(token, ip) {
+  if (open()) return true;                                 // test mode: no bot check (limits still apply)
   const secret = env("TURNSTILE_SECRET");
   if (!secret) return env("WAZO_DEV") === "1";            // local testing only
   if (!token) return false;
