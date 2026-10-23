@@ -1,7 +1,7 @@
 // POST /api/analyze  { idea, cust, budget, time, lang, token, email? }
 // Runs one analysis. The surface result (idea, scores, money) is free and unlimited
 // for everyone; the 7-day test, fine print and bottom line are Pro, revealed via /api/unlock.
-import { env, ready, send, body, str, cleanEmail, LANGS, clientIp, ipHash, human, count, getLead, insertWazo, sinceISO, partial } from "./_lib.js";
+import { env, ready, send, body, str, cleanEmail, LANGS, clientIp, ipHash, human, count, getLead, insertWazo, sinceISO, partial, askClaude } from "./_lib.js";
 import { buildPrompt, shape, parseJSON } from "./_prompt.js";
 
 export const config = { maxDuration: 60 };
@@ -11,20 +11,6 @@ const LIMITS = () => ({
   proPerDay: Number(env("PRO_PER_DAY", "30")),
   dailyCap: Number(env("DAILY_CAP", "300")),      // whole site per day, protects the API bill
 });
-
-async function askClaude(prompt, signal) {
-  if (env("WAZO_MOCK") === "1") return MOCK;
-  const r = await fetch("https://api.anthropic.com/v1/messages", {
-    method: "POST", signal,
-    headers: { "x-api-key": env("ANTHROPIC_API_KEY"), "anthropic-version": "2023-06-01", "content-type": "application/json" },
-    body: JSON.stringify({ model: env("WAZO_MODEL", "claude-sonnet-5-5"), max_tokens: 3000, messages: [{ role: "user", content: prompt }] }),
-  });
-  if (r.status === 429 || r.status === 529) throw Object.assign(new Error("busy"), { code: "busy" });
-  if (!r.ok) throw Object.assign(new Error("model " + r.status + " " + (await r.text()).slice(0, 200)), { code: "model" });
-  const j = await r.json();
-  if (j.stop_reason === "refusal") throw Object.assign(new Error("refused"), { code: "refused" });
-  return (j.content || []).filter((c) => c.type === "text").map((c) => c.text).join("");
-}
 
 export default async function handler(req, res) {
   if (req.method !== "POST") return send(res, 405, { code: "method" });
@@ -41,11 +27,13 @@ export default async function handler(req, res) {
 
   try {
     const day = sinceISO(24);
-    if ((await count("wazos", `created_at=gte.${day}`)) >= L.dailyCap) return send(res, 503, { code: "busy" });
-    const ipCount = await count("wazos", `ip_hash=eq.${ih}&created_at=gte.${day}`);
+    const [siteCount, ipCount, lead] = await Promise.all([
+      count("wazos", `created_at=gte.${day}`),
+      count("wazos", `ip_hash=eq.${ih}&created_at=gte.${day}`),
+      email ? getLead(email) : null,
+    ]);
+    if (siteCount >= L.dailyCap) return send(res, 503, { code: "busy" });
     if (ipCount >= L.ipPerDay) return send(res, 429, { code: "limit" });
-
-    const lead = email ? await getLead(email) : null;
     const pro = lead?.plan === "pro";
     if (pro && (await count("wazos", `email=eq.${encodeURIComponent(email)}&created_at=gte.${day}`)) >= L.proPerDay) {
       return send(res, 429, { code: "limit" });
@@ -53,8 +41,9 @@ export default async function handler(req, res) {
     const full = pro;
 
     const ctl = new AbortController(); const timer = setTimeout(() => ctl.abort(), 55000);
-    const text = await askClaude(buildPrompt(fields), ctl.signal);
-    clearTimeout(timer);
+    let text;
+    try { text = await askClaude(buildPrompt(fields), { signal: ctl.signal, maxTokens: 3000, mock: MOCK }); }
+    finally { clearTimeout(timer); }
     const raw = parseJSON(text);
     if (!raw) return send(res, 502, { code: "invalid_json" });
     const w = shape(raw, lang);

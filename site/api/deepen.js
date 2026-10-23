@@ -1,23 +1,9 @@
 // POST /api/deepen  { id, email, lang, token }
 // Pro-only. Returns a cached or freshly generated deeper follow-up analysis for a wazo.
-import { env, ready, send, body, cleanEmail, LANGS, clientIp, human, getLead, getWazo, patchWazo } from "./_lib.js";
+import { ready, send, body, cleanEmail, LANGS, clientIp, human, getLead, getWazo, patchWazo, askClaude } from "./_lib.js";
 import { buildDeepPrompt, shapeDeep, parseJSON } from "./_prompt.js";
 
 export const config = { maxDuration: 60 };
-
-async function askClaude(prompt, signal) {
-  if (env("WAZO_MOCK") === "1") return MOCK_DEEP;
-  const r = await fetch("https://api.anthropic.com/v1/messages", {
-    method: "POST", signal,
-    headers: { "x-api-key": env("ANTHROPIC_API_KEY"), "anthropic-version": "2023-06-01", "content-type": "application/json" },
-    body: JSON.stringify({ model: env("WAZO_MODEL", "claude-sonnet-5-5"), max_tokens: 1500, messages: [{ role: "user", content: prompt }] }),
-  });
-  if (r.status === 429 || r.status === 529) throw Object.assign(new Error("busy"), { code: "busy" });
-  if (!r.ok) throw Object.assign(new Error("model " + r.status + " " + (await r.text()).slice(0, 200)), { code: "model" });
-  const j = await r.json();
-  if (j.stop_reason === "refusal") throw Object.assign(new Error("refused"), { code: "refused" });
-  return (j.content || []).filter((c) => c.type === "text").map((c) => c.text).join("");
-}
 
 export default async function handler(req, res) {
   if (req.method !== "POST") return send(res, 405, { code: "method" });
@@ -38,7 +24,7 @@ export default async function handler(req, res) {
     const lang = LANGS.includes(b.lang) ? b.lang : (w.lang || "en");
     const ctl = new AbortController(); const timer = setTimeout(() => ctl.abort(), 55000);
     let text;
-    try { text = await askClaude(buildDeepPrompt({ idea: w.idea, lang, result: w.result }), ctl.signal); }
+    try { text = await askClaude(buildDeepPrompt({ idea: w.idea, lang, result: w.result }), { signal: ctl.signal, maxTokens: 1500, mock: MOCK_DEEP }); }
     finally { clearTimeout(timer); }
     const raw = parseJSON(text);
     if (!raw) return send(res, 502, { code: "invalid_json" });

@@ -155,9 +155,6 @@ textarea#idea:focus{outline:none}
 
 /* receipt panel: tone = none | night | build | pivot | kill */
 .p-receipt{background:var(--night);color:var(--night-ink);transition:background-color .7s var(--ease),color .7s var(--ease)}
-.p-receipt.t-build{background:var(--build);color:var(--build-ink)}
-.p-receipt.t-pivot{background:var(--pivot);color:var(--pivot-ink)}
-.p-receipt.t-kill{background:var(--kill);color:var(--kill-ink)}
 .rc{padding-top:6px}
 .rc-meta{font-family:var(--f-mono);font-size:12px;opacity:.6;display:flex;justify-content:space-between;gap:10px;direction:ltr}
 [dir="rtl"] .rc-meta{flex-direction:row-reverse}
@@ -260,9 +257,6 @@ textarea#idea:focus{outline:none}
 
 /* actions + plans */
 .acts{position:sticky;bottom:0;padding:14px 0 calc(16px + env(safe-area-inset-bottom,0px));display:grid;gap:10px;background:linear-gradient(to top,var(--night) 70%,transparent);z-index:3}
-.p-receipt.t-build .acts{background:linear-gradient(to top,var(--build) 70%,transparent)}
-.p-receipt.t-pivot .acts{background:linear-gradient(to top,var(--pivot) 70%,transparent)}
-.p-receipt.t-kill .acts{background:linear-gradient(to top,var(--kill) 70%,transparent)}
 .acts-row{display:flex;gap:8px}
 .acts-row .cta{flex:1;min-width:0}
 .acts-row.tri .cta{flex-direction:column;gap:4px;height:auto;padding:10px 6px;border-radius:20px;font-size:12px;line-height:1.15;font-weight:500;white-space:normal;text-align:center}
@@ -272,9 +266,6 @@ textarea#idea:focus{outline:none}
 .btn-main{background:currentColor}
 .btn-main span{filter:invert(1);mix-blend-mode:normal}
 .p-receipt .btn-main{background:var(--night-ink);color:var(--night)}
-.p-receipt.t-build .btn-main{background:var(--build-ink);color:var(--build)}
-.p-receipt.t-pivot .btn-main{background:var(--pivot-ink);color:var(--pivot)}
-.p-receipt.t-kill .btn-main{background:var(--kill-ink);color:var(--kill)}
 .btn-ghost{background:transparent;color:inherit;box-shadow:inset 0 0 0 1.4px color-mix(in srgb,currentColor 40%,transparent)}
 .acts .note{text-align:center}
 .plans{display:grid;gap:10px;padding:8px 0 28px}
@@ -396,15 +387,13 @@ textarea#idea:focus{outline:none}
 .rv.pop{animation:valIn .55s var(--ease)}
 .rbi>*{animation:rowIn .45s var(--ease) backwards}
 .rrow.open .rbi>*:nth-child(2){animation-delay:.05s}.rrow.open .rbi>*:nth-child(3){animation-delay:.1s}.rrow.open .rbi>*:nth-child(4){animation-delay:.15s}.rrow.open .rbi>*:nth-child(5){animation-delay:.2s}
-.flood{position:fixed;inset:0;z-index:0;pointer-events:none;animation:flood .85s cubic-bezier(.7,0,.2,1) forwards}
-@keyframes flood{from{clip-path:circle(0px at var(--fx,50%) var(--fy,60%))}to{clip-path:circle(160vmax at var(--fx,50%) var(--fy,60%))}}
 .p-receipt>.ph,.p-receipt>.in{position:relative;z-index:1}
 .draw-step{transition:opacity .25s}
 .xc{transition:transform .12s linear;will-change:transform}
 .xc h3,.xc .xw,.xc p{will-change:transform}
 .p-idea textarea#idea::placeholder{transition:opacity .2s}
 @media (prefers-reduced-motion:reduce){
-  .panel.opening,.panel.closing,.bands.enter .band,.rc.enter *,.mrow,.plans>*,.rv.pop,.rbi>*,.flood,.panel.opening .in>*{animation:none!important}
+  .panel.opening,.panel.closing,.bands.enter .band,.rc.enter *,.mrow,.plans>*,.rv.pop,.rbi>*,.panel.opening .in>*{animation:none!important}
   .b-big,.b-sub,.tri,.legend,.xc{transform:none!important}
 }
 
@@ -1093,10 +1082,6 @@ function railFx(){
 }
 
 /* ---------- the receipt: big-type rows ---------- */
-function setTone(){
-  const p=$("#p-receipt"); p.classList.remove("t-build","t-pivot","t-kill");
-  const b=$("#stage")._b; void b;
-}
 function cardHTML(b,o,only){
   const L=T[S.lang], R=L.r, seed=o.id||b.idea, C=b.cur||CUR(), M=n=>C+fmt(n);
   const d=o.date?new Date(o.date):new Date();
@@ -1202,7 +1187,7 @@ function renderStage(){
   if (isWide()) [1,2,3,4].forEach(i=>{ if(!proLocked(i)) S.rev.add(i); });
   st.innerHTML=cardHTML(c.b,c.o); st._b=c.b;
   const rc=st.querySelector(".rc"); if(rc && !calm()){ rc.classList.add("enter"); setTimeout(()=>rc.classList.remove("enter"),1200); }
-  setTone(); renderActs(); renderCounter(false);
+  renderActs(); renderCounter(false);
   if (isCards()){ const c=S.card||S.open||1; S.card=0; goCard(c,true); viewCard(c); fitSoon(); } else fitSoon();
 }
 function renderActs(){
@@ -1324,6 +1309,22 @@ function gateHTML(){
     <div class="cav" id="gNote">${esc(t("gPriv"))}</div>
   </div>`;
 }
+function applyUnlock(b,wazo){
+  const nb=norm({...wazo,cur:b.cur}); nb.full=true; nb.sid=b.sid; if(!nb.idea) nb.idea=b.idea;
+  S.current=nb; $("#stage")._b=nb; updateMine(nb); S.rev.add(3); S.rev.add(4); track("unlock");
+}
+// Paddle confirms the subscription by webhook a few seconds after checkout, so retry the unlock until it lands.
+async function afterPay(){
+  setNote(t("paidOk"));
+  const b=S.current; if (!b || !b.sid || b.full || !S.me.email) return;
+  for (const wait of [2500,4000,6000,9000]){
+    await new Promise(r=>setTimeout(r,wait));
+    if (S.current!==b) return;
+    let r={status:0,data:{}};
+    try{ const token=await humanToken(); r=await api("unlock",{id:b.sid,email:S.me.email,name:S.me.name,lang:S.lang,token}); }catch(e){}
+    if (r.status===200 && r.data.full){ applyUnlock(b,r.data.wazo); [1,2,3,4].forEach(k=>S.rev.add(k)); if (S.view==="receipt"){ S.open=0; openRow(5); } return; }
+  }
+}
 async function doOptin(btn){
   const name=($("#gName")?.value||"").trim(), email=($("#gEmail")?.value||"").trim(), mk=!!$("#gMk")?.checked, note=$("#gNote");
   if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){ if(note){ note.textContent=t("gBad"); note.className="err"; } $("#gEmail")?.focus(); return; }
@@ -1334,8 +1335,7 @@ async function doOptin(btn){
   if (S.isExample || !b.sid){ r={status:200,data:{full:true,wazo:b}}; }
   else { try{ const token=await humanToken(); r=await api("unlock",{id:b.sid,email,name,marketing:mk,lang:S.lang,token}); }catch(e){} }
   if (r.status===200 && r.data.full){
-    const nb=norm({...r.data.wazo,cur:b.cur}); nb.full=true; nb.sid=b.sid; if(!nb.idea) nb.idea=b.idea;
-    S.current=nb; $("#stage")._b=nb; updateMine(nb); S.rev.add(3); S.rev.add(4); track("unlock");
+    applyUnlock(b,r.data.wazo);
     const lk=document.querySelector("#vlock .ic-lock"); if (lk && !calm()){ lk.classList.remove("idle"); lk.classList.add("unlock"); await new Promise(res=>setTimeout(res,650)); }
     S.open=0; openRow(5); return;
   }
@@ -1348,7 +1348,7 @@ async function holdPlan(k,btn){
   track("plan-"+k);
   if (k==="teams"){
     S.plan=k; try{ localStorage.setItem("wz.plan",k); }catch(e){}
-    const st=$("#stage"); if (st._b && !S.busy){ if (isCards()) redrawStage(); else { st.innerHTML=cardHTML(st._b,currentCard().o); setTone(); } }
+    const st=$("#stage"); if (st._b && !S.busy){ if (isCards()) redrawStage(); else st.innerHTML=cardHTML(st._b,currentCard().o); }
     renderActs(); if ($("#teams").open) openTeams();
     if (S.me.email){ try{ const token=await humanToken(); await api("lead",{action:"plan",email:S.me.email,plan:k,lang:S.lang,token}); }catch(e){} }
     return;
@@ -1357,7 +1357,7 @@ async function holdPlan(k,btn){
   const wrap=btn?.closest(".plans"), note=wrap?.querySelector(".plan-note");
   if (!window.Paddle || !S.cfg.paddlePricePro){ if (note) note.textContent=t("errSetup"); return; }
   const items=[{priceId:S.cfg.paddlePricePro,quantity:1}];
-  const opts={items, customData:{lang:S.lang}};
+  const opts={items, customData:{lang:S.lang, email:S.me.email||""}};
   if (S.me.email) opts.customer={email:S.me.email};
   Paddle.Checkout.open(opts);
 }
@@ -1433,7 +1433,7 @@ async function saveImage(b,o,btn){
 const VERD=["BUILD","PIVOT","KILL"], STEP_AT=[0,14,30,48,66,84];
 function printing(idea){
   const L=T[S.lang], keys=["pain","demand","space","pay"];
-  $("#p-receipt").classList.remove("t-build","t-pivot","t-kill"); $("#cntBox").innerHTML="";
+  $("#cntBox").innerHTML="";
   $("#stage")._b=null;
   $("#stage").innerHTML=`<article class="rc">
     <div class="rc-meta"><span>WAZO</span><span id="dPct">0%</span></div>
@@ -1648,7 +1648,7 @@ loadDrawer();
   if (S.cfg.paddleToken) add("https://cdn.paddle.com/paddle/v2/paddle.js",{},()=>{
     if (!window.Paddle) return;
     if (S.cfg.paddleEnv==="sandbox") Paddle.Environment.set("sandbox");
-    Paddle.Initialize({ token:S.cfg.paddleToken, eventCallback:e=>{ if(e.name==="checkout.completed") setNote(t("paidOk")); } });
+    Paddle.Initialize({ token:S.cfg.paddleToken, eventCallback:e=>{ if(e.name==="checkout.completed") afterPay(); } });
   });
   if (!S.cfg.ready) setNote(t("errSetup"));
 })();

@@ -1,6 +1,6 @@
 // POST /api/paddle-webhook  (called by Paddle, not the browser)
 // Activates or cancels the Pro subscription once Paddle confirms it. Verifies the signature first.
-import { env, send, rawBody, verifyPaddleSig, paddleGet, upsertLead, patchLead } from "./_lib.js";
+import { env, send, rawBody, verifyPaddleSig, paddleGet, upsertLead, patchLead, cleanEmail } from "./_lib.js";
 
 export default async function handler(req, res) {
   if (req.method !== "POST") return send(res, 405, { code: "method" });
@@ -14,13 +14,13 @@ export default async function handler(req, res) {
 
   try {
     const type = event.event_type, d = event.data || {};
+    // The email typed into Wazo wins over the one typed at checkout, so Pro lands on the account the buyer is using.
+    const who = async () => cleanEmail(d.custom_data?.email) || cleanEmail((await paddleGet(`customers/${d.customer_id}`))?.email);
     if (type === "subscription.activated" || (type === "subscription.updated" && d.status === "active")) {
-      const customer = await paddleGet(`customers/${d.customer_id}`);
-      const email = (customer?.email || "").toLowerCase().trim();
+      const email = await who();
       if (email) await upsertLead({ email, plan: "pro", paddle_customer_id: d.customer_id || null });
     } else if (type === "subscription.canceled" || (type === "subscription.updated" && ["paused", "past_due"].includes(d.status))) {
-      const customer = await paddleGet(`customers/${d.customer_id}`);
-      const email = (customer?.email || "").toLowerCase().trim();
+      const email = await who();
       if (email) await patchLead(email, { plan: "" });
     }
     return send(res, 200, { received: true });

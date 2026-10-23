@@ -90,6 +90,22 @@ export const sinceISO = (hours) => new Date(Date.now() - hours * 3600e3).toISOSt
 // What a visitor sees before giving an email: the idea, scores and money.
 export const partial = (w) => ({ idea: w.idea, title: w.title, scores: w.scores, money: w.money });
 
+// ---------- Anthropic ----------
+// One call to Claude. `mock` is returned verbatim when WAZO_MOCK=1 (local testing without spending tokens).
+export async function askClaude(prompt, { signal, maxTokens, mock } = {}) {
+  if (env("WAZO_MOCK") === "1") return mock;
+  const r = await fetch("https://api.anthropic.com/v1/messages", {
+    method: "POST", signal,
+    headers: { "x-api-key": env("ANTHROPIC_API_KEY"), "anthropic-version": "2023-06-01", "content-type": "application/json" },
+    body: JSON.stringify({ model: env("WAZO_MODEL", "claude-sonnet-5-5"), max_tokens: maxTokens, messages: [{ role: "user", content: prompt }] }),
+  });
+  if (r.status === 429 || r.status === 529) throw Object.assign(new Error("busy"), { code: "busy" });
+  if (!r.ok) throw Object.assign(new Error("model " + r.status + " " + (await r.text()).slice(0, 200)), { code: "model" });
+  const j = await r.json();
+  if (j.stop_reason === "refusal") throw Object.assign(new Error("refused"), { code: "refused" });
+  return (j.content || []).filter((c) => c.type === "text").map((c) => c.text).join("");
+}
+
 // ---------- Paddle (REST, API key; server only) ----------
 const paddleBase = () => (env("PADDLE_ENV", "sandbox") === "production" ? "https://api.paddle.com" : "https://sandbox-api.paddle.com");
 export async function paddleGet(path) {
