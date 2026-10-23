@@ -1,7 +1,7 @@
 // POST /api/analyze  { idea, cust, budget, time, lang, token, email? }
 // Runs one analysis. The surface result (idea, scores, money) is free and unlimited
 // for everyone; the 7-day test, fine print and bottom line are Pro, revealed via /api/unlock.
-import { env, ready, send, body, str, cleanEmail, LANGS, clientIp, ipHash, human, count, getLead, insertWazo, sinceISO, partial, askClaude } from "./_lib.js";
+import { env, ready, send, body, str, cleanEmail, LANGS, clientIp, ipHash, human, count, getLead, insertWazo, sinceISO, partial, askClaude, open } from "./_lib.js";
 import { buildPrompt, shape, parseJSON } from "./_prompt.js";
 
 export const config = { maxDuration: 60 };
@@ -35,11 +35,10 @@ export default async function handler(req, res) {
     if (siteCount >= L.dailyCap) return send(res, 503, { code: "busy" });
     if (ipCount >= L.ipPerDay) return send(res, 429, { code: "limit" });
     const pro = lead?.plan === "pro";
+    const full = pro || open();
     if (pro && (await count("wazos", `email=eq.${encodeURIComponent(email)}&created_at=gte.${day}`)) >= L.proPerDay) {
       return send(res, 429, { code: "limit" });
     }
-    const full = pro;
-
     const ctl = new AbortController(); const timer = setTimeout(() => ctl.abort(), 55000);
     let text;
     try { text = await askClaude(buildPrompt(fields), { signal: ctl.signal, maxTokens: 3000, mock: MOCK }); }
@@ -49,7 +48,7 @@ export default async function handler(req, res) {
     const w = shape(raw, lang);
     if (!w.idea) w.idea = idea;
 
-    const row = await insertWazo({ ip_hash: ih, email: full ? email : null, lang, idea, verdict: w.verdict, result: w, unlocked: full, ...(full ? { unlock_ip_hash: ih, unlocked_at: new Date().toISOString() } : {}) });
+    const row = await insertWazo({ ip_hash: ih, email: full ? (email || null) : null, lang, idea, verdict: w.verdict, result: w, unlocked: full, ...(full ? { unlock_ip_hash: ih, unlocked_at: new Date().toISOString() } : {}) });
     return send(res, 200, { id: row.id, full, wazo: full ? w : partial(w) });
   } catch (e) {
     const code = e.code === "busy" ? "busy" : e.code === "refused" ? "refused" : e.name === "AbortError" ? "timeout" : "error";

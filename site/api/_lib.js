@@ -3,6 +3,8 @@ import crypto from "node:crypto";
 
 export const env = (k, d = "") => (process.env[k] ?? d).toString().trim();
 export const LANGS = ["en", "es", "fr", "he"];
+// WAZO_OPEN=1 is the test switch: every feature is open to everyone and nothing is charged. Remove it to go back to paid Pro.
+export const open = () => env("WAZO_OPEN") === "1";
 export const ready = () => !!(env("ANTHROPIC_API_KEY") && env("SUPABASE_URL") && env("SUPABASE_SERVICE_KEY") && (env("TURNSTILE_SECRET") || env("WAZO_DEV") === "1"));
 
 export function send(res, status, data) {

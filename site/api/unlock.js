@@ -1,6 +1,6 @@
 // POST /api/unlock  { id, email, name, marketing, lang, token }
 // Saves the lead and reveals the deeper analysis for this wazo if the email is Pro.
-import { env, ready, send, body, str, cleanEmail, LANGS, clientIp, ipHash, human, count, sinceISO, getLead, upsertLead, getWazo, patchWazo } from "./_lib.js";
+import { env, ready, send, body, str, cleanEmail, LANGS, clientIp, ipHash, human, count, sinceISO, getLead, upsertLead, getWazo, patchWazo, open } from "./_lib.js";
 
 export default async function handler(req, res) {
   if (req.method !== "POST") return send(res, 405, { code: "method" });
@@ -14,6 +14,7 @@ export default async function handler(req, res) {
   try {
     const w = await getWazo(b.id);
     if (!w) return send(res, 404, { code: "not_found" });
+    if (open()) return send(res, 200, { full: true, wazo: w.result });
     // Abuse throttle only (Pro is otherwise unlimited); not a business limit.
     if (!w.unlocked && (await count("wazos", `unlock_ip_hash=eq.${ih}&unlocked_at=gte.${sinceISO(24)}`)) >= Number(env("UNLOCK_PER_DAY", "40")))
       return send(res, 429, { code: "limit" });
