@@ -1,0 +1,183 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Wazo · חוות דעת ישירה על רעיון לסטארטאפ</title>
+<meta name="description" content="כותבים רעיון ומקבלים בדקות ציונים, חישוב כסף, מבחן של 7 ימים ופסק דין: לבנות, לשנות כיוון או לוותר. Wazo, לפני שאתה מתפטר בשבילו.">
+<meta property="og:title" content="Wazo · חוות דעת ישירה על הרעיון שלך">
+<meta property="og:description" content="ציונים, כסף, מבחן של 7 ימים ופסק דין, לפני שאתה מתפטר בשביל הרעיון.">
+<meta property="og:type" content="website">
+<meta name="theme-color" content="#000000">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700&family=Miriam+Libre:wght@700&family=IBM+Plex+Sans+Hebrew:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<style>
+  :root{--bg:#0E0E0E;--ink:#F1F0EC;--muted:#8E8C87;--line:#2A2A2A;--red:#F07167;--build:#A8DADC;--pivot:#F1FAEE;--card:#1C1C1C;color-scheme:dark}
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:"Hanken Grotesk","IBM Plex Sans Hebrew",system-ui,sans-serif;line-height:1.55;-webkit-font-smoothing:antialiased}
+  a{color:inherit}
+  .wrap{width:min(1120px,100% - 40px);margin-inline:auto}
+  header.top{display:flex;align-items:center;justify-content:space-between;height:64px}
+  .logo{direction:ltr;unicode-bidi:isolate;font-weight:700;font-size:20px;letter-spacing:-.02em;text-decoration:none;font-family:"Hanken Grotesk",sans-serif}
+  .logo sup{font-size:9px}
+  .nav a.pill{display:inline-flex;align-items:center;height:38px;padding:0 18px;border-radius:999px;border:1.3px solid rgba(241,240,236,.3);text-decoration:none;font-size:14px;font-weight:600}
+  .mono{font-family:"IBM Plex Mono","IBM Plex Sans Hebrew",monospace}
+  h1,h2,h3{font-family:"Miriam Libre","Hanken Grotesk",sans-serif;font-weight:700;margin:0;letter-spacing:-.01em}
+  .hero{padding:56px 0 72px;text-align:center}
+  .eyebrow{font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+  .hero h1{font-size:clamp(38px,7vw,76px);line-height:1.05;margin:18px auto 20px;max-width:16ch}
+  .hero h1 em{font-style:normal;color:var(--red)}
+  .hero p.lead{font-size:clamp(17px,2.2vw,21px);color:#C9C8C3;max-width:46ch;margin:0 auto 32px}
+  .btns{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+  .cta{display:inline-flex;align-items:center;justify-content:center;height:54px;padding:0 30px;border-radius:999px;font-weight:600;font-size:17px;text-decoration:none;font-family:inherit}
+  .cta.main{background:var(--ink);color:#0E0E0E}
+  .cta.ghost{box-shadow:inset 0 0 0 1.4px rgba(241,240,236,.4)}
+  .tiles{display:flex;justify-content:center;gap:10px;margin-top:48px;direction:ltr}
+  .tiles i{display:block;width:44px;height:44px;border-radius:8px}
+  @media (min-width:700px){.tiles i{width:64px;height:64px;border-radius:12px}.tiles{gap:16px}}
+  section{padding:56px 0}
+  .sec-h{margin-bottom:28px}
+  .sec-h .eyebrow{display:block;margin-bottom:10px}
+  .sec-h h2{font-size:clamp(28px,4.4vw,44px);line-height:1.1}
+  .sec-h p{color:var(--muted);margin:12px 0 0;max-width:56ch;font-size:17px}
+  .steps{display:grid;gap:16px;grid-template-columns:repeat(auto-fit,minmax(240px,1fr))}
+  .step{border:1px solid var(--line);border-radius:24px;padding:26px}
+  .step .n{font-size:13px;color:var(--red);font-weight:600}
+  .step h3{font-size:22px;margin:10px 0 8px}
+  .step p{margin:0;color:var(--muted)}
+  .cards{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(200px,1fr))}
+  .rc{background:var(--card);border-radius:28px;padding:22px;display:flex;flex-direction:column;gap:10px;min-height:300px}
+  .rc.final{background:var(--build);color:#0F2A2C}
+  .rc .top{display:flex;justify-content:space-between;align-items:center;font-size:12px;letter-spacing:.1em;text-transform:uppercase;opacity:.7}
+  .rc .big{font-size:clamp(40px,5vw,54px);font-weight:500;letter-spacing:-.045em;line-height:1;direction:ltr;text-align:right;margin-top:8px;font-family:"Hanken Grotesk",sans-serif}
+  .rc.final .big{font-family:"Miriam Libre",sans-serif;font-weight:700;letter-spacing:-.01em}
+  .rc h3{font-size:19px}
+  .rc p{margin:0;font-size:15px;opacity:.78}
+  .badge{align-self:flex-start;margin-top:auto;font-size:11px;letter-spacing:.08em;text-transform:uppercase;font-weight:600;border-radius:999px;padding:4px 11px;background:rgba(241,240,236,.12)}
+  .rc.final .badge{background:rgba(15,42,44,.14)}
+  .badge.pro{background:var(--red);color:#2B0B07}
+  .note{font-size:13px;color:var(--muted);margin-top:14px}
+  .tiers{display:grid;gap:18px;grid-template-columns:repeat(auto-fit,minmax(280px,1fr))}
+  .tier{border:1px solid var(--line);border-radius:28px;padding:30px}
+  .tier.pro{border-color:var(--red)}
+  .tier h3{font-size:26px}
+  .tier .price{font-family:"IBM Plex Mono",monospace;font-size:34px;font-weight:600;margin:14px 0 4px;direction:ltr;text-align:right}
+  .tier .price small{font-size:14px;color:var(--muted);font-weight:400}
+  .tier ul{list-style:none;margin:20px 0 0;padding:0;display:grid;gap:12px}
+  .tier li{padding-inline-start:28px;position:relative;color:#D6D5D0}
+  .tier li::before{content:"";position:absolute;inset-inline-start:0;top:.45em;width:14px;height:8px;border-left:2.4px solid var(--red);border-bottom:2.4px solid var(--red);transform:rotate(-45deg) scale(.9);transform-origin:center}
+  .tier li.soon{color:var(--muted)}
+  .tier li.soon::before{border-color:var(--muted)}
+  .soon-tag{font-size:11px;letter-spacing:.06em;border:1px solid var(--line);border-radius:999px;padding:1px 8px;margin-inline-start:6px;color:var(--muted)}
+  .trust{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(240px,1fr))}
+  .trust div{border-top:1px solid var(--line);padding-top:16px}
+  .trust b{display:block;margin-bottom:4px;font-size:17px}
+  .trust p{margin:0;color:var(--muted);font-size:15px}
+  .final-cta{text-align:center;padding:72px 0 88px}
+  .final-cta h2{font-size:clamp(30px,5vw,54px);line-height:1.08;margin-bottom:24px}
+  footer{border-top:1px solid var(--line);padding:28px 0 48px;color:var(--muted);font-size:14px}
+  footer .row{display:flex;gap:18px;flex-wrap:wrap;justify-content:space-between}
+  footer nav{display:flex;gap:18px;flex-wrap:wrap}
+  footer a{color:var(--ink);text-underline-offset:3px}
+  :focus-visible{outline:3px solid var(--red);outline-offset:3px;border-radius:6px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <a class="logo" href="/" aria-label="Wazo">WAZO<sup>®</sup></a>
+    <div class="nav"><a class="pill" href="/">נסו עכשיו</a></div>
+  </header>
+
+  <main>
+    <div class="hero">
+      <span class="eyebrow mono">וואזו · Wazo</span>
+      <h1>חוות דעת ישירה על הרעיון שלך, <em>לפני</em> שאתה מתפטר בשבילו.</h1>
+      <p class="lead">כותבים רעיון לסטארטאפ ומקבלים בדקות ציונים, חישוב כסף, מבחן של 7 ימים ופסק דין: לבנות, לשנות כיוון או לוותר.</p>
+      <div class="btns">
+        <a class="cta main" href="/">נסו עכשיו, בחינם</a>
+        <a class="cta ghost" href="#tiers">מה חינם ומה Pro</a>
+      </div>
+      <div class="tiles" aria-hidden="true">
+        <i style="background:var(--build)"></i><i style="background:var(--red)"></i><i style="background:var(--pivot)"></i><i style="background:var(--build)"></i><i style="background:var(--red)"></i><i style="background:var(--pivot)"></i><i style="background:var(--build)"></i>
+      </div>
+    </div>
+
+    <section id="how">
+      <div class="sec-h"><span class="eyebrow mono">איך זה עובד</span><h2>שלושה צעדים, בלי הרצאה.</h2></div>
+      <div class="steps">
+        <div class="step"><span class="n mono">01</span><h3>כותבים את הרעיון</h3><p>משפט או שניים. אפשר להוסיף קהל יעד, תקציב וכמה זמן יש לכם בשבוע.</p></div>
+        <div class="step"><span class="n mono">02</span><h3>מקבלים ניתוח</h3><p>ארבעה ציונים, חישוב של כמה זה יכול להכניס, ומבחן קצר שאפשר לבצע בשבוע.</p></div>
+        <div class="step"><span class="n mono">03</span><h3>מחליטים</h3><p>פסק דין בוטה בלי ניסוחים מנומסים: לבנות, לשנות כיוון או לוותר.</p></div>
+      </div>
+    </section>
+
+    <section id="inside">
+      <div class="sec-h"><span class="eyebrow mono">מה יש בתוך תוצאה</span><h2>חמישה כרטיסים. מחליקים ומחליטים.</h2><p>כל וואזו נפתח כחמישה כרטיסים. בטלפון מחליקים ביניהם, ובמחשב רואים את כולם יחד.</p></div>
+      <div class="cards">
+        <article class="rc"><div class="top mono"><span>01 · ציונים</span></div><div class="big">8 6 5 7</div><h3>ארבעה ציונים</h3><p>כאב, ביקוש, מרחב פתוח ונכונות לשלם, כל אחד עם דרגת ראיות מ־A עד D.</p><span class="badge">חינם</span></article>
+        <article class="rc"><div class="top mono"><span>02 · הכסף</span></div><div class="big">$12,000</div><h3>הכסף</h3><p>מחיר שאפשר לערוך, שלושה תרחישים (נמוך, בסיס, גבוה) וההנחה שמפילה את המודל.</p><span class="badge">חינם</span></article>
+        <article class="rc"><div class="top mono"><span>03 · מבחן 7 ימים</span></div><div class="big">$200</div><h3>מבחן של 7 ימים</h3><p>פעולה מוחשית עם תקציב וקריטריון הצלחה, מעקב אחרי התוצאה ותזכורת ביומן.</p><span class="badge pro">Pro</span></article>
+        <article class="rc"><div class="top mono"><span>04 · הפרטים הקטנים</span></div><div class="big">3·3</div><h3>הפרטים הקטנים</h3><p>סטארטאפים דומים שנכשלו ולמה, מתחרים קיימים, הפער בשוק והעדשה הישראלית.</p><span class="badge pro">Pro</span></article>
+        <article class="rc final"><div class="top mono"><span>05 · השורה התחתונה</span></div><div class="big">לבנות</div><h3>פסק הדין</h3><p>כותרת בוטה, על מה הכול נשען וטיפ אחד שימושי. אפשר לשמור כתמונה ולהעתיק ל־AI.</p><span class="badge pro">Pro</span></article>
+      </div>
+      <p class="note">הכרטיסים לעיל הם דוגמה להמחשה.</p>
+    </section>
+
+    <section id="tiers">
+      <div class="sec-h"><span class="eyebrow mono">מה חינם ומה Pro</span><h2>בודקים בחינם. משלמים כשצריך את העומק.</h2></div>
+      <div class="tiers">
+        <div class="tier">
+          <h3>חינם</h3>
+          <div class="price">$0<small> / לתמיד</small></div>
+          <ul>
+            <li>וואזו ללא הגבלה, כמה רעיונות שרוצים</li>
+            <li>ארבעה ציונים עם דרגת ראיות</li>
+            <li>חישוב הכסף עם מחיר שאפשר לערוך</li>
+            <li>20 מגמות עולמיות לדוגמה, לנסות בלחיצה</li>
+            <li>היסטוריה שנשמרת במכשיר שלכם</li>
+          </ul>
+        </div>
+        <div class="tier pro">
+          <h3>Pro</h3>
+          <div class="price">$13<small> / לחודש</small></div>
+          <ul>
+            <li>הכול מהחבילה החינמית</li>
+            <li>מבחן 7 ימים עם מעקב ותזכורת ביומן</li>
+            <li>בית הקברות, המתחרים, הפער והעדשה הישראלית</li>
+            <li>השורה התחתונה ופסק הדין המלא</li>
+            <li>ניתוח מעמיק (Deep Analyze): אסטרטגיה, סיכונים ואבני דרך ל־30, 60 ו־90 יום</li>
+            <li>שמירת תמונה והעתקת הניתוח ל־AI</li>
+            <li class="soon">Teams: מושבים לצוות ולוח משותף<span class="soon-tag">בקרוב</span></li>
+          </ul>
+        </div>
+      </div>
+      <p class="note">התשלום בדולרים. פרטים מלאים בעמוד <a href="/pricing">המחירים</a> ובמדיניות <a href="/refunds">ההחזרים</a>.</p>
+    </section>
+
+    <section id="trust">
+      <div class="sec-h"><span class="eyebrow mono">ביושר</span><h2>מה Wazo הוא, ומה לא.</h2></div>
+      <div class="trust">
+        <div><b>המלצה בלבד</b><p>זו חוות דעת מהירה ולא ייעוץ השקעות, משפט, כספים או עסקים. ההחלטה והאחריות שלכם.</p></div>
+        <div><b>לא גולש באינטרנט</b><p>הניתוח נכתב על ידי Claude של Anthropic ולא מחפש ברשת בזמן השיפוט, לכן מספרים ושמות חברות עלולים להיות לא מעודכנים. כל ציון מגיע עם דרגת ראיות.</p></div>
+        <div><b>הפרטיות שלכם</b><p>הנתונים נשמרים בשרתים באיחוד האירופי, בלי מכירת מידע, עם בדיקת בוטים ואנליטיקה בלי עוגיות מעקב.</p></div>
+        <div><b>ארבע שפות</b><p>עברית, אנגלית, ספרדית וצרפתית. מבקרים מישראל מקבלים עברית אוטומטית.</p></div>
+      </div>
+    </section>
+
+    <div class="final-cta">
+      <h2>יש לכם רעיון? תנו לו חמש דקות.</h2>
+      <a class="cta main" href="/">נסו עכשיו, בחינם</a>
+    </div>
+  </main>
+
+  <footer>
+    <div class="row">
+      <span>Wazo · וואזו © 2026 · <a href="mailto:support@wazo.app">support@wazo.app</a></span>
+      <nav><a href="/pricing">מחירים</a><a href="/terms">תנאי שימוש</a><a href="/privacy">פרטיות</a><a href="/refunds">החזרים</a></nav>
+    </div>
+  </footer>
+</div>
+</body>
+</html>
