@@ -29,7 +29,7 @@
 html,body{margin:0;background:var(--bg);color:var(--ink)}
 body{font-family:var(--f-sans);font-size:16px;--lhr:1.5;-webkit-font-smoothing:antialiased}
 html.lock{overflow:hidden}
-button,input,textarea{font:inherit;color:inherit}
+button,input,textarea{font-family:inherit;font-size:inherit;font-weight:inherit;font-style:inherit;letter-spacing:inherit;color:inherit}
 button{cursor:pointer}
 :focus-visible{outline:2px solid var(--red);outline-offset:3px}
 .mono{font-family:var(--f-mono)}
@@ -48,7 +48,7 @@ nav.top .in{display:flex;align-items:center;justify-content:space-between;height
 .langmenu{position:absolute;top:calc(100% + 10px);inset-inline-end:0;min-width:220px;background:var(--b1);color:var(--b1-ink);border-radius:18px;padding:8px;box-shadow:0 18px 50px rgba(0,0,0,.28);border:1px solid color-mix(in srgb,currentColor 14%,transparent);z-index:40;transform-origin:top right;animation:menuIn .24s var(--ease) both}
 [dir=rtl] .langmenu{transform-origin:top left}
 @keyframes menuIn{from{opacity:0;transform:translateY(-6px) scale(.96)}to{opacity:1;transform:none}}
-.lopt{display:flex;align-items:center;justify-content:space-between;gap:20px;width:100%;padding:12px 16px;border:0;background:transparent;color:inherit;border-radius:12px;font:inherit;font-size:16px;font-weight:500;text-align:start;cursor:pointer}
+.lopt{display:flex;align-items:center;justify-content:space-between;gap:20px;width:100%;padding:12px 16px;border:0;background:transparent;color:inherit;border-radius:12px;font-family:inherit;font-size:16px;font-weight:500;text-align:start;cursor:pointer}
 .lopt:hover,.lopt:focus-visible{background:color-mix(in srgb,currentColor 9%,transparent);outline:none}
 .lopt small{font-family:var(--f-mono);font-size:12px;font-weight:600;letter-spacing:.08em;opacity:.55}
 .lopt[aria-checked="true"] small{opacity:1}
@@ -63,7 +63,7 @@ nav.top .in{display:flex;align-items:center;justify-content:space-between;height
 
 /* home bands */
 .bands{display:flex;flex-direction:column;min-height:calc(100dvh - 56px - env(safe-area-inset-top,0px))}
-.band{all:unset;box-sizing:border-box;cursor:pointer;display:flex;flex-direction:column;justify-content:space-between;gap:20px;padding:22px max(20px,env(safe-area-inset-left,0px)) 24px;position:relative;transition:filter .25s}
+.band{all:unset;line-height:round(calc(var(--lhr)*1em),2px);box-sizing:border-box;cursor:pointer;display:flex;flex-direction:column;justify-content:space-between;gap:20px;padding:22px max(20px,env(safe-area-inset-left,0px)) 24px;position:relative;transition:filter .25s}
 .band:active{filter:brightness(.94)}
 .band:focus-visible{outline:3px solid var(--red);outline-offset:-3px}
 .b-idea{background:var(--b1);color:var(--b1-ink);flex:1.5 1 0;min-height:280px}
@@ -159,7 +159,7 @@ textarea#idea:focus{outline:none}
 .helpbox{border:1px solid color-mix(in srgb,currentColor 25%,transparent);border-radius:20px;padding:16px;display:grid;grid-template-columns:minmax(0,1fr);gap:12px;font-size:16px;--lhr:1.55;min-width:0}
 .helpbox[hidden]{display:none}
 .helpbox .hh{display:flex;justify-content:space-between;align-items:center;font-family:var(--f-mono);font-size:12px;letter-spacing:.1em;text-transform:uppercase;opacity:.7}
-.helpbox .hh button{all:unset;cursor:pointer;font-size:24px;padding:0 8px}
+.helpbox .hh button{all:unset;line-height:round(calc(var(--lhr)*1em),2px);cursor:pointer;font-size:24px;padding:0 8px}
 .helpbox p{margin:0}
 .helpbox{scroll-margin-top:76px}
 .helpbox:focus{outline:none}
@@ -173,7 +173,7 @@ textarea#idea:focus{outline:none}
 .helpbox .chips span{font-size:14px;color:var(--red);font-weight:600}
 .helpbox .hnote{font-size:14px;opacity:.6}
 .helpbox .picks{display:grid;gap:8px}
-.helpbox .picks button{all:unset;cursor:pointer;display:block;padding:12px 16px;border-radius:14px;background:color-mix(in srgb,currentColor 9%,transparent);--lhr:1.4}
+.helpbox .picks button{all:unset;line-height:round(calc(var(--lhr)*1em),2px);cursor:pointer;display:block;padding:12px 16px;border-radius:14px;background:color-mix(in srgb,currentColor 9%,transparent);--lhr:1.4}
 .helpbox .picks button:hover,.helpbox .picks button:focus-visible{outline:2px solid var(--red)}
 .helpbox .picks small{display:block;opacity:.65;font-size:14px;margin-top:2px}
 .helpbox .row{display:flex;gap:8px}
@@ -203,7 +203,7 @@ textarea#idea:focus{outline:none}
 .c-cnt{font-family:var(--f-mono);font-size:12px;font-weight:600;padding:3px 8px;border-radius:999px;border:1px solid color-mix(in srgb,currentColor 35%,transparent);direction:ltr}
 .rrow{border-top:1px solid color-mix(in srgb,currentColor 18%,transparent)}
 .rrow:last-of-type{border-bottom:1px solid color-mix(in srgb,currentColor 18%,transparent)}
-.rh{all:unset;box-sizing:border-box;cursor:pointer;width:100%;display:grid;grid-template-columns:auto minmax(0,1fr) auto;align-items:center;gap:12px;padding:16px 0;min-height:76px}
+.rh{all:unset;line-height:round(calc(var(--lhr)*1em),2px);box-sizing:border-box;cursor:pointer;width:100%;display:grid;grid-template-columns:auto minmax(0,1fr) auto;align-items:center;gap:12px;padding:16px 0;min-height:76px}
 .rh:focus-visible{outline:2px solid currentColor;outline-offset:2px}
 .rn{font-family:var(--f-mono);font-size:12px;opacity:.55;align-self:start;padding-top:8px}
 .rl{display:grid;gap:2px}
@@ -307,7 +307,7 @@ dialog.sheet.scrolls .sheet-more.on{visibility:visible}
 }
 @media (min-width:1200px){.cs{grid-template-columns:repeat(5,minmax(0,1fr))}}
 .cdots{width:100%;gap:0;border:2px solid color-mix(in srgb,currentColor 24%,transparent);border-radius:14px;overflow:hidden;margin-top:8px}
-.cdots button{all:unset;cursor:pointer;position:relative;box-sizing:border-box;flex:1;height:44px;display:grid;place-items:center;font-family:var(--f-mono);font-size:12px;letter-spacing:.08em;opacity:.7;overflow:hidden;transition:opacity 200ms var(--ease)}
+.cdots button{all:unset;line-height:round(calc(var(--lhr)*1em),2px);cursor:pointer;position:relative;box-sizing:border-box;flex:1;height:44px;display:grid;place-items:center;font-family:var(--f-mono);font-size:12px;letter-spacing:.08em;opacity:.7;overflow:hidden;transition:opacity 200ms var(--ease)}
 .cdots button+button{border-inline-start:2px solid color-mix(in srgb,currentColor 24%,transparent)}
 .cdots button i{position:absolute;inset:0;background:var(--red);opacity:.5;transform:scaleX(0);transform-origin:left center;transition:transform 300ms var(--ease)}
 [dir="rtl"] .cdots button i{transform-origin:right center}
@@ -503,19 +503,19 @@ dialog.sheet[open]::backdrop{animation:fadeIn .3s ease both}
 .deep section{display:grid;gap:12px;border-top:1px solid color-mix(in srgb,currentColor 15%,transparent);padding-top:16px}
 .deep h3{margin:0;font-family:var(--f-mono);font-size:12px;letter-spacing:.1em;text-transform:uppercase;opacity:.7;font-weight:600}
 .deep p{margin:0;opacity:1}
-.dlead{font-size:20px;line-height:1.4;font-weight:600;letter-spacing:-.01em}
+.dlead{font-size:20px;--lhr:1.4;font-weight:600;letter-spacing:-.01em}
 .deep section>p{max-width:60ch}
 .dsteps,.drisks,.dmile{list-style:none;margin:0;padding:0;display:grid;gap:16px}
 .dsteps li{display:grid;grid-template-columns:32px 1fr;gap:12px;align-items:start}
 .dn{display:grid;place-items:center;width:32px;height:32px;border-radius:50%;border:2px solid currentColor;font-family:var(--f-mono);font-size:14px;font-weight:600}
 .dsteps b,.drow b{font-size:16px;font-weight:600}
-.dsteps p,.drisks p,.dmile p{font-size:16px;line-height:1.5;opacity:.9;margin-top:4px}
+.dsteps p,.drisks p,.dmile p{font-size:16px;--lhr:1.5;opacity:.9;margin-top:4px}
 .drisks li{display:grid;gap:2px}
 .drow{display:flex;justify-content:space-between;align-items:baseline;gap:12px}
 .sev{font-family:var(--f-mono);font-size:12px;letter-spacing:.06em;text-transform:uppercase;font-weight:600;white-space:nowrap}
 .sev.high{color:#F07167}.sev.medium{color:#F1FAEE}.sev.low{color:#A8DADC}
 .dmile li{display:grid;grid-template-columns:56px 1fr;gap:12px;align-items:start}
-.dd{display:grid;justify-items:start;line-height:1}
+.dd{display:grid;justify-items:start;--lhr:1}
 .dd b{font-size:32px;font-weight:500;font-variant-numeric:tabular-nums;letter-spacing:-.03em}
 .dd small{font-family:var(--f-mono);font-size:12px;opacity:.7;margin-top:4px}
 .dmile p{margin-top:0}

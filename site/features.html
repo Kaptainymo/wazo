@@ -82,7 +82,7 @@
   .stage.simple .ask{margin-inline:auto;text-align:right}
   .stage.simple h1{font-size:round(clamp(44px,5.75vw,76px),2px);margin-top:0}
   .ask textarea{font-size:20px;min-height:96px}
-  .enrlink{all:unset;cursor:pointer;display:inline-flex;align-items:center;gap:8px;font-size:16px;color:#E4E2DC;text-decoration:underline;text-underline-offset:4px;padding:12px 8px}
+  .enrlink{all:unset;line-height:round(calc(var(--lhr)*1em),2px);cursor:pointer;display:inline-flex;align-items:center;gap:8px;font-size:16px;color:#E4E2DC;text-decoration:underline;text-underline-offset:4px;padding:12px 8px}
   .enrlink:focus-visible{outline:3px solid var(--coral);outline-offset:3px;border-radius:8px}
   .showgrid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:40px;align-items:center}
   .show .trust{width:auto;margin:40px 0 0;justify-content:flex-start}
@@ -102,13 +102,13 @@
   .enrlink[aria-disabled="true"]{opacity:.45;cursor:default;text-decoration-color:transparent}
   .ask .go.ready{animation:ready var(--motion-emphasized) var(--ease-out)}
   @keyframes ready{from{box-shadow:0 0 0 0 rgba(240,113,103,.7)}to{box-shadow:0 0 0 14px rgba(240,113,103,0)}}
-  .ask textarea{all:unset;box-sizing:border-box;display:block;width:100%;min-height:56px;font-size:18px;--lhr:1.45;color:#fff;resize:none}
+  .ask textarea{all:unset;line-height:round(calc(var(--lhr)*1em),2px);box-sizing:border-box;display:block;width:100%;min-height:56px;font-size:18px;--lhr:1.45;color:#fff;resize:none}
   .ask textarea::placeholder{color:rgba(241,240,236,.58)}
   .askrow{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:8px}
   .hint{font-size:14px;color:#BDBBB5}
   .ask .go{height:48px;padding:0 24px;font-size:16px;border-radius:999px;white-space:nowrap}
   .tabs{display:flex;gap:8px;margin-bottom:12px;background:var(--bg);border:1px solid rgba(255,255,255,.1);border-radius:999px;padding:4px}
-  .tabs button{all:unset;cursor:pointer;flex:1;text-align:center;padding:12px 8px;border-radius:999px;font-size:16px;font-weight:600;color:#CFCDC7}
+  .tabs button{all:unset;line-height:round(calc(var(--lhr)*1em),2px);cursor:pointer;flex:1;text-align:center;padding:12px 8px;border-radius:999px;font-size:16px;font-weight:600;color:#CFCDC7}
   .tabs button{transition:background-color var(--motion-quick) var(--ease-out),color var(--motion-base) var(--ease-out),transform var(--motion-micro) var(--ease-out)}
   .tabs{position:relative;isolation:isolate}
   .tabs::before{content:"";position:absolute;z-index:-1;top:4px;bottom:4px;inset-inline-start:4px;width:calc((100% - 14px)/2);border-radius:999px;background:var(--coral);transform:translateX(0);transition:transform var(--motion-emphasized) var(--ease-out)}
@@ -153,7 +153,7 @@
   .js .rv.in{opacity:1;transform:none}
   .qs{display:flex;margin-bottom:28px;border:2px solid rgba(241,240,236,.22);border-radius:18px;overflow-x:auto;scrollbar-width:none;scroll-snap-type:x proximity}
   .qs::-webkit-scrollbar{display:none}
-  .qs button{all:unset;cursor:pointer;position:relative;flex:1 0 auto;min-width:150px;padding:20px 24px;font-family:"IBM Plex Sans Hebrew",sans-serif;font-size:16px;font-weight:600;color:rgba(241,240,236,.55);scroll-snap-align:center;overflow:hidden;transition:color var(--motion-base) var(--ease-out)}
+  .qs button{all:unset;line-height:round(calc(var(--lhr)*1em),2px);cursor:pointer;position:relative;flex:1 0 auto;min-width:150px;padding:20px 24px;font-family:"IBM Plex Sans Hebrew",sans-serif;font-size:16px;font-weight:600;color:rgba(241,240,236,.55);scroll-snap-align:center;overflow:hidden;transition:color var(--motion-base) var(--ease-out)}
   .qs button+button{border-inline-start:2px solid rgba(241,240,236,.22)}
   .qs button[aria-selected="true"]{color:#fff;background:rgba(255,255,255,.06)}
   .qs button .fill{position:absolute;inset:0;background:rgba(240,113,103,.5);transform:scaleX(0);transform-origin:right center;pointer-events:none}
@@ -168,7 +168,7 @@
   .lw{position:relative}
   .lm{position:absolute;top:calc(100% + 8px);inset-inline-end:0;min-width:150px;background:#161212;border:2px solid rgba(241,240,236,.3);border-radius:18px;padding:8px;z-index:60;box-shadow:0 20px 50px rgba(0,0,0,.6)}
   .lm[hidden]{display:none}
-  .lm button,.sl button{all:unset;cursor:pointer;display:block;width:100%;box-sizing:border-box;padding:12px 16px;border-radius:12px;font-size:16px;font-weight:600;color:#E4E2DC}
+  .lm button,.sl button{all:unset;line-height:round(calc(var(--lhr)*1em),2px);cursor:pointer;display:block;width:100%;box-sizing:border-box;padding:12px 16px;border-radius:12px;font-size:16px;font-weight:600;color:#E4E2DC}
   .lm button[aria-current="true"],.sl button[aria-current="true"]{background:#fff;color:#0E0E0E}
   .lm button:focus-visible,.sl button:focus-visible{outline:3px solid var(--coral);outline-offset:-3px}
   @media (hover:hover){.lm button:not([aria-current="true"]):hover,.sl button:not([aria-current="true"]):hover{background:rgba(255,255,255,.1)}}
@@ -178,7 +178,7 @@
   [dir="ltr"] .stk.s2{transform:translate(52px,40px) scale(.9)}
   [dir="ltr"] .card .big{text-align:left}
   [dir="ltr"] .stage.simple .ask{text-align:left}
-  .pause{all:unset;cursor:pointer;justify-self:start;font-family:'IBM Plex Sans Hebrew',sans-serif;font-size:14px;padding:8px 16px;border-radius:999px;border:1px solid rgba(241,240,236,.4);color:#E4E2DC;margin-top:8px}
+  .pause{all:unset;line-height:round(calc(var(--lhr)*1em),2px);cursor:pointer;justify-self:start;font-family:'IBM Plex Sans Hebrew',sans-serif;font-size:14px;padding:8px 16px;border-radius:999px;border:1px solid rgba(241,240,236,.4);color:#E4E2DC;margin-top:8px}
   .pause:focus-visible{outline:3px solid var(--coral);outline-offset:3px}
   .trust{position:relative;z-index:2;width:min(1240px,100% - 40px);margin:0 auto 28px;display:flex;flex-wrap:wrap;gap:12px 36px;justify-content:center;font-size:14px;color:#BDBBB5}
   .trust span{display:flex;align-items:center;gap:8px}
@@ -279,7 +279,7 @@
   .hero .copy{opacity:calc(1 - var(--o)*1.5);transform:translateY(calc(var(--o)*-36px))}
   .win{position:absolute;inset:0;z-index:5;background:var(--coral);color:#0A0A0A;
     clip-path:inset(calc((1 - var(--o))*(100% - 76px)) 0 0 0 round 30px 30px 0 0);will-change:clip-path}
-  .sliver{position:absolute;inset-inline:0;top:0;height:76px;display:grid;place-items:center;font-weight:600;font-size:16px;opacity:calc(1 - var(--o)*4)}
+  .sliver{position:absolute;inset-inline:0;bottom:0;height:76px;display:grid;place-items:center;font-weight:600;font-size:16px;opacity:calc(1 - var(--o)*4)}
   .win-in{position:absolute;inset:0;margin:auto;max-width:100%;overflow:hidden;padding-top:calc(var(--nav) + 8px);display:flex;flex-direction:column;justify-content:center;opacity:calc((var(--o) - .45)*2.4);height:100%}
   .win .sec-h{margin-bottom:20px}.win .sec-h .eyebrow{color:rgba(8,8,8,.86)}
   .win .sec-h h2{color:#0A0A0A;font-size:round(clamp(28px,3.6vw,52px),2px);--lhr:1.04}
@@ -307,8 +307,9 @@
   .sl-i .card{width:100%;aspect-ratio:auto;height:auto;min-height:250px;animation:none}
   .peekopen .dock,.atend .dock{display:none}
   /* the keyboard is up: the form stays put and the answer sheet stays down */
-  .typing .win,body:has(#idea:focus) .win{animation:none!important;transform:translate3d(0,100%,0)!important}
-  .typing .hero .copy,body:has(#idea:focus) .hero .copy{animation:none!important;opacity:1!important}
+  .typing .win{animation:none!important;transform:translate3d(0,100%,0)!important}
+  .typing .hero .copy{animation:none!important;opacity:1!important}
+  @media (pointer:coarse){body:has(#idea:focus) .win{animation:none!important;transform:translate3d(0,100%,0)!important}body:has(#idea:focus) .hero .copy{animation:none!important;opacity:1!important}}
   .peek.flat{height:auto}.peek.flat .pin{position:relative;height:auto;overflow:visible}.peek.flat .hero{height:auto;min-height:84dvh}
   .peek.flat .win{position:relative;clip-path:none;padding:72px 0 60px}.peek.flat .win-in{position:relative;opacity:1;height:auto;padding-top:0}.peek.flat .sliver{display:none}
   .peek.flat .hero .copy{opacity:1;transform:none}
@@ -541,7 +542,7 @@ function toApp(mode){
   try{ localStorage.setItem("wz.handoff",JSON.stringify({text:idea.value.trim().slice(0,1200),mode,lang:WZI.lang})); }catch(e){}
   location.href="/#idea";
 }
-idea.addEventListener("focus",()=>{ document.body.classList.add("typing"); if(typeof tick==="function") tick(); });
+idea.addEventListener("focus",()=>{ if(matchMedia("(pointer:coarse)").matches){ document.body.classList.add("typing"); if(typeof tick==="function") tick(); } });
 idea.addEventListener("blur",()=>{ document.body.classList.remove("typing"); if(typeof tick==="function") tick(); });
 document.querySelector(".ask").addEventListener("submit",e=>{ e.preventDefault(); if(!idea.value.trim()){ idea.focus(); return; } toApp(none()?"none":"check"); });
 enrBtn.addEventListener("click",()=>{ if(!idea.value.trim()){ idea.focus(); return; } toApp("enrich"); });
@@ -564,7 +565,10 @@ document.addEventListener("click",e=>{ const b=e.target.closest("[data-l]"); if(
 const nav=document.getElementById("nav"), dock=document.getElementById("dock"), burger=document.getElementById("burger"), sheet=document.getElementById("sheet");
 const secs=[...document.querySelectorAll(".links a.l")].map(a=>({a,el:document.querySelector(a.getAttribute("href"))}));
 function onScroll(){ nav.classList.toggle("solid",scrollY>20); dock.classList.toggle("show",scrollY>innerHeight*.7 && !sheet.classList.contains("open"));
-  let cur=null; secs.forEach(s=>{ if(s.el && s.el.getBoundingClientRect().top<innerHeight*.4) cur=s; }); secs.forEach(s=>s.a.setAttribute("aria-current",s===cur)); }
+  /* "What you get" is current only while the answer window is open (or in view, when the page is not pinned) */
+  const win=document.getElementById("win"), flat=document.getElementById("peek").classList.contains("flat"), wr=win.getBoundingClientRect();
+  const whatOn=flat?(wr.top<innerHeight*.4&&wr.bottom>innerHeight*.2):document.body.classList.contains("peekopen");
+  let cur=null; secs.forEach(s=>{ const on=s.el&&(s.el.id==="what"?whatOn:s.el.getBoundingClientRect().top<innerHeight*.4); if(on) cur=s; }); secs.forEach(s=>s.a.setAttribute("aria-current",s===cur)); }
 addEventListener("scroll",onScroll,{passive:true}); onScroll();
 function setSheet(on){ sheet.classList.toggle("open",on); burger.setAttribute("aria-expanded",on); sheet.setAttribute("aria-hidden",!on); document.documentElement.style.overflow=on?"hidden":""; nav.classList.toggle("solid",on||scrollY>20); onScroll(); }
 burger.addEventListener("click",()=>setSheet(!sheet.classList.contains("open")));
@@ -585,6 +589,8 @@ function roving(list){
 }
 roving(document.querySelector(".tabs")); roving(qs);
 /* peek: scrolling opens the hero into the five cards. Short screens and reduced motion get the plain stacked layout. */
+/* only a touch keyboard pushes the page around; on a desktop the box can keep focus while you scroll */
+const typingNow=()=>document.activeElement===document.getElementById("idea") && matchMedia("(pointer:coarse)").matches;
 const peek=document.getElementById("peek"), heroCopy=peek.querySelector(".hero .copy"), OPEN=.28, clamp=(v,a,b)=>Math.min(b,Math.max(a,v));
 let pinned=false, curQ=0, lastO=-1; const cssTL=!!(window.CSS&&CSS.supports&&CSS.supports("animation-timeline: scroll()"));
 const pinEl=peek.querySelector(".pin"), winEl=document.getElementById("win"), total=()=>peek.offsetHeight-pinEl.offsetHeight;
@@ -600,17 +606,17 @@ function slSync(){ slRaf=0; const kids=[...slider.children]; if(!kids.length||!m
 slider.addEventListener("scroll",()=>{ if(!slRaf) slRaf=requestAnimationFrame(slSync); },{passive:true});
 slider.addEventListener("keydown",e=>{ const d=document.documentElement.dir==="rtl"?-1:1; let to=-1; if(e.key==="ArrowRight") to=i+d; else if(e.key==="ArrowLeft") to=i-d; else return; e.preventDefault(); goStep(clamp(to,0,faces.length-1)); });
 function tick(){ if(!pinned) return;
-  if(mob.matches){ let p=clamp(-peek.getBoundingClientRect().top/total(),0,1); if(document.activeElement===idea) p=0;
+  if(mob.matches){ let p=clamp(-peek.getBoundingClientRect().top/total(),0,1); if(typingNow()) p=0;
     const o=clamp((p-.22)/.5,0,1);                              /* nothing happens for the first fifth of the scroll */
-    if(o!==lastO){ lastO=o; if(!cssTL){ winEl.style.transform=`translate3d(0,${((1-o)*100).toFixed(2)}%,0)`; heroCopy.style.opacity=(1-o*1.2).toFixed(2); } heroCopy.inert=o>.6; document.body.classList.toggle("peekopen",o>.5&&p<.995); }
+    if(o!==lastO){ lastO=o; if(!cssTL){ winEl.style.transform=`translate3d(0,${((1-o)*100).toFixed(2)}%,0)`; heroCopy.style.opacity=(1-o*1.2).toFixed(2); } heroCopy.inert=o>.6; document.body.classList.toggle("peekopen",o>.5&&p<.995); onScroll(); }
     winEl.inert=o<.5||document.body.classList.contains("typing");   /* hidden under the keyboard or the form: out of the tab order */
     return; }
   let p=clamp(-peek.getBoundingClientRect().top/total(),0,1);
-  if(document.activeElement===idea) p=0;                       /* typing: keep the hero steady, whatever the keyboard did to the scroll */
+  if(typingNow()) p=0;                       /* typing: keep the hero steady, whatever the keyboard did to the scroll */
   const o=clamp(p/OPEN,0,1); peek.style.setProperty("--o",o.toFixed(3));
   heroCopy.style.pointerEvents=o>.6?"none":""; heroCopy.inert=o>.6;
   document.getElementById("win").inert=o<.5||document.body.classList.contains("typing");
-  document.body.classList.toggle("peekopen",o>.5&&p<.995);
+  document.body.classList.toggle("peekopen",o>.5&&p<.995); onScroll();
   const q=clamp((p-OPEN)/(1-OPEN),0,1)*faces.length, k=Math.min(faces.length-1,Math.floor(q));
   if(k!==i) show(k); fills(q); }
 function setPinned(){ peek.classList.add("flat"); const need=Math.ceil(document.querySelector(".hero .ask").getBoundingClientRect().bottom+scrollY)+16;  /* the hero must fit on one screen to be pinned */
