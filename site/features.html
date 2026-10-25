@@ -392,7 +392,7 @@
   <a class="cta solid" href="/#idea">נסו עכשיו, בחינם</a>
 </div>
 
-<a class="skip" href="#top">דלג לתוכן</a>
+<a class="skip" href="#top">דלגו לתוכן</a>
 <main id="top" tabindex="-1">
   <section class="peek" id="peek"><span id="what" style="position:absolute;top:0"></span><div class="pin">
   <div class="hero">
@@ -610,6 +610,13 @@ function goStep(k){ if(mob.matches){ show(k); const c=slider.children[k]; if(c) 
 addEventListener("scroll",()=>requestAnimationFrame(tick),{passive:true}); addEventListener("resize",setPinned); setPinned(); onLang();
 if(location.hash==="#what") setTimeout(()=>{ if(pinned) scrollTo({top:peek.offsetTop+total()*(OPEN+.02)}); },60);
 document.querySelectorAll('a[href="#what"]').forEach(a=>a.addEventListener("click",e=>{ if(!pinned) return; e.preventDefault(); scrollTo({top:peek.offsetTop+total()*(OPEN+.02),behavior:calm?"auto":"smooth"}); }));
+/* Hebrew with Latin words: anchor the punctuation that follows a Latin run to the RTL context (an RLM), so "Pro." never flips at a line end. Idempotent. */
+const BIDI_LAT=/(<[^>]*>)|([A-Za-z0-9]+(?:[ \-\/.'’][A-Za-z0-9]+)*)(?=[.,:;!?)\]"״”׳](?!\d)|$)/g;
+const fixBidi=s=>/[א-ת]/.test(s)?s.replace(BIDI_LAT,(m,tag,run)=>tag||!/[A-Za-z]/.test(run)?m:run+"\u200F"):s;
+function bidiPass(root){ const w=document.createTreeWalker(root,NodeFilter.SHOW_TEXT,{acceptNode:n=>n.parentElement&&!n.parentElement.closest("script,style,textarea,input")?NodeFilter.FILTER_ACCEPT:NodeFilter.FILTER_REJECT}); let n; while((n=w.nextNode())){ const v=fixBidi(n.nodeValue); if(v!==n.nodeValue) n.nodeValue=v; } }
+const bidiOn=()=>document.documentElement.dir==="rtl";
+let bidiRaf=0; new MutationObserver(()=>{ if(bidiRaf||!bidiOn()) return; bidiRaf=requestAnimationFrame(()=>{ bidiRaf=0; bidiPass(document.body); }); }).observe(document.body,{childList:true,subtree:true,characterData:true});
+if(bidiOn()) bidiPass(document.body);
 /* motion: tab crossfade, reveal on scroll, subtle parallax */
 const reduce=matchMedia("(prefers-reduced-motion: reduce)").matches;
 document.documentElement.classList.add("js");
