@@ -306,6 +306,9 @@
   .sl-i h3{font-size:24px;color:#0A0A0A;--lhr:1.15;padding-inline:2px}
   .sl-i .card{width:100%;aspect-ratio:auto;height:auto;min-height:250px;animation:none}
   .peekopen .dock,.atend .dock{display:none}
+  /* the keyboard is up: the form stays put and the answer sheet stays down */
+  .typing .win,body:has(#idea:focus) .win{animation:none!important;transform:translate3d(0,100%,0)!important}
+  .typing .hero .copy,body:has(#idea:focus) .hero .copy{animation:none!important;opacity:1!important}
   .peek.flat{height:auto}.peek.flat .pin{position:relative;height:auto;overflow:visible}.peek.flat .hero{height:auto;min-height:84dvh}
   .peek.flat .win{position:relative;clip-path:none;padding:70px 0 60px}.peek.flat .win-in{position:relative;opacity:1;height:auto;padding-top:0}.peek.flat .sliver{display:none}
   .peek.flat .hero .copy{opacity:1;transform:none}
@@ -526,7 +529,7 @@ function setMode(n,quiet){
   idea.placeholder=WZI.u(n?"phNone":"phHave");
   goTxt.textContent=WZI.u(n?"goNone":"goHave");
   document.getElementById("hint").textContent=WZI.u(n?"hintNone":"hintHave");
-  if(!quiet) idea.focus();
+  if(!quiet) idea.focus({preventScroll:true});
 }
 tabHave.addEventListener("click",()=>setMode(false)); tabNone.addEventListener("click",()=>setMode(true));
 const goBtn=document.getElementById("go"), enrBtn=document.getElementById("enrich");
@@ -538,6 +541,8 @@ function toApp(mode){
   try{ localStorage.setItem("wz.handoff",JSON.stringify({text:idea.value.trim().slice(0,1200),mode,lang:WZI.lang})); }catch(e){}
   location.href="/#idea";
 }
+idea.addEventListener("focus",()=>{ document.body.classList.add("typing"); if(typeof tick==="function") tick(); });
+idea.addEventListener("blur",()=>{ document.body.classList.remove("typing"); if(typeof tick==="function") tick(); });
 document.querySelector(".ask").addEventListener("submit",e=>{ e.preventDefault(); if(!idea.value.trim()){ idea.focus(); return; } toApp(none()?"none":"check"); });
 enrBtn.addEventListener("click",()=>{ if(!idea.value.trim()){ idea.focus(); return; } toApp("enrich"); });
 document.getElementById("pgo2").addEventListener("click",()=>document.getElementById("pgo").click());
@@ -595,12 +600,12 @@ function slSync(){ slRaf=0; const kids=[...slider.children]; if(!kids.length||!m
 slider.addEventListener("scroll",()=>{ if(!slRaf) slRaf=requestAnimationFrame(slSync); },{passive:true});
 slider.addEventListener("keydown",e=>{ const d=document.documentElement.dir==="rtl"?-1:1; let to=-1; if(e.key==="ArrowRight") to=i+d; else if(e.key==="ArrowLeft") to=i-d; else return; e.preventDefault(); goStep(clamp(to,0,faces.length-1)); });
 function tick(){ if(!pinned) return;
-  if(mob.matches){ let p=clamp(-peek.getBoundingClientRect().top/total(),0,1); if(document.activeElement===idea && p<.06) p=0;
+  if(mob.matches){ let p=clamp(-peek.getBoundingClientRect().top/total(),0,1); if(document.activeElement===idea) p=0;
     const o=clamp((p-.22)/.5,0,1);                              /* nothing happens for the first fifth of the scroll */
     if(o!==lastO){ lastO=o; if(!cssTL){ winEl.style.transform=`translate3d(0,${((1-o)*100).toFixed(2)}%,0)`; heroCopy.style.opacity=(1-o*1.2).toFixed(2); } winEl.inert=o<.5; heroCopy.inert=o>.6; document.body.classList.toggle("peekopen",o>.5&&p<.995); }
     return; }
   let p=clamp(-peek.getBoundingClientRect().top/total(),0,1);
-  if(document.activeElement===idea && p<.06) p=0;           /* typing: keep the hero steady */
+  if(document.activeElement===idea) p=0;                       /* typing: keep the hero steady, whatever the keyboard did to the scroll */
   const o=clamp(p/OPEN,0,1); peek.style.setProperty("--o",o.toFixed(3));
   heroCopy.style.pointerEvents=o>.6?"none":""; heroCopy.inert=o>.6;
   document.getElementById("win").inert=o<.5;
