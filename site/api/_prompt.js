@@ -78,7 +78,8 @@ export function buildDeepPrompt({ idea, lang, result }) {
 
 Go deeper. Do not repeat what's already there. Add:
 - risks: 3-4 named risks that could sink this specific idea, each with a severity (high, medium or low) and one blunt sentence of why it matters.
-- strategy: 2-3 short paragraphs of concrete strategic advice for someone about to act on this, given everything above.
+- summary: ONE short sentence, the bottom line of the advice (max 25 words).
+- steps: exactly 3 concrete steps for someone about to act on this. Each has a short title (2 to 5 words) and a text of 1 or 2 short sentences. No long paragraphs.
 - milestones: exactly 3 entries, for day 30, 60 and 90, each a concrete goal that proves or kills the idea further.
 
 Rules:
@@ -90,7 +91,7 @@ Rules:
 <idea>${plain(idea)}</idea>
 
 Reply with only one JSON object in exactly this shape:
-{"risks":[{"name":"...","severity":"high","note":"..."},{"name":"...","severity":"medium","note":"..."}],"strategy":"...","milestones":[{"day":30,"goal":"..."},{"day":60,"goal":"..."},{"day":90,"goal":"..."}]}`;
+{"summary":"...","steps":[{"title":"...","text":"..."},{"title":"...","text":"..."},{"title":"...","text":"..."}],"risks":[{"name":"...","severity":"high","note":"one short sentence"},{"name":"...","severity":"medium","note":"one short sentence"}],"milestones":[{"day":30,"goal":"..."},{"day":60,"goal":"..."},{"day":90,"goal":"..."}]}`;
 }
 
 export function shapeDeep(b) {
@@ -99,6 +100,8 @@ export function shapeDeep(b) {
   const SEV = ["high", "medium", "low"];
   return {
     risks: (Array.isArray(b.risks) ? b.risks : []).slice(0, 5).map((r) => ({ name: s(r?.name, 120), severity: SEV.includes(r?.severity) ? r.severity : "medium", note: s(r?.note, 300) })),
+    summary: s(b.summary, 300),
+    steps: (Array.isArray(b.steps) ? b.steps : []).slice(0, 4).map((x) => ({ title: s(x?.title, 80), text: s(x?.text, 400) })).filter((x) => x.title || x.text),
     strategy: s(b.strategy, 2000),
     milestones: (Array.isArray(b.milestones) ? b.milestones : []).slice(0, 4).map((m) => ({ day: Math.max(1, Math.min(365, Number(m?.day) || 30)), goal: s(m?.goal, 300) })),
   };

@@ -496,6 +496,27 @@ dialog.sheet[open]::backdrop{animation:fadeIn .3s ease both}
 .sheet-b h3{margin:0;font-size:14px;font-family:var(--f-mono);letter-spacing:.1em;text-transform:uppercase;opacity:.6;font-weight:600}
 .sheet-b p{margin:0;opacity:.88}
 .sheet-b a{color:inherit}
+/* deep analysis: a lead sentence, numbered steps, risks with a level, a 30/60/90 timeline */
+.deep{display:grid;gap:24px}
+.deep section{display:grid;gap:12px;border-top:1px solid color-mix(in srgb,currentColor 15%,transparent);padding-top:16px}
+.deep h3{margin:0;font-family:var(--f-mono);font-size:12px;letter-spacing:.1em;text-transform:uppercase;opacity:.7;font-weight:600}
+.deep p{margin:0;opacity:1}
+.dlead{font-size:20px;line-height:1.4;font-weight:600;letter-spacing:-.01em}
+.deep section>p{max-width:60ch}
+.dsteps,.drisks,.dmile{list-style:none;margin:0;padding:0;display:grid;gap:16px}
+.dsteps li{display:grid;grid-template-columns:32px 1fr;gap:12px;align-items:start}
+.dn{display:grid;place-items:center;width:32px;height:32px;border-radius:50%;border:2px solid currentColor;font-family:var(--f-mono);font-size:14px;font-weight:600}
+.dsteps b,.drow b{font-size:16px;font-weight:600}
+.dsteps p,.drisks p,.dmile p{font-size:16px;line-height:1.5;opacity:.9;margin-top:4px}
+.drisks li{display:grid;gap:2px}
+.drow{display:flex;justify-content:space-between;align-items:baseline;gap:12px}
+.sev{font-family:var(--f-mono);font-size:12px;letter-spacing:.06em;text-transform:uppercase;font-weight:600;white-space:nowrap}
+.sev.high{color:#F07167}.sev.medium{color:#F1FAEE}.sev.low{color:#A8DADC}
+.dmile li{display:grid;grid-template-columns:56px 1fr;gap:12px;align-items:start}
+.dd{display:grid;justify-items:start;line-height:1}
+.dd b{font-size:32px;font-weight:500;font-variant-numeric:tabular-nums;letter-spacing:-.03em}
+.dd small{font-family:var(--f-mono);font-size:12px;opacity:.7;margin-top:4px}
+.dmile p{margin-top:0}
 .sheet-b .upd{font-family:var(--f-mono);font-size:12px;opacity:.5}
 @media (prefers-reduced-motion:reduce){dialog.sheet[open],dialog.sheet[open]::backdrop{animation:none}}
 
@@ -1318,15 +1339,22 @@ function openTeams(){
     <button class="cta light" type="button" data-plan="teams">${held?esc(t("teamsHeld")):esc(t("teamsGo"))}</button><small class="note">${esc(t("pwNote"))}</small>`;
   const d=$("#teams"); d.dir=S.lang==="he"?"rtl":"ltr"; if(d.showModal) d.showModal(); else d.setAttribute("open","");
 }
+function deepParas(str){ /* an old analysis has one long string: break it into short paragraphs of two sentences */
+  const parts=String(str||"").split(/\n+/).flatMap(x=>{ const s=x.trim().split(/(?<=[.!?])\s+/).filter(Boolean); const out=[]; for(let i=0;i<s.length;i+=2) out.push(s.slice(i,i+2).join(" ")); return out; }); return parts.filter(Boolean); }
 function deepHTML(d){
   const sevWord={high:t("deepHigh"),medium:t("deepMed"),low:t("deepLow")};
-  return `<div class="nt"><b>${esc(t("deepStrategy"))}</b><p>${esc(d.strategy)}</p></div>
-    <div class="nt"><b>${esc(t("deepRisks"))}</b><ul>${d.risks.map(r=>`<li><b>${esc(r.name)}</b> (${esc(sevWord[r.severity]||r.severity)}): ${esc(r.note)}</li>`).join("")}</ul></div>
-    <div class="nt"><b>${esc(t("deepMilestones"))}</b><ul>${d.milestones.map(m=>`<li>${esc(t("deepDay"))} ${m.day}: ${esc(m.goal)}</li>`).join("")}</ul></div>`;
+  const steps=(d.steps&&d.steps.length)?`<ol class="dsteps">${d.steps.map((x,i)=>`<li><span class="dn">${i+1}</span><div><b>${esc(x.title)}</b><p>${esc(x.text)}</p></div></li>`).join("")}</ol>`
+    : deepParas(d.strategy).map(p=>`<p>${esc(p)}</p>`).join("");
+  const lead=d.summary?`<p class="dlead">${esc(d.summary)}</p>`:"";
+  return `<div class="deep">${lead}
+    <section><h3>${esc(t("deepStrategy"))}</h3>${steps}</section>
+    <section><h3>${esc(t("deepRisks"))}</h3><ul class="drisks">${d.risks.map(r=>`<li><div class="drow"><b>${esc(r.name)}</b><span class="sev ${esc(r.severity)}">${esc(sevWord[r.severity]||r.severity)}</span></div><p>${esc(r.note)}</p></li>`).join("")}</ul></section>
+    <section><h3>${esc(t("deepMilestones"))}</h3><ol class="dmile">${d.milestones.map(m=>`<li><span class="dd"><b>${m.day}</b><small>${esc(t("deepDay"))}</small></span><p>${esc(m.goal)}</p></li>`).join("")}</ol></section></div>`;
 }
 function deepText(d,b){
   const sevWord={high:t("deepHigh"),medium:t("deepMed"),low:t("deepLow")};
-  return [`WAZO: ${t("deepT")}`,b.idea,"",`${t("deepStrategy")}:`,d.strategy,"",`${t("deepRisks")}:`,
+  const strat=(d.steps&&d.steps.length)?d.steps.map((x,i)=>`${i+1}. ${x.title}: ${x.text}`):deepParas(d.strategy);
+  return [`WAZO: ${t("deepT")}`,b.idea,"",...(d.summary?[d.summary,""]:[]),`${t("deepStrategy")}:`,...strat,"",`${t("deepRisks")}:`,
     ...d.risks.map(r=>`- ${r.name} (${sevWord[r.severity]||r.severity}): ${r.note}`),"",`${t("deepMilestones")}:`,
     ...d.milestones.map(m=>`- ${t("deepDay")} ${m.day}: ${m.goal}`)].join("\n");
 }
