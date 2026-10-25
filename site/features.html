@@ -238,7 +238,8 @@
 
   .final-cta{position:relative;text-align:center;padding:100px 0 110px;overflow:hidden;background:var(--coral);color:#0A0A0A}
   .final-cta .cta.solid{background:transparent;color:#0A0A0A;border:2px solid #0A0A0A}
-  @media (hover:hover){.final-cta .cta.solid:hover{background:#fff;color:#C8392E}}
+  .final-cta .cta.solid{transition:background-color var(--motion-quick) var(--ease-out),border-color var(--motion-quick) var(--ease-out),transform var(--motion-micro) var(--ease-out)}
+  @media (hover:hover){.final-cta .cta.solid:hover{background:#fff;color:#0A0A0A;border-color:#fff}}
   .final-cta :focus-visible,footer :focus-visible{outline-color:#0A0A0A}
   .final-cta h2{font-size:clamp(32px,5.4vw,60px);line-height:1.06;margin-bottom:26px}
   footer{background:var(--coral);border-top:1px solid rgba(8,8,8,.25);padding:30px 0 calc(48px + env(safe-area-inset-bottom,0));color:rgba(8,8,8,.88);font-size:14px}
