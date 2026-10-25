@@ -84,7 +84,7 @@ const D={
 "ניתוח מעמיק: תוכנית, סיכונים וצעדים ל־90 יום":["Deep analysis: plan, risks and 90-day steps","Análisis profundo: plan, riesgos y pasos para 90 días","Analyse approfondie : plan, risques et étapes sur 90 jours"],
 "שמירת תמונה והעתקה ל־AI":["Save as an image and copy to AI","Guardar como imagen y copiar a una IA","Enregistrer en image et copier vers une IA"],
 "התשלום בדולרים. פרטים מלאים בעמוד המחירים ובמדיניות ההחזרים.":["Payment is in US dollars. Full details are on the pricing page and in the refund policy.","El pago es en dólares. Los detalles completos están en la página de precios y en la política de reembolsos.","Le paiement se fait en dollars. Tous les détails sont sur la page des tarifs et dans la politique de remboursement."],
-"יש לכם רעיון, או שעוד אין? בואו נתחיל":["Have an idea, or not yet? Let's start","¿Tienes una idea o todavía no? Empecemos","Une idée, ou pas encore ? Commençons"],
+"בואו נתחיל":["Let's start","Empecemos","Commençons"],
 "Wazo · וואזו © 2026 ·":["Wazo © 2026 ·","Wazo © 2026 ·","Wazo © 2026 ·"],
 "תנאי שימוש":["Terms of use","Condiciones de uso","Conditions d'utilisation"],
 "החזרים":["Refunds","Reembolsos","Remboursements"]
