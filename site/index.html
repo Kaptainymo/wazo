@@ -1169,7 +1169,6 @@ function cardHTML(b,o,only){
       <div class="rc-meta"><span>WAZO #${receiptNo(seed)}</span><span>${esc(dt)}</span></div>
       <h2 class="rc-idea">${esc(b.idea)}</h2>
       <div class="cs" id="cs">${[1,2,3,4,5].map(cc).join("")}</div>
-      <div class="cdots" id="cdots">${[1,2,3,4,5].map(i=>`<button type="button" data-dot="${i}" aria-label="${esc(titles[i])}" aria-current="${(S.card||1)===i}" class="${S.rev&&S.rev.has(i)?"seen":""}"><i></i><b>0${i}</b></button>`).join("")}</div>
     </article>`;
   }
 }
