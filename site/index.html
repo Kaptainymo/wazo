@@ -518,6 +518,12 @@ dialog.sheet[open]::backdrop{animation:fadeIn .3s ease both}
 .dtalk.locked strong{filter:blur(5px);user-select:none}
 .dtalk .cta{background:#0A0A0A;color:#fff;width:100%}
 .sheet-b .cta{width:100%}
+.dh{font-size:20px;font-family:var(--f-sans);text-transform:none;letter-spacing:0;opacity:1!important;font-weight:600;outline:none}
+.dlink{width:100%;height:52px;border-radius:999px;border:1px solid color-mix(in srgb,currentColor 30%,transparent);background:transparent;color:inherit;padding:0 20px;font-family:var(--f-mono);font-size:14px}
+.drow2{display:grid;gap:12px}
+.dmsg{color:var(--red)}
+.fineprint{font-size:14px;opacity:.7}
+.dtalk strong[aria-hidden]{user-select:none}
 
 /* deep analysis: a lead sentence, numbered steps, risks with a level, a 30/60/90 timeline */
 .deep{display:grid;gap:24px}
@@ -642,6 +648,7 @@ dialog.sheet[open]::backdrop{animation:fadeIn .3s ease both}
 </section>
 </div>
 
+<script src="/duet-shared.js"></script>
 <script>
 (() => {
 "use strict";
@@ -1356,61 +1363,60 @@ function paywallHTML(){
   return `<div class="pw"><div class="pw-t">${ic("lock")}${esc(t("pwT"))}</div><p>${esc(t("pwS"))}</p>
     <button class="cta" type="button" data-act="unlockfree">${esc(t("pwGo"))}</button></div>`;
 }
-const DUET={
- he:{btn:"בדקו ביחד",t:"בודקים ביחד",lead:"בדקו את הרעיון יחד עם אדם שאוהבים",p:"האדם השני עונה על כמה שאלות קצרות מהצד שלו, ואתם רואים איפה אתם מסכימים ואיפה כדאי לדבר.",warn:"זו תצוגה מקדימה של פיצר שבדרך. שום דבר לא נשלח לאף אחד, והתשובות של האדם השני כאן הן דוגמה.",you:"התשובות שלכם",ex:"דוגמה: התשובות של האדם השני",
-  q:[["כמה זמן אפשר להשקיע בשבוע",["שעתיים","5 שעות","10 שעות ומעלה"]],["מה הכי מדאיג אתכם",["כסף","זמן","שזה לא ילך"]],["כמה אתם מאמינים ברעיון",["1","2","3","4","5"]]],
-  go:"ראו את ההשוואה",back:"חזרה",cmpT:"איפה אתם נפגשים",ok:"מסכימים",no:"לא מסכימים",you1:"אתם",other:"האדם השני",titles:["כמה זמן להשקיע","מה מדאיג","כמה מאמינים ברעיון"],talkT:"שאלה אחת לשיחה",
-  talks:{time:"מה יקרה לרעיון אם יש רק {x} בשבוע?",worry:"מה אפשר לעשות השבוע כדי להקטין את הדאגה הזו: \"{x}\"?",belief:"מה צריך לקרות כדי ששניכם תאמינו ברעיון באותה מידה?",all:"מה הצעד הראשון שאתם מוכנים לעשות יחד השבוע?"},proT:"השאלה לשיחה היא חלק מ־Pro",proGo:"פתחו את Pro"},
- en:{btn:"Check together",t:"Checking together",lead:"Check the idea with someone you love",p:"The other person answers a few short questions from their side, and you see where you agree and where it's worth talking.",warn:"This is a preview of a feature on its way. Nothing is sent to anyone, and the other person's answers here are an example.",you:"Your answers",ex:"Example: the other person's answers",
-  q:[["How much time can you put in each week",["2 hours","5 hours","10 hours or more"]],["What worries you most",["Money","Time","That it won't work"]],["How much do you believe in the idea",["1","2","3","4","5"]]],
-  go:"See the comparison",back:"Back",cmpT:"Where you meet",ok:"Agree",no:"Differ",you1:"You",other:"Other person",titles:["How much time to put in","What worries you","How much you believe in it"],talkT:"One question to talk about",
-  talks:{time:"What happens to the idea if there are only {x} a week?",worry:"What could you do this week to make this worry smaller: \"{x}\"?",belief:"What would need to happen for you both to believe in the idea equally?",all:"What is the first step you're ready to take together this week?"},proT:"The question to talk about is part of Pro",proGo:"Open Pro"},
- es:{btn:"Comprobar juntos",t:"Comprobar juntos",lead:"Comprueba la idea con alguien a quien quieres",p:"La otra persona responde unas preguntas cortas desde su lado, y tú ves en qué coinciden y de qué vale la pena hablar.",warn:"Esto es una vista previa de una función que viene en camino. No se envía nada a nadie, y las respuestas de la otra persona aquí son un ejemplo.",you:"Tus respuestas",ex:"Ejemplo: respuestas de la otra persona",
-  q:[["Cuánto tiempo puedes dedicar por semana",["2 horas","5 horas","10 horas o más"]],["Qué es lo que más te preocupa",["El dinero","El tiempo","Que no funcione"]],["Cuánto crees en la idea",["1","2","3","4","5"]]],
-  go:"Ver la comparación",back:"Volver",cmpT:"Dónde se encuentran",ok:"Coinciden",no:"Difieren",you1:"Tú",other:"La otra persona",titles:["Cuánto tiempo dedicar","Qué preocupa","Cuánto se cree en la idea"],talkT:"Una pregunta para conversar",
-  talks:{time:"¿Qué pasa con la idea si solo hay {x} por semana?",worry:"¿Qué podrían hacer esta semana para reducir esta preocupación: «{x}»?",belief:"¿Qué tendría que pasar para que ambos crean en la idea por igual?",all:"¿Cuál es el primer paso que están dispuestos a dar juntos esta semana?"},proT:"La pregunta para conversar es parte de Pro",proGo:"Abrir Pro"},
- fr:{btn:"Vérifier ensemble",t:"Vérifier ensemble",lead:"Vérifiez l'idée avec une personne que vous aimez",p:"L'autre personne répond à quelques questions courtes de son côté, et vous voyez où vous êtes d'accord et de quoi il vaut la peine de parler.",warn:"Ceci est un aperçu d'une fonction à venir. Rien n'est envoyé à personne, et les réponses de l'autre personne ici sont un exemple.",you:"Vos réponses",ex:"Exemple : réponses de l'autre personne",
-  q:[["Combien de temps pouvez-vous y consacrer par semaine",["2 heures","5 heures","10 heures ou plus"]],["Qu'est-ce qui vous inquiète le plus",["L'argent","Le temps","Que ça ne marche pas"]],["À quel point croyez-vous à l'idée",["1","2","3","4","5"]]],
-  go:"Voir la comparaison",back:"Retour",cmpT:"Où vous vous retrouvez",ok:"D'accord",no:"Pas d'accord",you1:"Vous",other:"L'autre personne",titles:["Temps à consacrer","Ce qui inquiète","Confiance dans l'idée"],talkT:"Une question pour en parler",
-  talks:{time:"Que devient l'idée s'il n'y a que {x} par semaine ?",worry:"Que pourriez-vous faire cette semaine pour réduire cette inquiétude : « {x} » ?",belief:"Que faudrait-il pour que vous croyiez tous les deux autant à l'idée ?",all:"Quelle est la première étape que vous êtes prêts à franchir ensemble cette semaine ?"},proT:"La question pour en parler fait partie de Pro",proGo:"Ouvrir Pro"}
-};
-const dT=()=>DUET[S.lang]||DUET.en;
-const DUET_EX=[0,1,2];   /* the example answers of the other person */
-function openDuet(){
-  S.duet={a:[1,0,3],step:0};
-  const d=$("#duet"); d.dir=S.lang==="he"?"rtl":"ltr"; $("#duetTitle").textContent=dT().t; renderDuet();
+const dT=()=>WZD.str(S.lang);
+const dKey=b=>"wz.duet."+(b.sid||("x"+String(b.idea||"").slice(0,40)));
+function dStore(b,v){ try{ if(v===undefined) return JSON.parse(localStorage.getItem(dKey(b))||"null"); if(v===null) localStorage.removeItem(dKey(b)); else localStorage.setItem(dKey(b),JSON.stringify(v)); }catch(e){ return null; } }
+const dLink=tok=>location.origin+"/d/"+tok;
+function dBody(html,focusH){ const el=$("#duetBody"); el.innerHTML=html; el.scrollTop=0; if(focusH){ const h=$("#duetH"); if(h) h.focus({preventScroll:true}); } }
+async function openDuet(){
+  const b=$("#stage")._b; if(!b) return;
+  S.duet={a:[1,0,3],view:"intro",b,msg:"",st:null};
+  const d=$("#duet"); d.dir=S.lang==="he"?"rtl":"ltr"; $("#duetTitle").textContent=dT().t;
   if(d.showModal) d.showModal(); else d.setAttribute("open","");
+  const saved=dStore(b);
+  if (saved&&saved.token){ S.duet.view="loading"; renderDuet(); await refreshDuet(); } else renderDuet();
 }
-function duetChips(qi,sel,locked){
-  const o=dT().q[qi][1];
-  return `<div class="dchips" role="group" aria-label="${esc(dT().q[qi][0])}">${o.map((l,i)=>`<button type="button" class="dchip" ${locked?"disabled":`data-dq="${qi}" data-dv="${i}"`} aria-pressed="${i===sel}">${esc(l)}</button>`).join("")}</div>`;
+async function refreshDuet(){
+  const D=S.duet, saved=dStore(D.b); if(!saved){ D.view="intro"; renderDuet(); return; }
+  const r=await api("duet",{action:"status",token:saved.token,key:saved.key}).catch(()=>({status:0,data:{}}));
+  if (r.status===200){ D.st=r.data; D.view=r.data.answered?"cmp":"link"; D.msg=""; }
+  else if (r.status===404){ dStore(D.b,null); D.view="intro"; D.msg=dT().gone; }
+  else { D.view=D.st?D.view:"intro"; D.msg=r.status===503?dT().off:dT().err; }
+  renderDuet();
 }
 function renderDuet(){
-  const d=dT(), a=S.duet.a, body=$("#duetBody");
-  if (S.duet.step===0){
-    body.innerHTML=`<p class="lead">${esc(d.lead)}</p><p>${esc(d.p)}</p><div class="dwarn">${esc(d.warn)}</div>
-      <div class="dgrp"><span class="dsub">${esc(d.you)}</span>${d.q.map((q,i)=>`<div class="dq"><b>${esc(q[0])}</b>${duetChips(i,a[i],false)}</div>`).join("")}</div>
-      <div class="dgrp"><span class="dsub">${esc(d.ex)}</span>${d.q.map((q,i)=>`<div class="dq"><b>${esc(q[0])}</b>${duetChips(i,DUET_EX[i],true)}</div>`).join("")}</div>
-      <button type="button" class="cta light" data-dgo="cmp">${esc(d.go)}</button>`;
-  } else {
-    const same=[a[0]===DUET_EX[0], a[1]===DUET_EX[1], Math.abs(a[2]-DUET_EX[2])<=1];
-    const val=(i,k)=>d.q[i][1][k];
-    const rows=d.titles.map((ti,i)=>`<div class="cmprow ${same[i]?"ok":"no"}"><span class="tg">${esc(same[i]?d.ok:d.no)}</span><strong>${esc(ti)}</strong><div class="dtwo"><span>${esc(d.you1)} <b>${esc(val(i,a[i]))}</b></span><span>${esc(d.other)} <b>${esc(val(i,DUET_EX[i]))}</b></span></div></div>`).join("");
-    const k=same.indexOf(false), kind=k<0?"all":["time","worry","belief"][k];
-    const x=kind==="time"?val(0,Math.min(a[0],DUET_EX[0])):kind==="worry"?val(1,DUET_EX[1]):"";
-    const open=S.pro||S.isExample||(S.cfg&&S.cfg.open);
-    body.innerHTML=`<h3 tabindex="-1" id="duetH" style="font-size:20px;font-family:var(--f-sans);text-transform:none;letter-spacing:0;opacity:1">${esc(d.cmpT)}</h3>${rows}
-      <div class="dtalk ${open?"":"locked"}"><span class="tg">${esc(d.talkT)}</span><strong>${esc(d.talks[kind].replace("{x}",x))}</strong>${open?"":`<span>${esc(d.proT)}</span><button type="button" class="cta" data-dgo="pro">${esc(d.proGo)}</button>`}</div>
-      <button type="button" class="cta btn-ghost" data-dgo="back">${esc(d.back)}</button>`;
-    $("#duetH").focus({preventScroll:true});
-  }
+  const d=dT(), D=S.duet, W=window.WZD, msg=D.msg?`<p class="dmsg" role="status">${esc(D.msg)}</p>`:"";
+  if (D.view==="loading"||D.view==="creating") return dBody(`<p class="lead" role="status">${esc(D.view==="creating"?d.creating:"…")}</p>`);
+  if (D.view==="intro") return dBody(`<p class="lead">${esc(d.lead)}</p><p>${esc(d.p)}</p><div class="dwarn">${esc(d.priv)}</div>
+      <div class="dgrp"><span class="dsub">${esc(d.you)}</span>${W.questions(S.lang,D.a)}</div>${msg}
+      <button type="button" class="cta light" data-dgo="create">${esc(d.create)}</button>`);
+  const saved=dStore(D.b)||{}, st=D.st||{}, when=st.expires_at?new Date(st.expires_at).toLocaleDateString(S.lang==="he"?"he-IL":S.lang):"";
+  const del=`<button type="button" class="cta btn-ghost" data-dgo="del">${esc(d.del)}</button>`;
+  if (D.view==="cmp") return dBody(W.compareHTML(S.lang,st.owner_answers,st.partner_answers,st.talk_open)+msg+del,true);
+  dBody(`<h3 tabindex="-1" class="dh" id="duetH">${esc(d.linkT)}</h3><p>${esc(d.linkS)}</p>
+    <input class="dlink" id="duetLink" readonly dir="ltr" value="${esc(dLink(saved.token))}" aria-label="${esc(d.linkT)}">
+    <div class="drow2">${navigator.share?`<button type="button" class="cta light" data-dgo="share">${esc(d.share)}</button>`:""}<button type="button" class="cta ${navigator.share?"btn-ghost":"light"}" data-dgo="copy">${esc(d.copy)}</button></div>
+    <p class="dsub" role="status">${esc(d.waiting)}</p>${msg}
+    <button type="button" class="cta btn-ghost" data-dgo="check">${esc(d.check)}</button>
+    <p class="fineprint">${esc(d.expires.replace("{d}",when))}</p>${del}`,true);
 }
-$("#duetBody").addEventListener("click",e=>{
-  const c=e.target.closest("[data-dq]"); if(c){ S.duet.a[+c.dataset.dq]=+c.dataset.dv; c.parentElement.querySelectorAll(".dchip").forEach(x=>x.setAttribute("aria-pressed",String(x===c))); return; }
-  const g=e.target.closest("[data-dgo]"); if(!g) return;
-  if (g.dataset.dgo==="cmp"){ S.duet.step=1; renderDuet(); $("#duetBody").scrollTop=0; }
-  else if (g.dataset.dgo==="back"){ S.duet.step=0; renderDuet(); $("#duetBody").scrollTop=0; }
-  else if (g.dataset.dgo==="pro"){ $("#duet").close(); goPlans(); }
+async function createDuet(){
+  const D=S.duet, d=dT(); D.view="creating"; D.msg=""; renderDuet();
+  let r; try{ const token=await humanToken(); r=await api("duet",{action:"create",idea:D.b.idea,answers:D.a,lang:S.lang,email:S.me.email||"",token}); }catch(e){ r={status:0,data:{}}; }
+  if (r.status===200){ dStore(D.b,{token:r.data.token,key:r.data.key}); D.st={answered:false,expires_at:r.data.expires_at,talk_open:r.data.talk_open}; D.view="link"; }
+  else { D.view="intro"; D.msg=r.status===503?d.off:r.status===429?d.limit:d.err; }
+  renderDuet();
+}
+$("#duetBody").addEventListener("click",async e=>{
+  const D=S.duet; if(!D) return;
+  const c=e.target.closest("[data-dq]"); if(c){ D.a[+c.dataset.dq]=+c.dataset.dv; c.parentElement.querySelectorAll(".dchip").forEach(x=>x.setAttribute("aria-pressed",String(x===c))); return; }
+  const g=e.target.closest("[data-dgo]"); if(!g) return; const act=g.dataset.dgo, d=dT(), saved=dStore(D.b)||{};
+  if (act==="create") createDuet();
+  else if (act==="check") { D.msg=""; D.view="loading"; renderDuet(); refreshDuet(); }
+  else if (act==="copy"){ try{ await navigator.clipboard.writeText(dLink(saved.token)); D.msg=d.copied; }catch(_){ const i=$("#duetLink"); if(i){ i.select(); } D.msg=""; } const m=$("#duetBody .dmsg"); if(m) m.textContent=D.msg; else if(D.msg){ $("#duetBody").insertAdjacentHTML("beforeend",`<p class="dmsg" role="status">${esc(D.msg)}</p>`); } }
+  else if (act==="share"){ try{ await navigator.share({text:d.shareText,url:dLink(saved.token)}); }catch(_){} }
+  else if (act==="del"){ g.disabled=true; await api("duet",{action:"remove",token:saved.token,key:saved.key}).catch(()=>{}); dStore(D.b,null); D.view="intro"; D.msg=""; D.st=null; renderDuet(); }
+  else if (act==="pro"){ $("#duet").close(); goPlans(); }
 });
 function goPlans(){
   let pb=$("#plansBox"); if(!pb){ $("#cardacts").insertAdjacentHTML("afterend",`<div id="plansBox">${plansHTML()}</div>`); pb=$("#plansBox"); }

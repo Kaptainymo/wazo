@@ -1,1 +1,37 @@
-{ "cleanUrls": true, "headers": [ { "source": "/(.*)", "headers": [ { "key": "Cache-Control", "value": "public, max-age=0, must-revalidate" } ] } ] }
+{
+ "cleanUrls": true,
+ "headers": [
+  {
+   "source": "/(.*)",
+   "headers": [
+    {
+     "key": "Cache-Control",
+     "value": "public, max-age=0, must-revalidate"
+    }
+   ]
+  },
+  {
+   "source": "/d/(.*)",
+   "headers": [
+    {
+     "key": "X-Robots-Tag",
+     "value": "noindex, nofollow"
+    },
+    {
+     "key": "Referrer-Policy",
+     "value": "no-referrer"
+    },
+    {
+     "key": "Cache-Control",
+     "value": "no-store"
+    }
+   ]
+  }
+ ],
+ "rewrites": [
+  {
+   "source": "/d/:token",
+   "destination": "/d.html"
+  }
+ ]
+}

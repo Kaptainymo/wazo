@@ -91,3 +91,24 @@ as $$
   where email = p_email and paid_credits > 0
   returning *;
 $$;
+
+-- Duet: two people check the same idea and compare answers. Created from the app, opened through a link.
+-- Only hashes of the link token and the owner key are stored, so a database leak does not reveal working links.
+-- Rows expire after 7 days and are purged the next time anyone creates a duet; the owner can delete one at any time.
+create table if not exists duets (
+  id              uuid        primary key default gen_random_uuid(),
+  created_at      timestamptz not null default now(),
+  expires_at      timestamptz not null default (now() + interval '7 days'),
+  token_hash      text        not null unique,
+  key_hash        text        not null,
+  ip_hash         text,
+  lang            text,
+  idea            text        not null,
+  owner_answers   jsonb       not null,
+  partner_answers jsonb,
+  partner_at      timestamptz,
+  talk_open       boolean     not null default false
+);
+create index if not exists duets_ip_time on duets (ip_hash, created_at desc);
+create index if not exists duets_expires on duets (expires_at);
+alter table duets enable row level security;

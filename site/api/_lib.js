@@ -103,6 +103,22 @@ export async function getWazo(id) {
 export async function patchWazo(id, patch) {
   await sb(`wazos?id=eq.${id}`, { method: "PATCH", body: patch, headers: { Prefer: "return=minimal" } });
 }
+// ---------- Duets ----------
+export async function insertDuet(row) {
+  const r = await sb("duets", { method: "POST", body: row, headers: { Prefer: "return=representation" } });
+  const rows = await r.json(); return rows[0];
+}
+export async function getDuet(tokenHash) {
+  const r = await sb(`duets?token_hash=eq.${encodeURIComponent(tokenHash)}&expires_at=gt.${encodeURIComponent(new Date().toISOString())}&select=*`);
+  const rows = await r.json(); return rows[0] || null;
+}
+// Only succeeds while nobody has answered yet; returns the updated row, or null if it was already answered.
+export async function answerDuet(id, answers) {
+  const r = await sb(`duets?id=eq.${id}&partner_answers=is.null`, { method: "PATCH", body: { partner_answers: answers, partner_at: new Date().toISOString() }, headers: { Prefer: "return=representation" } });
+  const rows = await r.json(); return rows[0] || null;
+}
+export async function deleteDuet(id) { await sb(`duets?id=eq.${id}`, { method: "DELETE", headers: { Prefer: "return=minimal" } }); }
+export async function purgeDuets() { await sb(`duets?expires_at=lt.${encodeURIComponent(new Date().toISOString())}`, { method: "DELETE", headers: { Prefer: "return=minimal" } }); }
 export const sinceISO = (hours) => new Date(Date.now() - hours * 3600e3).toISOString();
 
 // What a visitor sees before giving an email: the idea, scores and money.
