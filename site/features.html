@@ -60,6 +60,19 @@
       linear-gradient(180deg,#120a0c 0%,#0a0708 60%,#080808 100%)}
   .grain{position:absolute;inset:0;pointer-events:none;opacity:.09;mix-blend-mode:overlay;background-size:160px 160px;
     background-image:url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="160" height="160"><filter id="n"><feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="2" stitchTiles="stitch"/><feColorMatrix type="saturate" values="0"/></filter><rect width="100%25" height="100%25" filter="url(%23n)"/></svg>')}
+  html,body{overflow-x:clip}
+  .show{overflow:hidden}
+  .hero{min-height:84dvh}
+  .stage.simple{grid-template-columns:minmax(0,760px);justify-content:center;text-align:center;padding:40px 0 70px}
+  .stage.simple .lead{margin-inline:auto;max-width:34ch}
+  .stage.simple .ask{margin-inline:auto;text-align:right}
+  .stage.simple h1{font-size:clamp(38px,5vw,66px);margin-top:0}
+  .ask textarea{font-size:20px;min-height:84px}
+  .enrlink{all:unset;cursor:pointer;display:inline-flex;align-items:center;gap:6px;font-size:15px;color:#E4E2DC;text-decoration:underline;text-underline-offset:4px;padding:10px 6px}
+  .enrlink svg{width:14px;height:14px;fill:var(--coral)}
+  .enrlink:focus-visible{outline:3px solid var(--coral);outline-offset:3px;border-radius:8px}
+  .showgrid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:40px;align-items:center}
+  .show .trust{width:auto;margin:40px 0 0;justify-content:flex-start}
   .stage{position:relative;z-index:2;flex:1;width:min(1240px,100% - 40px);margin:0 auto;display:grid;align-items:center;gap:28px;padding:24px 0 36px;grid-template-columns:minmax(0,1.3fr) minmax(0,.75fr) minmax(0,.7fr)}
   .badge{display:inline-flex;align-items:center;gap:10px;padding:9px 16px;border-radius:999px;border:1px solid rgba(241,240,236,.25);background:rgba(0,0,0,.28);font-size:13px;color:#DDDBD5;backdrop-filter:blur(6px)}
   .badge b{color:var(--ink)} .badge i{font-style:normal;color:var(--coral)}
@@ -185,7 +198,8 @@
     .links,.nav .try,.nav .pill.lang{display:none}
     .burger{display:grid}
     .stage{grid-template-columns:1fr;gap:16px;padding-top:12px}
-    .copy{order:1} .float{order:2;height:400px} .qs{order:3;font-size:22px} .pause{order:4}
+    .showgrid{grid-template-columns:1fr;gap:18px}.float{height:400px}.qs{font-size:22px}
+    .hero{min-height:auto}.stage.simple{padding:12px 0 44px}
     .qs button{padding:5px 0}
     .hero h1{font-size:clamp(34px,10.2vw,54px);line-height:1.06}
     .hero{background:radial-gradient(90% 40% at 50% 60%,rgba(240,113,103,.55) 0%,rgba(150,48,60,.3) 40%,rgba(8,8,8,0) 72%),linear-gradient(180deg,#120a0c 0%,#0a0708 60%,#080808 100%)}
@@ -232,26 +246,32 @@
 <main id="top">
   <section class="hero">
     <div class="grain"></div>
-    <div class="stage">
+    <div class="stage simple">
       <div class="copy">
-        <span class="badge"><b>בלי הרשמה ובלי עלות</b><span style="opacity:.6">איך זה עובד</span><i>←</i></span>
         <h1>רעיון בראש? נבדוק אותו יחד, <em>לפני</em> שמוציאים את השקל הראשון</h1>
-        <p class="lead">כותבים אותו בכמה מילים ומקבלים בדקות: כמה הוא חזק, כמה אפשר להרוויח ממנו, וצעד קטן אחד לנסות כבר השבוע.</p>
+        <p class="lead">כתבו אותו בכמה מילים וקבלו תשובה בדקות. בלי הרשמה ובלי עלות.</p>
         <form class="ask" onsubmit="event.preventDefault()">
           <div class="tabs" role="tablist" aria-label="איך מתחילים"><button type="button" role="tab" id="tabHave" aria-selected="true">יש לי רעיון</button><button type="button" role="tab" id="tabNone" aria-selected="false">אין לי רעיון</button></div>
           <label class="sr" for="idea">הרעיון שלך</label>
           <textarea id="idea" rows="2" placeholder="כתבו כאן את הרעיון, בכמה מילים. למשל: לפתוח דוכן קפה בשוק."></textarea>
-          <div class="askrow"><span class="hint" id="hint">מה שכתבתם נשאר שלכם.</span><span class="acts"><button class="cta line enr" type="button" id="enrich"><svg viewBox="0 0 16 16"><path d="M8 0l1.6 5.4L15 7l-5.4 1.6L8 14l-1.6-5.4L1 7l5.4-1.6z"/></svg>הרחב לי</button><button class="cta solid go" id="go" type="submit"><span id="gotxt">בדקו את הרעיון</span> <svg viewBox="0 0 16 16"><path d="M13 8L7 2v4H2v4h5v4z"/></svg></button></span></div>
+          <div class="askrow"><span class="hint" id="hint">מה שכתבתם נשאר שלכם.</span><span class="acts"><button class="enrlink" type="button" id="enrich"><svg viewBox="0 0 16 16"><path d="M8 0l1.6 5.4L15 7l-5.4 1.6L8 14l-1.6-5.4L1 7l5.4-1.6z"/></svg>הרחב לי</button><button class="cta solid go" id="go" type="submit"><span id="gotxt">בדקו את הרעיון</span> <svg viewBox="0 0 16 16"><path d="M13 8L7 2v4H2v4h5v4z"/></svg></button></span></div>
         </form>
-        <a class="how" href="#how"><svg viewBox="0 0 16 16"><path d="M3 2l11 6-11 6z"/></svg>איך זה עובד</a>
       </div>
+    </div>
+  </section>
+
+  <section class="blk show" id="what"><div class="wrap">
+    <div class="sec-h"><span class="eyebrow mono">מה תקבלו</span><h2>תשובה ברורה, בחמישה כרטיסים</h2></div>
+    <div class="showgrid">
       <div class="float" aria-live="polite"><div class="ghost a"></div><div class="ghost b"></div><div class="card" id="card"></div></div>
-      <div class="qs" id="qs" role="tablist" aria-label="שאלות שאנשים שואלים"></div>
+      <div>
+        <div class="qs" id="qs" role="tablist" aria-label="שאלות שאנשים שואלים"></div>
+      </div>
     </div>
     <div class="trust">
       <span>הניתוח נכתב על ידי בינה מלאכותית (Claude)</span><span>הנתונים נשמרים באירופה</span><span>לא מוכרים מידע</span><span>עברית, אנגלית, ספרדית וצרפתית</span>
     </div>
-  </section>
+  </div></section>
 
   <section class="blk" id="how"><div class="wrap">
     <div class="sec-h"><span class="eyebrow mono">איך זה עובד</span><h2>שלושה צעדים, בלי הרצאה</h2></div>
@@ -345,6 +365,7 @@ show(0); play();
 
 /* hand the idea to the app through this browser only (never in the URL, so it is not logged) */
 const idea=document.getElementById("idea"), tabHave=document.getElementById("tabHave"), tabNone=document.getElementById("tabNone"), goTxt=document.getElementById("gotxt");
+if(matchMedia('(min-width:961px)').matches) idea.focus({preventScroll:true});
 const none=()=>tabNone.getAttribute("aria-selected")==="true";
 function setMode(n){
   tabHave.setAttribute("aria-selected",!n); tabNone.setAttribute("aria-selected",n);
