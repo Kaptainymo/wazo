@@ -315,7 +315,13 @@
     /* mobile: the answer rises like a sheet; nothing coral shows until you have scrolled a while */
     .win{clip-path:none!important;transform:translate3d(0,100%,0);border-radius:16px 16px 0 0;will-change:transform}
     .sliver{display:none}
+    .ask{backdrop-filter:none}
     .win-in{opacity:1}
+    /* scroll-driven: the browser runs these off the main thread, so the sheet follows the finger exactly */
+    @supports (animation-timeline: scroll()){
+      .win{transform:none;animation:sheetUp linear both;animation-timeline:scroll(root);animation-range:37vh 122vh}
+      .hero .copy{animation:copyOut linear both;animation-timeline:scroll(root);animation-range:30vh 100vh}
+    }
     .hero .copy{opacity:1;transform:none;will-change:opacity}
     /* softer corners on phones */
     .ask{border-radius:20px}.tabs{border-radius:999px}
@@ -342,6 +348,8 @@
     .win .qs button{min-width:120px;padding:14px 14px}
     .pin .hero .stage.simple{padding:8px 0 24px}
   }
+  @keyframes sheetUp{from{transform:translate3d(0,100%,0)}to{transform:translate3d(0,0,0)}}
+  @keyframes copyOut{from{opacity:1}to{opacity:0}}
   @media (prefers-reduced-motion:reduce){.tabs::before{transition:none}.card,.face{animation:none}html{scroll-behavior:auto}}
 </style>
 </head>
@@ -566,7 +574,7 @@ function roving(list){
 roving(document.querySelector(".tabs")); roving(qs);
 /* peek: scrolling opens the hero into the five cards. Short screens and reduced motion get the plain stacked layout. */
 const peek=document.getElementById("peek"), heroCopy=peek.querySelector(".hero .copy"), OPEN=.28, clamp=(v,a,b)=>Math.min(b,Math.max(a,v));
-let pinned=false, curQ=0, lastO=-1;
+let pinned=false, curQ=0, lastO=-1; const cssTL=!!(window.CSS&&CSS.supports&&CSS.supports("animation-timeline: scroll()"));
 const pinEl=peek.querySelector(".pin"), winEl=document.getElementById("win"), total=()=>peek.offsetHeight-pinEl.offsetHeight;
 function fills(q){ curQ=q; [...qs.children].forEach((b,n)=>{ b.firstChild.style.transform=pinned?`scaleX(${clamp(q-n,0,1).toFixed(2)})`:""; }); }
 const slider=document.getElementById("slider"), mob=matchMedia("(max-width:960px)");
@@ -582,7 +590,7 @@ slider.addEventListener("keydown",e=>{ const d=document.documentElement.dir==="r
 function tick(){ if(!pinned) return;
   if(mob.matches){ let p=clamp(-peek.getBoundingClientRect().top/total(),0,1); if(document.activeElement===idea && p<.06) p=0;
     const o=clamp((p-.22)/.5,0,1);                              /* nothing happens for the first fifth of the scroll */
-    if(o!==lastO){ lastO=o; winEl.style.transform=`translate3d(0,${((1-o)*100).toFixed(2)}%,0)`; heroCopy.style.opacity=(1-o*1.2).toFixed(2); winEl.inert=o<.5; heroCopy.inert=o>.6; document.body.classList.toggle("peekopen",o>.5&&p<.995); }
+    if(o!==lastO){ lastO=o; if(!cssTL){ winEl.style.transform=`translate3d(0,${((1-o)*100).toFixed(2)}%,0)`; heroCopy.style.opacity=(1-o*1.2).toFixed(2); } winEl.inert=o<.5; heroCopy.inert=o>.6; document.body.classList.toggle("peekopen",o>.5&&p<.995); }
     return; }
   let p=clamp(-peek.getBoundingClientRect().top/total(),0,1);
   if(document.activeElement===idea && p<.06) p=0;           /* typing: keep the hero steady */
