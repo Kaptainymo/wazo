@@ -209,8 +209,10 @@
 
   /* kick-off + worlds */
   .kick{display:grid;gap:36px;grid-template-columns:minmax(0,1fr) minmax(0,1fr);align-items:center}
-  .kick .say{font-family:"Miriam Libre",sans-serif;font-weight:700;font-size:round(clamp(26px,3.4vw,40px),2px);--lhr:1.15}
-  .kick .say em{font-style:normal;color:var(--coral)}
+  .sec-h .say{font-weight:700}
+  .kick .kh{font-size:round(clamp(24px,3vw,32px),2px);--lhr:1.15}
+  .kick .tl{margin-top:0}
+  .say em{font-style:normal;color:var(--coral)}
   .chips{display:flex;flex-wrap:wrap;gap:12px}
   .chip{padding:12px 20px;border-radius:999px;border:1px solid rgba(241,240,236,.22);font-size:16px;background:rgba(255,255,255,.03)}
   .chip.on{border-color:var(--coral);color:var(--coral)}
@@ -453,10 +455,10 @@
   </div></section>
 
 
-  <section class="blk" id="kickoff"><div class="wrap kick">
+  <section class="blk" id="kickoff"><div class="wrap">
+    <div class="sec-h"><span class="eyebrow">נקודת פתיחה</span><h2 class="say" data-i="say">Wazo לא מחליט בשבילך<br>הוא <em>עוזר להתחיל</em></h2></div>
+    <div class="kick">
     <div>
-      <span class="eyebrow" style="color:var(--coral);font-size:12px;letter-spacing:.12em">נקודת פתיחה</span>
-      <p class="say" data-i="say" style="margin:12px 0 0">Wazo לא מחליט בשבילך<br>הוא <em>עוזר להתחיל</em></p>
       <div class="tl">
         <div data-i="tl1"><b>לפני שמשקיעים זמן וכסף</b>בדיקה של כמה דקות, לפני חודשים של עבודה.</div>
         <div data-i="tl2"><b>עם ניסוי קטן ביד</b>דבר אחד לעשות השבוע, ואיך תדעו אם הצליח.</div>
@@ -464,10 +466,12 @@
       </div>
     </div>
     <div>
-      <div class="sec-h" style="margin-bottom:18px"><h2 style="font-size:round(clamp(24px,3vw,34px),2px)">לכל מי שיש משהו בראש</h2><p style="font-size:16px">לא צריך להיות יזם או להבין בעסקים. כתבו מה שבא לכם, בשפה שלכם:</p></div>
+      <div class="sec-h" style="margin-bottom:18px"><h3 class="kh">לכל מי שיש משהו בראש</h3><p style="font-size:16px">לא צריך להיות יזם או להבין בעסקים. כתבו מה שבא לכם, בשפה שלכם:</p></div>
       <div class="chips"><span class="chip on">עסק קטן</span><span class="chip">עבודה חדשה והסבה</span><span class="chip">ללמד משהו</span><span class="chip">פרויקט שישאר אחריי</span><span class="chip">אתר או אפליקציה</span><span class="chip">מוצר שעושים בבית</span><span class="chip">תוכן וקהילה</span></div>
     </div>
-  </div></section>
+  </div>
+    </div>
+  </section>
 
   <section class="blk" id="about"><div class="wrap">
     <div class="sec-h"><span class="eyebrow">מי אנחנו</span><h2>בינה מלאכותית היא של כולם</h2><p>Wazo נולד מאמונה פשוטה: כל אחד ואחת ראויים ללמוד להשתמש בבינה מלאכותית ולהפיק ממנה את המיטב בשבילם. לא רק מי שמבין בטכנולוגיה.</p></div>
