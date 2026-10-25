@@ -1,7 +1,7 @@
 /* Duet: strings and comparison shared by the app (index.html) and the invitation page (d.html). */
 (function(){
 const S={
- he:{btn:"בדקו ביחד",t:"בודקים ביחד",lead:"בדקו את הרעיון יחד עם אדם שאוהבים",p:"האדם השני עונה על כמה שאלות קצרות מהצד שלו, ואתם רואים איפה אתם מסכימים ואיפה כדאי לדבר.",
+ he:{btn:"דואט",t:"בודקים ביחד",lead:"בדקו את הרעיון יחד עם אדם שאוהבים",p:"האדם השני עונה על כמה שאלות קצרות מהצד שלו, ואתם רואים איפה אתם מסכימים ואיפה כדאי לדבר.",
   priv:"מי שיש לו את הקישור יראה את הרעיון ואת התשובות. הקישור פג אחרי 7 ימים, ואפשר למחוק אותו בכל רגע.",you:"התשובות שלכם",
   q:[["כמה זמן אפשר להשקיע בשבוע",["שעתיים","5 שעות","10 שעות ומעלה"]],["מה הכי מדאיג אתכם",["כסף","זמן","שזה לא ילך"]],["כמה אתם מאמינים ברעיון",["1","2","3","4","5"]]],
   create:"צרו קישור",creating:"יוצרים קישור…",linkT:"הקישור מוכן",linkS:"שלחו אותו לאדם שאוהבים. כשיענה, ההשוואה תופיע כאן.",share:"שלחו",copy:"העתקת קישור",copied:"הקישור הועתק",
@@ -11,7 +11,7 @@ const S={
   talks:{time:"מה יקרה לרעיון אם יש רק {x} בשבוע?",worry:"מה אפשר לעשות השבוע כדי להקטין את הדאגה הזו: \"{x}\"?",belief:"מה צריך לקרות כדי ששניכם תאמינו ברעיון באותה מידה?",all:"מה הצעד הראשון שאתם מוכנים לעשות יחד השבוע?"},proT:"השאלה לשיחה היא חלק מ־Pro",proGo:"פתחו את Pro",
   inviteT:"הוזמנתם לבדוק רעיון ביחד",inviteP:"מישהו שאוהב אתכם רוצה לדעת מה דעתכם על הרעיון הזה. עונים על שלוש שאלות, ורואים ביחד איפה אתם מסכימים.",ideaLbl:"הרעיון",seen:"התשובות שלכם יופיעו גם אצל מי ששלח את הקישור.",sending:"שולחים…",
   already:"כבר ענו על ההזמנה הזאת.",gone:"הקישור פג או נמחק.",tryOwn:"בדקו רעיון משלכם",tryS:"בחינם, בלי הרשמה"},
- en:{btn:"Check together",t:"Checking together",lead:"Check the idea with someone you love",p:"The other person answers a few short questions from their side, and you see where you agree and where it's worth talking.",
+ en:{btn:"Duet",t:"Checking together",lead:"Check the idea with someone you love",p:"The other person answers a few short questions from their side, and you see where you agree and where it's worth talking.",
   priv:"Anyone with the link will see the idea and the answers. The link expires after 7 days, and you can delete it any time.",you:"Your answers",
   q:[["How much time can you put in each week",["2 hours","5 hours","10 hours or more"]],["What worries you most",["Money","Time","That it won't work"]],["How much do you believe in the idea",["1","2","3","4","5"]]],
   create:"Create a link",creating:"Creating the link…",linkT:"Your link is ready",linkS:"Send it to someone you love. When they answer, the comparison appears here.",share:"Send",copy:"Copy link",copied:"Link copied",
@@ -21,7 +21,7 @@ const S={
   talks:{time:"What happens to the idea if there are only {x} a week?",worry:"What could you do this week to make this worry smaller: \"{x}\"?",belief:"What would need to happen for you both to believe in the idea equally?",all:"What is the first step you're ready to take together this week?"},proT:"The question to talk about is part of Pro",proGo:"Open Pro",
   inviteT:"You're invited to check an idea together",inviteP:"Someone who cares about you wants to know what you think of this idea. Answer three questions and see together where you agree.",ideaLbl:"The idea",seen:"Your answers will also appear for the person who sent the link.",sending:"Sending…",
   already:"This invitation was already answered.",gone:"This link expired or was deleted.",tryOwn:"Check an idea of your own",tryS:"Free, no sign-up"},
- es:{btn:"Comprobar juntos",t:"Comprobar juntos",lead:"Comprueba la idea con alguien a quien quieres",p:"La otra persona responde unas preguntas cortas desde su lado, y tú ves en qué coinciden y de qué vale la pena hablar.",
+ es:{btn:"Dúo",t:"Comprobar juntos",lead:"Comprueba la idea con alguien a quien quieres",p:"La otra persona responde unas preguntas cortas desde su lado, y tú ves en qué coinciden y de qué vale la pena hablar.",
   priv:"Quien tenga el enlace verá la idea y las respuestas. El enlace caduca a los 7 días y puedes borrarlo cuando quieras.",you:"Tus respuestas",
   q:[["Cuánto tiempo puedes dedicar por semana",["2 horas","5 horas","10 horas o más"]],["Qué es lo que más te preocupa",["El dinero","El tiempo","Que no funcione"]],["Cuánto crees en la idea",["1","2","3","4","5"]]],
   create:"Crear enlace",creating:"Creando el enlace…",linkT:"Tu enlace está listo",linkS:"Envíaselo a alguien a quien quieres. Cuando responda, la comparación aparecerá aquí.",share:"Enviar",copy:"Copiar enlace",copied:"Enlace copiado",
@@ -31,7 +31,7 @@ const S={
   talks:{time:"¿Qué pasa con la idea si solo hay {x} por semana?",worry:"¿Qué podrían hacer esta semana para reducir esta preocupación: «{x}»?",belief:"¿Qué tendría que pasar para que ambos crean en la idea por igual?",all:"¿Cuál es el primer paso que están dispuestos a dar juntos esta semana?"},proT:"La pregunta para conversar es parte de Pro",proGo:"Abrir Pro",
   inviteT:"Te invitaron a comprobar una idea juntos",inviteP:"Alguien que te quiere desea saber qué piensas de esta idea. Responde tres preguntas y vean juntos en qué coinciden.",ideaLbl:"La idea",seen:"Tus respuestas también las verá quien envió el enlace.",sending:"Enviando…",
   already:"Esta invitación ya fue respondida.",gone:"Este enlace caducó o fue borrado.",tryOwn:"Comprueba una idea tuya",tryS:"Gratis, sin registro"},
- fr:{btn:"Vérifier ensemble",t:"Vérifier ensemble",lead:"Vérifiez l'idée avec une personne que vous aimez",p:"L'autre personne répond à quelques questions courtes de son côté, et vous voyez où vous êtes d'accord et de quoi il vaut la peine de parler.",
+ fr:{btn:"Duo",t:"Vérifier ensemble",lead:"Vérifiez l'idée avec une personne que vous aimez",p:"L'autre personne répond à quelques questions courtes de son côté, et vous voyez où vous êtes d'accord et de quoi il vaut la peine de parler.",
   priv:"Toute personne ayant le lien verra l'idée et les réponses. Le lien expire après 7 jours et vous pouvez le supprimer à tout moment.",you:"Vos réponses",
   q:[["Combien de temps pouvez-vous y consacrer par semaine",["2 heures","5 heures","10 heures ou plus"]],["Qu'est-ce qui vous inquiète le plus",["L'argent","Le temps","Que ça ne marche pas"]],["À quel point croyez-vous à l'idée",["1","2","3","4","5"]]],
   create:"Créer un lien",creating:"Création du lien…",linkT:"Votre lien est prêt",linkS:"Envoyez-le à une personne que vous aimez. Quand elle aura répondu, la comparaison apparaîtra ici.",share:"Envoyer",copy:"Copier le lien",copied:"Lien copié",
