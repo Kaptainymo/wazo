@@ -372,7 +372,7 @@ function setMode(n){
 }
 tabHave.addEventListener("click",()=>setMode(false)); tabNone.addEventListener("click",()=>setMode(true));
 function toApp(mode){
-  try{ localStorage.setItem("wz.handoff",JSON.stringify({text:idea.value.trim().slice(0,1200),mode})); }catch(e){}
+  try{ localStorage.setItem("wz.handoff",JSON.stringify({text:idea.value.trim().slice(0,1200),mode,lang:"he"})); }catch(e){}
   location.href="/#idea";
 }
 document.querySelector(".ask").addEventListener("submit",e=>{ e.preventDefault(); toApp(none()?"none":"check"); });
