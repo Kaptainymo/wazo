@@ -14,6 +14,7 @@ const D={
 "כלי פשוט שנותן תשובה שאפשר לפעול לפיה כבר השבוע. בלי מילים גבוהות ובלי ללמוד מערכת חדשה.":["A simple tool that gives an answer you can act on this week. No big words, and no new system to learn.","Una herramienta simple que da una respuesta con la que puedes actuar esta semana. Sin palabras complicadas ni sistemas nuevos que aprender.","Un outil simple qui donne une réponse sur laquelle agir dès cette semaine. Sans grands mots et sans nouveau système à apprendre."],
 "אנושי":["Human","Humano","Humain"],
 "נבנה לאנשים ולא למומחים, מכל גיל ומכל רקע. אין צורך לדעת כלום מראש, ואף פעם לא מאוחר מדי להתחיל.":["Built for people, not experts, of any age and any background. No prior knowledge needed, and it is never too late to start.","Hecho para personas, no para expertos, de cualquier edad y origen. No hace falta saber nada de antemano, y nunca es tarde para empezar.","Conçu pour les gens, pas pour les experts, de tous âges et de tous horizons. Aucune connaissance préalable requise, et il n'est jamais trop tard pour commencer."],
+"בדיקה ביחד עם אדם שאוהבים, בקרוב":["Check together with someone you love, coming soon","Comprobar juntos con alguien a quien quieres, próximamente","Vérifier ensemble avec une personne que vous aimez, bientôt"],
 "פרטיות":["Privacy","Privacidad","Confidentialité"],
 "מחירים":["Pricing","Precios","Tarifs"],
 "נסו עכשיו":["Try it now","Pruébalo ya","Essayez maintenant"],

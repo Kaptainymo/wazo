@@ -498,6 +498,27 @@ dialog.sheet[open]::backdrop{animation:fadeIn .3s ease both}
 .sheet-b h3{margin:0;font-size:14px;font-family:var(--f-mono);letter-spacing:.1em;text-transform:uppercase;opacity:.6;font-weight:600}
 .sheet-b p{margin:0;opacity:.88}
 .sheet-b a{color:inherit}
+.dq{display:grid;gap:12px}.dq b{font-weight:600}
+.dchips{display:flex;flex-wrap:wrap;gap:8px}
+.dchip{border:0;border-radius:999px;min-height:44px;padding:0 16px;font-family:inherit;font-size:16px;font-weight:inherit;background:color-mix(in srgb,var(--red) 16%,transparent);color:var(--red);cursor:pointer}
+.dchip[aria-pressed=true]{background:var(--red);color:#0A0A0A;font-weight:600}
+.dchip[disabled]{cursor:default}
+.dwarn{background:color-mix(in srgb,var(--red) 16%,transparent);color:var(--red);border-radius:16px;padding:12px 16px;font-size:14px;--lhr:1.5}
+.dgrp{display:grid;gap:16px;background:#1C1C1C;border-radius:20px;padding:20px}
+.dsub{font-family:var(--f-mono);font-size:12px;letter-spacing:.1em;font-weight:600;opacity:.7}
+.cmprow{background:#1C1C1C;border-radius:16px;padding:16px;display:grid;gap:8px}
+.cmprow .tg{font-family:var(--f-mono);font-size:12px;letter-spacing:.1em;font-weight:600}
+.cmprow.ok .tg{color:var(--build)}.cmprow.no .tg{color:var(--red)}
+.cmprow strong{font-size:18px;font-weight:600}
+.dtwo{display:grid;grid-template-columns:1fr 1fr;gap:8px;font-size:14px;opacity:.9}
+.dtwo b{font-weight:600}
+.dtalk{background:var(--red);color:#0A0A0A;border-radius:20px;padding:20px;display:grid;gap:8px}
+.dtalk .tg{font-family:var(--f-mono);font-size:12px;letter-spacing:.1em;font-weight:600;opacity:.7}
+.dtalk strong{font-size:20px;--lhr:1.3;font-weight:600}
+.dtalk.locked strong{filter:blur(5px);user-select:none}
+.dtalk .cta{background:#0A0A0A;color:#fff;width:100%}
+.sheet-b .cta{width:100%}
+
 /* deep analysis: a lead sentence, numbered steps, risks with a level, a 30/60/90 timeline */
 .deep{display:grid;gap:24px}
 .deep section{display:grid;gap:12px;border-top:1px solid color-mix(in srgb,currentColor 15%,transparent);padding-top:16px}
@@ -582,6 +603,7 @@ dialog.sheet[open]::backdrop{animation:fadeIn .3s ease both}
 <div class="foot"><b class="testtag" id="testTag" hidden></b><span data-t="foot"></span><button class="legal-link" type="button" id="legalBtn" data-t="legalLink"></button></div>
 <dialog class="sheet" id="teams" aria-labelledby="teamsTitle"><div class="sheet-h"><h2 id="teamsTitle" data-t="teamsT"></h2><button class="sheet-x" type="button" data-close aria-label="Close">×</button></div><div class="sheet-b" id="teamsBody"></div></dialog>
 <dialog class="sheet" id="deep" aria-labelledby="deepTitle"><div class="sheet-h"><h2 id="deepTitle" data-t="deepT"></h2><span class="sheet-btns"><button class="sheet-cp" id="deepCopy" type="button" data-ic="copy" hidden></button><button class="sheet-x" type="button" data-close aria-label="Close">×</button></span></div><div class="sheet-b" id="deepBody"></div></dialog>
+<dialog class="sheet" id="duet" aria-labelledby="duetTitle"><div class="sheet-h"><h2 id="duetTitle"></h2><button class="sheet-x" type="button" data-close aria-label="Close">×</button></div><div class="sheet-b" id="duetBody"></div></dialog>
 <dialog class="sheet" id="langSheet" aria-labelledby="langTitle"><div class="sheet-h"><h2 id="langTitle" data-t="langT"></h2><button class="sheet-x" type="button" data-close aria-label="Close">×</button></div><div class="sheet-b" id="langList"></div></dialog>
 <dialog class="sheet" id="legal" aria-labelledby="legalTitle"><div class="sheet-h"><h2 id="legalTitle" data-t="legalT"></h2><button class="sheet-x" type="button" id="legalX" aria-label="Close">×</button></div><div class="sheet-b" id="legalBody"></div></dialog>
 
@@ -1310,8 +1332,8 @@ function renderActs(){
   const svg=p=>`<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${p}</svg>`;
   const ib=(a,p,l)=>`<button class="cta btn-ghost ico" type="button" data-act="${a}" aria-label="${esc(l)}" title="${esc(l)}">${svg(p)}</button>`;
   const ico3 = open5 && narrow;   /* on phones the three actions are icons in one row */
-  const second = ico3 ? `<div class="acts-row ico3">${ib("copy",'<rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V6a2 2 0 0 1 2-2h9"/>',t("copy"))}${ib("img",'<path d="M12 4v11"/><path d="m7 11 5 5 5-5"/><path d="M5 20h14"/>',t("saveImg"))}${S.isExample?"":ib("deep",'<circle cx="11" cy="11" r="6"/><path d="m20 20-4.5-4.5"/><path d="M8.5 11h5M11 8.5v5"/>',t("deepBtn"))}</div>`
-    : (open5 ? `<div class="acts-row tri">${tri("img","dl",t("saveImg"))}${S.isExample?"":tri("deep","again",t("deepBtn"))}</div>` : "");
+  const second = ico3 ? `<div class="acts-row ico3">${ib("copy",'<rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V6a2 2 0 0 1 2-2h9"/>',t("copy"))}${ib("img",'<path d="M12 4v11"/><path d="m7 11 5 5 5-5"/><path d="M5 20h14"/>',t("saveImg"))}${S.isExample?"":ib("deep",'<circle cx="11" cy="11" r="6"/><path d="m20 20-4.5-4.5"/><path d="M8.5 11h5M11 8.5v5"/>',t("deepBtn"))}${ib("duet",'<circle cx="9" cy="8" r="3"/><path d="M3 19c0-3.3 2.7-6 6-6s6 2.7 6 6"/><circle cx="17" cy="9" r="2.5"/><path d="M16 14c3 0 5 2.2 5 5"/>',dT().btn)}</div>`
+    : (open5 ? `<div class="acts-row tri">${tri("img","dl",t("saveImg"))}${S.isExample?"":tri("deep","again",t("deepBtn"))}${tri("duet","duet",dT().btn)}</div>` : "");
   $("#cardacts").innerHTML = (ico3?"":main) + second + `<span class="note" id="actNote">${esc(S.savedNote)}</span>`;
   const pl=$("#plansBox"); if (pl) pl.remove();
   if (open5 && !S.isExample && !S.pro && !S.cfg.open) $("#cardacts").insertAdjacentHTML("afterend", `<div id="plansBox">${plansHTML()}</div>`);
@@ -1333,6 +1355,66 @@ function countUp(el){
 function paywallHTML(){
   return `<div class="pw"><div class="pw-t">${ic("lock")}${esc(t("pwT"))}</div><p>${esc(t("pwS"))}</p>
     <button class="cta" type="button" data-act="unlockfree">${esc(t("pwGo"))}</button></div>`;
+}
+const DUET={
+ he:{btn:"בדקו ביחד",t:"בודקים ביחד",lead:"בדקו את הרעיון יחד עם אדם שאוהבים",p:"האדם השני עונה על כמה שאלות קצרות מהצד שלו, ואתם רואים איפה אתם מסכימים ואיפה כדאי לדבר.",warn:"זו תצוגה מקדימה של פיצר שבדרך. שום דבר לא נשלח לאף אחד, והתשובות של האדם השני כאן הן דוגמה.",you:"התשובות שלכם",ex:"דוגמה: התשובות של האדם השני",
+  q:[["כמה זמן אפשר להשקיע בשבוע",["שעתיים","5 שעות","10 שעות ומעלה"]],["מה הכי מדאיג אתכם",["כסף","זמן","שזה לא ילך"]],["כמה אתם מאמינים ברעיון",["1","2","3","4","5"]]],
+  go:"ראו את ההשוואה",back:"חזרה",cmpT:"איפה אתם נפגשים",ok:"מסכימים",no:"לא מסכימים",you1:"אתם",other:"האדם השני",titles:["כמה זמן להשקיע","מה מדאיג","כמה מאמינים ברעיון"],talkT:"שאלה אחת לשיחה",
+  talks:{time:"מה יקרה לרעיון אם יש רק {x} בשבוע?",worry:"מה אפשר לעשות השבוע כדי להקטין את הדאגה הזו: \"{x}\"?",belief:"מה צריך לקרות כדי ששניכם תאמינו ברעיון באותה מידה?",all:"מה הצעד הראשון שאתם מוכנים לעשות יחד השבוע?"},proT:"השאלה לשיחה היא חלק מ־Pro",proGo:"פתחו את Pro"},
+ en:{btn:"Check together",t:"Checking together",lead:"Check the idea with someone you love",p:"The other person answers a few short questions from their side, and you see where you agree and where it's worth talking.",warn:"This is a preview of a feature on its way. Nothing is sent to anyone, and the other person's answers here are an example.",you:"Your answers",ex:"Example: the other person's answers",
+  q:[["How much time can you put in each week",["2 hours","5 hours","10 hours or more"]],["What worries you most",["Money","Time","That it won't work"]],["How much do you believe in the idea",["1","2","3","4","5"]]],
+  go:"See the comparison",back:"Back",cmpT:"Where you meet",ok:"Agree",no:"Differ",you1:"You",other:"Other person",titles:["How much time to put in","What worries you","How much you believe in it"],talkT:"One question to talk about",
+  talks:{time:"What happens to the idea if there are only {x} a week?",worry:"What could you do this week to make this worry smaller: \"{x}\"?",belief:"What would need to happen for you both to believe in the idea equally?",all:"What is the first step you're ready to take together this week?"},proT:"The question to talk about is part of Pro",proGo:"Open Pro"},
+ es:{btn:"Comprobar juntos",t:"Comprobar juntos",lead:"Comprueba la idea con alguien a quien quieres",p:"La otra persona responde unas preguntas cortas desde su lado, y tú ves en qué coinciden y de qué vale la pena hablar.",warn:"Esto es una vista previa de una función que viene en camino. No se envía nada a nadie, y las respuestas de la otra persona aquí son un ejemplo.",you:"Tus respuestas",ex:"Ejemplo: respuestas de la otra persona",
+  q:[["Cuánto tiempo puedes dedicar por semana",["2 horas","5 horas","10 horas o más"]],["Qué es lo que más te preocupa",["El dinero","El tiempo","Que no funcione"]],["Cuánto crees en la idea",["1","2","3","4","5"]]],
+  go:"Ver la comparación",back:"Volver",cmpT:"Dónde se encuentran",ok:"Coinciden",no:"Difieren",you1:"Tú",other:"La otra persona",titles:["Cuánto tiempo dedicar","Qué preocupa","Cuánto se cree en la idea"],talkT:"Una pregunta para conversar",
+  talks:{time:"¿Qué pasa con la idea si solo hay {x} por semana?",worry:"¿Qué podrían hacer esta semana para reducir esta preocupación: «{x}»?",belief:"¿Qué tendría que pasar para que ambos crean en la idea por igual?",all:"¿Cuál es el primer paso que están dispuestos a dar juntos esta semana?"},proT:"La pregunta para conversar es parte de Pro",proGo:"Abrir Pro"},
+ fr:{btn:"Vérifier ensemble",t:"Vérifier ensemble",lead:"Vérifiez l'idée avec une personne que vous aimez",p:"L'autre personne répond à quelques questions courtes de son côté, et vous voyez où vous êtes d'accord et de quoi il vaut la peine de parler.",warn:"Ceci est un aperçu d'une fonction à venir. Rien n'est envoyé à personne, et les réponses de l'autre personne ici sont un exemple.",you:"Vos réponses",ex:"Exemple : réponses de l'autre personne",
+  q:[["Combien de temps pouvez-vous y consacrer par semaine",["2 heures","5 heures","10 heures ou plus"]],["Qu'est-ce qui vous inquiète le plus",["L'argent","Le temps","Que ça ne marche pas"]],["À quel point croyez-vous à l'idée",["1","2","3","4","5"]]],
+  go:"Voir la comparaison",back:"Retour",cmpT:"Où vous vous retrouvez",ok:"D'accord",no:"Pas d'accord",you1:"Vous",other:"L'autre personne",titles:["Temps à consacrer","Ce qui inquiète","Confiance dans l'idée"],talkT:"Une question pour en parler",
+  talks:{time:"Que devient l'idée s'il n'y a que {x} par semaine ?",worry:"Que pourriez-vous faire cette semaine pour réduire cette inquiétude : « {x} » ?",belief:"Que faudrait-il pour que vous croyiez tous les deux autant à l'idée ?",all:"Quelle est la première étape que vous êtes prêts à franchir ensemble cette semaine ?"},proT:"La question pour en parler fait partie de Pro",proGo:"Ouvrir Pro"}
+};
+const dT=()=>DUET[S.lang]||DUET.en;
+const DUET_EX=[0,1,2];   /* the example answers of the other person */
+function openDuet(){
+  S.duet={a:[1,0,3],step:0};
+  const d=$("#duet"); d.dir=S.lang==="he"?"rtl":"ltr"; $("#duetTitle").textContent=dT().t; renderDuet();
+  if(d.showModal) d.showModal(); else d.setAttribute("open","");
+}
+function duetChips(qi,sel,locked){
+  const o=dT().q[qi][1];
+  return `<div class="dchips" role="group" aria-label="${esc(dT().q[qi][0])}">${o.map((l,i)=>`<button type="button" class="dchip" ${locked?"disabled":`data-dq="${qi}" data-dv="${i}"`} aria-pressed="${i===sel}">${esc(l)}</button>`).join("")}</div>`;
+}
+function renderDuet(){
+  const d=dT(), a=S.duet.a, body=$("#duetBody");
+  if (S.duet.step===0){
+    body.innerHTML=`<p class="lead">${esc(d.lead)}</p><p>${esc(d.p)}</p><div class="dwarn">${esc(d.warn)}</div>
+      <div class="dgrp"><span class="dsub">${esc(d.you)}</span>${d.q.map((q,i)=>`<div class="dq"><b>${esc(q[0])}</b>${duetChips(i,a[i],false)}</div>`).join("")}</div>
+      <div class="dgrp"><span class="dsub">${esc(d.ex)}</span>${d.q.map((q,i)=>`<div class="dq"><b>${esc(q[0])}</b>${duetChips(i,DUET_EX[i],true)}</div>`).join("")}</div>
+      <button type="button" class="cta light" data-dgo="cmp">${esc(d.go)}</button>`;
+  } else {
+    const same=[a[0]===DUET_EX[0], a[1]===DUET_EX[1], Math.abs(a[2]-DUET_EX[2])<=1];
+    const val=(i,k)=>d.q[i][1][k];
+    const rows=d.titles.map((ti,i)=>`<div class="cmprow ${same[i]?"ok":"no"}"><span class="tg">${esc(same[i]?d.ok:d.no)}</span><strong>${esc(ti)}</strong><div class="dtwo"><span>${esc(d.you1)} <b>${esc(val(i,a[i]))}</b></span><span>${esc(d.other)} <b>${esc(val(i,DUET_EX[i]))}</b></span></div></div>`).join("");
+    const k=same.indexOf(false), kind=k<0?"all":["time","worry","belief"][k];
+    const x=kind==="time"?val(0,Math.min(a[0],DUET_EX[0])):kind==="worry"?val(1,DUET_EX[1]):"";
+    const open=S.pro||S.isExample||(S.cfg&&S.cfg.open);
+    body.innerHTML=`<h3 tabindex="-1" id="duetH" style="font-size:20px;font-family:var(--f-sans);text-transform:none;letter-spacing:0;opacity:1">${esc(d.cmpT)}</h3>${rows}
+      <div class="dtalk ${open?"":"locked"}"><span class="tg">${esc(d.talkT)}</span><strong>${esc(d.talks[kind].replace("{x}",x))}</strong>${open?"":`<span>${esc(d.proT)}</span><button type="button" class="cta" data-dgo="pro">${esc(d.proGo)}</button>`}</div>
+      <button type="button" class="cta btn-ghost" data-dgo="back">${esc(d.back)}</button>`;
+    $("#duetH").focus({preventScroll:true});
+  }
+}
+$("#duetBody").addEventListener("click",e=>{
+  const c=e.target.closest("[data-dq]"); if(c){ S.duet.a[+c.dataset.dq]=+c.dataset.dv; c.parentElement.querySelectorAll(".dchip").forEach(x=>x.setAttribute("aria-pressed",String(x===c))); return; }
+  const g=e.target.closest("[data-dgo]"); if(!g) return;
+  if (g.dataset.dgo==="cmp"){ S.duet.step=1; renderDuet(); $("#duetBody").scrollTop=0; }
+  else if (g.dataset.dgo==="back"){ S.duet.step=0; renderDuet(); $("#duetBody").scrollTop=0; }
+  else if (g.dataset.dgo==="pro"){ $("#duet").close(); goPlans(); }
+});
+function goPlans(){
+  let pb=$("#plansBox"); if(!pb){ $("#cardacts").insertAdjacentHTML("afterend",`<div id="plansBox">${plansHTML()}</div>`); pb=$("#plansBox"); }
+  pb.scrollIntoView({behavior:calm()?"auto":"smooth",block:"start"}); pb.classList.remove("flash"); void pb.offsetWidth; pb.classList.add("flash"); pb.setAttribute("tabindex","-1"); pb.focus({preventScroll:true});
 }
 function openTeams(){
   const held=S.plan==="teams";
@@ -1382,8 +1464,7 @@ async function openDeep(b){
     if (r.status===200 && r.data.deep){ b.deep=r.data.deep; updateMine(b); showDeep(b); }
     else if (r.data&&r.data.code==="need_pro"){
       /* the plans live on the page under the buttons: close the sheet and take the user there instead of pointing at what it covers */
-      d.close(); let pb=$("#plansBox"); if(!pb){ $("#cardacts").insertAdjacentHTML("afterend",`<div id="plansBox">${plansHTML()}</div>`); pb=$("#plansBox"); }
-      pb.scrollIntoView({behavior:calm()?"auto":"smooth",block:"start"}); pb.classList.remove("flash"); void pb.offsetWidth; pb.classList.add("flash"); pb.setAttribute("tabindex","-1"); pb.focus({preventScroll:true}); }
+      d.close(); goPlans(); }
     else { body.innerHTML=`<p class="err">${esc(errCopy(r.data&&r.data.code))}</p>`; }
   }catch(e){ body.innerHTML=`<p class="err">${esc(t("errGeneric"))}</p>`; }
 }
@@ -1410,6 +1491,7 @@ document.addEventListener("click", async e=>{
   if (act==="reveal"){ revealFinal(); renderActs(); return; }
   if (act==="img" && b){ saveImage(b, currentCard().o, a); return; }
   if (act==="deep" && b){ openDeep(b); return; }
+  if (act==="duet"){ openDuet(); return; }
   if (act==="copy" && b){ const txt=receiptText(b), note=$("#actNote");
     try{ await navigator.clipboard.writeText(txt); note.textContent=t("copied"); }
     catch(_){ const ta=document.createElement("textarea"); ta.value=txt; ta.style.cssText="width:100%;min-height:160px;color:#111"; $("#cardacts").after(ta); ta.select(); } }
