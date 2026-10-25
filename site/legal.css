@@ -6,8 +6,8 @@ a.logo{font-family:"Unbounded",sans-serif;font-weight:600;font-size:20px;color:v
 h1{font-family:"Unbounded",sans-serif;font-weight:600;font-size:clamp(28px,5vw,40px);margin:40px 0 8px;letter-spacing:-.02em}
 .updated{color:var(--muted);font-size:14px;margin:0 0 48px;font-family:"IBM Plex Mono",monospace}
 h2{font-family:"Unbounded",sans-serif;font-size:18px;font-weight:600;margin:40px 0 12px}
-p,li{color:var(--muted);font-size:15px}
+p,li{color:var(--muted);font-size:16px}
 ul{padding-left:20px}
 a{color:var(--accent)}
-footer{margin-top:64px;color:var(--muted);font-size:13px}
+footer{margin-top:64px;color:var(--muted);font-size:14px}
 footer a{color:var(--ink)}
