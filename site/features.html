@@ -236,11 +236,13 @@
   .tier li.soon{color:var(--muted)} .tier li.soon::before{border-color:var(--muted)}
   .soon-tag{font-size:11px;border:1px solid var(--line);border-radius:999px;padding:1px 8px;margin-inline-start:6px;color:var(--muted)}
 
-  .final-cta{position:relative;text-align:center;padding:100px 0 110px;overflow:hidden;background:radial-gradient(50% 80% at 50% 100%,rgba(240,113,103,.4),transparent 70%)}
+  .final-cta{position:relative;text-align:center;padding:100px 0 110px;overflow:hidden;background:var(--coral);color:#0A0A0A}
+  .final-cta .cta.solid{background:#0A0A0A;color:#fff}
+  .final-cta :focus-visible,footer :focus-visible{outline-color:#0A0A0A}
   .final-cta h2{font-size:clamp(32px,5.4vw,60px);line-height:1.06;margin-bottom:26px}
-  footer{border-top:1px solid var(--line);padding:30px 0 calc(48px + env(safe-area-inset-bottom,0));color:var(--muted);font-size:14px}
+  footer{background:var(--coral);border-top:1px solid rgba(8,8,8,.25);padding:30px 0 calc(48px + env(safe-area-inset-bottom,0));color:rgba(8,8,8,.88);font-size:14px}
   footer .row{display:flex;gap:18px;flex-wrap:wrap;justify-content:space-between}
-  footer nav{display:flex;gap:18px;flex-wrap:wrap} footer a{color:var(--ink)}
+  footer nav{display:flex;gap:18px;flex-wrap:wrap} footer a{color:#0A0A0A;text-decoration:underline;text-underline-offset:3px}
 
   .dock{display:none}
 
