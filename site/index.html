@@ -145,6 +145,8 @@ textarea#idea:focus{outline:none}
 .helpbox .hh{display:flex;justify-content:space-between;align-items:center;font-family:var(--f-mono);font-size:12px;letter-spacing:.1em;text-transform:uppercase;opacity:.7}
 .helpbox .hh button{all:unset;cursor:pointer;font-size:22px;padding:0 6px}
 .helpbox p{margin:0}
+.helpbox{scroll-margin-top:76px}
+.helpbox:focus{outline:none}
 .hload{display:grid;gap:12px;padding:6px 0 2px}
 .hload b{font-size:17px;font-weight:700}
 .hload .bar{position:relative;height:6px;border-radius:999px;overflow:hidden;background:color-mix(in srgb,currentColor 14%,transparent)}
@@ -1561,16 +1563,19 @@ async function helperCall(path,payload){
   if (r.status!==200) throw {code:(r.data&&r.data.code)||"error"};
   return r.data;
 }
+/* on phones, bring the helper's answer to the top of the screen so it is the only thing in view */
+const focusHelp=()=>{ if (innerWidth>=900) return; helpBox.tabIndex=-1; helpBox.focus({preventScroll:true}); helpBox.scrollIntoView({block:"start",behavior:calm()?"auto":"smooth"}); };
 const loadHTML=m=>`<div class="hload" role="status" aria-live="polite"><b>${esc(m)}</b><div class="bar"></div></div>`;
 const helpErr=e=>`<p class="note err">${esc(errCopy(e&&e.code))}</p>`;
 $("#enrBtn").addEventListener("click",async()=>{
   const idea=$("#idea").value.trim();
   helpBox.hidden=false;
   if (idea.length<4){ helpBox.innerHTML=`<p>${esc(t("enrNeed"))}</p>`; $("#idea").focus(); return; }
-  helpBox.innerHTML=loadHTML(t("enrLoad"));
+  helpBox.innerHTML=loadHTML(t("enrLoad")); focusHelp();
   try{
     const d=await helperCall("enrich",{idea});
     helpBox.innerHTML=`<div class="hh"><span>${esc(t("enrT"))}</span><button type="button" data-hclose aria-label="${esc(t("enrClose"))}">×</button></div><p>${esc(d.idea)}</p>${d.added.length?`<div class="chips">${d.added.map(a=>`<span>+ ${esc(a)}</span>`).join("")}</div>`:""}<button class="cta dark" type="button" id="enrUse">${esc(t(S.fromSite?"enrUseGo":"enrUse"))}</button><span class="hnote">${esc(t("helpNote"))}</span>`;
+    focusHelp();
     $("#enrUse").addEventListener("click",()=>{ $("#idea").value=d.idea; fitIdea(); closeHelp(); if (S.fromSite){ S.fromSite=false; runVerdict(); } else $("#idea").focus(); });
   }catch(e){ helpBox.innerHTML=helpErr(e); }
 });
@@ -1582,7 +1587,7 @@ $("#noIdeaBtn").addEventListener("click",()=>{
     const out=$("#topicOut"); out.innerHTML=loadHTML(t("noIdeaLoad"));
     try{
       const d=await helperCall("ideate",{topic});
-      out.innerHTML=`<div class="picks">${d.ideas.map((i,k)=>`<button type="button" data-pick="${k}">${esc(i.title)}<small>${esc(i.why)}</small></button>`).join("")}</div><span class="hnote">${esc(t("noIdeaPick"))}</span>`;
+      out.innerHTML=`<div class="picks">${d.ideas.map((i,k)=>`<button type="button" data-pick="${k}">${esc(i.title)}<small>${esc(i.why)}</small></button>`).join("")}</div><span class="hnote">${esc(t("noIdeaPick"))}</span>`; focusHelp();
       out.querySelectorAll("[data-pick]").forEach(b=>b.addEventListener("click",()=>{ $("#idea").value=d.ideas[+b.dataset.pick].title; fitIdea(); closeHelp(); if (S.fromSite){ S.fromSite=false; runVerdict(); } else $("#idea").focus(); }));
     }catch(e){ out.innerHTML=helpErr(e); }
   };
