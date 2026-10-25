@@ -255,7 +255,7 @@ textarea#idea:focus{outline:none}
 .rc.cards .rc-idea{font-size:20px;line-height:1.2;margin:10px 0 14px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
 .cs{display:flex;gap:12px;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;overscroll-behavior-x:contain;-webkit-overflow-scrolling:touch;margin-inline:calc(-1*max(20px,env(safe-area-inset-left,0px)));padding:4px max(20px,env(safe-area-inset-left,0px)) 8px}
 .cs::-webkit-scrollbar{display:none}
-.cc{scroll-snap-align:center;scroll-snap-stop:always;flex:0 0 min(86vw,400px);height:clamp(300px,calc(100dvh - 250px - var(--actsH,130px)),640px);border-radius:18px;padding:22px;display:flex;flex-direction:column;gap:12px;overflow:hidden;background:#1C1C1C;color:#F1F0EC;position:relative}
+.cc{scroll-snap-align:center;scroll-snap-stop:always;flex:0 0 min(86vw,400px);height:clamp(300px,calc(100dvh - var(--csTop,238px) - var(--actsH,130px) - 12px),640px);border-radius:18px;padding:22px;display:flex;flex-direction:column;gap:12px;overflow:hidden;background:#1C1C1C;color:#F1F0EC;position:relative}
 .cc.is-lock{background:#292929}
 .cc.v-build{background:var(--build);color:var(--build-ink)}
 .cc.v-pivot{background:var(--pivot);color:var(--pivot-ink)}
@@ -1698,9 +1698,14 @@ $("#idea").addEventListener("input", fitIdea);
 /* the cards fill the space above the action bar, whatever its height is on the current card */
 (()=>{ const el=$("#cardacts"); if(!el) return; const set=()=>document.documentElement.style.setProperty("--actsH",el.offsetHeight+"px");
   if (window.ResizeObserver) new ResizeObserver(set).observe(el); set(); addEventListener("resize",set); })();
+/* the cards start wherever the title ends (one line or two), so their height is measured from there */
+function syncCsTop(){ const cs=document.querySelector("#stage .cs"), p=$("#p-receipt"); if(!cs||!p||p.hidden||!cs.offsetParent) return;
+  const top=Math.round(cs.getBoundingClientRect().top+p.scrollTop); if(document.documentElement.style.getPropertyValue("--csTop")!==top+"px") document.documentElement.style.setProperty("--csTop",top+"px"); }
+if (window.ResizeObserver) new ResizeObserver(()=>requestAnimationFrame(syncCsTop)).observe($("#stage"));
+if (document.fonts&&document.fonts.ready) document.fonts.ready.then(()=>requestAnimationFrame(syncCsTop));
 /* a long idea is cut to two lines; a link under it opens the whole text */
 function fitIdeaTitle(){ document.querySelectorAll("#stage .rc.cards").forEach(rc=>{ const h=rc.querySelector(".rc-idea"); if(!h) return; let b=rc.querySelector(".idea-more"); if(!b){ b=document.createElement("button"); b.type="button"; b.className="idea-more"; h.after(b); }
-  const open=rc.classList.contains("ideaopen"); const cut=open||h.scrollHeight>h.clientHeight+2; rc.classList.toggle("clamped",cut); b.setAttribute("aria-expanded",String(open)); b.textContent=t(open?"ideaHide":"ideaShow"); }); }
+  const open=rc.classList.contains("ideaopen"); const cut=open||h.scrollHeight>h.clientHeight+2; rc.classList.toggle("clamped",cut); b.setAttribute("aria-expanded",String(open)); b.textContent=t(open?"ideaHide":"ideaShow"); }); syncCsTop(); }
 $("#stage").addEventListener("click",e=>{ const b=e.target.closest(".idea-more"); if(!b) return; const rc=b.closest(".rc"); rc.classList.toggle("ideaopen"); fitIdeaTitle(); });
 new MutationObserver(()=>requestAnimationFrame(fitIdeaTitle)).observe($("#stage"),{childList:true});
 addEventListener("resize",()=>requestAnimationFrame(fitIdeaTitle));
