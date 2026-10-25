@@ -1519,15 +1519,18 @@ function solveToken(){
     }catch(e){ done(""); }
   });
 }
-async function humanToken(){
-  if (hvPre) await hvPre;
-  if (humanOk()) return "";
-  return solveToken();
+/* one shared check: every caller waits for the same run, so the widget never starts twice */
+function ensureHuman(){
+  if (humanOk() || !S.cfg.siteKey || !window.turnstile) return Promise.resolve();
+  if (hvPre) return hvPre;
+  hvPre=(async()=>{
+    const tok=await solveToken(); if(!tok) return;
+    try{ const r=await rawApi("verify",{token:tok}); if(r.status===200) markHuman(); }catch(e){}
+  })().finally(()=>{ hvPre=null; });
+  return hvPre;
 }
-function preverify(){
-  if (humanOk() || !S.cfg.siteKey || !window.turnstile || hvPre) return;
-  hvPre=(async()=>{ const tok=await solveToken(); if(!tok) return; try{ const r=await rawApi("verify",{token:tok}); if(r.status===200) markHuman(); }catch(e){} })().finally(()=>{ hvPre=null; });
-}
+async function humanToken(){ await ensureHuman(); return ""; }
+const preverify=ensureHuman;
 async function api(path,payload,signal){
   const had=humanOk(); let sent=payload&&payload.token, r=await rawApi(path,payload,signal);
   if (r.status===403 && r.data && r.data.code==="bot" && path!=="verify" && had){
@@ -1731,7 +1734,7 @@ async function runHandoff(){
   if (!h || typeof h!=="object") return;
   const text=String(h.text||"").slice(0,1200), mode=h.mode;
   for (let k=0;k<60 && S.cfg.siteKey && !S.cfg.open && !window.turnstile;k++) await new Promise(r=>setTimeout(r,100));
-  if (hvPre) await hvPre;
+  await ensureHuman();
   go("idea");
   if (mode==="none"){ $("#noIdeaBtn").click(); const ti=$("#topicIn"); if(ti){ ti.value=text; if(text) $("#topicGo").click(); } return; }
   $("#idea").value=text; fitIdea();
