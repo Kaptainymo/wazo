@@ -32,10 +32,24 @@ export function clientIp(req) {
 export const ipHash = (ip) => crypto.createHash("sha256").update(ip + "|" + env("IP_SALT", "wazo")).digest("hex").slice(0, 32);
 
 // ---------- Cloudflare Turnstile ----------
-export async function human(token, ip) {
+// A visitor solves Turnstile once. We then hand back a signed cookie that later API calls accept
+// instead of a fresh token, so the check never reappears during the cookie's lifetime.
+const HUMAN_COOKIE = "__Host-wz_h", HUMAN_DAYS = 7;   // __Host- prefix: browsers only accept it Secure, Path=/, with no Domain
+const humanSig = (exp) => crypto.createHmac("sha256", env("TURNSTILE_SECRET") + "|human").update(String(exp)).digest("hex");
+export function humanCookie() {
+  const exp = Math.floor(Date.now() / 1000) + HUMAN_DAYS * 86400;
+  return `${HUMAN_COOKIE}=${exp}.${humanSig(exp)}; Path=/; Max-Age=${HUMAN_DAYS * 86400}; HttpOnly; Secure; SameSite=Strict`;
+}
+export function hasHumanCookie(req) {
+  const m = String(req?.headers?.cookie || "").match(new RegExp(`(?:^|;\\s*)${HUMAN_COOKIE}=(\\d+)\\.([0-9a-f]{64})`));
+  if (!m || !env("TURNSTILE_SECRET") || Number(m[1]) < Date.now() / 1000) return false;
+  try { return crypto.timingSafeEqual(Buffer.from(humanSig(m[1]), "hex"), Buffer.from(m[2], "hex")); } catch { return false; }
+}
+export async function human(token, ip, req, res) {
   if (open()) return true;                                 // test mode: no bot check (limits still apply)
   const secret = env("TURNSTILE_SECRET");
   if (!secret) return env("WAZO_DEV") === "1";            // local testing only
+  if (hasHumanCookie(req)) return true;
   if (!token) return false;
   try {
     const r = await fetch("https://challenges.cloudflare.com/turnstile/v0/siteverify", {
@@ -43,8 +57,9 @@ export async function human(token, ip) {
       headers: { "Content-Type": "application/x-www-form-urlencoded" },
       body: new URLSearchParams({ secret, response: String(token).slice(0, 2048), remoteip: ip }),
     });
-    const j = await r.json();
-    return !!j.success;
+    const ok = !!(await r.json()).success;
+    if (ok && res) res.setHeader("Set-Cookie", humanCookie());
+    return ok;
   } catch { return false; }
 }
 

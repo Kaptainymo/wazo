@@ -12,7 +12,7 @@ export default async function handler(req, res) {
   const email = cleanEmail(b.email);
   if (!email && !open()) return send(res, 400, { code: "bad_email" });
   const ip = clientIp(req);
-  if (!(await human(b.token, ip))) return send(res, 403, { code: "bot" });
+  if (!(await human(b.token, ip, req, res))) return send(res, 403, { code: "bot" });
 
   try {
     if (!open() && (await getLead(email))?.plan !== "pro") return send(res, 402, { code: "need_pro" });

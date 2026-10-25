@@ -10,7 +10,7 @@ export default async function handler(req, res) {
   const b = await body(req);
   const email = cleanEmail(b.email);
   if (!email) return send(res, 400, { code: "bad_email" });
-  if (!(await human(b.token, clientIp(req)))) return send(res, 403, { code: "bot" });
+  if (!(await human(b.token, clientIp(req), req, res))) return send(res, 403, { code: "bot" });
   try {
     if (b.action === "plan") {
       if (!PLANS.includes(b.plan)) return send(res, 400, { code: "bad_plan" });

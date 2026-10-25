@@ -9,7 +9,7 @@ export default async function handler(req, res) {
   const email = cleanEmail(b.email);
   if (!email) return send(res, 400, { code: "bad_email" });
   const ip = clientIp(req), ih = ipHash(ip);
-  if (!(await human(b.token, ip))) return send(res, 403, { code: "bot" });
+  if (!(await human(b.token, ip, req, res))) return send(res, 403, { code: "bot" });
 
   try {
     const w = await getWazo(b.id);

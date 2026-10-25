@@ -1471,22 +1471,46 @@ function land(b){
 
 /* ---------- verdict ---------- */
 const errCopy=c=>({bot:t("errBot"),busy:t("errBusy"),limit:t("errLimit"),limit_anon:t("errLimitAnon"),need_pro:t("errNeedPro"),not_configured:t("errSetup"),timeout:t("errTimeout"),invalid_json:t("errJson"),refused:t("errRefused"),bad_email:t("gBad"),need_idea:t("needIdea")}[c]||t("errGeneric"));
-async function api(path,payload,signal){
+async function rawApi(path,payload,signal){
   const r=await fetch("/api/"+path,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(payload),signal});
   let data={}; try{ data=await r.json(); }catch(e){} return {status:r.status,data};
 }
 const track=(name,data)=>{ try{ window.umami&&window.umami.track(name,data); }catch(e){} };
-const TS={id:null,cb:null};
-function humanToken(){
+
+/* Cloudflare Turnstile runs once per visitor. The server answers with a signed cookie, and until it
+   expires every call skips the check, so the badge never comes back. */
+const TS={id:null,cb:null}, HV="wz.hv";
+let hvMem=0, hvPre=null;
+const humanOk=()=>{ let u=hvMem; try{ u=Math.max(u,Number(localStorage.getItem(HV)||0)); }catch(e){} return u>Date.now(); };
+const markHuman=()=>{ hvMem=Date.now()+6*864e5; try{ localStorage.setItem(HV,String(hvMem)); }catch(e){} };
+const clearHuman=()=>{ hvMem=0; try{ localStorage.removeItem(HV); }catch(e){} };
+function dropWidget(){ try{ if(TS.id!==null) turnstile.remove(TS.id); }catch(e){} TS.id=null; const z=$("#ts"); if(z) z.innerHTML=""; }
+function solveToken(){
   if (!S.cfg.siteKey || !window.turnstile) return Promise.resolve("");
   return new Promise(res=>{
-    let fin=false; const done=v=>{ if(fin) return; fin=true; clearTimeout(to); res(v||""); }; const to=setTimeout(()=>done(""),20000); TS.cb=done;
+    let fin=false; const done=v=>{ if(fin) return; fin=true; clearTimeout(to); dropWidget(); res(v||""); }; const to=setTimeout(()=>done(""),20000); TS.cb=done;
     try{
-      if (TS.id===null) TS.id=turnstile.render("#ts",{sitekey:S.cfg.siteKey,execution:"execute",appearance:"interaction-only",callback:v=>TS.cb&&TS.cb(v),"error-callback":()=>TS.cb&&TS.cb(""),"timeout-callback":()=>TS.cb&&TS.cb("")});
-      else turnstile.reset(TS.id);
+      TS.id=turnstile.render("#ts",{sitekey:S.cfg.siteKey,execution:"execute",appearance:"interaction-only",callback:v=>TS.cb&&TS.cb(v),"error-callback":()=>TS.cb&&TS.cb(""),"timeout-callback":()=>TS.cb&&TS.cb("")});
       turnstile.execute(TS.id);
     }catch(e){ done(""); }
   });
+}
+async function humanToken(){
+  if (hvPre) await hvPre;
+  if (humanOk()) return "";
+  return solveToken();
+}
+function preverify(){
+  if (humanOk() || !S.cfg.siteKey || !window.turnstile || hvPre) return;
+  hvPre=(async()=>{ const tok=await solveToken(); if(!tok) return; try{ const r=await rawApi("verify",{token:tok}); if(r.status===200) markHuman(); }catch(e){} })().finally(()=>{ hvPre=null; });
+}
+async function api(path,payload,signal){
+  const had=humanOk(); let sent=payload&&payload.token, r=await rawApi(path,payload,signal);
+  if (r.status===403 && r.data && r.data.code==="bot" && path!=="verify" && had){
+    clearHuman(); sent=await solveToken(); r=await rawApi(path,{...payload,token:sent},signal);
+  }
+  if (path!=="verify" && sent && r.status!==403 && r.status!==503) markHuman();
+  return r;
 }
 function showIdeaPlans(){ $("#ideaPlans")?.remove(); $("#askNote").insertAdjacentHTML("afterend",`<div id="ideaPlans">${plansHTML()}</div>`); }
 async function runVerdict(){
@@ -1645,7 +1669,7 @@ loadDrawer();
   S.ready=true; renderDrawer();
   if (S.cfg.open){ const tg=$("#testTag"); tg.hidden=false; tg.textContent=t("testTag"); }
   const add=(src,attrs,onload)=>{ const sc=document.createElement("script"); sc.src=src; sc.async=true; sc.defer=true; if(onload) sc.onload=onload; Object.entries(attrs||{}).forEach(([k,v])=>sc.setAttribute(k,v)); document.head.appendChild(sc); };
-  if (S.cfg.siteKey && !S.cfg.open) add("https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit");
+  if (S.cfg.siteKey && !S.cfg.open) add("https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit",{},()=>setTimeout(preverify,300));
   if (S.cfg.umami) add("https://cloud.umami.is/script.js",{"data-website-id":S.cfg.umami});
   if (S.cfg.paddleToken && !S.cfg.open) add("https://cdn.paddle.com/paddle/v2/paddle.js",{},()=>{
     if (!window.Paddle) return;
