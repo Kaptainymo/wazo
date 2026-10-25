@@ -40,7 +40,7 @@ const D={
 "הנתונים נשמרים באירופה":["Data is stored in Europe","Los datos se guardan en Europa","Les données sont stockées en Europe"],
 "לא מוכרים מידע":["We don't sell your data","No vendemos tus datos","Nous ne vendons pas vos données"],
 "עברית, אנגלית, ספרדית וצרפתית":["Hebrew, English, Spanish and French","Hebreo, inglés, español y francés","Hébreu, anglais, espagnol et français"],
-"שלושה צעדים, בלי הרצאה":["Three steps, no lecture","Tres pasos, sin sermones","Trois étapes, sans discours"],
+"שלושה צעדים":["Three steps","Tres pasos","Trois étapes"],
 "כותבים את הרעיון":["Write your idea","Escribes tu idea","Vous écrivez votre idée"],
 "משפט או שניים מספיקים. אין רעיון עדיין? כתבו מה מעניין אתכם ואציע רעיונות.":["A sentence or two is enough. No idea yet? Write what interests you and Wazo will suggest ideas.","Con una o dos frases basta. ¿Aún no tienes idea? Escribe qué te interesa y Wazo te sugiere ideas.","Une phrase ou deux suffisent. Pas encore d'idée ? Écrivez ce qui vous intéresse et Wazo vous en propose."],
 "מקבלים תמונה ברורה":["You get a clear picture","Recibes una imagen clara","Vous obtenez une image claire"],
