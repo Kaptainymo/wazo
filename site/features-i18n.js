@@ -108,7 +108,6 @@ const D={
 "ניתוח מעמיק: תוכנית, סיכונים וצעדים ל־90 יום":["Deep analysis: plan, risks and 90-day steps","Análisis profundo: plan, riesgos y pasos para 90 días","Analyse approfondie : plan, risques et étapes sur 90 jours"],
 "שמירת תמונה והעתקה ל־AI":["Save as an image and copy to AI","Guardar como imagen y copiar a una IA","Enregistrer en image et copier vers une IA"],
 "מנוי חודשי: מתחדש מדי חודש עד שתחליטו להפסיק, ואפשר לבטל בכל רגע.":["A monthly subscription: it renews each month until you decide to stop, and you can cancel any time.","Suscripción mensual: se renueva cada mes hasta que decidas parar, y puedes cancelar cuando quieras.","Abonnement mensuel : il se renouvelle chaque mois jusqu'à ce que vous décidiez d'arrêter, et vous pouvez annuler à tout moment."],
-"התשלום בדולרים.":["Payment is in US dollars.","El pago es en dólares.","Le paiement se fait en dollars."],
 "בואו נתחיל":["Let's start","Empecemos","Commençons"],
 "Wazo · וואזו © 2026 ·":["Wazo © 2026 ·","Wazo © 2026 ·","Wazo © 2026 ·"],
 "תנאי שימוש":["Terms of use","Condiciones de uso","Conditions d'utilisation"],
@@ -116,6 +115,7 @@ const D={
 };
 /* elements with inline markup, translated as a whole (data-i="key") */
 const H={
+paynote:['התשלום בדולרים. פרטים מלאים ב<a href="/he/pricing">עמוד המחירים</a> וב<a href="/he/refunds">מדיניות ההחזרים</a>.','Payment is in US dollars. Full details are on the <a href="/pricing">pricing page</a> and in the <a href="/refunds">refund policy</a>.','El pago es en dólares. Los detalles completos están en la <a href="/pricing">página de precios</a> y en la <a href="/refunds">política de reembolsos</a>.','Le paiement se fait en dollars. Tous les détails sont sur la <a href="/pricing">page des tarifs</a> et dans la <a href="/refunds">politique de remboursement</a>.'],
 h1:['רעיון בראש? בדיקה מהירה <em>לפני</em> שמוציאים את השקל הראשון','Got an idea? A quick check <em>before</em> you spend the first dollar','¿Tienes una idea? Una revisión rápida <em>antes</em> de gastar el primer euro','Une idée en tête ? Un contrôle rapide <em>avant</em> de dépenser le premier euro'],
 say:['Wazo לא מחליט בשבילך<br>הוא <em>עוזר להתחיל</em>','Wazo doesn\'t decide for you<br>It <em>helps you start</em>','Wazo no decide por ti<br>Te <em>ayuda a empezar</em>','Wazo ne décide pas à votre place<br>Il <em>aide à commencer</em>'],
 tl1:['<b>לפני שמשקיעים זמן וכסף</b>בדיקה של כמה דקות, לפני חודשים של עבודה.','<b>Before you invest time and money</b>A few minutes of checking, before months of work.','<b>Antes de invertir tiempo y dinero</b>Unos minutos de revisión, antes de meses de trabajo.','<b>Avant d\'investir temps et argent</b>Quelques minutes de vérification, avant des mois de travail.'],
