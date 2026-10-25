@@ -1,0 +1,10 @@
+html{direction:rtl}
+body{font-family:"IBM Plex Sans Hebrew","Hanken Grotesk",sans-serif;line-height:1.7}
+h1,h2,a.logo{font-family:"Miriam Libre","Hanken Grotesk",sans-serif;letter-spacing:0}
+h1{font-size:clamp(30px,5vw,42px)}
+h2{font-size:20px}
+p,li{font-size:16px;color:#B9B7B1}
+ul{padding-left:0;padding-right:20px}
+.updated{font-family:"IBM Plex Sans Hebrew",sans-serif}
+.langsw{margin-top:18px;font-size:14px;color:var(--muted)}
+.langsw a{color:var(--ink)}

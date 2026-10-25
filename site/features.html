@@ -158,6 +158,14 @@
   .pane h3{font-size:clamp(26px,3vw,40px);line-height:1.15;margin-bottom:14px}
   .pane p{font-size:18px;line-height:1.55;color:#D9D7D1;margin:0 0 20px;max-width:34ch}
   .pane .enrlink{padding-inline:0}
+  .lw{position:relative}
+  .lm{position:absolute;top:calc(100% + 8px);inset-inline-end:0;min-width:150px;background:#161212;border:1.5px solid rgba(241,240,236,.3);border-radius:18px;padding:6px;z-index:60;box-shadow:0 20px 50px rgba(0,0,0,.6)}
+  .lm[hidden]{display:none}
+  .lm button,.sl button{all:unset;cursor:pointer;display:block;width:100%;box-sizing:border-box;padding:10px 14px;border-radius:12px;font-size:15px;font-weight:600;color:#E4E2DC}
+  .lm button[aria-current="true"],.sl button[aria-current="true"]{background:#fff;color:#0E0E0E}
+  .lm button:focus-visible,.sl button:focus-visible{outline:3px solid var(--coral);outline-offset:-3px}
+  @media (hover:hover){.lm button:not([aria-current="true"]):hover,.sl button:not([aria-current="true"]):hover{background:rgba(255,255,255,.1)}}
+  .sl{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}.sl button{width:auto;border:1.3px solid rgba(241,240,236,.32);border-radius:999px}
   .pause{all:unset;cursor:pointer;justify-self:start;font-family:'IBM Plex Sans Hebrew',sans-serif;font-size:14px;padding:8px 14px;border-radius:999px;border:1.3px solid rgba(241,240,236,.4);color:#E4E2DC;margin-top:8px}
   .pause:focus-visible{outline:3px solid var(--coral);outline-offset:3px}
   .trust{position:relative;z-index:2;width:min(1240px,100% - 40px);margin:0 auto 26px;display:flex;flex-wrap:wrap;gap:10px 34px;justify-content:center;font-size:13px;color:#BDBBB5}
@@ -231,7 +239,7 @@
 
   /* ---------- mobile ---------- */
   @media (max-width:960px){
-    .links,.nav .try,.nav .pill.lang{display:none}
+    .links,.nav .try,.nav .lw{display:none}
     .burger{display:grid}
     .stage{grid-template-columns:1fr;gap:16px;padding-top:12px}
     .showgrid{grid-template-columns:1fr;gap:18px}.float{height:400px}.qs button{min-width:132px;padding:16px 16px}
@@ -262,7 +270,8 @@
       <a class="l" href="#pricing">מחירים</a>
     </nav>
     <div class="right">
-      
+      <div class="lw"><button class="pill lang" id="langBtn" type="button" aria-haspopup="true" aria-expanded="false" aria-label="שפה">עב</button>
+        <div class="lm" id="langMenu" hidden><button type="button" data-l="he" aria-current="true">עברית</button><button type="button" data-l="en">English</button><button type="button" data-l="es">Español</button><button type="button" data-l="fr">Français</button></div></div>
       <a class="cta solid try" href="/#idea">נסו עכשיו</a>
       <button class="burger" id="burger" aria-label="תפריט" aria-expanded="false" aria-controls="sheet"><i></i></button>
     </div>
@@ -275,6 +284,7 @@
   <a class="l" href="#kickoff">נקודת פתיחה</a>
   <a class="l" href="#privacy">פרטיות</a>
   <a class="l" href="#pricing">מחירים</a>
+  <div class="sl" aria-label="שפה"><button type="button" data-l="he" aria-current="true">עברית</button><button type="button" data-l="en">English</button><button type="button" data-l="es">Español</button><button type="button" data-l="fr">Français</button></div>
   <a class="cta solid" href="/#idea">נסו עכשיו, בחינם</a>
 </div>
 
@@ -371,7 +381,7 @@
 
 <footer><div class="wrap row">
   <span>Wazo · וואזו © 2026 · <a href="mailto:support@wazo.app">support@wazo.app</a></span>
-  <nav><a href="/pricing">מחירים</a><a href="/privacy">פרטיות</a><a href="/terms">תנאי שימוש</a><a href="/refunds">החזרים</a></nav>
+  <nav><a href="/he/pricing">מחירים</a><a href="/he/privacy">פרטיות</a><a href="/he/terms">תנאי שימוש</a><a href="/he/refunds">החזרים</a></nav>
 </div></footer>
 
 <div class="dock" id="dock"><a class="cta solid" href="/#idea">נסו עכשיו, בחינם</a></div>
@@ -426,6 +436,13 @@ document.querySelector(".ask").addEventListener("submit",e=>{ e.preventDefault()
 enrBtn.addEventListener("click",()=>{ if(!idea.value.trim()){ idea.focus(); return; } toApp("enrich"); });
 document.getElementById("pgo").addEventListener("click",()=>{ scrollTo({top:0,behavior:"smooth"}); idea.focus({preventScroll:true}); });
 
+/* language: Hebrew stays here; other languages open the app in that language */
+const langBtn=document.getElementById("langBtn"), langMenu=document.getElementById("langMenu");
+function langMenuSet(on){ langMenu.hidden=!on; langBtn.setAttribute("aria-expanded",on); }
+langBtn.addEventListener("click",e=>{ e.stopPropagation(); langMenuSet(langMenu.hidden); });
+addEventListener("click",()=>langMenuSet(false)); addEventListener("keydown",e=>{ if(e.key==="Escape") langMenuSet(false); });
+document.addEventListener("click",e=>{ const b=e.target.closest("[data-l]"); if(!b) return; const l=b.dataset.l; if(l==="he"){ langMenuSet(false); return; }
+  try{ localStorage.setItem("wz.lang",l); }catch(err){} location.href="/"; });
 /* nav: solid on scroll, active section, mobile sheet, sticky mobile CTA */
 const nav=document.getElementById("nav"), dock=document.getElementById("dock"), burger=document.getElementById("burger"), sheet=document.getElementById("sheet");
 const secs=[...document.querySelectorAll(".links a.l")].map(a=>({a,el:document.querySelector(a.getAttribute("href"))}));

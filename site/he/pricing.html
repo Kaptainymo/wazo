@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>מחירים · Wazo</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Miriam+Libre:wght@700&family=IBM+Plex+Sans+Hebrew:wght@400;500;600&family=Hanken+Grotesk:wght@400;600&family=IBM+Plex+Mono:wght@400;600&display=swap">
+<link rel="stylesheet" href="/legal.css">
+<link rel="stylesheet" href="/he.css">
+<style>
+  :root{--bg:#0E0E0E;--ink:#F1F0EC;--muted:#8E8C87;--line:#2A2A2A;--accent:#F07167}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:"IBM Plex Sans Hebrew","Hanken Grotesk",sans-serif;line-height:1.6;padding:64px 20px 96px}
+  .wrap{max-width:720px;margin:0 auto}
+  a.logo{font-family:"Miriam Libre",sans-serif;font-weight:600;font-size:20px;color:var(--ink);text-decoration:none}
+  h1{font-family:"Miriam Libre",sans-serif;font-weight:600;font-size:clamp(32px,6vw,48px);margin:40px 0 8px;letter-spacing:-.02em}
+  .sub{color:var(--muted);font-size:17px;margin:0 0 48px;max-width:46ch}
+  .plans{display:grid;gap:20px;grid-template-columns:1fr 1fr}
+  @media (max-width:640px){.plans{grid-template-columns:1fr}}
+  .plan{border:1px solid var(--line);border-radius:20px;padding:28px}
+  .plan h2{font-family:"Miriam Libre",sans-serif;font-size:20px;font-weight:600;margin:0 0 4px}
+  .price{font-family:"IBM Plex Mono",monospace;font-size:32px;font-weight:600;margin:16px 0}
+  .price span{font-size:14px;color:var(--muted);font-weight:400}
+  .plan.pro{border-color:var(--accent)}
+  .tag{display:inline-block;font-family:"IBM Plex Mono",monospace;font-size:11px;letter-spacing:.08em;text-transform:uppercase;background:var(--accent);color:#2B0B07;padding:4px 10px;border-radius:999px;margin-bottom:12px}
+  ul{margin:16px 0 0;padding:0 18px 0 0;color:var(--muted);font-size:15px}
+  li{margin:6px 0}
+  .faq{margin-top:64px}
+  .faq h2{font-family:"Miriam Libre",sans-serif;font-size:22px;font-weight:600;margin:0 0 20px}
+  .qa{border-top:1px solid var(--line);padding:18px 0}
+  .qa b{display:block;margin-bottom:6px}
+  .qa p{margin:0;color:var(--muted);font-size:15px}
+  footer{margin-top:64px;color:var(--muted);font-size:13px}
+  footer a{color:var(--ink)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <a class="logo" href="/features">Wazo</a>
+  <h1>מחירים</h1>
+  <p class="sub">אפשר לבדוק כמה רעיונות שרוצים, בחינם. Pro פותח את הפירוט המלא בכל אחד מהם.</p>
+
+  <div class="plans">
+    <div class="plan">
+      <h2>חינם</h2>
+      <div class="price">$0<span> / תמיד</span></div>
+      <ul>
+        <li>בדיקות רעיון בלי הגבלה</li>
+        <li>ארבעה ציונים וכמה הרעיון חזק</li>
+        <li>הערכת כסף: מחיר, מעט, סביר והרבה</li>
+        <li>הרחב לי, ואין לי רעיון</li>
+        <li>בלי הרשמה</li>
+      </ul>
+    </div>
+    <div class="plan pro">
+      <span class="tag">Pro</span>
+      <h2>Pro</h2>
+      <div class="price">$13<span> / לחודש</span></div>
+      <ul>
+        <li>כל מה שבחינם</li>
+        <li>תשובה מלאה: כדאי להתחיל, לחדד או לעצור</li>
+        <li>ניסוי מוכן לשבוע</li>
+        <li>מי כבר ניסה ומחקר מתחרים</li>
+        <li>ניתוח מעמיק: סיכונים, אסטרטגיה ואבני דרך ל־90 יום</li>
+        <li>אפשר לבטל בכל רגע</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="faq">
+    <h2>שאלות</h2>
+    <div class="qa"><b>המסלול החינמי באמת בלי הגבלה?</b><p>כן. לבדוק רעיון ולראות את הציונים והערכת הכסף לא עולה כלום ואין מכסה.</p></div>
+    <div class="qa"><b>מה Pro פותח?</b><p>את החלקים שלוקח ל־Wazo הכי הרבה זמן לחשוב עליהם: ניסוי השבוע, מחקר המתחרים וניתוח מעמיק עם סיכונים ותוכנית ל־90 יום.</p></div>
+    <div class="qa"><b>אפשר לבטל?</b><p>כן, בכל רגע. הגישה ל־Pro נשארת עד סוף התקופה ששילמתם עליה.</p></div>
+    <div class="qa"><b>איך מחייבים?</b><p>התשלום מעובד על ידי Paddle.com, שמטפלת בחיוב, בחשבוניות ובמסים כמוכרת הרשמית.</p></div>
+  </div>
+
+  <p class="langsw">עברית · <a href="/pricing" hreflang="en">English</a></p>
+  <footer>© 2026 Wazo · <a href="/features">חזרה ל־Wazo</a> · <a href="/he/terms">תנאי שימוש</a> · <a href="/he/privacy">פרטיות</a></footer>
+</div>
+</body>
+</html>
