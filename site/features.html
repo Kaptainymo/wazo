@@ -269,7 +269,7 @@
   .pin .hero{height:100%;min-height:0}
   .pin .hero .stage.simple{padding-bottom:100px}
   .hero .copy{opacity:calc(1 - var(--o)*1.5);transform:translateY(calc(var(--o)*-36px))}
-  .win{position:absolute;inset:0;background:var(--coral);color:#0A0A0A;
+  .win{position:absolute;inset:0;z-index:5;background:var(--coral);color:#0A0A0A;
     clip-path:inset(calc((1 - var(--o))*(100% - 76px)) 0 0 0 round 30px 30px 0 0);will-change:clip-path}
   .sliver{position:absolute;inset-inline:0;top:0;height:76px;display:grid;place-items:center;font-weight:600;font-size:16px;opacity:calc(1 - var(--o)*4)}
   .win-in{position:absolute;inset:0;margin:auto;max-width:100%;overflow:hidden;padding-top:calc(var(--nav) + 8px);display:flex;flex-direction:column;justify-content:center;opacity:calc((var(--o) - .45)*2.4);height:100%}
@@ -300,8 +300,28 @@
   @media (max-width:960px){
     .peek{height:380vh}
     .win .sec-h p{display:none}
-    .win .float{height:min(320px,38svh)}
-    .win .float .card,.win .stk{width:min(220px,64%)}
+    /* softer corners on phones */
+    .ask{border-radius:20px}.tabs{border-radius:999px}
+    .win{clip-path:inset(calc((1 - var(--o))*(100% - 76px)) 0 0 0 round 16px 16px 0 0)}
+    .card,.stk{border-radius:18px}.rc,.pcard,.tier,.promise{border-radius:18px}
+    .qs{border-radius:12px}.win .card{border-radius:16px}.win .stk{border-radius:16px}
+    .win-in{justify-content:flex-start;padding-bottom:20px}
+    .win .showgrid{flex:1;min-height:0;display:flex;flex-direction:column;align-items:stretch;gap:14px}
+    .win .float{flex:1 1 auto;height:auto;min-height:200px}
+    .win .float .card,.win .stk{height:100%;aspect-ratio:auto;width:min(250px,72vw)}
+    .win .float{padding-bottom:14px}.win .float .card,.win .float .stk{height:calc(100% - 14px)}
+    .win .stk.s1{transform:translate(-14px,10px)}.win .stk.s2{transform:translate(-28px,20px)}
+    [dir="ltr"] .win .stk.s1{transform:translate(14px,10px)}[dir="ltr"] .win .stk.s2{transform:translate(28px,20px)}
+    .win .sec-h h2{font-size:clamp(22px,6.4vw,28px)}
+    .win .card{padding:16px;gap:6px;overflow:hidden}
+    .win .card .big{font-size:34px;margin-top:0}
+    .win .card .cap{display:none}
+    .win .card .rows{font-size:12.5px;gap:4px;margin-top:2px}
+    .win .card .rows div{padding-top:6px}
+    .win .pane{flex:none}
+    .win .pane h3{font-size:24px;margin-bottom:8px}
+    .win .qs{margin-bottom:14px}
+    .win .sec-h{margin-bottom:12px}
     .win .pane p{font-size:15px;margin-bottom:12px}
     .win .qs button{min-width:120px;padding:14px 14px}
     .pin .hero .stage.simple{padding:8px 0 24px}
