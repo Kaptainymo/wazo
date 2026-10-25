@@ -271,13 +271,6 @@ textarea#idea:focus{outline:none}
 .cdots button+button{border-inline-start:1.5px solid color-mix(in srgb,currentColor 24%,transparent)}
 .cdots button i{position:absolute;inset:0;background:var(--red);opacity:.5;transform:scaleX(0);transform-origin:left center;transition:transform 300ms var(--ease)}
 [dir="rtl"] .cdots button i{transform-origin:right center}
-.pseg{display:flex;border:1.5px solid color-mix(in srgb,currentColor 24%,transparent);border-radius:14px;overflow:hidden;margin:12px 0 6px}
-.pseg span{position:relative;flex:1;height:40px;display:grid;place-items:center;font-family:var(--f-mono);font-size:12px;letter-spacing:.08em;opacity:.7;overflow:hidden}
-.pseg span+span{border-inline-start:1.5px solid color-mix(in srgb,currentColor 24%,transparent)}
-.pseg i{position:absolute;inset:0;background:var(--red);opacity:.5;transform:scaleX(0);transform-origin:left center;transition:transform 220ms linear}
-[dir="rtl"] .pseg i{transform-origin:right center}
-.pseg b{position:relative;font-weight:inherit}
-.pseg span.on{opacity:1;font-weight:700}
 .cdots button.seen i{transform:scaleX(1);opacity:.22}
 .cdots button[aria-current="true"]{opacity:1;font-weight:700}
 .cdots button[aria-current="true"] i{transform:scaleX(1);opacity:.5}
@@ -1485,8 +1478,7 @@ function printing(idea){
   $("#stage").innerHTML=`<article class="rc">
     <div class="rc-meta"><span>WAZO</span><span id="dPct">0%</span></div>
     <h2 class="rc-idea">${esc(idea)}</h2>
-    <div class="draw-step" id="dStep">${esc(L.steps[0])}</div>
-    <div class="pseg" id="dSeg" role="progressbar" aria-valuemin="0" aria-valuemax="100">${[1,2,3,4,5].map(n=>`<span><i></i><b>0${n}</b></span>`).join("")}</div>
+    <div class="hload" role="status" aria-live="polite"><b id="dStep">${esc(L.steps[0])}</b><div class="bar"></div></div>
     ${keys.map((k,i)=>`<section class="rrow"><div class="rh"><span class="rn">0${i+1}</span><span class="rl"><b>${esc(L.sc[k])}</b></span><span class="rv d-roll">?</span></div></section>`).join("")}
     <section class="rrow final"><div class="rh"><span class="rn">05</span><span class="rl"><b>${esc(t("rowsTotal"))}</b></span><span class="rv word" id="dReel">${esc(L.vWord.PIVOT)}</span></div></section>
   </article>`;
@@ -1495,9 +1487,7 @@ function printing(idea){
   const t0=performance.now(); let tick=0, vi=0;
   const frame=()=>{
     const sec=(performance.now()-t0)/1000, pct=Math.round(92*(1-Math.exp(-sec/20)));
-    const seg=$("#dSeg"); if(!seg) return;
-    seg.setAttribute("aria-valuenow",pct); $("#dPct").textContent=pct+"%";
-    const f=pct/92*5; seg.querySelectorAll("span").forEach((el,n)=>{ const v=Math.max(0,Math.min(1,f-n)); el.firstChild.style.transform=`scaleX(${v})`; el.classList.toggle("on",v>0&&v<1); });
+    if(!$("#dStep")) return; $("#dPct").textContent=pct+"%";
     const at=STEP_AT.filter(x=>pct>=x).length-1; $("#dStep").textContent=L.steps[Math.max(0,at)];
     if (!calm()){ tick++;
       document.querySelectorAll(".d-roll").forEach(el=>{ el.textContent=1+Math.floor(Math.random()*10); });
@@ -1508,8 +1498,8 @@ function printing(idea){
 function land(b){
   clearInterval(S.timer);
   return new Promise(res=>{
-    if (!$("#dBar")) return res();
-    $("#dBar").style.width="100%"; $("#dPct").textContent="100%";
+    if (!$("#dStep")) return res();
+    $("#dPct").textContent="100%";
     document.querySelectorAll(".d-roll").forEach((el,i)=>{ el.textContent=b.scores[i]?.score??"?"; });
     $("#dReel").textContent="?";
     setTimeout(res, calm()?250:1100);
