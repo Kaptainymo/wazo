@@ -265,8 +265,11 @@ textarea#idea:focus{outline:none}
 .cc-big.lk{margin-top:auto;font-size:56px;opacity:.5}
 .cc-cap{font-size:14px;opacity:.7;margin-top:-4px}
 .cc{position:relative}
-.more-pill{position:absolute;inset-inline:0;margin-inline:auto;width:max-content;bottom:12px;padding:7px 14px;border-radius:999px;background:var(--red);color:#0A0A0A;font-size:13px;font-weight:600;line-height:1;opacity:0;transform:translateY(6px);transition:opacity .2s var(--ease),transform .2s var(--ease);pointer-events:none;box-shadow:0 6px 18px rgba(0,0,0,.35)}
-.more-pill.on{opacity:1;transform:none}
+.more-pill{position:absolute;inset-inline:0;margin-inline:auto;width:max-content;bottom:12px;padding:7px 14px;border-radius:999px;background:var(--red);color:#0A0A0A;font-size:13px;font-weight:600;line-height:1;opacity:0;transform:translateY(6px);transition:opacity .2s var(--ease),transform .2s var(--ease);pointer-events:none;border:0;cursor:pointer;font-family:inherit;box-shadow:0 6px 18px rgba(0,0,0,.35)}
+.more-pill.on{opacity:1;transform:none;pointer-events:auto}
+@media (min-width:900px){.more-pill{display:none}}
+@media (hover:hover){.more-pill.on:hover{filter:brightness(1.06)}}
+.more-pill:active{transform:scale(.97)}
 @media (prefers-reduced-motion:reduce){.more-pill{transition:opacity .15s;transform:none}}
 .cc-body{flex:1;min-height:0;overflow-y:auto;overscroll-behavior:contain;display:grid;gap:10px;align-content:start;font-size:14.5px;line-height:1.5;padding-bottom:4px;}
 .cc-cta{margin-top:auto}
@@ -1034,7 +1037,7 @@ const ic=(n,cls="")=>`<svg class="ic ic-${n} ${cls}" viewBox="0 0 24 24" aria-hi
 function hydrateIcons(root=document){ root.querySelectorAll("[data-ic]").forEach(el=>{ if(!el.firstElementChild) el.innerHTML=ic(el.dataset.ic); }); }
 const VCLS = v => ({BUILD:"build",PIVOT:"pivot",KILL:"kill"}[v]||"pivot");
 Object.assign(T.he,{enrBtn:"הרחב לי", enrT:"הרעיון אחרי הרחבה", enrUse:"השתמש בזה", enrUseGo:"אשר ובדוק את הרעיון", enrClose:"סגור", enrLoad:"מרחיב את הרעיון...", enrNeed:"כתבו קודם רעיון קצר, ואז אוכל להרחיב אותו.", noIdeaBtn:"אין לי רעיון", noIdeaT:"מה מעניין אתכם?", noIdeaPh:"למשל: ילדים, בישול, מחשבים, לעזור לאנשים", noIdeaGo:"הציעו לי רעיונות", noIdeaLoad:"חושב על רעיונות...", noIdeaPick:"לחצו על רעיון כדי להתחיל ממנו", helpNote:"ההרחבה נכתבת על ידי בינה מלאכותית. אפשר לערוך אותה לפני הבדיקה."});
-Object.assign(T.he,{moreBelow:"עוד למטה"}); Object.assign(T.en,{moreBelow:"More below"}); Object.assign(T.es,{moreBelow:"Hay más abajo"}); Object.assign(T.fr,{moreBelow:"Plus en dessous"});
+Object.assign(T.he,{moreBelow:"הצג עוד"}); Object.assign(T.en,{moreBelow:"Show more"}); Object.assign(T.es,{moreBelow:"Mostrar más"}); Object.assign(T.fr,{moreBelow:"Afficher plus"});
 Object.assign(T.he,{testTag:"גרסת בדיקה · כל התכונות פתוחות · בלי תשלום", nextCard:"הבא", remind:"הזכר לי בעוד 7 ימים", remindTitle:"Wazo: תוצאות מבחן 7 הימים"});
 Object.assign(T.en,{enrBtn:"Expand it for me", enrT:"Your idea, expanded", enrUse:"Use this", enrUseGo:"Use this and check it", enrClose:"Close", enrLoad:"Expanding your idea...", enrNeed:"Write a short idea first, then I can expand it.", noIdeaBtn:"I have no idea", noIdeaT:"What are you interested in?", noIdeaPh:"e.g. kids, cooking, computers, helping people", noIdeaGo:"Suggest ideas", noIdeaLoad:"Thinking of ideas...", noIdeaPick:"Tap an idea to start from it", helpNote:"The expansion is written by AI. You can edit it before the check."});
 Object.assign(T.en,{testTag:"Test version · every feature open · no payment", nextCard:"Next", remind:"Remind me in 7 days", remindTitle:"Wazo: 7-day test result"});
@@ -1666,12 +1669,14 @@ $("#idea").addEventListener("input", fitIdea);
 /* ---------- "more below" hint on result cards that scroll inside ---------- */
 let moreRaf=0;
 function updMore(){ moreRaf=0; document.querySelectorAll("#stage .cc").forEach(cc=>{ const b=cc.querySelector(".cc-body"); if(!b) return; let p=cc.querySelector(".more-pill");
-    if(!p){ p=document.createElement("span"); p.className="more-pill"; p.setAttribute("aria-hidden","true"); cc.appendChild(p); }
-    p.textContent=t("moreBelow"); p.classList.toggle("on",b.scrollHeight-b.clientHeight-b.scrollTop>6); }); moreMo.takeRecords(); }
+    if(!p){ p=document.createElement("button"); p.type="button"; p.className="more-pill"; cc.appendChild(p); }
+    p.textContent=t("moreBelow"); const more=b.scrollHeight-b.clientHeight-b.scrollTop>6; p.classList.toggle("on",more); p.tabIndex=more?0:-1; }); moreMo.takeRecords(); }
 const moreMo=new MutationObserver(()=>{ if(!moreRaf) moreRaf=requestAnimationFrame(updMore); });
 moreMo.observe($("#stage"),{childList:true,subtree:true});
 document.addEventListener("scroll",e=>{ if(e.target&&e.target.classList&&e.target.classList.contains("cc-body")&&!moreRaf) moreRaf=requestAnimationFrame(updMore); },true);
 addEventListener("resize",()=>{ if(!moreRaf) moreRaf=requestAnimationFrame(updMore); });
+/* tapping the pill scrolls the card down by most of a screenful */
+$("#stage").addEventListener("click",e=>{ const p=e.target.closest(".more-pill"); if(!p) return; const b=p.parentElement.querySelector(".cc-body"); if(b) b.scrollBy({top:Math.round(b.clientHeight*.8),behavior:calm()?"auto":"smooth"}); });
 
 /* ---------- examples rail ---------- */
 function renderRail(){
