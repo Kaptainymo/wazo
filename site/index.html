@@ -267,6 +267,10 @@ textarea#idea:focus{outline:none}
 .cc{position:relative}
 .more-pill{position:absolute;inset-inline:0;margin-inline:auto;width:max-content;bottom:12px;padding:7px 14px;border-radius:999px;background:var(--red);color:#0A0A0A;font-size:13px;font-weight:600;line-height:1;opacity:0;transform:translateY(6px);transition:opacity .2s var(--ease),transform .2s var(--ease);pointer-events:none;border:0;cursor:pointer;font-family:inherit;box-shadow:0 6px 18px rgba(0,0,0,.35)}
 .more-pill.on{opacity:1;transform:none;pointer-events:auto}
+#plansBox:focus{outline:none}
+#plansBox.flash{animation:plansFlash 1.4s var(--ease)}
+@keyframes plansFlash{0%{box-shadow:0 0 0 0 rgba(240,113,103,.0);background:rgba(240,113,103,.0)}25%{box-shadow:0 0 0 6px rgba(240,113,103,.55)}100%{box-shadow:0 0 0 0 rgba(240,113,103,0)}}
+@media (prefers-reduced-motion:reduce){#plansBox.flash{animation:none}}
 .sheet-more{bottom:calc(84px + env(safe-area-inset-bottom,0px))}
 @media (min-width:700px){.sheet-more{display:none}}
 @media (min-width:900px){.more-pill{display:none}}
@@ -1332,6 +1336,10 @@ async function openDeep(b){
     const token=await humanToken();
     const r=await api("deepen",{id:b.sid,email:S.me.email||"",lang:S.lang,token});
     if (r.status===200 && r.data.deep){ b.deep=r.data.deep; updateMine(b); showDeep(b); }
+    else if (r.data&&r.data.code==="need_pro"){
+      /* the plans live on the page under the buttons: close the sheet and take the user there instead of pointing at what it covers */
+      d.close(); let pb=$("#plansBox"); if(!pb){ $("#cardacts").insertAdjacentHTML("afterend",`<div id="plansBox">${plansHTML()}</div>`); pb=$("#plansBox"); }
+      pb.scrollIntoView({behavior:calm()?"auto":"smooth",block:"start"}); pb.classList.remove("flash"); void pb.offsetWidth; pb.classList.add("flash"); pb.setAttribute("tabindex","-1"); pb.focus({preventScroll:true}); }
     else { body.innerHTML=`<p class="err">${esc(errCopy(r.data&&r.data.code))}</p>`; }
   }catch(e){ body.innerHTML=`<p class="err">${esc(t("errGeneric"))}</p>`; }
 }
