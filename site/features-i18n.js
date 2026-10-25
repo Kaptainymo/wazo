@@ -57,7 +57,7 @@ const D={
 "מחליטים מה הלאה":["You decide what's next","Decides qué sigue","Vous décidez de la suite"],
 "תשובה כנה: כדאי להתחיל, כדאי לחדד, או כדאי לעצור כאן, ומה עושים במקום.":["An honest answer: worth starting, worth sharpening, or better to stop here, and what to do instead.","Una respuesta honesta: vale la pena empezar, conviene afinar o es mejor parar aquí, y qué hacer en su lugar.","Une réponse honnête : ça vaut le coup, il faut affiner, ou mieux vaut s'arrêter là, et que faire à la place."],
 "לכל מי שיש משהו בראש":["For anyone with something on their mind","Para cualquiera que tenga algo en mente","Pour toute personne qui a quelque chose en tête"],
-"לא צריך להיות יזם או להבין בעסקים. כתבו מה שבא לכם, בשפה שלכם:":["You don't need to be an entrepreneur or understand business. Write whatever comes to mind, in your own words:","No hace falta ser emprendedor ni entender de negocios. Escribe lo que se te ocurra, con tus palabras:","Pas besoin d'être entrepreneur ni de s'y connaître en affaires. Écrivez ce qui vous passe par la tête, avec vos mots :"],
+"לא צריך להיות יזם או להבין בעסקים. כתבו בשפה שלכם לטובת:":["You don't need to be an entrepreneur or understand business. Write in your own words, for:","No hace falta ser emprendedor ni entender de negocios. Escribe con tus palabras, para:","Pas besoin d'être entrepreneur ni de s'y connaître en affaires. Écrivez avec vos mots, pour :"],
 "עסק קטן":["Small business","Negocio pequeño","Petite entreprise"],
 "עבודה חדשה והסבה":["A new job or career change","Un nuevo trabajo o cambio de carrera","Un nouveau travail ou une reconversion"],
 "ללמד משהו":["Teach something","Enseñar algo","Enseigner quelque chose"],
