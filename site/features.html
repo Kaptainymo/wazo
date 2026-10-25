@@ -16,10 +16,10 @@
     --ease-out:cubic-bezier(0.22,1,0.36,1);--ease-in:cubic-bezier(0.4,0,1,1);--ease-in-out:cubic-bezier(0.65,0,0.35,1);
     --dist-sm:8px;--dist-md:16px;--scale-press:0.97}
   @media (prefers-reduced-motion:reduce){:root{--dist-sm:0px;--dist-md:0px;--scale-press:1;--motion-moderate:150ms;--motion-emphasized:150ms}}
-  :root{--ink:#F1F0EC;--muted:#A8A6A0;--line:#2A2A2A;--coral:#F07167;--teal:#A8DADC;--ivory:#F1FAEE;--card:#1C1C1C;--nav:64px;color-scheme:dark}
+  :root{--bg:#080808;--ink:#F1F0EC;--muted:#A8A6A0;--line:#2A2A2A;--coral:#F07167;--lime:#F07167;--teal:#A8DADC;--ivory:#F1FAEE;--card:#1C1C1C;--nav:64px;color-scheme:dark}
   *{box-sizing:border-box}
   html{scroll-behavior:smooth;scroll-padding-top:calc(var(--nav) + 12px)}
-  html,body{margin:0;background:#080808;color:var(--ink);font-family:"Hanken Grotesk","IBM Plex Sans Hebrew",system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+  html,body{margin:0;background:var(--bg);color:var(--ink);font-family:"Hanken Grotesk","IBM Plex Sans Hebrew",system-ui,sans-serif;-webkit-font-smoothing:antialiased}
   a{color:inherit;text-decoration:none}
   h1,h2,h3{text-wrap:balance}
   p,li{text-wrap:pretty}
@@ -66,12 +66,8 @@
   .sheet .cta{margin-top:auto;width:100%}
 
   /* ---------- hero ---------- */
-  .hero{position:relative;min-height:100dvh;overflow:hidden;display:flex;flex-direction:column;padding-top:var(--nav);
-    background:
-      radial-gradient(58% 70% at 30% 46%,rgba(240,113,103,.6) 0%,rgba(150,48,60,.36) 36%,rgba(8,8,8,0) 70%),
-      radial-gradient(40% 50% at 8% 8%,rgba(94,24,48,.55),rgba(8,8,8,0) 70%),
-      linear-gradient(180deg,#120a0c 0%,#0a0708 60%,#080808 100%)}
-  .grain{position:absolute;inset:0;pointer-events:none;opacity:.09;mix-blend-mode:overlay;background-size:160px 160px;
+  .hero{position:relative;min-height:100dvh;overflow:hidden;display:flex;flex-direction:column;padding-top:var(--nav);background:var(--bg)}
+  .grain{display:none;position:absolute;inset:0;pointer-events:none;opacity:.09;mix-blend-mode:overlay;background-size:160px 160px;
     background-image:url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="160" height="160"><filter id="n"><feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="2" stitchTiles="stitch"/><feColorMatrix type="saturate" values="0"/></filter><rect width="100%25" height="100%25" filter="url(%23n)"/></svg>')}
   html,body{overflow-x:clip}
   .show{overflow:hidden}
@@ -93,22 +89,27 @@
   .lead{font-size:clamp(18px,1.6vw,22px);line-height:1.55;color:#D9D7D1;max-width:40ch;margin:0 0 28px}
   .btns{display:flex;gap:12px;flex-wrap:wrap}
   .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
-  .ask{max-width:560px;background:linear-gradient(180deg,rgba(26,18,20,.9),rgba(10,8,9,.88));border:2px solid rgba(255,255,255,.82);border-radius:28px;padding:16px 16px 14px;backdrop-filter:blur(12px);box-shadow:0 0 0 7px rgba(240,113,103,.2),0 30px 80px rgba(0,0,0,.6);transition:border-color var(--motion-base) var(--ease-out),box-shadow var(--motion-base) var(--ease-out)}
+  .ask{max-width:560px;background:var(--card);border:2px solid var(--ink);border-radius:28px;padding:16px 16px 14px;backdrop-filter:blur(12px);box-shadow:0 0 0 7px rgba(240,113,103,.2),0 30px 80px rgba(0,0,0,.6);transition:border-color var(--motion-base) var(--ease-out),box-shadow var(--motion-base) var(--ease-out)}
   .ask:focus-within{border-color:#fff;box-shadow:0 0 0 7px rgba(240,113,103,.42),0 30px 80px rgba(0,0,0,.6)}
+  .askrow{border-top:1px solid rgba(255,255,255,.1);padding-top:12px;margin-top:10px}
   .ask .go[aria-disabled="true"]{background:rgba(255,255,255,.12);color:rgba(241,240,236,.5);cursor:default}
   .ask .go[aria-disabled="true"]:hover{background:rgba(255,255,255,.12)}
   .enrlink[aria-disabled="true"]{opacity:.45;cursor:default;text-decoration-color:transparent}
   .ask .go.ready{animation:ready var(--motion-emphasized) var(--ease-out)}
   @keyframes ready{from{box-shadow:0 0 0 0 rgba(240,113,103,.7)}to{box-shadow:0 0 0 14px rgba(240,113,103,0)}}
   .ask textarea{all:unset;box-sizing:border-box;display:block;width:100%;min-height:56px;font-size:18px;line-height:1.45;color:#fff;resize:none}
-  .ask textarea::placeholder{color:rgba(241,240,236,.5)}
+  .ask textarea::placeholder{color:rgba(241,240,236,.58)}
   .askrow{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:8px}
   .hint{font-size:12.5px;color:#BDBBB5}
   .ask .go{height:48px;padding:0 22px;font-size:16px;border-radius:999px;white-space:nowrap}
-  .tabs{display:flex;gap:6px;margin-bottom:10px;background:rgba(255,255,255,.07);border-radius:999px;padding:4px}
+  .tabs{display:flex;gap:6px;margin-bottom:12px;background:var(--bg);border:1px solid rgba(255,255,255,.1);border-radius:999px;padding:4px}
   .tabs button{all:unset;cursor:pointer;flex:1;text-align:center;padding:10px 8px;border-radius:999px;font-size:16px;font-weight:600;color:#CFCDC7}
-  .tabs button{transition:background-color var(--motion-quick) var(--ease-out),color var(--motion-quick) var(--ease-out),transform var(--motion-micro) var(--ease-out)}
-  .tabs button[aria-selected="true"]{background:#fff;color:#0E0E0E}
+  .tabs button{transition:background-color var(--motion-quick) var(--ease-out),color var(--motion-base) var(--ease-out),transform var(--motion-micro) var(--ease-out)}
+  .tabs{position:relative;isolation:isolate}
+  .tabs::before{content:"";position:absolute;z-index:-1;top:4px;bottom:4px;inset-inline-start:4px;width:calc((100% - 14px)/2);border-radius:999px;background:var(--coral);transform:translateX(0);transition:transform var(--motion-emphasized) var(--ease-out)}
+  .tabs[data-sel="none"]::before{transform:translateX(calc(-1*(100% + 6px)))}
+  [dir="ltr"] .tabs[data-sel="none"]::before{transform:translateX(calc(100% + 6px))}
+  .tabs button[aria-selected="true"]{background:transparent;color:#0E0E0E}
   .ask .swap{animation:swapIn var(--motion-base) var(--ease-out) both}
   @keyframes swapIn{from{opacity:.15}to{opacity:1}}
   .tabs button:focus-visible{outline:3px solid var(--coral);outline-offset:2px}
@@ -251,7 +252,6 @@
     .showgrid{grid-template-columns:1fr;gap:18px}.float{height:400px}.qs button{min-width:132px;padding:16px 16px}
     .hero{min-height:auto}.stage.simple{padding:12px 0 44px}
     .hero h1{font-size:clamp(34px,10.2vw,54px);line-height:1.06}
-    .hero{background:radial-gradient(90% 40% at 50% 60%,rgba(240,113,103,.55) 0%,rgba(150,48,60,.3) 40%,rgba(8,8,8,0) 72%),linear-gradient(180deg,#120a0c 0%,#0a0708 60%,#080808 100%)}
     .askrow{flex-direction:column;align-items:stretch}.acts{flex-direction:column-reverse;align-items:stretch}.ask .go,.ask .enr{width:100%}.hint{text-align:center;order:2}.enra .cta{flex:1 1 100%}
     section.blk{padding:60px 0}
     .kick{grid-template-columns:1fr}
@@ -260,7 +260,49 @@
     .dock.show{transform:none}
     .dock .cta{flex:1;height:54px;box-shadow:0 12px 40px rgba(0,0,0,.5)}
   }
-  @media (prefers-reduced-motion:reduce){.card,.face{animation:none}html{scroll-behavior:auto}}
+
+  /* ---------- peek: the hero opens into the answer as you scroll ---------- */
+  .peek{position:relative;height:420vh;--o:0}
+  .pin{position:sticky;top:0;height:100vh;height:100svh;overflow:hidden;overflow:clip}
+  .pin .hero{height:100%;min-height:0}
+  .hero .copy{opacity:calc(1 - var(--o)*1.5);transform:translateY(calc(var(--o)*-36px))}
+  .win{position:absolute;inset:0;background:var(--coral);color:#0A0A0A;
+    clip-path:inset(calc((1 - var(--o))*(100% - 76px)) 0 0 0 round 30px 30px 0 0);will-change:clip-path}
+  .sliver{position:absolute;inset-inline:0;top:0;height:76px;display:grid;place-items:center;font-weight:600;font-size:16px;opacity:calc(1 - var(--o)*4)}
+  .win-in{position:absolute;inset:0;margin:auto;max-width:100%;overflow:hidden;padding-top:calc(var(--nav) + 8px);display:flex;flex-direction:column;justify-content:center;opacity:calc((var(--o) - .45)*2.4);height:100%}
+  .win .sec-h{margin-bottom:18px}.win .sec-h .eyebrow{color:rgba(8,8,8,.86)}
+  .win .sec-h h2{color:#0A0A0A;font-size:clamp(28px,3.6vw,52px);line-height:1.04}
+  .win .qs{border-color:rgba(8,8,8,.3);margin-bottom:22px}
+  .win .qs button{color:rgba(8,8,8,.82)}
+  .win .qs button+button{border-inline-start-color:rgba(8,8,8,.3)}
+  .win .qs button[aria-selected="true"]{color:#0A0A0A;background:rgba(8,8,8,.08)}
+  .win .qs button .fill{background:rgba(8,8,8,.18)}
+  .win .qs button[aria-selected="true"] .fill{animation:none}
+  .win .pane h3{color:#0A0A0A}.win .pane p{color:rgba(8,8,8,.88)}
+  .win .enrlink{color:#0A0A0A}
+  .win .float{height:min(380px,44svh)}
+  .win .card:not(.final){color:var(--ink)}
+  .win :focus-visible{outline-color:#0A0A0A}
+  .skip{position:absolute;inset-inline-start:12px;top:-60px;z-index:100;background:#fff;color:#0E0E0E;padding:12px 18px;border-radius:999px;font-weight:600}
+  .skip:focus{top:10px}
+  main:focus{outline:none}
+  .win .float .card{box-shadow:0 30px 70px rgba(8,8,8,.4)}
+  .win .stk{background:transparent;border:1.5px solid rgba(8,8,8,.75);box-shadow:none;color:rgba(8,8,8,.6)}
+  .win .stk.s2{background:transparent;border-color:rgba(8,8,8,.45)}
+  #cards{padding-top:70px}
+  .peekopen .dock{display:none}
+  .peek.flat{height:auto}.peek.flat .pin{position:relative;height:auto;overflow:visible}.peek.flat .hero{height:auto;min-height:84dvh}
+  .peek.flat .win{position:relative;clip-path:none;padding:70px 0 60px}.peek.flat .win-in{position:relative;opacity:1;height:auto;padding-top:0}.peek.flat .sliver{display:none}
+  .peek.flat .hero .copy{opacity:1;transform:none}
+  @media (max-width:960px){
+    .peek{height:380vh}
+    .win .sec-h p{display:none}
+    .win .float{height:min(290px,34svh)}
+    .win .pane p{font-size:15px;margin-bottom:12px}
+    .win .qs button{min-width:120px;padding:14px 14px}
+    .pin .hero .stage.simple{padding:8px 0 24px}
+  }
+  @media (prefers-reduced-motion:reduce){.tabs::before{transition:none}.card,.face{animation:none}html{scroll-behavior:auto}}
 </style>
 </head>
 <body>
@@ -276,7 +318,7 @@
       <a class="l" href="#pricing">מחירים</a>
     </nav>
     <div class="right">
-      <div class="lw"><button class="pill lang" id="langBtn" type="button" aria-haspopup="true" aria-expanded="false" aria-label="שפה">עב</button>
+      <div class="lw"><button class="pill lang" id="langBtn" type="button" aria-controls="langMenu" aria-expanded="false" aria-label="שפה">עב</button>
         <div class="lm" id="langMenu" hidden><button type="button" data-l="he" aria-current="true">עברית</button><button type="button" data-l="en">English</button><button type="button" data-l="es">Español</button><button type="button" data-l="fr">Français</button></div></div>
       <a class="cta solid try" href="/#idea">נסו עכשיו</a>
       <button class="burger" id="burger" aria-label="תפריט" aria-expanded="false" aria-controls="sheet"><i></i></button>
@@ -294,30 +336,38 @@
   <a class="cta solid" href="/#idea">נסו עכשיו, בחינם</a>
 </div>
 
-<main id="top">
-  <section class="hero">
+<a class="skip" href="#top">דלג לתוכן</a>
+<main id="top" tabindex="-1">
+  <section class="peek" id="peek"><span id="what" style="position:absolute;top:0"></span><div class="pin">
+  <div class="hero">
     <div class="grain"></div>
     <div class="stage simple">
       <div class="copy">
-        <h1 data-i="h1">רעיון בראש? נבדוק אותו יחד, <em>לפני</em> שמוציאים את השקל הראשון</h1>
+        <h1 data-i="h1">רעיון בראש? נבדוק יחד? <em>לפני</em> שמוציאים את השקל הראשון</h1>
         <p class="lead">כתבו אותו בכמה מילים וקבלו תשובה בדקות. בלי הרשמה ובלי עלות.</p>
         <form class="ask" onsubmit="event.preventDefault()">
-          <div class="tabs" role="tablist" aria-label="איך מתחילים"><button type="button" role="tab" id="tabHave" aria-selected="true">יש לי רעיון</button><button type="button" role="tab" id="tabNone" aria-selected="false">אין לי רעיון</button></div>
+          <div class="tabs" role="tablist" aria-label="איך מתחילים"><button type="button" role="tab" id="tabHave" aria-selected="true" aria-controls="idea">יש לי רעיון</button><button type="button" role="tab" id="tabNone" aria-selected="false" aria-controls="idea">אין לי רעיון</button></div>
           <label class="sr" for="idea">הרעיון שלך</label>
           <textarea id="idea" rows="2" placeholder="כתבו כאן את הרעיון, בכמה מילים. למשל: לפתוח דוכן קפה בשוק."></textarea>
           <div class="askrow"><span class="hint" id="hint" data-u>מה שכתבתם נשאר שלכם.</span><span class="acts"><button class="enrlink" type="button" id="enrich">הרחב לי</button><button class="cta solid go" id="go" type="submit"><span id="gotxt" data-u>בדקו את הרעיון</span></button></span></div>
         </form>
       </div>
     </div>
-  </section>
-
-  <section class="blk show" id="what"><div class="wrap">
-    <div class="sec-h"><span class="eyebrow">מה תקבלו</span><h2>תשובה ברורה, בחמישה כרטיסים</h2></div>
-    <div class="qs" id="qs" role="tablist" aria-label="חמשת הכרטיסים"></div>
-    <div class="showgrid">
+    </div>
+    <div class="win" id="win" role="region" aria-label="מה תקבלו">
+      <div class="sliver" aria-hidden="true">גללו להציץ פנימה</div>
+      <div class="win-in wrap">
+    <div class="sec-h"><span class="eyebrow">מה תקבלו</span><h2>חמישה כרטיסים. כל אחד עונה על שאלה אחת פשוטה</h2></div>
+    <div class="qs" id="qs" role="tablist" aria-label="חמשת הכרטיסים" aria-controls="panelCards"></div>
+    <div class="showgrid" id="panelCards" role="tabpanel">
       <div class="float" aria-live="polite"><div class="stk s2" id="s2"></div><div class="stk s1" id="s1"></div><div class="card" id="card"></div></div>
       <div class="pane" id="pane"></div>
     </div>
+      </div>
+    </div>
+  </div></section>
+
+  <section class="blk" id="cards"><div class="wrap">
     <div class="cards" style="margin-top:56px">
       <article class="rc"><div class="top mono"><span>01 · כמה חזק</span></div><div class="big">8 6 5 7</div><h3>כמה הרעיון חזק</h3><p>ארבע נקודות פשוטות: האם הבעיה אמיתית, יש מי שרוצה, כמה מתחרים, והאם ישלמו.</p><span class="tag">חינם</span></article>
       <article class="rc"><div class="top mono"><span>02 · הכסף</span></div><div class="big">$12,000</div><h3>כמה אפשר להרוויח</h3><p>מחיר שאפשר לשנות, שלושה תרחישים, ומה יכול לקלקל את החישוב.</p><span class="tag">חינם</span></article>
@@ -396,20 +446,17 @@
 <script>
 WZI.init();
 let faces=WZI.faces();
-const qs=document.getElementById("qs"), card=document.getElementById("card"), pane=document.getElementById("pane"); let i=0, paused=false;
+const qs=document.getElementById("qs"), card=document.getElementById("card"), pane=document.getElementById("pane"); let i=0;
 const calm=matchMedia("(prefers-reduced-motion: reduce)").matches; if(calm) qs.classList.add("still");
 qs.innerHTML=faces.map((f,k)=>`<button type="button" role="tab" data-k="${k}"><i class="fill"></i><span>${f.top[0]}</span></button>`).join("");
-pane.innerHTML=`<h3 id="pq"></h3><p id="pd"></p><button type="button" class="enrlink" id="pgo">${WZI.u("tryIdea")}</button><br><button type="button" class="pause" id="pb">${WZI.u("pause")}</button>`;
-const pq=document.getElementById("pq"), pd=document.getElementById("pd"), pb=document.getElementById("pb");
+pane.innerHTML=`<h3 id="pq"></h3><p id="pd"></p><button type="button" class="enrlink" id="pgo">${WZI.u("tryIdea")}</button>`;
+const pq=document.getElementById("pq"), pd=document.getElementById("pd");
 function show(k){ i=k; const f=faces[k]; const btns=[...qs.querySelectorAll("button")];
-  btns.forEach((b,n)=>{ b.setAttribute("aria-selected",n===k); const fl=b.firstChild; fl.style.animation="none"; if(n===k){ void fl.offsetWidth; fl.style.animation=""; } });
+  btns.forEach((b,n)=>b.setAttribute("aria-selected",n===k));
   const cur=btns[k]; qs.scrollTo({left:cur.offsetLeft-(qs.clientWidth-cur.offsetWidth)/2,behavior:calm?"auto":"smooth"});
-  card.classList.toggle("final",!!f.final); [1,2].forEach(n=>{ document.getElementById("s"+n).textContent=faces[(k+n)%faces.length].top[0]; }); pq.textContent=f.q; pd.textContent=f.d;
+  card.classList.toggle("final",!!f.final);  pq.textContent=f.q; pd.textContent=f.d;
   card.innerHTML=`<div class="face"><div class="top"><span>${f.top[0]}</span><span>${f.top[1]}</span></div><div class="big">${f.big}</div><div class="cap">${f.cap}</div><div class="rows">${f.rows.map(r=>`<div${r[2]?' class="tipr"':""}><span>${r[0]}</span><b>${r[1]}</b></div>`).join("")}</div></div>`; }
-/* the progress fill finishing is what moves to the next card, so pausing the fill pauses the show */
-qs.addEventListener("animationend",e=>{ if(e.animationName==="fill" && !paused) show((i+1)%faces.length); });
-qs.addEventListener("click",e=>{ const b=e.target.closest("[data-k]"); if(b) show(+b.dataset.k); });
-pb.addEventListener("click",()=>{ paused=!paused; pb.textContent=paused?WZI.u("resume"):WZI.u("pause"); qs.style.setProperty("--run",paused?"paused":"running"); card.style.animationPlayState=paused?"paused":"running"; });
+qs.addEventListener("click",e=>{ const b=e.target.closest("[data-k]"); if(b) goStep(+b.dataset.k); });
 show(0);
 
 /* hand the idea to the app through this browser only (never in the URL, so it is not logged) */
@@ -417,7 +464,7 @@ const idea=document.getElementById("idea"), tabHave=document.getElementById("tab
 if(matchMedia('(min-width:961px)').matches) idea.focus({preventScroll:true});
 const none=()=>tabNone.getAttribute("aria-selected")==="true";
 function setMode(n,quiet){
-  tabHave.setAttribute("aria-selected",!n); tabNone.setAttribute("aria-selected",n);
+  tabHave.setAttribute("aria-selected",!n); tabNone.setAttribute("aria-selected",n); tabHave.parentElement.dataset.sel=n?"none":"have";
   document.getElementById("enrich").hidden=n;
   idea.placeholder=WZI.u(n?"phNone":"phHave");
   goTxt.textContent=WZI.u(n?"goNone":"goHave");
@@ -436,21 +483,20 @@ function toApp(mode){
 }
 document.querySelector(".ask").addEventListener("submit",e=>{ e.preventDefault(); if(!idea.value.trim()){ idea.focus(); return; } toApp(none()?"none":"check"); });
 enrBtn.addEventListener("click",()=>{ if(!idea.value.trim()){ idea.focus(); return; } toApp("enrich"); });
-document.getElementById("pgo").addEventListener("click",()=>{ scrollTo({top:0,behavior:"smooth"}); idea.focus({preventScroll:true}); });
+document.getElementById("pgo").addEventListener("click",()=>{ scrollTo({top:0,behavior:"smooth"}); setTimeout(()=>idea.focus({preventScroll:true}),400); });
 
 /* language: Hebrew stays here; other languages open the app in that language */
 const langBtn=document.getElementById("langBtn"), langMenu=document.getElementById("langMenu");
 function langMenuSet(on){ langMenu.hidden=!on; langBtn.setAttribute("aria-expanded",on); }
 langBtn.addEventListener("click",e=>{ e.stopPropagation(); langMenuSet(langMenu.hidden); });
-addEventListener("click",()=>langMenuSet(false)); addEventListener("keydown",e=>{ if(e.key==="Escape") langMenuSet(false); });
+addEventListener("click",()=>langMenuSet(false)); addEventListener("keydown",e=>{ if(e.key==="Escape"&&!langMenu.hidden){ langMenuSet(false); langBtn.focus(); } });
 function onLang(){
   faces=WZI.faces();
   qs.innerHTML=faces.map((f,k)=>`<button type="button" role="tab" data-k="${k}"><i class="fill"></i><span>${f.top[0]}</span></button>`).join("");
-  document.getElementById("pgo").textContent=WZI.u("tryIdea"); pb.textContent=paused?WZI.u("resume"):WZI.u("pause");
+  document.getElementById("pgo").textContent=WZI.u("tryIdea"); fills(curQ);
   show(i); setMode(none(),true);
 }
 document.addEventListener("click",e=>{ const b=e.target.closest("[data-l]"); if(!b) return; langMenuSet(false); if(b.dataset.l===WZI.lang) return; WZI.set(b.dataset.l); onLang(); });
-onLang();
 /* nav: solid on scroll, active section, mobile sheet, sticky mobile CTA */
 const nav=document.getElementById("nav"), dock=document.getElementById("dock"), burger=document.getElementById("burger"), sheet=document.getElementById("sheet");
 const secs=[...document.querySelectorAll(".links a.l")].map(a=>({a,el:document.querySelector(a.getAttribute("href"))}));
@@ -461,6 +507,39 @@ function setSheet(on){ sheet.classList.toggle("open",on); burger.setAttribute("a
 burger.addEventListener("click",()=>setSheet(!sheet.classList.contains("open")));
 sheet.addEventListener("click",e=>{ if(e.target.closest("a")) setSheet(false); });
 addEventListener("keydown",e=>{ if(e.key==="Escape") setSheet(false); });
+
+/* tabs: arrow keys move between tabs, only the selected one is in the tab order */
+function roving(list){
+  const tabs=()=>[...list.querySelectorAll('[role="tab"]')];
+  const sync=()=>tabs().forEach(t=>{ t.tabIndex=t.getAttribute("aria-selected")==="true"?0:-1; });
+  new MutationObserver(sync).observe(list,{attributes:true,attributeFilter:["aria-selected"],subtree:true,childList:true}); sync();
+  list.addEventListener("keydown",e=>{ const t=tabs(), at=t.indexOf(document.activeElement); if(at<0) return;
+    const rtl=document.documentElement.dir==="rtl"; let to=-1;
+    if(e.key==="ArrowLeft") to=at+(rtl?1:-1); else if(e.key==="ArrowRight") to=at+(rtl?-1:1); else if(e.key==="Home") to=0; else if(e.key==="End") to=t.length-1; else return;
+    e.preventDefault(); to=(to+t.length)%t.length; t[to].click(); t[to].focus(); });
+}
+roving(document.querySelector(".tabs")); roving(qs);
+/* peek: scrolling opens the hero into the five cards. Short screens and reduced motion get the plain stacked layout. */
+const peek=document.getElementById("peek"), heroCopy=peek.querySelector(".hero .copy"), OPEN=.28, clamp=(v,a,b)=>Math.min(b,Math.max(a,v));
+let pinned=false, curQ=0;
+const total=()=>peek.offsetHeight-innerHeight;
+function fills(q){ curQ=q; [...qs.children].forEach((b,n)=>{ b.firstChild.style.transform=pinned?`scaleX(${clamp(q-n,0,1).toFixed(2)})`:""; }); }
+function tick(){ if(!pinned) return;
+  let p=clamp(-peek.getBoundingClientRect().top/total(),0,1);
+  if(document.activeElement===idea && p<.06) p=0;           /* typing: keep the hero steady */
+  const o=clamp(p/OPEN,0,1); peek.style.setProperty("--o",o.toFixed(3));
+  heroCopy.style.pointerEvents=o>.6?"none":""; heroCopy.inert=o>.6;
+  document.getElementById("win").inert=o<.5;
+  document.body.classList.toggle("peekopen",o>.5&&p<.995);
+  const q=clamp((p-OPEN)/(1-OPEN),0,1)*faces.length, k=Math.min(faces.length-1,Math.floor(q));
+  if(k!==i) show(k); fills(q); }
+function setPinned(){ pinned=!calm && innerHeight>=620; peek.classList.toggle("flat",!pinned); qs.classList.toggle("still",!pinned);
+  document.getElementById("win").inert=false; heroCopy.inert=false; document.body.classList.remove("peekopen"); if(!pinned){ peek.style.removeProperty("--o"); fills(0); } else tick(); }
+function goStep(k){ if(!pinned){ show(k); return; }
+  const y=peek.offsetTop+total()*(OPEN+(1-OPEN)*(k+.5)/faces.length); scrollTo({top:y,behavior:calm?"auto":"smooth"}); }
+addEventListener("scroll",()=>requestAnimationFrame(tick),{passive:true}); addEventListener("resize",setPinned); setPinned(); onLang();
+if(location.hash==="#what") setTimeout(()=>{ if(pinned) scrollTo({top:peek.offsetTop+total()*(OPEN+.02)}); },60);
+document.querySelectorAll('a[href="#what"]').forEach(a=>a.addEventListener("click",e=>{ if(!pinned) return; e.preventDefault(); scrollTo({top:peek.offsetTop+total()*(OPEN+.02),behavior:calm?"auto":"smooth"}); }));
 /* motion: tab crossfade, reveal on scroll, subtle parallax */
 const reduce=matchMedia("(prefers-reduced-motion: reduce)").matches;
 document.documentElement.classList.add("js");

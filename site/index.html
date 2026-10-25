@@ -10,7 +10,7 @@
    revealed the whole sheet floods with the verdict color: BUILD green, PIVOT amber, KILL red. */
 :root{
   --bg:#0E0E0E; --ink:#F1F0EC; --muted:#8E8C87; --line:#2A2A2A; --red:#F07167;
-  --b1:#000; --b1-ink:#F4F3EF; --b2:#1C1C1C; --b2-ink:#F1F0EC; --b3:#0E0E0E; --b3-ink:#F1F0EC; --b2m:#0E0E0E;
+  --b1:#F07167; --b1-ink:#0A0A0A; --b2:#1C1C1C; --b2-ink:#F1F0EC; --b3:#0E0E0E; --b3-ink:#F1F0EC; --b2m:#0E0E0E;
   --night:#0A0A0A; --night-ink:#F4F3EF; color-scheme:dark;
   --build:#A8DADC; --build-ink:#0F2A2C; --pivot:#F1FAEE; --pivot-ink:#1B2626; --kill:#F07167; --kill-ink:#2B0B07;
   --cta-h:52px;
@@ -134,6 +134,15 @@ nav.top .in{display:flex;align-items:center;justify-content:space-between;height
 
 /* idea panel */
 .p-idea{background:var(--b1);color:var(--b1-ink)}
+.p-idea,.b-idea{--red:#0A0A0A}
+.p-idea textarea#idea::placeholder{opacity:.65}
+.p-idea .fields input::placeholder,.p-idea .helpbox input::placeholder{opacity:.78}
+.p-idea .fields input,.p-idea .helpbox .row input{border-color:color-mix(in srgb,currentColor 70%,transparent)}
+.p-idea .helpbox{border-color:color-mix(in srgb,currentColor 60%,transparent)}
+.p-idea .fields label{opacity:.9}
+.b-idea .b-lab,.b-idea .b-sub{opacity:.9}
+.p-idea .ph-t,.p-idea .morebtn,.p-idea .hh,.p-idea label,.p-idea .note,.p-idea .hnote,.p-idea .picks small{opacity:.88}
+.p-idea .cta:not(.dark):not(.light){background:#0A0A0A;color:#F4F3EF}
 .p-idea .in{display:grid;gap:18px;padding-top:12px;padding-bottom:40px}
 textarea#idea{width:100%;resize:none;border:0;background:transparent;color:inherit;caret-color:var(--red);font-weight:500;font-size:clamp(30px,8vw,52px);line-height:1.1;letter-spacing:-.03em;padding:0;min-height:4.6em;overflow:hidden}
 textarea#idea::placeholder{color:currentColor;opacity:.35}
@@ -1584,7 +1593,7 @@ $("#enrBtn").addEventListener("click",async()=>{
 });
 $("#noIdeaBtn").addEventListener("click",()=>{
   helpBox.hidden=false;
-  helpBox.innerHTML=`<div class="hh"><span>${esc(t("noIdeaT"))}</span><button type="button" data-hclose aria-label="${esc(t("enrClose"))}">×</button></div><div class="row"><input id="topicIn" placeholder="${esc(t("noIdeaPh"))}" maxlength="150"><button class="cta dark" type="button" id="topicGo">${esc(t("noIdeaGo"))}</button></div><div id="topicOut"></div>`;
+  helpBox.innerHTML=`<div class="hh"><span>${esc(t("noIdeaT"))}</span><button type="button" data-hclose aria-label="${esc(t("enrClose"))}">×</button></div><div class="row"><input id="topicIn" aria-label="${esc(t("noIdeaT"))}" placeholder="${esc(t("noIdeaPh"))}" maxlength="150"><button class="cta dark" type="button" id="topicGo">${esc(t("noIdeaGo"))}</button></div><div id="topicOut"></div>`;
   const go=async()=>{
     const topic=$("#topicIn").value.trim(); if(!topic){ $("#topicIn").focus(); return; }
     const out=$("#topicOut"); out.innerHTML=loadHTML(t("noIdeaLoad"));
