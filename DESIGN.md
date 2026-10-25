@@ -17,6 +17,10 @@ No half pixels anywhere that is rendered: font sizes, line heights, borders, box
 
 Check it with `tools/pixel-audit.js` (paste in the browser console, or inject as a script, then call `__audit()`). It lists every element with a fractional font size, line height, border, spacing or box height. The target is an empty report at 390, 768 and 1440 wide, in Hebrew and English, in every state (home, result cards 1 to 5, sheets).
 
+## Spacing
+
+Padding, margin and gap use a 4px grid: 4, 8, 12, 16, 20, 24, 28, 32 and up. Only 1, 2 and 3 are allowed below 4, for hairlines and tight pairs. Values inside `calc()`, `clamp()` or `var()` are left alone.
+
 ## Colour
 
 | Token | Value | Use |

@@ -10,5 +10,5 @@ h2{font-size:20px}
 p,li{font-size:16px;color:#B9B7B1}
 ul{padding-left:0;padding-right:20px}
 .updated{font-family:"IBM Plex Sans Hebrew",sans-serif}
-.langsw{margin-top:18px;font-size:14px;color:var(--muted)}
+.langsw{margin-top:20px;font-size:14px;color:var(--muted)}
 .langsw a{color:var(--ink)}
