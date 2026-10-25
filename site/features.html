@@ -17,6 +17,8 @@
   html{scroll-behavior:smooth;scroll-padding-top:calc(var(--nav) + 12px)}
   html,body{margin:0;background:#080808;color:var(--ink);font-family:"Hanken Grotesk","IBM Plex Sans Hebrew",system-ui,sans-serif;-webkit-font-smoothing:antialiased}
   a{color:inherit;text-decoration:none}
+  h1,h2,h3{text-wrap:balance}
+  p,li{text-wrap:pretty}
   h1,h2,h3{font-family:"Miriam Libre","Hanken Grotesk",sans-serif;font-weight:700;margin:0;letter-spacing:-.015em}
   .mono{font-family:"IBM Plex Mono","IBM Plex Sans Hebrew",monospace}
   .wrap{width:min(1180px,100% - 40px);margin-inline:auto}
@@ -24,7 +26,6 @@
   .cta{display:inline-flex;align-items:center;justify-content:center;gap:10px;height:56px;padding:0 30px;border-radius:999px;font-weight:600;font-size:17px;border:0;font-family:inherit;cursor:pointer}
   .cta.solid{background:#fff;color:#0E0E0E}
   .cta.line{box-shadow:inset 0 0 0 1.4px rgba(255,255,255,.7);background:transparent;color:inherit}
-  .cta svg{width:16px;height:16px;fill:currentColor}
 
   /* ---------- navigation ---------- */
   header.nav{position:fixed;inset:0 0 auto 0;z-index:50;height:var(--nav);padding-top:env(safe-area-inset-top,0);transition:background .3s,backdrop-filter .3s,border-color .3s;border-bottom:1px solid transparent}
@@ -69,7 +70,6 @@
   .stage.simple h1{font-size:clamp(38px,5vw,66px);margin-top:0}
   .ask textarea{font-size:20px;min-height:84px}
   .enrlink{all:unset;cursor:pointer;display:inline-flex;align-items:center;gap:6px;font-size:15px;color:#E4E2DC;text-decoration:underline;text-underline-offset:4px;padding:10px 6px}
-  .enrlink svg{width:14px;height:14px;fill:var(--coral)}
   .enrlink:focus-visible{outline:3px solid var(--coral);outline-offset:3px;border-radius:8px}
   .showgrid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:40px;align-items:center}
   .show .trust{width:auto;margin:40px 0 0;justify-content:flex-start}
@@ -88,14 +88,12 @@
   .askrow{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:8px}
   .hint{font-size:12.5px;color:#BDBBB5}
   .ask .go{height:48px;padding:0 22px;font-size:16px;border-radius:999px;white-space:nowrap}
-  .ask .go svg{transform:scaleX(-1)}
   .tabs{display:flex;gap:6px;margin-bottom:10px;background:rgba(255,255,255,.07);border-radius:999px;padding:4px}
   .tabs button{all:unset;cursor:pointer;flex:1;text-align:center;padding:10px 8px;border-radius:999px;font-size:16px;font-weight:600;color:#CFCDC7}
   .tabs button[aria-selected="true"]{background:#fff;color:#0E0E0E}
   .tabs button:focus-visible{outline:3px solid var(--coral);outline-offset:2px}
   .acts{display:flex;gap:8px;align-items:center}
   .ask .enr{height:48px;padding:0 18px;font-size:15px;border-radius:999px;white-space:nowrap}
-  .ask .enr svg{width:14px;height:14px;color:var(--coral)}
   a.how{display:inline-flex;align-items:center;gap:8px;margin-top:16px;font-size:15px;color:#E4E2DC;padding:8px 0}
   a.how svg{width:13px;height:13px;fill:currentColor}
   .float{position:relative;height:min(520px,64dvh);display:grid;place-items:center}
@@ -117,9 +115,7 @@
   @keyframes faceIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
   .qs{display:grid;gap:6px;font-family:"Miriam Libre","Hanken Grotesk",sans-serif;font-weight:700;font-size:clamp(22px,2.3vw,34px);line-height:1.15;letter-spacing:-.01em}
   .qs button{all:unset;cursor:pointer;display:flex;align-items:center;gap:12px;padding:8px 0;color:rgba(241,240,236,.34);transition:color .4s}
-  .qs button .ar{width:0;opacity:0;color:var(--coral);transition:width .3s,opacity .3s;font-size:22px}
   .qs button[aria-current="true"]{color:#fff}
-  .qs button[aria-current="true"] .ar{width:26px;opacity:1}
   .qs button:focus-visible{outline:2px solid var(--coral);outline-offset:4px;border-radius:6px}
   .pause{all:unset;cursor:pointer;justify-self:start;font-family:'IBM Plex Sans Hebrew',sans-serif;font-size:14px;padding:8px 14px;border-radius:999px;border:1.3px solid rgba(241,240,236,.4);color:#E4E2DC;margin-top:8px}
   .pause:focus-visible{outline:3px solid var(--coral);outline-offset:3px}
@@ -130,12 +126,12 @@
   /* ---------- sections ---------- */
   section.blk{padding:84px 0}
   .sec-h{margin-bottom:34px}
-  .sec-h .eyebrow{display:block;margin-bottom:12px;font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--coral)}
+  .sec-h .eyebrow{display:block;margin-bottom:12px;font-size:15px;font-weight:600;color:var(--coral)}
   .sec-h h2{font-size:clamp(30px,4.6vw,52px);line-height:1.06}
   .sec-h p{color:var(--muted);margin:14px 0 0;max-width:58ch;font-size:18px;line-height:1.55}
   .steps{display:grid;gap:16px;grid-template-columns:repeat(auto-fit,minmax(250px,1fr))}
-  .step{border:1px solid var(--line);border-radius:26px;padding:28px;background:rgba(255,255,255,.015)}
-  .step .n{font-size:13px;color:var(--coral);font-weight:600}
+  .step{border-top:1px solid var(--line);padding:22px 4px 0}
+  .step .n{font-size:15px;color:var(--coral);font-weight:600}
   .step h3{font-size:24px;margin:12px 0 8px}
   .step p{margin:0;color:var(--muted);line-height:1.55}
   .cards{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(210px,1fr))}
@@ -145,9 +141,9 @@
   .rc .big{font-size:clamp(40px,5vw,54px);font-weight:500;letter-spacing:-.045em;line-height:1;direction:ltr;text-align:right;margin-top:8px}
   .rc.final .big{font-family:"Miriam Libre",sans-serif;font-weight:700;letter-spacing:-.01em;direction:rtl}
   .rc h3{font-size:19px} .rc p{margin:0;font-size:15px;opacity:.78;line-height:1.5}
-  .tag{align-self:flex-start;margin-top:auto;font-size:11px;letter-spacing:.08em;text-transform:uppercase;font-weight:600;border-radius:999px;padding:4px 11px;background:rgba(241,240,236,.12)}
-  .rc.final .tag{background:rgba(15,42,44,.14)}
-  .tag.pro{background:var(--coral);color:#2B0B07}
+  .tag{align-self:flex-start;margin-top:auto;font-size:14px;font-weight:600;opacity:.7}
+    .tag.pro{color:var(--coral);opacity:1}
+  .rc.final .tag.pro{color:#0F2A2C;text-decoration:underline;text-underline-offset:4px}
   .note{font-size:13px;color:var(--muted);margin-top:14px}
 
   /* kick-off + worlds */
@@ -156,7 +152,7 @@
   .kick .say em{font-style:normal;color:var(--coral)}
   .chips{display:flex;flex-wrap:wrap;gap:10px}
   .chip{padding:12px 18px;border-radius:999px;border:1px solid rgba(241,240,236,.22);font-size:16px;background:rgba(255,255,255,.03)}
-  .chip.on{background:var(--ink);color:#0E0E0E;border-color:var(--ink)}
+  .chip.on{border-color:var(--coral);color:var(--coral)}
   .tl{display:grid;gap:0;margin-top:26px;border-inline-start:2px solid var(--line);padding-inline-start:22px}
   .tl div{position:relative;padding:10px 0;color:#D5D3CD}
   .tl div::before{content:"";position:absolute;inset-inline-start:-29px;top:19px;width:12px;height:12px;border-radius:50%;background:var(--coral)}
@@ -165,8 +161,7 @@
   /* privacy */
   .privacy{background:linear-gradient(180deg,#0d0a0b,#0b0b0b);border-block:1px solid var(--line)}
   .pgrid{display:grid;gap:16px;grid-template-columns:repeat(auto-fit,minmax(240px,1fr))}
-  .pcard{border:1px solid var(--line);border-radius:26px;padding:26px;background:rgba(255,255,255,.02)}
-  .pcard .ico{width:42px;height:42px;border-radius:12px;display:grid;place-items:center;background:rgba(240,113,103,.14);color:var(--coral);margin-bottom:14px;font-size:20px}
+  .pcard{border-top:1px solid var(--line);padding:22px 4px 0}
   .pcard h3{font-size:21px;margin-bottom:6px} .pcard p{margin:0;color:var(--muted);line-height:1.55;font-size:15.5px}
   .promise{margin-top:22px;padding:26px 28px;border-radius:26px;background:var(--card);display:flex;gap:18px;align-items:flex-start}
   .promise strong{font-family:"Miriam Libre",sans-serif;font-size:clamp(22px,2.6vw,30px);line-height:1.2;display:block;margin-bottom:6px}
@@ -235,11 +230,11 @@
 </header>
 
 <div class="sheet" id="sheet" aria-hidden="true">
-  <a class="l" href="#how">איך זה עובד <span>←</span></a>
-  <a class="l" href="#inside">מה בפנים <span>←</span></a>
-  <a class="l" href="#kickoff">נקודת פתיחה <span>←</span></a>
-  <a class="l" href="#privacy">פרטיות <span>←</span></a>
-  <a class="l" href="#pricing">מחירים <span>←</span></a>
+  <a class="l" href="#how">איך זה עובד</a>
+  <a class="l" href="#inside">מה בפנים</a>
+  <a class="l" href="#kickoff">נקודת פתיחה</a>
+  <a class="l" href="#privacy">פרטיות</a>
+  <a class="l" href="#pricing">מחירים</a>
   <a class="cta solid" href="/#idea">נסו עכשיו, בחינם</a>
 </div>
 
@@ -254,14 +249,14 @@
           <div class="tabs" role="tablist" aria-label="איך מתחילים"><button type="button" role="tab" id="tabHave" aria-selected="true">יש לי רעיון</button><button type="button" role="tab" id="tabNone" aria-selected="false">אין לי רעיון</button></div>
           <label class="sr" for="idea">הרעיון שלך</label>
           <textarea id="idea" rows="2" placeholder="כתבו כאן את הרעיון, בכמה מילים. למשל: לפתוח דוכן קפה בשוק."></textarea>
-          <div class="askrow"><span class="hint" id="hint">מה שכתבתם נשאר שלכם.</span><span class="acts"><button class="enrlink" type="button" id="enrich"><svg viewBox="0 0 16 16"><path d="M8 0l1.6 5.4L15 7l-5.4 1.6L8 14l-1.6-5.4L1 7l5.4-1.6z"/></svg>הרחב לי</button><button class="cta solid go" id="go" type="submit"><span id="gotxt">בדקו את הרעיון</span> <svg viewBox="0 0 16 16"><path d="M13 8L7 2v4H2v4h5v4z"/></svg></button></span></div>
+          <div class="askrow"><span class="hint" id="hint">מה שכתבתם נשאר שלכם.</span><span class="acts"><button class="enrlink" type="button" id="enrich">הרחב לי</button><button class="cta solid go" id="go" type="submit"><span id="gotxt">בדקו את הרעיון</span></button></span></div>
         </form>
       </div>
     </div>
   </section>
 
   <section class="blk show" id="what"><div class="wrap">
-    <div class="sec-h"><span class="eyebrow mono">מה תקבלו</span><h2>תשובה ברורה, בחמישה כרטיסים</h2></div>
+    <div class="sec-h"><span class="eyebrow">מה תקבלו</span><h2>תשובה ברורה, בחמישה כרטיסים</h2></div>
     <div class="showgrid">
       <div class="float" aria-live="polite"><div class="ghost a"></div><div class="ghost b"></div><div class="card" id="card"></div></div>
       <div>
@@ -274,16 +269,16 @@
   </div></section>
 
   <section class="blk" id="how"><div class="wrap">
-    <div class="sec-h"><span class="eyebrow mono">איך זה עובד</span><h2>שלושה צעדים, בלי הרצאה</h2></div>
+    <div class="sec-h"><span class="eyebrow">איך זה עובד</span><h2>שלושה צעדים, בלי הרצאה</h2></div>
     <div class="steps">
-      <div class="step"><span class="n mono">01</span><h3>כותבים את הרעיון</h3><p>משפט או שניים מספיקים. אין רעיון עדיין? כתבו מה מעניין אתכם ואציע רעיונות.</p></div>
-      <div class="step"><span class="n mono">02</span><h3>מקבלים תמונה ברורה</h3><p>כמה הרעיון חזק, כמה אפשר להרוויח ממנו, וניסוי קטן לשבוע.</p></div>
-      <div class="step"><span class="n mono">03</span><h3>מחליטים מה הלאה</h3><p>תשובה כנה: כדאי להתחיל, כדאי לחדד, או כדאי לעצור כאן, ומה עושים במקום.</p></div>
+      <div class="step"><span class="n">01</span><h3>כותבים את הרעיון</h3><p>משפט או שניים מספיקים. אין רעיון עדיין? כתבו מה מעניין אתכם ואציע רעיונות.</p></div>
+      <div class="step"><span class="n">02</span><h3>מקבלים תמונה ברורה</h3><p>כמה הרעיון חזק, כמה אפשר להרוויח ממנו, וניסוי קטן לשבוע.</p></div>
+      <div class="step"><span class="n">03</span><h3>מחליטים מה הלאה</h3><p>תשובה כנה: כדאי להתחיל, כדאי לחדד, או כדאי לעצור כאן, ומה עושים במקום.</p></div>
     </div>
   </div></section>
 
   <section class="blk" id="inside" style="padding-top:20px"><div class="wrap">
-    <div class="sec-h"><span class="eyebrow mono">מה בפנים</span><h2>חמישה כרטיסים, אחד בכל פעם</h2><p>כל וואזו נפתח כחמישה כרטיסים. בטלפון מחליקים ביניהם, ובמחשב רואים את כולם יחד.</p></div>
+    <div class="sec-h"><span class="eyebrow">מה בפנים</span><h2>חמישה כרטיסים, אחד בכל פעם</h2><p>בטלפון מחליקים בין חמישה כרטיסים. במחשב רואים את כולם.</p></div>
     <div class="cards">
       <article class="rc"><div class="top mono"><span>01 · כמה חזק</span></div><div class="big">8 6 5 7</div><h3>כמה הרעיון חזק</h3><p>ארבע נקודות פשוטות: האם הבעיה אמיתית, יש מי שרוצה, כמה מתחרים, והאם ישלמו.</p><span class="tag">חינם</span></article>
       <article class="rc"><div class="top mono"><span>02 · הכסף</span></div><div class="big">$12,000</div><h3>כמה אפשר להרוויח</h3><p>מחיר שאפשר לשנות, שלושה תרחישים, ומה יכול לקלקל את החישוב.</p><span class="tag">חינם</span></article>
@@ -296,7 +291,7 @@
 
   <section class="blk" id="kickoff"><div class="wrap kick">
     <div>
-      <span class="eyebrow mono" style="color:var(--coral);font-size:12px;letter-spacing:.12em">נקודת פתיחה</span>
+      <span class="eyebrow" style="color:var(--coral);font-size:12px;letter-spacing:.12em">נקודת פתיחה</span>
       <p class="say" style="margin:12px 0 0">Wazo לא מחליט בשבילך<br>הוא <em>עוזר להתחיל</em></p>
       <div class="tl">
         <div><b>לפני שמשקיעים זמן וכסף</b>בדיקה של כמה דקות, לפני חודשים של עבודה.</div>
@@ -311,18 +306,18 @@
   </div></section>
 
   <section class="blk privacy" id="privacy"><div class="wrap">
-    <div class="sec-h"><span class="eyebrow mono">פרטיות</span><h2>הרעיון שלכם נשאר שלכם</h2><p>אנחנו לא מוכרים אותו, לא משתפים אותו ולא מפרסמים אותו. Wazo נועד לעזור לכם להתחיל, לא לקחת מכם משהו.</p></div>
+    <div class="sec-h"><span class="eyebrow">פרטיות</span><h2>הרעיון שלכם נשאר שלכם</h2><p>אנחנו לא מוכרים אותו, לא משתפים אותו ולא מפרסמים אותו. Wazo נועד לעזור לכם להתחיל, לא לקחת מכם משהו.</p></div>
     <div class="pgrid">
-      <div class="pcard"><div class="ico">⌁</div><h3>נשמר רק כדי לעבוד</h3><p>הרעיון והניתוח נשמרים בשרת באיחוד האירופי כדי להפיק את הניתוח ולהחזיר לך אותו. עותק נשמר גם במכשיר שלך.</p></div>
-      <div class="pcard"><div class="ico">✕</div><h3>לא נמכר, לא משותף</h3><p>הרעיון לא נמכר ולא מועבר לאף אחד כדי לפרסם או לשווק. הוא נשלח ל־Anthropic רק לצורך כתיבת הניתוח.</p></div>
-      <div class="pcard"><div class="ico">◐</div><h3>בלי מעקב</h3><p>אין עוגיות מעקב, ואין פרופיל פרסום עליכם. יש רק בדיקה שמוודאת שאתם אדם ולא רובוט.</p></div>
-      <div class="pcard"><div class="ico">⌫</div><h3>אתם מחליטים</h3><p>אפשר לבקש מחיקה של הפרטים בכל רגע, מתוך האפליקציה.</p></div>
+      <div class="pcard"><h3>נשמר רק כדי לעבוד</h3><p>הרעיון והניתוח נשמרים בשרת באיחוד האירופי כדי להפיק את הניתוח ולהחזיר לך אותו. עותק נשמר גם במכשיר שלך.</p></div>
+      <div class="pcard"><h3>לא נמכר, לא משותף</h3><p>הרעיון לא נמכר ולא מועבר לאף אחד כדי לפרסם או לשווק. הוא נשלח ל־Anthropic רק לצורך כתיבת הניתוח.</p></div>
+      <div class="pcard"><h3>בלי מעקב</h3><p>אין עוגיות מעקב, ואין פרופיל פרסום עליכם. יש רק בדיקה שמוודאת שאתם אדם ולא רובוט.</p></div>
+      <div class="pcard"><h3>אתם מחליטים</h3><p>אפשר לבקש מחיקה של הפרטים בכל רגע, מתוך האפליקציה.</p></div>
     </div>
-    <div class="promise"><div style="font-size:30px;line-height:1">☝</div><div><strong>עוזר להתחיל, לא מחליף אותך.</strong><p>ל־Wazo אין סמכות שוק. הניתוח נכתב על ידי בינה מלאכותית שלא מחפשת באינטרנט בזמן הכתיבה, ולכן מספרים ושמות של חברות עלולים להיות לא מעודכנים. לכל ציון יש הסבר על מה הוא נשען. זו המלצה בלבד, ולא ייעוץ משפטי, כספי או עסקי.</p></div></div>
+    <div class="promise"><div><strong>עוזר להתחיל, לא מחליף אותך.</strong><p>ל־Wazo אין סמכות שוק. הניתוח נכתב על ידי בינה מלאכותית שלא מחפשת באינטרנט בזמן הכתיבה, ולכן מספרים ושמות של חברות עלולים להיות לא מעודכנים. לכל ציון יש הסבר על מה הוא נשען. זו המלצה בלבד, ולא ייעוץ משפטי, כספי או עסקי.</p></div></div>
   </div></section>
 
   <section class="blk" id="pricing"><div class="wrap">
-    <div class="sec-h"><span class="eyebrow mono">מחירים</span><h2>בודקים בחינם, משלמים כשצריך את העומק</h2></div>
+    <div class="sec-h"><span class="eyebrow">מחירים</span><h2>בודקים בחינם, משלמים כשצריך את העומק</h2></div>
     <div class="tiers">
       <div class="tier"><h3>חינם</h3><div class="price">$0<small> / לתמיד</small></div>
         <ul><li>וואזו ללא הגבלה</li><li>כמה הרעיון חזק, בארבע נקודות</li><li>כמה אפשר להרוויח, עם מחיר שאפשר לשנות</li><li>עזרה בהרחבת רעיון, ורעיונות כשעוד אין</li><li>20 מגמות עולמיות לדוגמה</li><li>היסטוריה שנשמרת במכשיר</li></ul></div>
@@ -354,7 +349,7 @@ const faces=[
   {q:"כדאי להתחיל?",top:["05 · ומה עכשיו","PRO"],big:"כדאי להתחיל",cap:"מתחילים בקטן, עם עצמאים בישראל.",rows:[["הכול תלוי ב","שמישהו ישלם מראש"]],final:true}
 ];
 const qs=document.getElementById("qs"), card=document.getElementById("card"); let i=0, timer=null;
-qs.innerHTML=faces.map((f,k)=>`<button type="button" role="tab" data-k="${k}"><span class="ar">◀</span><span>${f.q}</span></button>`).join("");
+qs.innerHTML=faces.map((f,k)=>`<button type="button" role="tab" data-k="${k}"><span>${f.q}</span></button>`).join("");
 function show(k){ i=k; const f=faces[k]; qs.querySelectorAll("button").forEach((b,n)=>b.setAttribute("aria-current",n===k)); card.classList.toggle("final",!!f.final);
   card.innerHTML=`<div class="face"><div class="top"><span>${f.top[0]}</span><span>${f.top[1]}</span></div><div class="big">${f.big}</div><div class="cap">${f.cap}</div><div class="rows">${f.rows.map(r=>`<div><span>${r[0]}</span><b>${r[1]}</b></div>`).join("")}</div></div>`; }
 function play(){ clearInterval(timer); if(typeof paused!=="undefined"&&paused) return; if(!matchMedia("(prefers-reduced-motion: reduce)").matches) timer=setInterval(()=>show((i+1)%faces.length),3200); }
