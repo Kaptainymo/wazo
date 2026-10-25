@@ -8,12 +8,17 @@
 <link rel="stylesheet" href="/legal.css">
 <link rel="stylesheet" href="/he.css">
 <style>
+/* design system: line heights are whole even pixels. Each rule sets a ratio (--lhr); every element turns it into px from its own font size. */
+:root{--lhr:1.4}
+*,*::before,*::after{line-height:round(calc(var(--lhr)*1em),2px)}
+@supports not (width:round(1px,1px)){*,*::before,*::after{line-height:var(--lhr)}}
+
   :root{--bg:#0E0E0E;--ink:#F1F0EC;--muted:#8E8C87;--line:#2A2A2A;--accent:#F07167}
   *{box-sizing:border-box}
-  body{margin:0;background:var(--bg);color:var(--ink);font-family:"IBM Plex Sans Hebrew","Hanken Grotesk",sans-serif;line-height:1.6;padding:64px 20px 96px}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:"IBM Plex Sans Hebrew","Hanken Grotesk",sans-serif;--lhr:1.6;padding:64px 20px 96px}
   .wrap{max-width:720px;margin:0 auto}
   a.logo{font-family:"Miriam Libre",sans-serif;font-weight:600;font-size:20px;color:var(--ink);text-decoration:none}
-  h1{font-family:"Miriam Libre",sans-serif;font-weight:600;font-size:clamp(32px,6vw,48px);margin:40px 0 8px;letter-spacing:-.02em}
+  h1{font-family:"Miriam Libre",sans-serif;font-weight:600;font-size:round(clamp(32px,6vw,48px),2px);margin:40px 0 8px;letter-spacing:-.02em}
   .sub{color:var(--muted);font-size:17px;margin:0 0 48px;max-width:46ch}
   .plans{display:grid;gap:20px;grid-template-columns:1fr 1fr}
   @media (max-width:640px){.plans{grid-template-columns:1fr}}
