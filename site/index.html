@@ -1725,6 +1725,19 @@ fitSoon();
 if (location.hash==="#demo"){ S.current=norm({...EXAMPLE[S.lang],cur:CUR()}); S.current.full=false; S.isExample=false; history.replaceState(null,"","#receipt"); enablePreview(); }
 show(location.hash.slice(1)); if (S.current) renderStage();
 loadDrawer();
+/* the landing page hands the idea over through this browser only (never in the URL) */
+async function runHandoff(){
+  let h=null; try{ h=JSON.parse(localStorage.getItem("wz.handoff")||"null"); localStorage.removeItem("wz.handoff"); }catch(e){}
+  if (!h || typeof h!=="object") return;
+  const text=String(h.text||"").slice(0,1200), mode=h.mode;
+  for (let k=0;k<60 && S.cfg.siteKey && !S.cfg.open && !window.turnstile;k++) await new Promise(r=>setTimeout(r,100));
+  if (hvPre) await hvPre;
+  go("idea");
+  if (mode==="none"){ $("#noIdeaBtn").click(); const ti=$("#topicIn"); if(ti){ ti.value=text; if(text) $("#topicGo").click(); } return; }
+  $("#idea").value=text; fitIdea();
+  if (mode==="enrich") $("#enrBtn").click();
+  else if (mode==="check" && text.length>=8) runVerdict();
+}
 (async()=>{
   try{ const r=await fetch("/api/config",{cache:"no-store"}); if(r.ok) S.cfg={...S.cfg,...(await r.json())}; }catch(e){}
   let langSaved=null; try{ langSaved=localStorage.getItem("wz.lang"); }catch(e){}
@@ -1740,6 +1753,7 @@ loadDrawer();
     Paddle.Initialize({ token:S.cfg.paddleToken, eventCallback:e=>{ if(e.name==="checkout.completed") afterPay(); } });
   });
   if (!S.cfg.ready) setNote(t("errSetup"));
+  runHandoff();
 })();
 })();
 </script>

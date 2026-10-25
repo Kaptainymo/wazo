@@ -2,182 +2,376 @@
 <html lang="he" dir="rtl">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Wazo · חוות דעת ישירה על רעיון לסטארטאפ</title>
-<meta name="description" content="כותבים רעיון ומקבלים בדקות ציונים, חישוב כסף, מבחן של 7 ימים ופסק דין: לבנות, לשנות כיוון או לוותר. Wazo, לפני שאתה מתפטר בשבילו">
-<meta property="og:title" content="Wazo · חוות דעת ישירה על הרעיון שלך">
-<meta property="og:description" content="ציונים, כסף, מבחן של 7 ימים ופסק דין, לפני שאתה מתפטר בשביל הרעיון.">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Wazo · בודקים את הרעיון לפני שעושים אותו</title>
+<meta name="description" content="יש לכם רעיון, או שעוד אין? כותבים אותו בכמה מילים ומקבלים בדקות: כמה הוא חזק, כמה אפשר להרוויח, וצעד קטן לנסות בשבוע. בלי הרשמה ובלי עלות.">
+<meta name="theme-color" content="#080808">
+<meta property="og:title" content="Wazo · בודקים את הרעיון לפני שעושים אותו">
+<meta property="og:description" content="יש לכם רעיון, או שעוד אין? בדקות: כמה הוא חזק, כמה אפשר להרוויח וצעד קטן לנסות בשבוע. בלי הרשמה ובלי עלות.">
 <meta property="og:type" content="website">
-<meta name="theme-color" content="#000000">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700&family=Miriam+Libre:wght@700&family=IBM+Plex+Sans+Hebrew:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700&family=Miriam+Libre:wght@700&family=IBM+Plex+Sans+Hebrew:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
 <style>
-  :root{--bg:#0E0E0E;--ink:#F1F0EC;--muted:#8E8C87;--line:#2A2A2A;--red:#F07167;--build:#A8DADC;--pivot:#F1FAEE;--card:#1C1C1C;color-scheme:dark}
+  :root{--ink:#F1F0EC;--muted:#A8A6A0;--line:#2A2A2A;--coral:#F07167;--teal:#A8DADC;--ivory:#F1FAEE;--card:#1C1C1C;--nav:64px;color-scheme:dark}
   *{box-sizing:border-box}
-  html{scroll-behavior:smooth}
-  body{margin:0;background:var(--bg);color:var(--ink);font-family:"Hanken Grotesk","IBM Plex Sans Hebrew",system-ui,sans-serif;line-height:1.55;-webkit-font-smoothing:antialiased}
-  a{color:inherit}
-  .wrap{width:min(1120px,100% - 40px);margin-inline:auto}
-  header.top{display:flex;align-items:center;justify-content:space-between;height:64px}
-  .logo{direction:ltr;unicode-bidi:isolate;font-weight:700;font-size:20px;letter-spacing:-.02em;text-decoration:none;font-family:"Hanken Grotesk",sans-serif}
-  .logo sup{font-size:9px}
-  .nav a.pill{display:inline-flex;align-items:center;height:38px;padding:0 18px;border-radius:999px;border:1.3px solid rgba(241,240,236,.3);text-decoration:none;font-size:14px;font-weight:600}
+  html{scroll-behavior:smooth;scroll-padding-top:calc(var(--nav) + 12px)}
+  html,body{margin:0;background:#080808;color:var(--ink);font-family:"Hanken Grotesk","IBM Plex Sans Hebrew",system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+  a{color:inherit;text-decoration:none}
+  h1,h2,h3{font-family:"Miriam Libre","Hanken Grotesk",sans-serif;font-weight:700;margin:0;letter-spacing:-.015em}
   .mono{font-family:"IBM Plex Mono","IBM Plex Sans Hebrew",monospace}
-  h1,h2,h3{font-family:"Miriam Libre","Hanken Grotesk",sans-serif;font-weight:700;margin:0;letter-spacing:-.01em}
-  .hero{padding:56px 0 72px;text-align:center}
-  .eyebrow{font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
-  .hero h1{font-size:clamp(38px,7vw,76px);line-height:1.05;margin:18px auto 20px;max-width:16ch}
-  .hero h1 em{font-style:normal;color:var(--red)}
-  .hero p.lead{font-size:clamp(17px,2.2vw,21px);color:#C9C8C3;max-width:46ch;margin:0 auto 32px}
-  .btns{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
-  .cta{display:inline-flex;align-items:center;justify-content:center;height:54px;padding:0 30px;border-radius:999px;font-weight:600;font-size:17px;text-decoration:none;font-family:inherit}
-  .cta.main{background:var(--ink);color:#0E0E0E}
-  .cta.ghost{box-shadow:inset 0 0 0 1.4px rgba(241,240,236,.4)}
-  .tiles{display:flex;justify-content:center;gap:10px;margin-top:48px;direction:ltr}
-  .tiles i{display:block;width:44px;height:44px;border-radius:8px}
-  @media (min-width:700px){.tiles i{width:64px;height:64px;border-radius:12px}.tiles{gap:16px}}
-  section{padding:56px 0}
-  .sec-h{margin-bottom:28px}
-  .sec-h .eyebrow{display:block;margin-bottom:10px}
-  .sec-h h2{font-size:clamp(28px,4.4vw,44px);line-height:1.1}
-  .sec-h p{color:var(--muted);margin:12px 0 0;max-width:56ch;font-size:17px}
-  .steps{display:grid;gap:16px;grid-template-columns:repeat(auto-fit,minmax(240px,1fr))}
-  .step{border:1px solid var(--line);border-radius:24px;padding:26px}
-  .step .n{font-size:13px;color:var(--red);font-weight:600}
-  .step h3{font-size:22px;margin:10px 0 8px}
-  .step p{margin:0;color:var(--muted)}
-  .cards{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(200px,1fr))}
-  .rc{background:var(--card);border-radius:28px;padding:22px;display:flex;flex-direction:column;gap:10px;min-height:300px}
-  .rc.final{background:var(--build);color:#0F2A2C}
-  .rc .top{display:flex;justify-content:space-between;align-items:center;font-size:12px;letter-spacing:.1em;text-transform:uppercase;opacity:.7}
-  .rc .big{font-size:clamp(40px,5vw,54px);font-weight:500;letter-spacing:-.045em;line-height:1;direction:ltr;text-align:right;margin-top:8px;font-family:"Hanken Grotesk",sans-serif}
-  .rc.final .big{font-family:"Miriam Libre",sans-serif;font-weight:700;letter-spacing:-.01em}
-  .rc h3{font-size:19px}
-  .rc p{margin:0;font-size:15px;opacity:.78}
-  .badge{align-self:flex-start;margin-top:auto;font-size:11px;letter-spacing:.08em;text-transform:uppercase;font-weight:600;border-radius:999px;padding:4px 11px;background:rgba(241,240,236,.12)}
-  .rc.final .badge{background:rgba(15,42,44,.14)}
-  .badge.pro{background:var(--red);color:#2B0B07}
+  .wrap{width:min(1180px,100% - 40px);margin-inline:auto}
+  :focus-visible{outline:3px solid var(--coral);outline-offset:3px;border-radius:8px}
+  .cta{display:inline-flex;align-items:center;justify-content:center;gap:10px;height:56px;padding:0 30px;border-radius:999px;font-weight:600;font-size:17px;border:0;font-family:inherit;cursor:pointer}
+  .cta.solid{background:#fff;color:#0E0E0E}
+  .cta.line{box-shadow:inset 0 0 0 1.4px rgba(255,255,255,.7);background:transparent;color:inherit}
+  .cta svg{width:16px;height:16px;fill:currentColor}
+
+  /* ---------- navigation ---------- */
+  header.nav{position:fixed;inset:0 0 auto 0;z-index:50;height:var(--nav);padding-top:env(safe-area-inset-top,0);transition:background .3s,backdrop-filter .3s,border-color .3s;border-bottom:1px solid transparent}
+  header.nav.solid{background:rgba(8,8,8,.82);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-color:var(--line)}
+  .nav .in{display:flex;align-items:center;justify-content:space-between;height:100%;gap:18px}
+  .logo{direction:ltr;font-weight:700;font-size:22px;letter-spacing:-.02em}
+  .logo sup{font-size:9px}
+  .links{display:flex;gap:6px;align-items:center}
+  .links a.l{padding:9px 15px;border-radius:999px;font-size:16.5px;color:#D5D3CD;transition:background .2s,color .2s}
+  .links a.l:hover,.links a.l[aria-current="true"]{background:rgba(255,255,255,.09);color:#fff}
+  .right{display:flex;gap:10px;align-items:center}
+  .pill{display:inline-flex;align-items:center;justify-content:center;height:38px;min-width:38px;padding:0 14px;border-radius:999px;border:1.3px solid rgba(241,240,236,.32);font-size:14px;font-weight:600;background:transparent;color:inherit;font-family:inherit}
+  .nav .try{height:40px;padding:0 20px;font-size:15px;border-radius:999px}
+  .burger{display:none;width:44px;height:44px;border-radius:50%;border:1.3px solid rgba(241,240,236,.32);background:transparent;color:inherit;place-items:center;cursor:pointer}
+  .burger i{display:block;width:18px;height:2px;background:currentColor;border-radius:2px;position:relative;transition:transform .3s}
+  .burger i::before,.burger i::after{content:"";position:absolute;left:0;width:18px;height:2px;background:currentColor;border-radius:2px;transition:transform .3s,top .3s}
+  .burger i::before{top:-6px}.burger i::after{top:6px}
+  .burger[aria-expanded="true"] i{background:transparent}
+  .burger[aria-expanded="true"] i::before{top:0;transform:rotate(45deg)}
+  .burger[aria-expanded="true"] i::after{top:0;transform:rotate(-45deg)}
+  .sheet{position:fixed;inset:0;z-index:40;background:#0a0708;padding:calc(var(--nav) + 28px) 24px 28px;display:flex;flex-direction:column;gap:6px;
+    transform:translateY(-8px);opacity:0;visibility:hidden;transition:opacity .25s,transform .25s,visibility .25s}
+  .sheet.open{opacity:1;transform:none;visibility:visible}
+  .sheet a.l{font-family:"Miriam Libre",sans-serif;font-weight:700;font-size:30px;padding:12px 0;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:center}
+  .sheet a.l span{color:var(--coral);font-size:18px}
+  .sheet .cta{margin-top:auto;width:100%}
+
+  /* ---------- hero ---------- */
+  .hero{position:relative;min-height:100dvh;overflow:hidden;display:flex;flex-direction:column;padding-top:var(--nav);
+    background:
+      radial-gradient(58% 70% at 30% 46%,rgba(240,113,103,.6) 0%,rgba(150,48,60,.36) 36%,rgba(8,8,8,0) 70%),
+      radial-gradient(40% 50% at 8% 8%,rgba(94,24,48,.55),rgba(8,8,8,0) 70%),
+      linear-gradient(180deg,#120a0c 0%,#0a0708 60%,#080808 100%)}
+  .grain{position:absolute;inset:0;pointer-events:none;opacity:.09;mix-blend-mode:overlay;background-size:160px 160px;
+    background-image:url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="160" height="160"><filter id="n"><feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="2" stitchTiles="stitch"/><feColorMatrix type="saturate" values="0"/></filter><rect width="100%25" height="100%25" filter="url(%23n)"/></svg>')}
+  .stage{position:relative;z-index:2;flex:1;width:min(1240px,100% - 40px);margin:0 auto;display:grid;align-items:center;gap:28px;padding:24px 0 36px;grid-template-columns:minmax(0,1.3fr) minmax(0,.75fr) minmax(0,.7fr)}
+  .badge{display:inline-flex;align-items:center;gap:10px;padding:9px 16px;border-radius:999px;border:1px solid rgba(241,240,236,.25);background:rgba(0,0,0,.28);font-size:13px;color:#DDDBD5;backdrop-filter:blur(6px)}
+  .badge b{color:var(--ink)} .badge i{font-style:normal;color:var(--coral)}
+  .hero h1{font-size:clamp(40px,4.9vw,74px);line-height:1.02;letter-spacing:-.025em;margin:22px 0 20px}
+  .hero h1 em{font-style:normal;color:var(--coral)}
+  .lead{font-size:clamp(18px,1.6vw,22px);line-height:1.55;color:#D9D7D1;max-width:40ch;margin:0 0 28px}
+  .btns{display:flex;gap:12px;flex-wrap:wrap}
+  .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+  .ask{max-width:520px;background:rgba(10,8,9,.62);border:1.4px solid rgba(255,255,255,.28);border-radius:20px;padding:14px 14px 12px;backdrop-filter:blur(10px);transition:border-color .2s,box-shadow .2s}
+  .ask:focus-within{border-color:#fff;box-shadow:0 0 0 4px rgba(240,113,103,.25)}
+  .ask textarea{all:unset;box-sizing:border-box;display:block;width:100%;min-height:56px;font-size:18px;line-height:1.45;color:#fff;resize:none}
+  .ask textarea::placeholder{color:rgba(241,240,236,.5)}
+  .askrow{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:8px}
+  .hint{font-size:12.5px;color:#BDBBB5}
+  .ask .go{height:48px;padding:0 22px;font-size:16px;border-radius:999px;white-space:nowrap}
+  .ask .go svg{transform:scaleX(-1)}
+  .tabs{display:flex;gap:6px;margin-bottom:10px;background:rgba(255,255,255,.07);border-radius:999px;padding:4px}
+  .tabs button{all:unset;cursor:pointer;flex:1;text-align:center;padding:10px 8px;border-radius:999px;font-size:16px;font-weight:600;color:#CFCDC7}
+  .tabs button[aria-selected="true"]{background:#fff;color:#0E0E0E}
+  .tabs button:focus-visible{outline:3px solid var(--coral);outline-offset:2px}
+  .acts{display:flex;gap:8px;align-items:center}
+  .ask .enr{height:48px;padding:0 18px;font-size:15px;border-radius:999px;white-space:nowrap}
+  .ask .enr svg{width:14px;height:14px;color:var(--coral)}
+  a.how{display:inline-flex;align-items:center;gap:8px;margin-top:16px;font-size:15px;color:#E4E2DC;padding:8px 0}
+  a.how svg{width:13px;height:13px;fill:currentColor}
+  .float{position:relative;height:min(520px,64dvh);display:grid;place-items:center}
+  .ghost{position:absolute;width:min(270px,78%);aspect-ratio:3/3.9;border-radius:30px;filter:blur(14px);opacity:.55}
+  .ghost.a{background:var(--teal);transform:translate(26%,-8%) rotate(7deg)}
+  .ghost.b{background:var(--coral);transform:translate(-30%,10%) rotate(-8deg)}
+  .card{position:relative;width:min(290px,84%);aspect-ratio:3/3.9;border-radius:30px;padding:22px;display:flex;flex-direction:column;gap:10px;background:var(--card);box-shadow:0 40px 90px rgba(0,0,0,.55),0 0 0 1px rgba(255,255,255,.06) inset;animation:bob 7s ease-in-out infinite;transition:background-color .6s,color .6s}
+  .card.final{background:var(--teal);color:#0F2A2C}
+  @keyframes bob{0%,100%{transform:translateY(0) rotate(-2deg)}50%{transform:translateY(-14px) rotate(1.5deg)}}
+  .card .top{display:flex;justify-content:space-between;font-family:"IBM Plex Mono",monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;opacity:.65;direction:ltr}
+  .card .big{font-weight:500;font-size:clamp(44px,5vw,64px);letter-spacing:-.045em;line-height:1;direction:ltr;text-align:right;margin-top:6px}
+  .card.final .big{font-family:"Miriam Libre",sans-serif;font-weight:700;letter-spacing:-.01em;direction:rtl}
+  .card .cap{font-size:14px;opacity:.7}
+  .card .rows{display:grid;gap:9px;margin-top:6px;font-size:13.5px}
+  .card .rows div{display:flex;justify-content:space-between;gap:10px;border-top:1px dotted rgba(255,255,255,.18);padding-top:8px}
+  .card.final .rows div{border-color:rgba(15,42,44,.25)}
+  .card .rows b{font-family:"IBM Plex Mono",monospace;font-weight:600;direction:ltr}
+  .face{display:flex;flex-direction:column;gap:10px;animation:faceIn .5s ease both}
+  @keyframes faceIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+  .qs{display:grid;gap:6px;font-family:"Miriam Libre","Hanken Grotesk",sans-serif;font-weight:700;font-size:clamp(22px,2.3vw,34px);line-height:1.15;letter-spacing:-.01em}
+  .qs button{all:unset;cursor:pointer;display:flex;align-items:center;gap:12px;padding:8px 0;color:rgba(241,240,236,.34);transition:color .4s}
+  .qs button .ar{width:0;opacity:0;color:var(--coral);transition:width .3s,opacity .3s;font-size:22px}
+  .qs button[aria-current="true"]{color:#fff}
+  .qs button[aria-current="true"] .ar{width:26px;opacity:1}
+  .qs button:focus-visible{outline:2px solid var(--coral);outline-offset:4px;border-radius:6px}
+  .pause{all:unset;cursor:pointer;justify-self:start;font-family:'IBM Plex Sans Hebrew',sans-serif;font-size:14px;padding:8px 14px;border-radius:999px;border:1.3px solid rgba(241,240,236,.4);color:#E4E2DC;margin-top:8px}
+  .pause:focus-visible{outline:3px solid var(--coral);outline-offset:3px}
+  .trust{position:relative;z-index:2;width:min(1240px,100% - 40px);margin:0 auto 26px;display:flex;flex-wrap:wrap;gap:10px 34px;justify-content:center;font-size:13px;color:#BDBBB5}
+  .trust span{display:flex;align-items:center;gap:8px}
+  .trust span::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--coral)}
+
+  /* ---------- sections ---------- */
+  section.blk{padding:84px 0}
+  .sec-h{margin-bottom:34px}
+  .sec-h .eyebrow{display:block;margin-bottom:12px;font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--coral)}
+  .sec-h h2{font-size:clamp(30px,4.6vw,52px);line-height:1.06}
+  .sec-h p{color:var(--muted);margin:14px 0 0;max-width:58ch;font-size:18px;line-height:1.55}
+  .steps{display:grid;gap:16px;grid-template-columns:repeat(auto-fit,minmax(250px,1fr))}
+  .step{border:1px solid var(--line);border-radius:26px;padding:28px;background:rgba(255,255,255,.015)}
+  .step .n{font-size:13px;color:var(--coral);font-weight:600}
+  .step h3{font-size:24px;margin:12px 0 8px}
+  .step p{margin:0;color:var(--muted);line-height:1.55}
+  .cards{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(210px,1fr))}
+  .rc{background:var(--card);border-radius:28px;padding:22px;display:flex;flex-direction:column;gap:10px;min-height:310px}
+  .rc.final{background:var(--teal);color:#0F2A2C}
+  .rc .top{display:flex;justify-content:space-between;font-size:12px;letter-spacing:.1em;text-transform:uppercase;opacity:.7}
+  .rc .big{font-size:clamp(40px,5vw,54px);font-weight:500;letter-spacing:-.045em;line-height:1;direction:ltr;text-align:right;margin-top:8px}
+  .rc.final .big{font-family:"Miriam Libre",sans-serif;font-weight:700;letter-spacing:-.01em;direction:rtl}
+  .rc h3{font-size:19px} .rc p{margin:0;font-size:15px;opacity:.78;line-height:1.5}
+  .tag{align-self:flex-start;margin-top:auto;font-size:11px;letter-spacing:.08em;text-transform:uppercase;font-weight:600;border-radius:999px;padding:4px 11px;background:rgba(241,240,236,.12)}
+  .rc.final .tag{background:rgba(15,42,44,.14)}
+  .tag.pro{background:var(--coral);color:#2B0B07}
   .note{font-size:13px;color:var(--muted);margin-top:14px}
-  .tiers{display:grid;gap:18px;grid-template-columns:repeat(auto-fit,minmax(280px,1fr))}
-  .tier{border:1px solid var(--line);border-radius:28px;padding:30px}
-  .tier.pro{border-color:var(--red)}
-  .tier h3{font-size:26px}
-  .tier .price{font-family:"IBM Plex Mono",monospace;font-size:34px;font-weight:600;margin:14px 0 4px;direction:ltr;text-align:right}
-  .tier .price small{font-size:14px;color:var(--muted);font-weight:400}
+
+  /* kick-off + worlds */
+  .kick{display:grid;gap:36px;grid-template-columns:minmax(0,1fr) minmax(0,1fr);align-items:center}
+  .kick .say{font-family:"Miriam Libre",sans-serif;font-weight:700;font-size:clamp(26px,3.4vw,40px);line-height:1.15}
+  .kick .say em{font-style:normal;color:var(--coral)}
+  .chips{display:flex;flex-wrap:wrap;gap:10px}
+  .chip{padding:12px 18px;border-radius:999px;border:1px solid rgba(241,240,236,.22);font-size:16px;background:rgba(255,255,255,.03)}
+  .chip.on{background:var(--ink);color:#0E0E0E;border-color:var(--ink)}
+  .tl{display:grid;gap:0;margin-top:26px;border-inline-start:2px solid var(--line);padding-inline-start:22px}
+  .tl div{position:relative;padding:10px 0;color:#D5D3CD}
+  .tl div::before{content:"";position:absolute;inset-inline-start:-29px;top:19px;width:12px;height:12px;border-radius:50%;background:var(--coral)}
+  .tl b{display:block;color:#fff}
+
+  /* privacy */
+  .privacy{background:linear-gradient(180deg,#0d0a0b,#0b0b0b);border-block:1px solid var(--line)}
+  .pgrid{display:grid;gap:16px;grid-template-columns:repeat(auto-fit,minmax(240px,1fr))}
+  .pcard{border:1px solid var(--line);border-radius:26px;padding:26px;background:rgba(255,255,255,.02)}
+  .pcard .ico{width:42px;height:42px;border-radius:12px;display:grid;place-items:center;background:rgba(240,113,103,.14);color:var(--coral);margin-bottom:14px;font-size:20px}
+  .pcard h3{font-size:21px;margin-bottom:6px} .pcard p{margin:0;color:var(--muted);line-height:1.55;font-size:15.5px}
+  .promise{margin-top:22px;padding:26px 28px;border-radius:26px;background:var(--card);display:flex;gap:18px;align-items:flex-start}
+  .promise strong{font-family:"Miriam Libre",sans-serif;font-size:clamp(22px,2.6vw,30px);line-height:1.2;display:block;margin-bottom:6px}
+  .promise p{margin:0;color:var(--muted);line-height:1.6}
+
+  /* tiers */
+  .tiers{display:grid;gap:18px;grid-template-columns:repeat(auto-fit,minmax(290px,1fr))}
+  .tier{border:1px solid var(--line);border-radius:28px;padding:32px}
+  .tier.pro{border-color:var(--coral);background:linear-gradient(180deg,rgba(240,113,103,.07),transparent)}
+  .tier h3{font-size:28px}
+  .price{font-family:"IBM Plex Mono",monospace;font-size:36px;font-weight:600;margin:14px 0 4px;direction:ltr;text-align:right}
+  .price small{font-size:14px;color:var(--muted);font-weight:400}
   .tier ul{list-style:none;margin:20px 0 0;padding:0;display:grid;gap:12px}
-  .tier li{padding-inline-start:28px;position:relative;color:#D6D5D0}
-  .tier li::before{content:"";position:absolute;inset-inline-start:0;top:.45em;width:14px;height:8px;border-left:2.4px solid var(--red);border-bottom:2.4px solid var(--red);transform:rotate(-45deg) scale(.9);transform-origin:center}
-  .tier li.soon{color:var(--muted)}
-  .tier li.soon::before{border-color:var(--muted)}
-  .soon-tag{font-size:11px;letter-spacing:.06em;border:1px solid var(--line);border-radius:999px;padding:1px 8px;margin-inline-start:6px;color:var(--muted)}
-  .trust{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(240px,1fr))}
-  .trust div{border-top:1px solid var(--line);padding-top:16px}
-  .trust b{display:block;margin-bottom:4px;font-size:17px}
-  .trust p{margin:0;color:var(--muted);font-size:15px}
-  .final-cta{text-align:center;padding:72px 0 88px}
-  .final-cta h2{font-size:clamp(30px,5vw,54px);line-height:1.08;margin-bottom:24px}
-  footer{border-top:1px solid var(--line);padding:28px 0 48px;color:var(--muted);font-size:14px}
+  .tier li{padding-inline-start:28px;position:relative;color:#D6D5D0;line-height:1.5}
+  .tier li::before{content:"";position:absolute;inset-inline-start:0;top:.45em;width:14px;height:8px;border-left:2.4px solid var(--coral);border-bottom:2.4px solid var(--coral);transform:rotate(-45deg) scale(.9)}
+  .tier li.soon{color:var(--muted)} .tier li.soon::before{border-color:var(--muted)}
+  .soon-tag{font-size:11px;border:1px solid var(--line);border-radius:999px;padding:1px 8px;margin-inline-start:6px;color:var(--muted)}
+
+  .final-cta{position:relative;text-align:center;padding:100px 0 110px;overflow:hidden;background:radial-gradient(50% 80% at 50% 100%,rgba(240,113,103,.4),transparent 70%)}
+  .final-cta h2{font-size:clamp(32px,5.4vw,60px);line-height:1.06;margin-bottom:26px}
+  footer{border-top:1px solid var(--line);padding:30px 0 calc(48px + env(safe-area-inset-bottom,0));color:var(--muted);font-size:14px}
   footer .row{display:flex;gap:18px;flex-wrap:wrap;justify-content:space-between}
-  footer nav{display:flex;gap:18px;flex-wrap:wrap}
-  footer a{color:var(--ink);text-underline-offset:3px}
-  :focus-visible{outline:3px solid var(--red);outline-offset:3px;border-radius:6px}
+  footer nav{display:flex;gap:18px;flex-wrap:wrap} footer a{color:var(--ink)}
+
+  .dock{display:none}
+
+  /* ---------- mobile ---------- */
+  @media (max-width:960px){
+    .links,.nav .try,.nav .pill.lang{display:none}
+    .burger{display:grid}
+    .stage{grid-template-columns:1fr;gap:16px;padding-top:12px}
+    .copy{order:1} .float{order:2;height:400px} .qs{order:3;font-size:22px} .pause{order:4}
+    .qs button{padding:5px 0}
+    .hero h1{font-size:clamp(34px,10.2vw,54px);line-height:1.06}
+    .hero{background:radial-gradient(90% 40% at 50% 60%,rgba(240,113,103,.55) 0%,rgba(150,48,60,.3) 40%,rgba(8,8,8,0) 72%),linear-gradient(180deg,#120a0c 0%,#0a0708 60%,#080808 100%)}
+    .askrow{flex-direction:column;align-items:stretch}.acts{flex-direction:column-reverse;align-items:stretch}.ask .go,.ask .enr{width:100%}.hint{text-align:center;order:2}.enra .cta{flex:1 1 100%}
+    section.blk{padding:60px 0}
+    .kick{grid-template-columns:1fr}
+    .promise{flex-direction:column;gap:6px}
+    .dock{display:flex;position:fixed;inset-inline:12px;bottom:calc(12px + env(safe-area-inset-bottom,0));z-index:45;gap:10px;transform:translateY(120%);transition:transform .35s}
+    .dock.show{transform:none}
+    .dock .cta{flex:1;height:54px;box-shadow:0 12px 40px rgba(0,0,0,.5)}
+  }
+  @media (prefers-reduced-motion:reduce){.card,.face{animation:none}html{scroll-behavior:auto}}
 </style>
 </head>
 <body>
-<div class="wrap">
-  <header class="top">
-    <a class="logo" href="/" aria-label="Wazo">WAZO<sup>®</sup></a>
-    <div class="nav"><a class="pill" href="/">נסו עכשיו</a></div>
-  </header>
 
-  <main>
-    <div class="hero">
-      <span class="eyebrow mono">וואזו · Wazo</span>
-      <h1>חוות דעת ישירה על הרעיון שלך, <em>לפני</em> שאתה מתפטר בשבילו</h1>
-      <p class="lead">כותבים רעיון לסטארטאפ ומקבלים בדקות ציונים, חישוב כסף, מבחן של 7 ימים ופסק דין: לבנות, לשנות כיוון או לוותר.</p>
-      <div class="btns">
-        <a class="cta main" href="/">נסו עכשיו, בחינם</a>
-        <a class="cta ghost" href="#tiers">מה חינם ומה Pro</a>
-      </div>
-      <div class="tiles" aria-hidden="true">
-        <i style="background:var(--build)"></i><i style="background:var(--red)"></i><i style="background:var(--pivot)"></i><i style="background:var(--build)"></i><i style="background:var(--red)"></i><i style="background:var(--pivot)"></i><i style="background:var(--build)"></i>
-      </div>
+<header class="nav" id="nav">
+  <div class="wrap in">
+    <a class="logo" href="#top" aria-label="Wazo">WAZO<sup>®</sup></a>
+    <nav class="links" aria-label="ניווט ראשי">
+      <a class="l" href="#how">איך זה עובד</a>
+      <a class="l" href="#inside">מה בפנים</a>
+      <a class="l" href="#kickoff">נקודת פתיחה</a>
+      <a class="l" href="#privacy">פרטיות</a>
+      <a class="l" href="#pricing">מחירים</a>
+    </nav>
+    <div class="right">
+      
+      <a class="cta solid try" href="/#idea">נסו עכשיו</a>
+      <button class="burger" id="burger" aria-label="תפריט" aria-expanded="false" aria-controls="sheet"><i></i></button>
     </div>
+  </div>
+</header>
 
-    <section id="how">
-      <div class="sec-h"><span class="eyebrow mono">איך זה עובד</span><h2>שלושה צעדים, בלי הרצאה.</h2></div>
-      <div class="steps">
-        <div class="step"><span class="n mono">01</span><h3>כותבים את הרעיון</h3><p>משפט או שניים. אפשר להוסיף קהל יעד, תקציב וכמה זמן יש לכם בשבוע.</p></div>
-        <div class="step"><span class="n mono">02</span><h3>מקבלים ניתוח</h3><p>ארבעה ציונים, חישוב של כמה זה יכול להכניס, ומבחן קצר שאפשר לבצע בשבוע.</p></div>
-        <div class="step"><span class="n mono">03</span><h3>מחליטים</h3><p>פסק דין בוטה בלי ניסוחים מנומסים: לבנות, לשנות כיוון או לוותר.</p></div>
-      </div>
-    </section>
-
-    <section id="inside">
-      <div class="sec-h"><span class="eyebrow mono">מה יש בתוך תוצאה</span><h2>חמישה כרטיסים. מחליקים ומחליטים.</h2><p>כל וואזו נפתח כחמישה כרטיסים. בטלפון מחליקים ביניהם, ובמחשב רואים את כולם יחד.</p></div>
-      <div class="cards">
-        <article class="rc"><div class="top mono"><span>01 · ציונים</span></div><div class="big">8 6 5 7</div><h3>ארבעה ציונים</h3><p>כאב, ביקוש, מרחב פתוח ונכונות לשלם, כל אחד עם דרגת ראיות מ־A עד D.</p><span class="badge">חינם</span></article>
-        <article class="rc"><div class="top mono"><span>02 · הכסף</span></div><div class="big">$12,000</div><h3>הכסף</h3><p>מחיר שאפשר לערוך, שלושה תרחישים (נמוך, בסיס, גבוה) וההנחה שמפילה את המודל.</p><span class="badge">חינם</span></article>
-        <article class="rc"><div class="top mono"><span>03 · מבחן 7 ימים</span></div><div class="big">$200</div><h3>מבחן של 7 ימים</h3><p>פעולה מוחשית עם תקציב וקריטריון הצלחה, מעקב אחרי התוצאה ותזכורת ביומן.</p><span class="badge pro">Pro</span></article>
-        <article class="rc"><div class="top mono"><span>04 · הפרטים הקטנים</span></div><div class="big">3·3</div><h3>הפרטים הקטנים</h3><p>סטארטאפים דומים שנכשלו ולמה, מתחרים קיימים, הפער בשוק והעדשה הישראלית.</p><span class="badge pro">Pro</span></article>
-        <article class="rc final"><div class="top mono"><span>05 · השורה התחתונה</span></div><div class="big">לבנות</div><h3>פסק הדין</h3><p>כותרת בוטה, על מה הכול נשען וטיפ אחד שימושי. אפשר לשמור כתמונה ולהעתיק ל־AI.</p><span class="badge pro">Pro</span></article>
-      </div>
-      <p class="note">הכרטיסים לעיל הם דוגמה להמחשה.</p>
-    </section>
-
-    <section id="tiers">
-      <div class="sec-h"><span class="eyebrow mono">מה חינם ומה Pro</span><h2>בודקים בחינם. משלמים כשצריך את העומק.</h2></div>
-      <div class="tiers">
-        <div class="tier">
-          <h3>חינם</h3>
-          <div class="price">$0<small> / לתמיד</small></div>
-          <ul>
-            <li>וואזו ללא הגבלה, כמה רעיונות שרוצים</li>
-            <li>ארבעה ציונים עם דרגת ראיות</li>
-            <li>חישוב הכסף עם מחיר שאפשר לערוך</li>
-            <li>20 מגמות עולמיות לדוגמה, לנסות בלחיצה</li>
-            <li>היסטוריה שנשמרת במכשיר שלכם</li>
-          </ul>
-        </div>
-        <div class="tier pro">
-          <h3>Pro</h3>
-          <div class="price">$13<small> / לחודש</small></div>
-          <ul>
-            <li>הכול מהחבילה החינמית</li>
-            <li>מבחן 7 ימים עם מעקב ותזכורת ביומן</li>
-            <li>בית הקברות, המתחרים, הפער והעדשה הישראלית</li>
-            <li>השורה התחתונה ופסק הדין המלא</li>
-            <li>ניתוח מעמיק (Deep Analyze): אסטרטגיה, סיכונים ואבני דרך ל־30, 60 ו־90 יום</li>
-            <li>שמירת תמונה והעתקת הניתוח ל־AI</li>
-            <li class="soon">Teams: מושבים לצוות ולוח משותף<span class="soon-tag">בקרוב</span></li>
-          </ul>
-        </div>
-      </div>
-      <p class="note">התשלום בדולרים. פרטים מלאים בעמוד <a href="/pricing">המחירים</a> ובמדיניות <a href="/refunds">ההחזרים</a>.</p>
-    </section>
-
-    <section id="trust">
-      <div class="sec-h"><span class="eyebrow mono">ביושר</span><h2>מה Wazo הוא, ומה לא.</h2></div>
-      <div class="trust">
-        <div><b>המלצה בלבד</b><p>זו חוות דעת מהירה ולא ייעוץ השקעות, משפט, כספים או עסקים. ההחלטה והאחריות שלכם.</p></div>
-        <div><b>לא גולש באינטרנט</b><p>הניתוח נכתב על ידי Claude של Anthropic ולא מחפש ברשת בזמן השיפוט, לכן מספרים ושמות חברות עלולים להיות לא מעודכנים. כל ציון מגיע עם דרגת ראיות.</p></div>
-        <div><b>הפרטיות שלכם</b><p>הנתונים נשמרים בשרתים באיחוד האירופי, בלי מכירת מידע, עם בדיקת בוטים ואנליטיקה בלי עוגיות מעקב.</p></div>
-        <div><b>ארבע שפות</b><p>עברית, אנגלית, ספרדית וצרפתית. מבקרים מישראל מקבלים עברית אוטומטית.</p></div>
-      </div>
-    </section>
-
-    <div class="final-cta">
-      <h2>יש לכם רעיון? תנו לו חמש דקות.</h2>
-      <a class="cta main" href="/">נסו עכשיו, בחינם</a>
-    </div>
-  </main>
-
-  <footer>
-    <div class="row">
-      <span>Wazo · וואזו © 2026 · <a href="mailto:support@wazo.app">support@wazo.app</a></span>
-      <nav><a href="/pricing">מחירים</a><a href="/terms">תנאי שימוש</a><a href="/privacy">פרטיות</a><a href="/refunds">החזרים</a></nav>
-    </div>
-  </footer>
+<div class="sheet" id="sheet" aria-hidden="true">
+  <a class="l" href="#how">איך זה עובד <span>←</span></a>
+  <a class="l" href="#inside">מה בפנים <span>←</span></a>
+  <a class="l" href="#kickoff">נקודת פתיחה <span>←</span></a>
+  <a class="l" href="#privacy">פרטיות <span>←</span></a>
+  <a class="l" href="#pricing">מחירים <span>←</span></a>
+  <a class="cta solid" href="/#idea">נסו עכשיו, בחינם</a>
 </div>
+
+<main id="top">
+  <section class="hero">
+    <div class="grain"></div>
+    <div class="stage">
+      <div class="copy">
+        <span class="badge"><b>בלי הרשמה ובלי עלות</b><span style="opacity:.6">איך זה עובד</span><i>←</i></span>
+        <h1>רעיון בראש? נבדוק אותו יחד, <em>לפני</em> שמוציאים את השקל הראשון</h1>
+        <p class="lead">כותבים אותו בכמה מילים ומקבלים בדקות: כמה הוא חזק, כמה אפשר להרוויח ממנו, וצעד קטן אחד לנסות כבר השבוע.</p>
+        <form class="ask" onsubmit="event.preventDefault()">
+          <div class="tabs" role="tablist" aria-label="איך מתחילים"><button type="button" role="tab" id="tabHave" aria-selected="true">יש לי רעיון</button><button type="button" role="tab" id="tabNone" aria-selected="false">אין לי רעיון</button></div>
+          <label class="sr" for="idea">הרעיון שלך</label>
+          <textarea id="idea" rows="2" placeholder="כתבו כאן את הרעיון, בכמה מילים. למשל: לפתוח דוכן קפה בשוק."></textarea>
+          <div class="askrow"><span class="hint" id="hint">מה שכתבתם נשאר שלכם.</span><span class="acts"><button class="cta line enr" type="button" id="enrich"><svg viewBox="0 0 16 16"><path d="M8 0l1.6 5.4L15 7l-5.4 1.6L8 14l-1.6-5.4L1 7l5.4-1.6z"/></svg>הרחב לי</button><button class="cta solid go" id="go" type="submit"><span id="gotxt">בדקו את הרעיון</span> <svg viewBox="0 0 16 16"><path d="M13 8L7 2v4H2v4h5v4z"/></svg></button></span></div>
+        </form>
+        <a class="how" href="#how"><svg viewBox="0 0 16 16"><path d="M3 2l11 6-11 6z"/></svg>איך זה עובד</a>
+      </div>
+      <div class="float" aria-live="polite"><div class="ghost a"></div><div class="ghost b"></div><div class="card" id="card"></div></div>
+      <div class="qs" id="qs" role="tablist" aria-label="שאלות שאנשים שואלים"></div>
+    </div>
+    <div class="trust">
+      <span>הניתוח נכתב על ידי בינה מלאכותית (Claude)</span><span>הנתונים נשמרים באירופה</span><span>לא מוכרים מידע</span><span>עברית, אנגלית, ספרדית וצרפתית</span>
+    </div>
+  </section>
+
+  <section class="blk" id="how"><div class="wrap">
+    <div class="sec-h"><span class="eyebrow mono">איך זה עובד</span><h2>שלושה צעדים, בלי הרצאה</h2></div>
+    <div class="steps">
+      <div class="step"><span class="n mono">01</span><h3>כותבים את הרעיון</h3><p>משפט או שניים מספיקים. אין רעיון עדיין? כתבו מה מעניין אתכם ואציע רעיונות.</p></div>
+      <div class="step"><span class="n mono">02</span><h3>מקבלים תמונה ברורה</h3><p>כמה הרעיון חזק, כמה אפשר להרוויח ממנו, וניסוי קטן לשבוע.</p></div>
+      <div class="step"><span class="n mono">03</span><h3>מחליטים מה הלאה</h3><p>תשובה כנה: כדאי להתחיל, כדאי לחדד, או כדאי לעצור כאן, ומה עושים במקום.</p></div>
+    </div>
+  </div></section>
+
+  <section class="blk" id="inside" style="padding-top:20px"><div class="wrap">
+    <div class="sec-h"><span class="eyebrow mono">מה בפנים</span><h2>חמישה כרטיסים, אחד בכל פעם</h2><p>כל וואזו נפתח כחמישה כרטיסים. בטלפון מחליקים ביניהם, ובמחשב רואים את כולם יחד.</p></div>
+    <div class="cards">
+      <article class="rc"><div class="top mono"><span>01 · כמה חזק</span></div><div class="big">8 6 5 7</div><h3>כמה הרעיון חזק</h3><p>ארבע נקודות פשוטות: האם הבעיה אמיתית, יש מי שרוצה, כמה מתחרים, והאם ישלמו.</p><span class="tag">חינם</span></article>
+      <article class="rc"><div class="top mono"><span>02 · הכסף</span></div><div class="big">$12,000</div><h3>כמה אפשר להרוויח</h3><p>מחיר שאפשר לשנות, שלושה תרחישים, ומה יכול לקלקל את החישוב.</p><span class="tag">חינם</span></article>
+      <article class="rc"><div class="top mono"><span>03 · ניסוי לשבוע</span></div><div class="big">$200</div><h3>ניסוי קטן לשבוע</h3><p>דבר אחד לעשות, כמה זה עולה ואיך תדעו שהצליח. אפשר לקבל תזכורת ביומן.</p><span class="tag pro">Pro</span></article>
+      <article class="rc"><div class="top mono"><span>04 · מי כבר ניסה</span></div><div class="big">3·3</div><h3>מי כבר ניסה</h3><p>מי ניסה דבר דומה ומה קרה לו, מי עושה את זה היום, ומה עוד חסר בישראל.</p><span class="tag pro">Pro</span></article>
+      <article class="rc final"><div class="top mono"><span>05 · ומה עכשיו</span></div><div class="big">כדאי להתחיל</div><h3>ומה עושים עכשיו</h3><p>תשובה כנה במשפט אחד, על מה היא נשענת, וטיפ אחד שימושי.</p><span class="tag pro">Pro</span></article>
+    </div>
+    <p class="note">הכרטיסים הם דוגמה להמחשה.</p>
+  </div></section>
+
+  <section class="blk" id="kickoff"><div class="wrap kick">
+    <div>
+      <span class="eyebrow mono" style="color:var(--coral);font-size:12px;letter-spacing:.12em">נקודת פתיחה</span>
+      <p class="say" style="margin:12px 0 0">Wazo לא מחליט בשבילך<br>הוא <em>עוזר להתחיל</em></p>
+      <div class="tl">
+        <div><b>לפני שמשקיעים זמן וכסף</b>בדיקה של כמה דקות, לפני חודשים של עבודה.</div>
+        <div><b>עם ניסוי קטן ביד</b>דבר אחד לעשות השבוע, ואיך תדעו אם הצליח.</div>
+        <div><b>ואז ההחלטה שלכם</b>זו המלצה ראשונה, לא תחליף לאדם מקצועי או לשיקול הדעת שלכם.</div>
+      </div>
+    </div>
+    <div>
+      <div class="sec-h" style="margin-bottom:18px"><h2 style="font-size:clamp(24px,3vw,34px)">לכל מי שיש משהו בראש</h2><p style="font-size:16px">לא צריך להיות יזם או להבין בעסקים. כתבו מה שבא לכם, בשפה שלכם:</p></div>
+      <div class="chips"><span class="chip on">עסק קטן</span><span class="chip">עבודה חדשה והסבה</span><span class="chip">ללמד משהו</span><span class="chip">פרויקט שישאר אחריי</span><span class="chip">אתר או אפליקציה</span><span class="chip">מוצר שעושים בבית</span><span class="chip">תוכן וקהילה</span></div>
+    </div>
+  </div></section>
+
+  <section class="blk privacy" id="privacy"><div class="wrap">
+    <div class="sec-h"><span class="eyebrow mono">פרטיות</span><h2>הרעיון שלכם נשאר שלכם</h2><p>אנחנו לא מוכרים אותו, לא משתפים אותו ולא מפרסמים אותו. Wazo נועד לעזור לכם להתחיל, לא לקחת מכם משהו.</p></div>
+    <div class="pgrid">
+      <div class="pcard"><div class="ico">⌁</div><h3>נשמר רק כדי לעבוד</h3><p>הרעיון והניתוח נשמרים בשרת באיחוד האירופי כדי להפיק את הניתוח ולהחזיר לך אותו. עותק נשמר גם במכשיר שלך.</p></div>
+      <div class="pcard"><div class="ico">✕</div><h3>לא נמכר, לא משותף</h3><p>הרעיון לא נמכר ולא מועבר לאף אחד כדי לפרסם או לשווק. הוא נשלח ל־Anthropic רק לצורך כתיבת הניתוח.</p></div>
+      <div class="pcard"><div class="ico">◐</div><h3>בלי מעקב</h3><p>אין עוגיות מעקב, ואין פרופיל פרסום עליכם. יש רק בדיקה שמוודאת שאתם אדם ולא רובוט.</p></div>
+      <div class="pcard"><div class="ico">⌫</div><h3>אתם מחליטים</h3><p>אפשר לבקש מחיקה של הפרטים בכל רגע, מתוך האפליקציה.</p></div>
+    </div>
+    <div class="promise"><div style="font-size:30px;line-height:1">☝</div><div><strong>עוזר להתחיל, לא מחליף אותך.</strong><p>ל־Wazo אין סמכות שוק. הניתוח נכתב על ידי בינה מלאכותית שלא מחפשת באינטרנט בזמן הכתיבה, ולכן מספרים ושמות של חברות עלולים להיות לא מעודכנים. לכל ציון יש הסבר על מה הוא נשען. זו המלצה בלבד, ולא ייעוץ משפטי, כספי או עסקי.</p></div></div>
+  </div></section>
+
+  <section class="blk" id="pricing"><div class="wrap">
+    <div class="sec-h"><span class="eyebrow mono">מחירים</span><h2>בודקים בחינם, משלמים כשצריך את העומק</h2></div>
+    <div class="tiers">
+      <div class="tier"><h3>חינם</h3><div class="price">$0<small> / לתמיד</small></div>
+        <ul><li>וואזו ללא הגבלה</li><li>כמה הרעיון חזק, בארבע נקודות</li><li>כמה אפשר להרוויח, עם מחיר שאפשר לשנות</li><li>עזרה בהרחבת רעיון, ורעיונות כשעוד אין</li><li>20 מגמות עולמיות לדוגמה</li><li>היסטוריה שנשמרת במכשיר</li></ul></div>
+      <div class="tier pro"><h3>Pro</h3><div class="price">$13<small> / לחודש</small></div>
+        <ul><li>הכול מהחבילה החינמית</li><li>ניסוי קטן לשבוע, עם מעקב ותזכורת</li><li>מי כבר ניסה, מי מתחרה, ומה חסר בישראל</li><li>התשובה המלאה: מה עושים עכשיו</li><li>ניתוח מעמיק: תוכנית, סיכונים וצעדים ל־90 יום</li><li>שמירת תמונה והעתקה ל־AI</li><li class="soon">Teams: מושבים לצוות<span class="soon-tag">בקרוב</span></li></ul></div>
+    </div>
+    <p class="note">התשלום בדולרים. פרטים מלאים בעמוד המחירים ובמדיניות ההחזרים.</p>
+  </div></section>
+
+  <section class="final-cta"><div class="wrap">
+    <h2>יש לכם רעיון, או שעוד אין? בואו נתחיל</h2>
+    <a class="cta solid" href="/#idea">נסו עכשיו, בחינם</a>
+  </div></section>
+</main>
+
+<footer><div class="wrap row">
+  <span>Wazo · וואזו © 2026 · <a href="mailto:support@wazo.app">support@wazo.app</a></span>
+  <nav><a href="/pricing">מחירים</a><a href="/privacy">פרטיות</a><a href="/terms">תנאי שימוש</a><a href="/refunds">החזרים</a></nav>
+</div></footer>
+
+<div class="dock" id="dock"><a class="cta solid" href="/#idea">נסו עכשיו, בחינם</a></div>
+
+<script>
+const faces=[
+  {q:"יש מי שישלם על זה?",top:["01 · כמה חזק","1–10"],big:"8 6 5 7",cap:"ארבע נקודות, כל אחת מ־1 עד 10",rows:[["הבעיה אמיתית","8/10"],["יש מי שרוצה","6/10"],["אין הרבה מתחרים","5/10"],["ישלמו על זה","7/10"]]},
+  {q:"כמה אפשר להרוויח?",top:["02 · הכסף","$"],big:"$12,000",cap:"בחודש, בתרחיש הסביר",rows:[["מעט · 120 לקוחות","$3,600"],["סביר · 400 לקוחות","$12,000"],["הרבה · 1,200 לקוחות","$36,000"]]},
+  {q:"אפשר לנסות את זה בשבוע?",top:["03 · ניסוי לשבוע","PRO"],big:"$200",cap:"7 ימים, מבחן אחד",rows:[["מה עושים","מוכרים מראש"],["הצלחה אם","10 הזמנות"]]},
+  {q:"מי כבר ניסה, ומה קרה?",top:["04 · מי כבר ניסה","PRO"],big:"3·3",cap:"נסגרו · עדיין פעילים",rows:[["Shoeboxed","נסגר"],["Receipt Bank","הוחלף"],["מה חסר","עברית ומע״מ"]]},
+  {q:"כדאי להתחיל?",top:["05 · ומה עכשיו","PRO"],big:"כדאי להתחיל",cap:"מתחילים בקטן, עם עצמאים בישראל.",rows:[["הכול תלוי ב","שמישהו ישלם מראש"]],final:true}
+];
+const qs=document.getElementById("qs"), card=document.getElementById("card"); let i=0, timer=null;
+qs.innerHTML=faces.map((f,k)=>`<button type="button" role="tab" data-k="${k}"><span class="ar">◀</span><span>${f.q}</span></button>`).join("");
+function show(k){ i=k; const f=faces[k]; qs.querySelectorAll("button").forEach((b,n)=>b.setAttribute("aria-current",n===k)); card.classList.toggle("final",!!f.final);
+  card.innerHTML=`<div class="face"><div class="top"><span>${f.top[0]}</span><span>${f.top[1]}</span></div><div class="big">${f.big}</div><div class="cap">${f.cap}</div><div class="rows">${f.rows.map(r=>`<div><span>${r[0]}</span><b>${r[1]}</b></div>`).join("")}</div></div>`; }
+function play(){ clearInterval(timer); if(typeof paused!=="undefined"&&paused) return; if(!matchMedia("(prefers-reduced-motion: reduce)").matches) timer=setInterval(()=>show((i+1)%faces.length),3200); }
+qs.addEventListener("click",e=>{ const b=e.target.closest("[data-k]"); if(b){ show(+b.dataset.k); play(); } });
+const qwrap=qs; const pb=document.createElement("button"); pb.type="button"; pb.className="pause"; pb.textContent="עצור תנועה"; qwrap.after(pb);
+let paused=false; pb.addEventListener("click",()=>{ paused=!paused; pb.textContent=paused?"המשך תנועה":"עצור תנועה"; card.style.animationPlayState=paused?"paused":"running"; if(paused) clearInterval(timer); else play(); });
+show(0); play();
+
+/* hand the idea to the app through this browser only (never in the URL, so it is not logged) */
+const idea=document.getElementById("idea"), tabHave=document.getElementById("tabHave"), tabNone=document.getElementById("tabNone"), goTxt=document.getElementById("gotxt");
+const none=()=>tabNone.getAttribute("aria-selected")==="true";
+function setMode(n){
+  tabHave.setAttribute("aria-selected",!n); tabNone.setAttribute("aria-selected",n);
+  document.getElementById("enrich").hidden=n;
+  idea.placeholder= n ? "מה מעניין אתכם? למשל: ילדים, בישול, מחשבים, לעזור לאנשים..." : "כתבו כאן את הרעיון, בכמה מילים. למשל: לפתוח דוכן קפה בשוק.";
+  goTxt.textContent= n ? "הציעו לי רעיונות" : "בדקו את הרעיון";
+  document.getElementById("hint").textContent= n ? "גם מילה אחת מספיקה." : "מה שכתבתם נשאר שלכם.";
+  idea.focus();
+}
+tabHave.addEventListener("click",()=>setMode(false)); tabNone.addEventListener("click",()=>setMode(true));
+function toApp(mode){
+  try{ localStorage.setItem("wz.handoff",JSON.stringify({text:idea.value.trim().slice(0,1200),mode})); }catch(e){}
+  location.href="/#idea";
+}
+document.querySelector(".ask").addEventListener("submit",e=>{ e.preventDefault(); toApp(none()?"none":"check"); });
+document.getElementById("enrich").addEventListener("click",()=>toApp("enrich"));
+
+/* nav: solid on scroll, active section, mobile sheet, sticky mobile CTA */
+const nav=document.getElementById("nav"), dock=document.getElementById("dock"), burger=document.getElementById("burger"), sheet=document.getElementById("sheet");
+const secs=[...document.querySelectorAll(".links a.l")].map(a=>({a,el:document.querySelector(a.getAttribute("href"))}));
+function onScroll(){ nav.classList.toggle("solid",scrollY>20); dock.classList.toggle("show",scrollY>innerHeight*.7 && !sheet.classList.contains("open"));
+  let cur=null; secs.forEach(s=>{ if(s.el && s.el.getBoundingClientRect().top<innerHeight*.4) cur=s; }); secs.forEach(s=>s.a.setAttribute("aria-current",s===cur)); }
+addEventListener("scroll",onScroll,{passive:true}); onScroll();
+function setSheet(on){ sheet.classList.toggle("open",on); burger.setAttribute("aria-expanded",on); sheet.setAttribute("aria-hidden",!on); document.documentElement.style.overflow=on?"hidden":""; nav.classList.toggle("solid",on||scrollY>20); onScroll(); }
+burger.addEventListener("click",()=>setSheet(!sheet.classList.contains("open")));
+sheet.addEventListener("click",e=>{ if(e.target.closest("a")) setSheet(false); });
+addEventListener("keydown",e=>{ if(e.key==="Escape") setSheet(false); });
+</script>
 </body>
 </html>
