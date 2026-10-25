@@ -118,11 +118,14 @@
   a.how svg{width:13px;height:13px;fill:currentColor}
   .float{position:relative;height:min(520px,64dvh);display:grid;place-items:center}
   @media (hover:hover) and (pointer:fine) and (min-width:961px){
-    .ghost.a{translate:0 calc(var(--p,0)*-28px)}
-    .ghost.b{translate:0 calc(var(--p,0)*22px)}
+    .stk.s1{translate:0 calc(var(--p,0)*6px)}
+    .stk.s2{translate:0 calc(var(--p,0)*12px)}
     .float .card{translate:0 calc(var(--p,0)*-10px)}
     .stage.simple .copy{translate:0 calc(var(--h,0)*18px)}
   }
+  .stk{position:absolute;width:min(290px,84%);aspect-ratio:3/3.9;border-radius:30px;padding:22px;background:#161616;border:1px solid rgba(255,255,255,.1);box-shadow:0 30px 60px rgba(0,0,0,.5);color:rgba(241,240,236,.45);font:600 11px "IBM Plex Mono",monospace;letter-spacing:.1em;direction:ltr;transition:transform var(--motion-emphasized) var(--ease-out)}
+  .stk.s1{transform:translate(-26px,20px) scale(.95)}
+  .stk.s2{transform:translate(-52px,40px) scale(.9);background:#121212}
   .ghost{position:absolute;width:min(270px,78%);aspect-ratio:3/3.9;border-radius:30px;filter:blur(14px);opacity:.55}
   .ghost.a{background:var(--teal);transform:translate(26%,-8%) rotate(7deg)}
   .ghost.b{background:var(--coral);transform:translate(-30%,10%) rotate(-8deg)}
@@ -252,6 +255,7 @@
   <div class="wrap in">
     <a class="logo" href="#top" aria-label="Wazo">WAZO<sup>®</sup></a>
     <nav class="links" aria-label="ניווט ראשי">
+      <a class="l" href="#what">מה תקבלו</a>
       <a class="l" href="#how">איך זה עובד</a>
       <a class="l" href="#inside">מה בפנים</a>
       <a class="l" href="#kickoff">נקודת פתיחה</a>
@@ -267,6 +271,7 @@
 </header>
 
 <div class="sheet" id="sheet" aria-hidden="true">
+  <a class="l" href="#what">מה תקבלו</a>
   <a class="l" href="#how">איך זה עובד</a>
   <a class="l" href="#inside">מה בפנים</a>
   <a class="l" href="#kickoff">נקודת פתיחה</a>
@@ -296,7 +301,7 @@
     <div class="sec-h"><span class="eyebrow">מה תקבלו</span><h2>תשובה ברורה, בחמישה כרטיסים</h2></div>
     <div class="qs" id="qs" role="tablist" aria-label="חמשת הכרטיסים"></div>
     <div class="showgrid">
-      <div class="float" aria-live="polite"><div class="ghost a"></div><div class="ghost b"></div><div class="card" id="card"></div></div>
+      <div class="float" aria-live="polite"><div class="stk s2" id="s2"></div><div class="stk s1" id="s1"></div><div class="card" id="card"></div></div>
       <div class="pane" id="pane"></div>
     </div>
     <div class="trust">
@@ -392,7 +397,7 @@ const pq=document.getElementById("pq"), pd=document.getElementById("pd"), pb=doc
 function show(k){ i=k; const f=faces[k]; const btns=[...qs.querySelectorAll("button")];
   btns.forEach((b,n)=>{ b.setAttribute("aria-selected",n===k); const fl=b.firstChild; fl.style.animation="none"; if(n===k){ void fl.offsetWidth; fl.style.animation=""; } });
   const cur=btns[k]; qs.scrollTo({left:cur.offsetLeft-(qs.clientWidth-cur.offsetWidth)/2,behavior:calm?"auto":"smooth"});
-  card.classList.toggle("final",!!f.final); pq.textContent=f.q; pd.textContent=f.d;
+  card.classList.toggle("final",!!f.final); [1,2].forEach(n=>{ document.getElementById("s"+n).textContent=faces[(k+n)%faces.length].top[0]; }); pq.textContent=f.q; pd.textContent=f.d;
   card.innerHTML=`<div class="face"><div class="top"><span>${f.top[0]}</span><span>${f.top[1]}</span></div><div class="big">${f.big}</div><div class="cap">${f.cap}</div><div class="rows">${f.rows.map(r=>`<div><span>${r[0]}</span><b>${r[1]}</b></div>`).join("")}</div></div>`; }
 /* the progress fill finishing is what moves to the next card, so pausing the fill pauses the show */
 qs.addEventListener("animationend",e=>{ if(e.animationName==="fill" && !paused) show((i+1)%faces.length); });
