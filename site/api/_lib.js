@@ -124,6 +124,27 @@ export async function askClaude(prompt, { signal, maxTokens, mock } = {}) {
   return (j.content || []).filter((c) => c.type === "text").map((c) => c.text).join("");
 }
 
+// Shared handler for the two small free helpers (enrich, ideate): bot check, one Claude call, shaped JSON back.
+export async function lightHandler(req, res, { text, build, shape, mock, key }) {
+  if (req.method !== "POST") return send(res, 405, { code: "method" });
+  if (!ready()) return send(res, 503, { code: "not_configured" });
+  const b = await body(req);
+  const input = str(b[text], 1200);
+  if (input.length < 2) return send(res, 400, { code: "need_idea" });
+  const lang = LANGS.includes(b.lang) ? b.lang : "en";
+  if (!(await human(b.token, clientIp(req), req, res))) return send(res, 403, { code: "bot" });
+  const ctl = new AbortController(); const timer = setTimeout(() => ctl.abort(), 40000);
+  try {
+    const raw = await askClaude(build({ [text === "topic" ? "topic" : "idea"]: input, lang }), { signal: ctl.signal, maxTokens: 2000, mock });
+    const parsed = JSON.parse(raw.slice(raw.indexOf("{"), raw.lastIndexOf("}") + 1));
+    return send(res, 200, shape(parsed));
+  } catch (e) {
+    const code = e.code === "busy" ? "busy" : e.code === "refused" ? "refused" : e.name === "AbortError" ? "timeout" : e instanceof SyntaxError ? "invalid_json" : "error";
+    console.error(key, e.message);
+    return send(res, code === "busy" ? 503 : 500, { code });
+  } finally { clearTimeout(timer); }
+}
+
 // ---------- Paddle (REST, API key; server only) ----------
 const paddleBase = () => (env("PADDLE_ENV", "sandbox") === "production" ? "https://api.paddle.com" : "https://sandbox-api.paddle.com");
 export async function paddleGet(path) {

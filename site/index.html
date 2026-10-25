@@ -139,6 +139,22 @@ textarea#idea{width:100%;resize:none;border:0;background:transparent;color:inher
 textarea#idea::placeholder{color:currentColor;opacity:.35}
 textarea#idea:focus{outline:none}
 .morebtn{justify-self:start;border:0;background:none;padding:4px 0;font-size:14px;font-weight:500;color:inherit;opacity:.7;text-decoration:underline;text-underline-offset:3px}
+.helprow{display:flex;gap:18px;flex-wrap:wrap}
+.helpbox{border:1.3px solid color-mix(in srgb,currentColor 25%,transparent);border-radius:20px;padding:16px;display:grid;gap:12px;font-size:15.5px;line-height:1.55}
+.helpbox[hidden]{display:none}
+.helpbox .hh{display:flex;justify-content:space-between;align-items:center;font-family:var(--f-mono);font-size:12px;letter-spacing:.1em;text-transform:uppercase;opacity:.7}
+.helpbox .hh button{all:unset;cursor:pointer;font-size:22px;padding:0 6px}
+.helpbox p{margin:0}
+.helpbox .chips{display:flex;gap:8px;flex-wrap:wrap}
+.helpbox .chips span{font-size:12.5px;padding:4px 10px;border-radius:999px;background:color-mix(in srgb,var(--red) 20%,transparent)}
+.helpbox .hnote{font-size:12.5px;opacity:.6}
+.helpbox .picks{display:grid;gap:8px}
+.helpbox .picks button{all:unset;cursor:pointer;display:block;padding:12px 14px;border-radius:14px;background:color-mix(in srgb,currentColor 9%,transparent);line-height:1.4}
+.helpbox .picks button:hover,.helpbox .picks button:focus-visible{outline:2px solid var(--red)}
+.helpbox .picks small{display:block;opacity:.65;font-size:13.5px;margin-top:2px}
+.helpbox .row{display:flex;gap:8px}
+.helpbox .row input{flex:1;min-width:0;border:1.3px solid color-mix(in srgb,currentColor 25%,transparent);background:transparent;border-radius:999px;padding:12px 18px;font-size:16px;color:inherit}
+.p-idea .helpbox .row .cta{width:auto;flex:none;height:48px;padding:0 20px;font-size:15px}
 .fields{display:none;gap:10px}
 .p-idea.more .fields{display:grid}
 .fields label{display:grid;gap:5px;font-size:12px;opacity:.75}
@@ -496,6 +512,8 @@ dialog.sheet[open]::backdrop{animation:fadeIn .3s ease both}
   <form class="in" id="askForm">
     <label class="sr" for="idea" data-t="ideaLabel"></label>
     <textarea id="idea" rows="3" required></textarea>
+    <div class="helprow"><button class="morebtn" type="button" id="enrBtn" style="display:flex;align-items:center;gap:6px"><span data-ic="spark"></span><span data-t="enrBtn"></span></button><button class="morebtn" type="button" id="noIdeaBtn" style="display:flex;align-items:center;gap:6px"><span data-ic="bulb"></span><span data-t="noIdeaBtn"></span></button></div>
+    <div class="helpbox" id="helpBox" hidden aria-live="polite"></div>
     <button class="morebtn" type="button" id="moreBtn" aria-expanded="false" aria-controls="fieldsBox" style="display:flex;align-items:center;gap:6px"><span data-ic="plus"></span><span data-t="moreDetails"></span></button>
     <div class="fields" id="fieldsBox">
       <label for="fCust"><span data-t="fCust"></span><input id="fCust"></label>
@@ -544,7 +562,7 @@ he:{
  errGranted:"לא ניתנה הרשאה להשתמש ב-Claude מהעמוד הזה.", errRate:"יותר מדי בקשות כרגע. נסה שוב בעוד כמה דקות.",
  errJson:"הוואזו יצא משובש. לחץ שוב.", errRefused:"Claude סירב לשפוט את הרעיון בניסוח הזה. נסח מחדש.", errGeneric:"משהו נתקע בניתוח. נסה שוב.",
  steps:["קורא את הרעיון","מדרג ראיות","מחשב תרחישים","חופר בבית הקברות","בונה מבחן ל-7 ימים","מסכם"],
- vWord:{BUILD:"לבנות",PIVOT:"לשנות כיוון",KILL:"לוותר"},
+ vWord:{BUILD:"כדאי להתחיל",PIVOT:"כדאי לחדד",KILL:"כדאי לעצור כאן"},
  r:{no:"קבלה מס׳",reg:"קופה: Claude",item:"פריט",scores:"ציונים",money:"חשבון",price:"מחיר לחודש",low:"נמוך",base:"בסיס",high:"גבוה",cust:"לקוחות",
   breaker:"שובר את המודל",kill:"מבחן 7 ימים",budget:"תקציב",pass:"עובר אם",total:"סה״כ",rests:"הכול נשען על",tip:"טיפ",fine:"פירוט מאחורי הקבלה",
   grave:"בית הקברות",comp:"מי כבר בשטח",gap:"הפער הפתוח",il:"עדשה ישראלית",fit:"מי צריך לבנות את זה",
@@ -563,7 +581,7 @@ he:{
  drEy:"03, שלך", drT:"המגירה.", drS:"כל קבלה שהדפסת נשמרת כאן, פרטית לך בלבד. סמן איך נגמר המבחן.",
  drEmpty:"המגירה ריקה", drEmptyS:"נתח את הרעיון הראשון שלך והוואזו יחכה כאן.", drOut:"התחבר ל-claude.ai כדי לשמור את הוואזו שלך", drOutS:"הכול נשמר בחשבון שלך ואף אחד אחר לא רואה.",
  open:"פתח", del:"מחק", yes:"מחק", no:"ביטול", loading:"טוען…",
- foot:"Wazo · וואזו מספק חוות דעת אמיתית על הרעיון שלך, לפני שאתה מתפטר בשבילו."
+ foot:"Wazo · וואזו מספק חוות דעת אמיתית על הרעיון שלך, לפני שאתה מתפטר בשבילו"
 },
 en:{
  nHow:"On the receipt", nFeed:"World receipts", nDrawer:"The drawer", navCta:"Analyze an idea",
@@ -964,6 +982,8 @@ const IC={
   lock:'<g><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path class="shk" pathLength="1" d="M7 11V7a5 5 0 0 1 10 0v4"/></g>',
   arrow:'<g><path d="M7 7h10v10"/><path d="M7 17 17 7"/></g>',
   chev:'<g><path d="m15 18-6-6 6-6"/></g>',
+  spark:'<g><path d="M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8z"/></g>',
+  bulb:'<g><path d="M9 18h6"/><path d="M10 21h4"/><path d="M12 3a6 6 0 0 0-3.5 10.9c.6.5 1 1.2 1 2.1h5c0-.9.4-1.6 1-2.1A6 6 0 0 0 12 3z"/></g>',
   plus:'<g><path d="M5 12h14"/><path class="v" d="M12 5v14"/></g>',
   dl:'<g><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><g class="arr"><path d="m7 10 5 5 5-5"/><path d="M12 15V3"/></g></g>',
   copy:'<g><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/><rect class="front" width="14" height="14" x="8" y="8" rx="2" ry="2"/></g>',
@@ -974,9 +994,13 @@ const IC={
 const ic=(n,cls="")=>`<svg class="ic ic-${n} ${cls}" viewBox="0 0 24 24" aria-hidden="true">${IC[n]}</svg>`;
 function hydrateIcons(root=document){ root.querySelectorAll("[data-ic]").forEach(el=>{ if(!el.firstElementChild) el.innerHTML=ic(el.dataset.ic); }); }
 const VCLS = v => ({BUILD:"build",PIVOT:"pivot",KILL:"kill"}[v]||"pivot");
+Object.assign(T.he,{enrBtn:"הרחב לי", enrT:"הרעיון אחרי הרחבה", enrUse:"השתמש בזה", enrClose:"סגור", enrLoad:"מרחיב את הרעיון...", enrNeed:"כתבו קודם רעיון קצר, ואז אוכל להרחיב אותו.", noIdeaBtn:"אין לי רעיון", noIdeaT:"מה מעניין אתכם?", noIdeaPh:"למשל: ילדים, בישול, מחשבים, לעזור לאנשים", noIdeaGo:"הציעו לי רעיונות", noIdeaLoad:"חושב על רעיונות...", noIdeaPick:"לחצו על רעיון כדי להתחיל ממנו", helpNote:"ההרחבה נכתבת על ידי בינה מלאכותית. אפשר לערוך אותה לפני הבדיקה."});
 Object.assign(T.he,{testTag:"גרסת בדיקה · כל התכונות פתוחות · בלי תשלום", nextCard:"הבא", remind:"הזכר לי בעוד 7 ימים", remindTitle:"Wazo: תוצאות מבחן 7 הימים"});
+Object.assign(T.en,{enrBtn:"Expand it for me", enrT:"Your idea, expanded", enrUse:"Use this", enrClose:"Close", enrLoad:"Expanding your idea...", enrNeed:"Write a short idea first, then I can expand it.", noIdeaBtn:"I have no idea", noIdeaT:"What are you interested in?", noIdeaPh:"e.g. kids, cooking, computers, helping people", noIdeaGo:"Suggest ideas", noIdeaLoad:"Thinking of ideas...", noIdeaPick:"Tap an idea to start from it", helpNote:"The expansion is written by AI. You can edit it before the check."});
 Object.assign(T.en,{testTag:"Test version · every feature open · no payment", nextCard:"Next", remind:"Remind me in 7 days", remindTitle:"Wazo: 7-day test result"});
+Object.assign(T.es,{enrBtn:"Ampliar mi idea", enrT:"Tu idea, ampliada", enrUse:"Usar esto", enrClose:"Cerrar", enrLoad:"Ampliando tu idea...", enrNeed:"Escribe primero una idea corta y luego puedo ampliarla.", noIdeaBtn:"No tengo idea", noIdeaT:"¿Qué te interesa?", noIdeaPh:"p. ej. niños, cocina, ordenadores, ayudar a la gente", noIdeaGo:"Sugiéreme ideas", noIdeaLoad:"Pensando ideas...", noIdeaPick:"Toca una idea para empezar", helpNote:"La ampliación la escribe una IA. Puedes editarla antes de la revisión."});
 Object.assign(T.es,{testTag:"Versión de prueba · todo abierto · sin pago", nextCard:"Siguiente", remind:"Recuérdame en 7 días", remindTitle:"Wazo: resultado de la prueba de 7 días"});
+Object.assign(T.fr,{enrBtn:"Développer mon idée", enrT:"Votre idée, développée", enrUse:"Utiliser", enrClose:"Fermer", enrLoad:"Développement de votre idée...", enrNeed:"Écrivez d'abord une courte idée, puis je pourrai la développer.", noIdeaBtn:"Je n'ai pas d'idée", noIdeaT:"Qu'est-ce qui vous intéresse ?", noIdeaPh:"ex. enfants, cuisine, ordinateurs, aider les gens", noIdeaGo:"Proposez-moi des idées", noIdeaLoad:"Je réfléchis aux idées...", noIdeaPick:"Touchez une idée pour commencer", helpNote:"Le développement est écrit par une IA. Vous pouvez le modifier avant la vérification."});
 Object.assign(T.fr,{testTag:"Version de test · tout est ouvert · sans paiement", nextCard:"Suivant", remind:"Me le rappeler dans 7 jours", remindTitle:"Wazo : résultat du test de 7 jours"});
 
 /* ---------- data ---------- */
@@ -1513,6 +1537,45 @@ async function api(path,payload,signal){
   return r;
 }
 function showIdeaPlans(){ $("#ideaPlans")?.remove(); $("#askNote").insertAdjacentHTML("afterend",`<div id="ideaPlans">${plansHTML()}</div>`); }
+/* free helpers: expand a vague idea, or suggest ideas when there is none */
+const helpBox=$("#helpBox");
+const closeHelp=()=>{ helpBox.hidden=true; helpBox.innerHTML=""; };
+async function helperCall(path,payload){
+  const token=await humanToken();
+  const r=await api(path,{...payload,lang:S.lang,token});
+  if (r.status!==200) throw {code:(r.data&&r.data.code)||"error"};
+  return r.data;
+}
+const helpErr=e=>`<p class="note err">${esc(errCopy(e&&e.code))}</p>`;
+$("#enrBtn").addEventListener("click",async()=>{
+  const idea=$("#idea").value.trim();
+  helpBox.hidden=false;
+  if (idea.length<4){ helpBox.innerHTML=`<p>${esc(t("enrNeed"))}</p>`; $("#idea").focus(); return; }
+  helpBox.innerHTML=`<p>${esc(t("enrLoad"))}</p>`;
+  try{
+    const d=await helperCall("enrich",{idea});
+    helpBox.innerHTML=`<div class="hh"><span>${esc(t("enrT"))}</span><button type="button" data-hclose aria-label="${esc(t("enrClose"))}">×</button></div><p>${esc(d.idea)}</p>${d.added.length?`<div class="chips">${d.added.map(a=>`<span>+ ${esc(a)}</span>`).join("")}</div>`:""}<button class="cta dark" type="button" id="enrUse">${esc(t("enrUse"))}</button><span class="hnote">${esc(t("helpNote"))}</span>`;
+    $("#enrUse").addEventListener("click",()=>{ $("#idea").value=d.idea; fitIdea(); closeHelp(); $("#idea").focus(); });
+  }catch(e){ helpBox.innerHTML=helpErr(e); }
+});
+$("#noIdeaBtn").addEventListener("click",()=>{
+  helpBox.hidden=false;
+  helpBox.innerHTML=`<div class="hh"><span>${esc(t("noIdeaT"))}</span><button type="button" data-hclose aria-label="${esc(t("enrClose"))}">×</button></div><div class="row"><input id="topicIn" placeholder="${esc(t("noIdeaPh"))}" maxlength="150"><button class="cta dark" type="button" id="topicGo">${esc(t("noIdeaGo"))}</button></div><div id="topicOut"></div>`;
+  const go=async()=>{
+    const topic=$("#topicIn").value.trim(); if(!topic){ $("#topicIn").focus(); return; }
+    const out=$("#topicOut"); out.innerHTML=`<p>${esc(t("noIdeaLoad"))}</p>`;
+    try{
+      const d=await helperCall("ideate",{topic});
+      out.innerHTML=`<div class="picks">${d.ideas.map((i,k)=>`<button type="button" data-pick="${k}">${esc(i.title)}<small>${esc(i.why)}</small></button>`).join("")}</div><span class="hnote">${esc(t("noIdeaPick"))}</span>`;
+      out.querySelectorAll("[data-pick]").forEach(b=>b.addEventListener("click",()=>{ $("#idea").value=d.ideas[+b.dataset.pick].title; fitIdea(); closeHelp(); $("#idea").focus(); }));
+    }catch(e){ out.innerHTML=helpErr(e); }
+  };
+  $("#topicGo").addEventListener("click",go);
+  $("#topicIn").addEventListener("keydown",e=>{ if(e.key==="Enter"){ e.preventDefault(); go(); } });
+  $("#topicIn").focus();
+});
+helpBox.addEventListener("click",e=>{ if(e.target.closest("[data-hclose]")) closeHelp(); });
+
 async function runVerdict(){
   const idea=$("#idea").value.trim();
   if (!idea){ setNote(t("needIdea"),true); go("idea"); $("#idea").focus(); return; }
