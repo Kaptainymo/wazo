@@ -989,7 +989,11 @@ Object.entries(W).forEach(([l,o])=>{ const {legal,...rest}=o; Object.assign(T[l]
 const LANGS=[["en","English","EN"],["es","Español","ES"],["fr","Français","FR"],["he","עברית","עב"]];
 const LOC={he:"he-IL",en:"en-GB",es:"es-ES",fr:"fr-FR"};
 Object.assign(T.he,{langT:"שפה",copiedGo:"הרעיון הועתק. הדבק אותו ב-Wazo שנפתח ב-claude.ai."}); Object.assign(T.en,{langT:"Language",copiedGo:"Your idea is copied. Paste it into Wazo on claude.ai."}); Object.assign(T.es,{langT:"Idioma",copiedGo:"Tu idea está copiada. Pégala en Wazo en claude.ai."}); Object.assign(T.fr,{langT:"Langue",copiedGo:"Votre idée est copiée. Collez-la dans Wazo sur claude.ai."});
-for (let i=FEED.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [FEED[i],FEED[j]]=[FEED[j],FEED[i]]; }
+/* a fresh order on every visit, and the first ideas never repeat the ones shown last time */
+(()=>{ const key="wz.feedFirst", id=f=>f.he.t; let last=[]; try{ last=JSON.parse(localStorage.getItem(key)||"[]"); }catch(e){}
+  const shuffle=()=>{ for (let i=FEED.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [FEED[i],FEED[j]]=[FEED[j],FEED[i]]; } };
+  shuffle(); for (let n=0;n<12 && FEED.slice(0,3).some(f=>last.includes(id(f)));n++) shuffle();
+  try{ localStorage.setItem(key,JSON.stringify(FEED.slice(0,3).map(id))); }catch(e){} })();
 const CUR = () => S.lang==="he" ? "₪" : S.lang==="en" ? "$" : "€";
 const CAP = () => S.lang==="he" ? 700 : 200;
 
