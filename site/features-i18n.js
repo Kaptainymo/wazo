@@ -63,7 +63,7 @@ const D={
 "ללמד משהו":["Teach something","Enseñar algo","Enseigner quelque chose"],
 "פרויקט שישאר אחריי":["A project that outlasts me","Un proyecto que me sobreviva","Un projet qui me survivra"],
 "אתר או אפליקציה":["A website or app","Un sitio web o una app","Un site ou une appli"],
-"מוצר שעושים בבית":["A product made at home","Un producto hecho en casa","Un produit fait maison"],
+"מוצר שבונים יחד עם אדם שאוהבים":["A product you build with someone you love","Un producto que construyes con alguien a quien quieres","Un produit que l'on construit avec une personne qu'on aime"],
 "תוכן וקהילה":["Content and community","Contenido y comunidad","Contenu et communauté"],
 "הרעיון שלכם נשאר שלכם":["Your idea stays yours","Tu idea sigue siendo tuya","Votre idée reste la vôtre"],
 "אנחנו לא מוכרים אותו, לא משתפים אותו ולא מפרסמים אותו. Wazo נועד לעזור לכם להתחיל בלבד.":["We don't sell it, share it or publish it. Wazo is here only to help you start.","No la vendemos, no la compartimos ni la publicamos. Wazo está solo para ayudarte a empezar.","Nous ne la vendons pas, ne la partageons pas et ne la publions pas. Wazo est là uniquement pour vous aider à commencer."],
