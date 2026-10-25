@@ -140,7 +140,7 @@ textarea#idea::placeholder{color:currentColor;opacity:.35}
 textarea#idea:focus{outline:none}
 .morebtn{justify-self:start;border:0;background:none;padding:4px 0;font-size:14px;font-weight:500;color:inherit;opacity:.7;text-decoration:underline;text-underline-offset:3px}
 .helprow{display:flex;gap:18px;flex-wrap:wrap}
-.helpbox{border:1.3px solid color-mix(in srgb,currentColor 25%,transparent);border-radius:20px;padding:16px;display:grid;gap:12px;font-size:15.5px;line-height:1.55}
+.helpbox{border:1.3px solid color-mix(in srgb,currentColor 25%,transparent);border-radius:20px;padding:16px;display:grid;grid-template-columns:minmax(0,1fr);gap:12px;font-size:15.5px;line-height:1.55;min-width:0}
 .helpbox[hidden]{display:none}
 .helpbox .hh{display:flex;justify-content:space-between;align-items:center;font-family:var(--f-mono);font-size:12px;letter-spacing:.1em;text-transform:uppercase;opacity:.7}
 .helpbox .hh button{all:unset;cursor:pointer;font-size:22px;padding:0 6px}
@@ -159,7 +159,7 @@ textarea#idea:focus{outline:none}
 .helpbox .picks button:hover,.helpbox .picks button:focus-visible{outline:2px solid var(--red)}
 .helpbox .picks small{display:block;opacity:.65;font-size:13.5px;margin-top:2px}
 .helpbox .row{display:flex;gap:8px}
-.helpbox .row input{flex:1;min-width:0;border:1.3px solid color-mix(in srgb,currentColor 25%,transparent);background:transparent;border-radius:999px;padding:12px 18px;font-size:16px;color:inherit}
+.helpbox .row input{flex:1;min-width:0;width:100%;border:1.3px solid color-mix(in srgb,currentColor 25%,transparent);background:transparent;border-radius:999px;padding:12px 18px;font-size:16px;color:inherit}
 .p-idea .helpbox .row .cta{width:auto;flex:none;height:48px;padding:0 20px;font-size:15px}
 .fields{display:none;gap:10px}
 .p-idea.more .fields{display:grid}
@@ -269,7 +269,15 @@ textarea#idea:focus{outline:none}
 .cdots{width:100%;gap:0;border:1.5px solid color-mix(in srgb,currentColor 24%,transparent);border-radius:14px;overflow:hidden;margin-top:6px}
 .cdots button{all:unset;cursor:pointer;position:relative;box-sizing:border-box;flex:1;height:44px;display:grid;place-items:center;font-family:var(--f-mono);font-size:12px;letter-spacing:.08em;opacity:.7;overflow:hidden;transition:opacity 200ms var(--ease)}
 .cdots button+button{border-inline-start:1.5px solid color-mix(in srgb,currentColor 24%,transparent)}
-.cdots button i{position:absolute;inset:0;background:var(--red);opacity:.5;transform:scaleX(0);transform-origin:right center;transition:transform 300ms var(--ease)}
+.cdots button i{position:absolute;inset:0;background:var(--red);opacity:.5;transform:scaleX(0);transform-origin:left center;transition:transform 300ms var(--ease)}
+[dir="rtl"] .cdots button i{transform-origin:right center}
+.pseg{display:flex;border:1.5px solid color-mix(in srgb,currentColor 24%,transparent);border-radius:14px;overflow:hidden;margin:12px 0 6px}
+.pseg span{position:relative;flex:1;height:40px;display:grid;place-items:center;font-family:var(--f-mono);font-size:12px;letter-spacing:.08em;opacity:.7;overflow:hidden}
+.pseg span+span{border-inline-start:1.5px solid color-mix(in srgb,currentColor 24%,transparent)}
+.pseg i{position:absolute;inset:0;background:var(--red);opacity:.5;transform:scaleX(0);transform-origin:left center;transition:transform 220ms linear}
+[dir="rtl"] .pseg i{transform-origin:right center}
+.pseg b{position:relative;font-weight:inherit}
+.pseg span.on{opacity:1;font-weight:700}
 .cdots button.seen i{transform:scaleX(1);opacity:.22}
 .cdots button[aria-current="true"]{opacity:1;font-weight:700}
 .cdots button[aria-current="true"] i{transform:scaleX(1);opacity:.5}
@@ -1478,7 +1486,7 @@ function printing(idea){
     <div class="rc-meta"><span>WAZO</span><span id="dPct">0%</span></div>
     <h2 class="rc-idea">${esc(idea)}</h2>
     <div class="draw-step" id="dStep">${esc(L.steps[0])}</div>
-    <div class="bar"><i id="dBar"></i></div>
+    <div class="pseg" id="dSeg" role="progressbar" aria-valuemin="0" aria-valuemax="100">${[1,2,3,4,5].map(n=>`<span><i></i><b>0${n}</b></span>`).join("")}</div>
     ${keys.map((k,i)=>`<section class="rrow"><div class="rh"><span class="rn">0${i+1}</span><span class="rl"><b>${esc(L.sc[k])}</b></span><span class="rv d-roll">?</span></div></section>`).join("")}
     <section class="rrow final"><div class="rh"><span class="rn">05</span><span class="rl"><b>${esc(t("rowsTotal"))}</b></span><span class="rv word" id="dReel">${esc(L.vWord.PIVOT)}</span></div></section>
   </article>`;
@@ -1487,8 +1495,9 @@ function printing(idea){
   const t0=performance.now(); let tick=0, vi=0;
   const frame=()=>{
     const sec=(performance.now()-t0)/1000, pct=Math.round(92*(1-Math.exp(-sec/20)));
-    const bar=$("#dBar"); if(!bar) return;
-    bar.style.width=pct+"%"; $("#dPct").textContent=pct+"%";
+    const seg=$("#dSeg"); if(!seg) return;
+    seg.setAttribute("aria-valuenow",pct); $("#dPct").textContent=pct+"%";
+    const f=pct/92*5; seg.querySelectorAll("span").forEach((el,n)=>{ const v=Math.max(0,Math.min(1,f-n)); el.firstChild.style.transform=`scaleX(${v})`; el.classList.toggle("on",v>0&&v<1); });
     const at=STEP_AT.filter(x=>pct>=x).length-1; $("#dStep").textContent=L.steps[Math.max(0,at)];
     if (!calm()){ tick++;
       document.querySelectorAll(".d-roll").forEach(el=>{ el.textContent=1+Math.floor(Math.random()*10); });
