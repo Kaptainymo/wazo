@@ -249,6 +249,9 @@ textarea#idea:focus{outline:none}
 .gate .err{color:#FF7A66;font-weight:600;font-size:13px}
 
 /* receipt as swipeable cards (phones) */
+.idea-more{display:none;border:0;background:none;color:inherit;opacity:.8;font:600 13px var(--f-sans);text-decoration:underline;text-underline-offset:3px;padding:2px 0 8px;cursor:pointer}
+.rc.clamped .idea-more{display:inline-block}
+.rc.ideaopen .rc-idea{-webkit-line-clamp:unset!important;display:block!important;overflow:visible!important}
 .rc.cards .rc-idea{font-size:20px;line-height:1.2;margin:10px 0 14px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
 .cs{display:flex;gap:12px;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;overscroll-behavior-x:contain;-webkit-overflow-scrolling:touch;margin-inline:calc(-1*max(20px,env(safe-area-inset-left,0px)));padding:4px max(20px,env(safe-area-inset-left,0px)) 8px}
 .cs::-webkit-scrollbar{display:none}
@@ -264,7 +267,7 @@ textarea#idea:focus{outline:none}
 .cc-big{font-weight:500;font-size:clamp(44px,13vw,64px);line-height:1;letter-spacing:-.045em;font-variant-numeric:tabular-nums;direction:ltr;white-space:nowrap;margin-top:6px}
 .cc-big.word{font-family:var(--f-wide);font-weight:600;letter-spacing:-.01em;direction:inherit;font-size:clamp(34px,11vw,52px)}
 .cc-big.lk{margin-top:auto;font-size:56px;opacity:.5}
-.cc-cap{font-size:14px;opacity:.7;margin-top:-4px}
+.cc-cap{font-size:15px;opacity:.78;margin-top:-4px}
 .cc{position:relative}
 .more-pill{position:absolute;inset-inline:0;margin-inline:auto;width:max-content;bottom:12px;padding:7px 14px;border-radius:999px;background:var(--red);color:#0A0A0A;font-size:13px;font-weight:600;line-height:1;opacity:0;transform:translateY(6px);transition:opacity .2s var(--ease),transform .2s var(--ease);pointer-events:none;border:0;cursor:pointer;font-family:inherit;box-shadow:0 6px 18px rgba(0,0,0,.35)}
 .more-pill.on{opacity:1;transform:none;pointer-events:auto}
@@ -278,7 +281,7 @@ textarea#idea:focus{outline:none}
 @media (hover:hover){.more-pill.on:hover{filter:brightness(1.06)}}
 .more-pill:active{transform:scale(.97)}
 @media (prefers-reduced-motion:reduce){.more-pill{transition:opacity .15s;transform:none}}
-.cc-body{flex:1;min-height:0;overflow-y:auto;overscroll-behavior:contain;display:grid;gap:10px;align-content:start;font-size:14.5px;line-height:1.5;padding-bottom:4px;}
+.cc-body{flex:1;min-height:0;overflow-y:auto;overscroll-behavior:contain;display:grid;gap:10px;align-content:start;font-size:16.5px;line-height:1.5;padding-bottom:4px;}
 .cc-cta{margin-top:auto}
 .cc .cta{width:100%;background:#F1F0EC;color:#0E0E0E}
 .cc.is-lock .cta{background:var(--red);color:#fff}
@@ -1046,7 +1049,7 @@ const ic=(n,cls="")=>`<svg class="ic ic-${n} ${cls}" viewBox="0 0 24 24" aria-hi
 function hydrateIcons(root=document){ root.querySelectorAll("[data-ic]").forEach(el=>{ if(!el.firstElementChild) el.innerHTML=ic(el.dataset.ic); }); }
 const VCLS = v => ({BUILD:"build",PIVOT:"pivot",KILL:"kill"}[v]||"pivot");
 Object.assign(T.he,{enrBtn:"הרחב לי", enrT:"הרעיון אחרי הרחבה", enrUse:"השתמשו בזה", enrUseGo:"אשרו ובדקו את הרעיון", enrClose:"סגירה", enrLoad:"מרחיב את הרעיון...", enrNeed:"כתבו קודם רעיון קצר, ואז אוכל להרחיב אותו.", noIdeaBtn:"אין לי רעיון", noIdeaT:"מה מעניין אתכם?", noIdeaPh:"למשל: ילדים, בישול, מחשבים, לעזור לאנשים", noIdeaGo:"הציעו לי רעיונות", noIdeaLoad:"חושב על רעיונות...", noIdeaPick:"לחצו על רעיון כדי להתחיל ממנו", helpNote:"ההרחבה נכתבת על ידי בינה מלאכותית. אפשר לערוך אותה לפני הבדיקה."});
-Object.assign(T.he,{moreBelow:"הצג עוד", renewNote:"מנוי חודשי: מתחדש מדי חודש עד שתחליטו להפסיק. אפשר לבטל בכל רגע. התשלום בדולרים."}); Object.assign(T.en,{moreBelow:"Show more", renewNote:"A monthly subscription: it renews each month until you decide to stop. Cancel any time. Charged in US dollars."}); Object.assign(T.es,{moreBelow:"Mostrar más", renewNote:"Suscripción mensual: se renueva cada mes hasta que decidas parar. Cancela cuando quieras. Se cobra en dólares."}); Object.assign(T.fr,{moreBelow:"Afficher plus", renewNote:"Abonnement mensuel : il se renouvelle chaque mois jusqu'à ce que vous décidiez d'arrêter. Annulez à tout moment. Facturé en dollars."});
+Object.assign(T.he,{ideaShow:"הצג את כל הרעיון", ideaHide:"הצג פחות", toCheckout:"ממשיכים לתשלום. אפשר לסגור את החלון ולבטל בכל רגע.", moreBelow:"הצג עוד", renewNote:"מנוי חודשי: מתחדש מדי חודש עד שתחליטו להפסיק. אפשר לבטל בכל רגע. התשלום בדולרים."}); Object.assign(T.en,{ideaShow:"Show the whole idea", ideaHide:"Show less", toCheckout:"Taking you to payment. You can close the window and cancel any time.", moreBelow:"Show more", renewNote:"A monthly subscription: it renews each month until you decide to stop. Cancel any time. Charged in US dollars."}); Object.assign(T.es,{ideaShow:"Ver toda la idea", ideaHide:"Ver menos", toCheckout:"Te llevamos al pago. Puedes cerrar la ventana y cancelar cuando quieras.", moreBelow:"Mostrar más", renewNote:"Suscripción mensual: se renueva cada mes hasta que decidas parar. Cancela cuando quieras. Se cobra en dólares."}); Object.assign(T.fr,{ideaShow:"Voir toute l'idée", ideaHide:"Voir moins", toCheckout:"Direction le paiement. Vous pouvez fermer la fenêtre et annuler à tout moment.", moreBelow:"Afficher plus", renewNote:"Abonnement mensuel : il se renouvelle chaque mois jusqu'à ce que vous décidiez d'arrêter. Annulez à tout moment. Facturé en dollars."});
 Object.assign(T.he,{testTag:"גרסת בדיקה · כל התכונות פתוחות · בלי תשלום", nextCard:"הבא", remind:"הזכר לי בעוד 7 ימים", remindTitle:"Wazo: תוצאות מבחן 7 הימים"});
 Object.assign(T.en,{enrBtn:"Expand it for me", enrT:"Your idea, expanded", enrUse:"Use this", enrUseGo:"Use this and check it", enrClose:"Close", enrLoad:"Expanding your idea...", enrNeed:"Write a short idea first, then I can expand it.", noIdeaBtn:"I have no idea", noIdeaT:"What are you interested in?", noIdeaPh:"e.g. kids, cooking, computers, helping people", noIdeaGo:"Suggest ideas", noIdeaLoad:"Thinking of ideas...", noIdeaPick:"Tap an idea to start from it", helpNote:"The expansion is written by AI. You can edit it before the check."});
 Object.assign(T.en,{testTag:"Test version · every feature open · no payment", nextCard:"Next", remind:"Remind me in 7 days", remindTitle:"Wazo: 7-day test result"});
@@ -1080,6 +1083,7 @@ let TAP=null;
 document.addEventListener("pointerdown",e=>{ TAP={x:e.clientX,y:e.clientY}; },{capture:true,passive:true});
 function show(v){
   const prev=S.view; S.view=v||"";
+  if (prev==="receipt" && S.view!=="receipt" && S.restoreLang){ const back=S.restoreLang; S.restoreLang=null; S.lang=back; setTimeout(applyLang,0); }
   Object.entries(PANELS).forEach(([k,sel])=>{
     const el=$(sel), on=k===S.view;
     if (on && el.hidden){ el.hidden=false; if(!calm()){ const o=TAP||{x:innerWidth/2,y:innerHeight/2}; el.style.setProperty("--ox",o.x+"px"); el.style.setProperty("--oy",o.y+"px"); el.classList.remove("closing"); el.classList.add("opening"); el.addEventListener("animationend",ev=>{ if(ev.target===el) el.classList.remove("opening"); },{once:true}); } }
@@ -1256,8 +1260,12 @@ function renderCounter(anim){
   if (anim && n!==S.lastCnt && !calm()) box.firstChild.classList.add("hit");
   S.lastCnt=n;
 }
+/* an analysis is read in the language it was written in: the screen around it follows, then goes back when you leave */
+function detectLang(b){ const s=[b.headline,b.deciding,b.idea].join(" "); if(/[א-ת]/.test(s)) return "he"; if(/[¿¡ñáíóú]/i.test(s)) return "es"; if(/[àâçèêëîïôùûœ]/i.test(s)) return "fr"; return "en"; }
 function renderStage(){
   if (S.busy) return;
+  const rl=S.current&&S.current._lang;
+  if (S.view==="receipt" && rl && rl!==S.lang && LANGS.some(x=>x[0]===rl)){ S.restoreLang=S.restoreLang||S.lang; S.lang=rl; applyLang(); return; }
   const st=$("#stage"), c=currentCard();
   if (!c){ st.innerHTML=""; $("#cardacts").innerHTML=""; return; }
   if (isWide()) [1,2,3,4].forEach(i=>{ if(!proLocked(i)) S.rev.add(i); });
@@ -1394,7 +1402,7 @@ function gateHTML(){
   </div>`;
 }
 function applyUnlock(b,wazo){
-  const nb=norm({...wazo,cur:b.cur}); nb.full=true; nb.sid=b.sid; if(!nb.idea) nb.idea=b.idea;
+  const nb=norm({...wazo,cur:b.cur}); nb.full=true; nb.sid=b.sid; nb._lang=b._lang; if(!nb.idea) nb.idea=b.idea;
   S.current=nb; $("#stage")._b=nb; updateMine(nb); S.rev.add(3); S.rev.add(4); track("unlock");
 }
 // Paddle confirms the subscription by webhook a few seconds after checkout, so retry the unlock until it lands.
@@ -1426,7 +1434,11 @@ async function doOptin(btn){
   btn.disabled=false;
   const code=r.data&&r.data.code;
   if(note){ note.textContent=errCopy(code); note.className="err"; }
-  if (code==="need_pro" && !$("#gatePlans")) note?.insertAdjacentHTML("afterend",`<div id="gatePlans">${plansHTML()}</div>`);
+  if (code==="need_pro"){
+    if (!$("#gatePlans")) note?.insertAdjacentHTML("afterend",`<div id="gatePlans">${plansHTML()}</div>`);
+    if (note){ note.textContent=t("toCheckout"); note.className="cav"; }
+    holdPlan("pro",$("#gatePlans [data-plan=pro]"));   /* the details are in: open the payment window right away, closing it cancels */
+  }
 }
 async function holdPlan(k,btn){
   track("plan-"+k);
@@ -1652,7 +1664,7 @@ async function runVerdict(){
     const r=await api("analyze",{idea,cust:$("#fCust").value.trim(),budget:$("#fBudget").value.trim(),time:$("#fTime").value.trim(),lang:S.lang,token,email:S.me.email||""},S.ctl.signal);
     if (r.status!==200) throw {code:(r.data&&r.data.code)||"error"};
     const b=norm({...(r.data.wazo||{}),cur:CUR()}); b.full=!!r.data.full; b.sid=r.data.id; if(!b.idea) b.idea=idea;
-    S.current=b; S.isExample=false; S.currentId=null; S.savedNote="";
+    b._lang=S.lang; S.current=b; S.isExample=false; S.currentId=null; S.savedNote="";
     save(b,idea); await land(b); track("analyze",{lang:S.lang,full:b.full});
     S.busy=false; S.rev=new Set(); S.open=0; S.card=0; S.stampHit=false; renderStage(); $("#p-receipt").scrollTop=0;
   } catch(e){
@@ -1686,6 +1698,12 @@ $("#idea").addEventListener("input", fitIdea);
 /* the cards fill the space above the action bar, whatever its height is on the current card */
 (()=>{ const el=$("#cardacts"); if(!el) return; const set=()=>document.documentElement.style.setProperty("--actsH",el.offsetHeight+"px");
   if (window.ResizeObserver) new ResizeObserver(set).observe(el); set(); addEventListener("resize",set); })();
+/* a long idea is cut to two lines; a link under it opens the whole text */
+function fitIdeaTitle(){ document.querySelectorAll("#stage .rc.cards").forEach(rc=>{ const h=rc.querySelector(".rc-idea"); if(!h) return; let b=rc.querySelector(".idea-more"); if(!b){ b=document.createElement("button"); b.type="button"; b.className="idea-more"; h.after(b); }
+  const open=rc.classList.contains("ideaopen"); const cut=open||h.scrollHeight>h.clientHeight+2; rc.classList.toggle("clamped",cut); b.setAttribute("aria-expanded",String(open)); b.textContent=t(open?"ideaHide":"ideaShow"); }); }
+$("#stage").addEventListener("click",e=>{ const b=e.target.closest(".idea-more"); if(!b) return; const rc=b.closest(".rc"); rc.classList.toggle("ideaopen"); fitIdeaTitle(); });
+new MutationObserver(()=>requestAnimationFrame(fitIdeaTitle)).observe($("#stage"),{childList:true});
+addEventListener("resize",()=>requestAnimationFrame(fitIdeaTitle));
 /* ---------- "more below" hint on result cards that scroll inside ---------- */
 let moreRaf=0;
 function updMore(){ moreRaf=0; document.querySelectorAll("#stage .cc").forEach(cc=>{ const b=cc.querySelector(".cc-body"); if(!b) return; let p=cc.querySelector(".more-pill");
@@ -1766,7 +1784,7 @@ $("#drawerList").addEventListener("keydown", e=>{ if((e.key==="Enter"||e.key==="
 $("#drawerList").addEventListener("click", async e=>{
   const d=e.target.closest("[data-d]"), row=e.target.closest("[data-row]");
   if (d){ const id=d.dataset.d; if (S.confirmDel===id){ S.confirmDel=null; S.mine=S.mine.filter(x=>x.id!==id); if(S.currentId===id) S.currentId=null; persistMine(); renderDrawer(); renderHome(); } else { S.confirmDel=id; renderDrawer(); } return; }
-  if (row){ const m=S.mine.find(x=>x.id===row.dataset.row); if(!m) return; const nb=norm(m.brief||{}); nb.full=!!(m.brief&&m.brief.full); nb.sid=m.brief&&m.brief.sid; S.current=nb; S.currentId=m.id; S.isExample=false; S.savedNote=""; if(nb.full){ S.rev=new Set([1,2,3,4,5]); S.open=5; S.card=5; S.stampHit=true; } else { S.rev=new Set([1,2]); S.open=0; S.card=0; S.stampHit=false; } go("receipt"); renderStage(); }
+  if (row){ const m=S.mine.find(x=>x.id===row.dataset.row); if(!m) return; const nb=norm(m.brief||{}); nb.full=!!(m.brief&&m.brief.full); nb.sid=m.brief&&m.brief.sid; nb._lang=m.lang||detectLang(nb); S.current=nb; S.currentId=m.id; S.isExample=false; S.savedNote=""; if(nb.full){ S.rev=new Set([1,2,3,4,5]); S.open=5; S.card=5; S.stampHit=true; } else { S.rev=new Set([1,2]); S.open=0; S.card=0; S.stampHit=false; } go("receipt"); renderStage(); }
 });
 
 /* ---------- language / theme / boot ---------- */
@@ -1802,7 +1820,7 @@ $("#legal").addEventListener("click",e=>{ if(e.target===e.currentTarget) e.curre
 const langOpts=()=>LANGS.map(([k,name,code])=>`<button class="lopt" type="button" role="menuitemradio" data-lang="${k}" aria-checked="${k===S.lang}" lang="${k}" dir="${k==="he"?"rtl":"ltr"}"><span>${name}</span><small>${code}</small></button>`).join("");
 const isSheet=()=>matchMedia("(max-width:699px)").matches;
 function closeLangMenu(){ const m=$("#langMenu"); if(!m.hidden){ m.hidden=true; $("#langBtn").setAttribute("aria-expanded","false"); } }
-function setLang(k){ if(!LANGS.some(x=>x[0]===k)) return; closeLangMenu(); const d=$("#langSheet"); if(d.open) d.close(); if(k===S.lang) return; S.lang=k; try{localStorage.setItem("wz.lang",k)}catch(e){} applyLang(); }
+function setLang(k){ if(!LANGS.some(x=>x[0]===k)) return; closeLangMenu(); const d=$("#langSheet"); if(d.open) d.close(); if(k===S.lang) return; S.lang=k; S.restoreLang=null; if(S.current) S.current._lang=k; try{localStorage.setItem("wz.lang",k)}catch(e){} applyLang(); }
 $("#langBtn").addEventListener("click",e=>{ e.stopPropagation();
   if (isSheet()){ $("#langList").innerHTML=langOpts(); const d=$("#langSheet"); d.dir=S.lang==="he"?"rtl":"ltr"; $("#langTitle").textContent=t("langT"); if(d.showModal) d.showModal(); else d.setAttribute("open",""); return; }
   const m=$("#langMenu"); if(!m.hidden){ closeLangMenu(); return; } m.innerHTML=langOpts(); m.hidden=false; $("#langBtn").setAttribute("aria-expanded","true"); m.querySelector('[aria-checked="true"]')?.focus({preventScroll:true}); });
