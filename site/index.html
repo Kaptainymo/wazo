@@ -267,6 +267,8 @@ textarea#idea:focus{outline:none}
 .cc{position:relative}
 .more-pill{position:absolute;inset-inline:0;margin-inline:auto;width:max-content;bottom:12px;padding:7px 14px;border-radius:999px;background:var(--red);color:#0A0A0A;font-size:13px;font-weight:600;line-height:1;opacity:0;transform:translateY(6px);transition:opacity .2s var(--ease),transform .2s var(--ease);pointer-events:none;border:0;cursor:pointer;font-family:inherit;box-shadow:0 6px 18px rgba(0,0,0,.35)}
 .more-pill.on{opacity:1;transform:none;pointer-events:auto}
+.sheet-more{bottom:calc(84px + env(safe-area-inset-bottom,0px))}
+@media (min-width:700px){.sheet-more{display:none}}
 @media (min-width:900px){.more-pill{display:none}}
 @media (hover:hover){.more-pill.on:hover{filter:brightness(1.06)}}
 .more-pill:active{transform:scale(.97)}
@@ -457,7 +459,7 @@ textarea#idea:focus{outline:none}
 /* legal sheet */
 .foot{display:grid;gap:8px;justify-items:center}
 .legal-link{border:0;background:none;color:inherit;font-size:12px;text-decoration:underline;text-underline-offset:3px;padding:6px 8px;opacity:.85}
-dialog.sheet{border:0;padding:0;margin:auto auto 0;width:min(100%,640px);max-height:88dvh;border-radius:28px 28px 0 0;background:var(--b1);color:var(--b1-ink);overflow:hidden;display:flex;flex-direction:column}
+dialog.sheet{border:0;padding:0;margin:auto auto 0;width:min(100%,640px);max-height:88dvh;border-radius:28px 28px 0 0;--b1:#0E0E0E;--b1-ink:#F4F3EF;background:var(--b1);color:var(--b1-ink);overflow:hidden;display:flex;flex-direction:column}
 dialog.sheet:not([open]){display:none}
 dialog.sheet::backdrop{background:rgba(0,0,0,.45);backdrop-filter:blur(3px)}
 dialog.sheet[open]{animation:sheetUp .45s var(--ease) both}
@@ -475,7 +477,7 @@ dialog.sheet[open]::backdrop{animation:fadeIn .3s ease both}
 .sheet-cp{width:36px;height:36px;border-radius:50%;border:1.3px solid color-mix(in srgb,currentColor 30%,transparent);background:transparent;color:inherit;display:grid;place-items:center;padding:0;font-size:18px;cursor:pointer;transition:transform .28s cubic-bezier(.3,1.4,.5,1),background-color .2s}
 .sheet-cp[hidden]{display:none}
 .sheet-cp:hover{background:color-mix(in srgb,currentColor 12%,transparent)} .sheet-cp:active{transform:scale(.9)}
-.sheet-b{overflow-y:auto;padding:4px 22px calc(26px + env(safe-area-inset-bottom,0px));display:grid;gap:18px;font-size:15px;line-height:1.55}
+.sheet-b{overflow-y:auto;overscroll-behavior:contain;padding:4px 22px calc(96px + env(safe-area-inset-bottom,0px));display:grid;gap:18px;font-size:15px;line-height:1.55}
 .sheet-b .lead{font-size:18px;line-height:1.4;font-weight:500;letter-spacing:-.01em}
 .sheet-b section{display:grid;gap:4px;padding-top:14px;border-top:1px solid color-mix(in srgb,currentColor 15%,transparent)}
 .sheet-b h3{margin:0;font-size:13px;font-family:var(--f-mono);letter-spacing:.1em;text-transform:uppercase;opacity:.6;font-weight:600}
@@ -1684,6 +1686,13 @@ const moreMo=new MutationObserver(()=>{ if(!moreRaf) moreRaf=requestAnimationFra
 moreMo.observe($("#stage"),{childList:true,subtree:true});
 document.addEventListener("scroll",e=>{ if(e.target&&e.target.classList&&e.target.classList.contains("cc-body")&&!moreRaf) moreRaf=requestAnimationFrame(updMore); },true);
 addEventListener("resize",()=>{ if(!moreRaf) moreRaf=requestAnimationFrame(updMore); });
+/* sheets that scroll inside get the same "show more" hint */
+document.querySelectorAll("dialog.sheet").forEach(d=>{ const b=d.querySelector(".sheet-b"); if(!b) return;
+  const p=document.createElement("button"); p.type="button"; p.className="more-pill sheet-more"; d.appendChild(p);
+  const upd=()=>{ p.textContent=t("moreBelow"); const more=d.open&&b.scrollHeight-b.clientHeight-b.scrollTop>6; p.classList.toggle("on",more); p.tabIndex=more?0:-1; };
+  b.addEventListener("scroll",upd,{passive:true}); new MutationObserver(upd).observe(b,{childList:true,subtree:true,characterData:true});
+  new MutationObserver(()=>setTimeout(upd,60)).observe(d,{attributes:true,attributeFilter:["open"]}); addEventListener("resize",upd);
+  p.addEventListener("click",()=>b.scrollBy({top:Math.round(b.clientHeight*.8),behavior:calm()?"auto":"smooth"})); });
 /* tapping the pill scrolls the card down by most of a screenful */
 $("#stage").addEventListener("click",e=>{ const p=e.target.closest(".more-pill"); if(!p) return; const b=p.parentElement.querySelector(".cc-body"); if(b) b.scrollBy({top:Math.round(b.clientHeight*.8),behavior:calm()?"auto":"smooth"}); });
 
