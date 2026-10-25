@@ -83,6 +83,7 @@ const D={
 "התשובה המלאה: מה עושים עכשיו":["The full answer: what to do now","La respuesta completa: qué hacer ahora","La réponse complète : que faire maintenant"],
 "ניתוח מעמיק: תוכנית, סיכונים וצעדים ל־90 יום":["Deep analysis: plan, risks and 90-day steps","Análisis profundo: plan, riesgos y pasos para 90 días","Analyse approfondie : plan, risques et étapes sur 90 jours"],
 "שמירת תמונה והעתקה ל־AI":["Save as an image and copy to AI","Guardar como imagen y copiar a una IA","Enregistrer en image et copier vers une IA"],
+"מנוי חודשי: מתחדש מדי חודש עד שתחליטו להפסיק, ואפשר לבטל בכל רגע.":["A monthly subscription: it renews each month until you decide to stop, and you can cancel any time.","Suscripción mensual: se renueva cada mes hasta que decidas parar, y puedes cancelar cuando quieras.","Abonnement mensuel : il se renouvelle chaque mois jusqu'à ce que vous décidiez d'arrêter, et vous pouvez annuler à tout moment."],
 "התשלום בדולרים. פרטים מלאים בעמוד המחירים ובמדיניות ההחזרים.":["Payment is in US dollars. Full details are on the pricing page and in the refund policy.","El pago es en dólares. Los detalles completos están en la página de precios y en la política de reembolsos.","Le paiement se fait en dollars. Tous les détails sont sur la page des tarifs et dans la politique de remboursement."],
 "בואו נתחיל":["Let's start","Empecemos","Commençons"],
 "Wazo · וואזו © 2026 ·":["Wazo © 2026 ·","Wazo © 2026 ·","Wazo © 2026 ·"],

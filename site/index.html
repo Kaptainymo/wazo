@@ -224,6 +224,7 @@ textarea#idea:focus{outline:none}
 .tip p{margin:0;font-size:16.5px;font-weight:600;line-height:1.45}
 .nt ul{margin:4px 0 0;padding-inline-start:18px}
 .cav{font-size:12px;opacity:.6}
+.plan-note{font-size:13px;opacity:.9;line-height:1.5}
 .price-in{width:84px;border:0;border-bottom:1.5px solid currentColor;background:transparent;font-family:var(--f-mono);font-weight:600;font-size:15px;text-align:center;direction:ltr}
 .price-in:focus{outline:none}
 .ks{display:flex;gap:6px;flex-wrap:wrap;align-items:center}
@@ -734,10 +735,10 @@ const FEED = [
 Object.assign(T.he, {tryIdea:"נסה את הרעיון הזה", back:"חזרה", bIdea:"הרעיון שלך", bIdeaBig:"כתוב רעיון.", bIdeaSub:"ניתוח חכם: ציונים, חשבון ומבחן של 7 ימים. ובסוף, פסק דין.", bEx:"דוגמאות", bExBig:"וואזו מהעולם", bMine:"שלך", bMineBig:"הוואזו שלך", ideaPh:"אפליקציה שהופכת הקלטה של קבלן בשטח להצעת מחיר", openFull:"וואזו מלא", unit:"לחודש, בסיס", unitTest:"7 ימים", unitFine:"קברים · מתחרים", unitScores:"כאב · ביקוש · שטח · תשלום", del:"מחק", sure:"בטוח?", plans:[["pro","Pro, ללא הגבלה","₪49 לחודש"]]});
 Object.assign(T.en, {tryIdea:"Try this idea", back:"Back", bIdea:"Your idea", bIdeaBig:"Type your idea.", bIdeaSub:"A smart analysis: scores, the money and a 7-day test. Then a verdict.", bEx:"Examples", bExBig:"world wazos", bMine:"Yours", bMineBig:"your wazos", ideaPh:"An app that turns a contractor's voice note into a quote", openFull:"Full wazo", unit:"per month, base", unitTest:"7 days", unitFine:"graves · rivals", unitScores:"pain · demand · space · pay", del:"Delete", sure:"Sure?", fBudget:"Budget for 6 months ($)", phBudget:"e.g. 10,000", plans:[["pro","Pro, unlimited","$13/mo"]]});
 T.en.r.il="Market lens";
-Object.assign(T.he,{proOnly:"Pro", pwT:"הניתוח המלא ב-Pro", pwS:"מבחן 7 ימים מוכן לביצוע, בית הקברות, המתחרים, העדשה הישראלית ומי צריך לבנות את זה.", pwPrice:"₪49", pwPer:"לחודש, ללא הגבלת וואזו", pwGo:"שמור לי מחיר השקה", pwHeld:"מחיר ההשקה שמור לך", pwNote:"בקרוב. לא ייגבה ממך כסף עכשיו.",
+Object.assign(T.he,{proOnly:"Pro", pwT:"הניתוח המלא ב-Pro", pwS:"מבחן 7 ימים מוכן לביצוע, בית הקברות, המתחרים, העדשה הישראלית ומי צריך לבנות את זה.", pwPrice:"₪49", pwPer:"לחודש, ללא הגבלת וואזו. המנוי מתחדש מדי חודש עד שתחליטו להפסיק, ואפשר לבטל בכל רגע", pwGo:"שמור לי מחיר השקה", pwHeld:"מחיר ההשקה שמור לך", pwNote:"בקרוב. לא ייגבה ממך כסף עכשיו.",
  teamsBtn:"שדרג לצוותים ותוכניות", teamsT:"Wazo לצוותים ותוכניות", teamsLead:"לאקסלרטורים, תוכניות יזמות וצוותי חדשנות: כל המחזור מקבל Wazo, ואתם רואים את כל הרעיונות במקום אחד.",
  teamsF:["מושבים לכל היזמים במחזור","לוח מחזור: כל הוואזו, הציונים ומבחני 7 הימים","ייצוא לוועדות ולדוחות"], teamsPrice:"מ-₪1,500 למחזור", teamsGo:"שמור לי מקום", teamsHeld:"המקום שמור לך"});
-Object.assign(T.en,{proOnly:"Pro", pwT:"The full analysis is Pro", pwS:"A ready-to-run 7-day test, the graveyard, the competition, the market lens and who should build it.", pwPrice:"$13", pwPer:"per month, unlimited wazos", pwGo:"Hold my launch price", pwHeld:"Launch price held for you", pwNote:"Coming soon. No charge now.",
+Object.assign(T.en,{proOnly:"Pro", pwT:"The full analysis is Pro", pwS:"A ready-to-run 7-day test, the graveyard, the competition, the market lens and who should build it.", pwPrice:"$13", pwPer:"per month, unlimited wazos. It renews each month until you decide to stop, and you can cancel any time", pwGo:"Hold my launch price", pwHeld:"Launch price held for you", pwNote:"Coming soon. No charge now.",
  teamsBtn:"Upgrade to Teams", teamsT:"Wazo for teams & programs", teamsLead:"For accelerators, founder programs and innovation teams: your whole cohort gets Wazo, and you see every idea in one place.",
  teamsF:["Seats for every founder in the cohort","A cohort board: every wazo, score and 7-day test","Export for committees and reports"], teamsPrice:"from $400 per cohort", teamsGo:"Hold a spot", teamsHeld:"Spot held for you"});
 Object.assign(T.he,{legalLink:"משפטי ופרטיות", legalT:"מה זה Wazo",
@@ -802,7 +803,7 @@ T.es={
  plansT:"Hazte Pro", plansS:"Wazos ilimitados, con el análisis más profundo en cada uno.", planHold:"Guárdamelo", planHeld:"Guardado ✓", plans:[["pro","Pro, ilimitado","€12/mes"]],
  tryIdea:"Probar esta idea", back:"Volver", bIdea:"Tu idea", bIdeaBig:"Escribe tu idea.", bIdeaSub:"Un análisis inteligente: puntuaciones, el dinero y una prueba de 7 días. Luego, un veredicto.", bEx:"Ejemplos", bExBig:"wazos del mundo", bMine:"Tuyos", bMineBig:"tus wazos", openFull:"Wazo completo",
  unit:"al mes, base", unitTest:"7 días", unitFine:"tumbas · rivales", unitScores:"dolor · demanda · espacio · pago", sure:"¿Seguro?",
- proOnly:"Pro", pwT:"El análisis completo es Pro", pwS:"Una prueba de 7 días lista para lanzar, el cementerio, la competencia, la lente de mercado y quién debería construirlo.", pwPrice:"€12", pwPer:"al mes, wazos ilimitados", pwGo:"Guárdame el precio de lanzamiento", pwHeld:"Precio de lanzamiento guardado", pwNote:"Muy pronto. Sin cargo ahora.",
+ proOnly:"Pro", pwT:"El análisis completo es Pro", pwS:"Una prueba de 7 días lista para lanzar, el cementerio, la competencia, la lente de mercado y quién debería construirlo.", pwPrice:"€12", pwPer:"al mes, wazos ilimitados. Se renueva cada mes hasta que decidas parar, y puedes cancelar cuando quieras", pwGo:"Guárdame el precio de lanzamiento", pwHeld:"Precio de lanzamiento guardado", pwNote:"Muy pronto. Sin cargo ahora.",
  teamsBtn:"Mejorar a Equipos", teamsT:"Wazo para equipos y programas", teamsLead:"Para aceleradoras, programas de emprendedores y equipos de innovación: toda tu cohorte usa Wazo y ves cada idea en un solo lugar.",
  teamsF:["Plazas para cada emprendedor de la cohorte","Un tablero de cohorte: cada wazo, puntuación y prueba de 7 días","Exportación para comités e informes"], teamsPrice:"desde €370 por cohorte", teamsGo:"Reservar plaza", teamsHeld:"Plaza reservada",
  legalLink:"Legal y privacidad", legalT:"Qué es Wazo",
@@ -853,7 +854,7 @@ T.fr={
  plansT:"Passer à Pro", plansS:"Wazos illimités, avec l'analyse approfondie à chaque fois.", planHold:"Gardez-le-moi", planHeld:"Réservé ✓", plans:[["pro","Pro, illimité","€12/mois"]],
  tryIdea:"Tester cette idée", back:"Retour", bIdea:"Votre idée", bIdeaBig:"Écrivez votre idée.", bIdeaSub:"Une analyse intelligente : des notes, l'argent et un test de 7 jours. Puis un verdict.", bEx:"Exemples", bExBig:"wazos du monde", bMine:"Les vôtres", bMineBig:"vos wazos", openFull:"Wazo complet",
  unit:"par mois, base", unitTest:"7 jours", unitFine:"tombes · rivaux", unitScores:"douleur · demande · espace · paiement", sure:"Sûr ?",
- proOnly:"Pro", pwT:"L'analyse complète est Pro", pwS:"Un test de 7 jours prêt à lancer, le cimetière, la concurrence, la lentille marché et qui devrait le construire.", pwPrice:"€12", pwPer:"par mois, wazos illimités", pwGo:"Garder mon prix de lancement", pwHeld:"Prix de lancement réservé", pwNote:"Bientôt disponible. Aucun paiement maintenant.",
+ proOnly:"Pro", pwT:"L'analyse complète est Pro", pwS:"Un test de 7 jours prêt à lancer, le cimetière, la concurrence, la lentille marché et qui devrait le construire.", pwPrice:"€12", pwPer:"par mois, wazos illimités. Il se renouvelle chaque mois jusqu'à ce que vous décidiez d'arrêter, et vous pouvez annuler à tout moment", pwGo:"Garder mon prix de lancement", pwHeld:"Prix de lancement réservé", pwNote:"Bientôt disponible. Aucun paiement maintenant.",
  teamsBtn:"Passer à Équipes", teamsT:"Wazo pour équipes et programmes", teamsLead:"Pour les accélérateurs, programmes d'entrepreneurs et équipes innovation : toute votre promo utilise Wazo et vous voyez chaque idée au même endroit.",
  teamsF:["Des places pour chaque entrepreneur de la promo","Un tableau de promo : chaque wazo, note et test de 7 jours","Export pour les comités et les rapports"], teamsPrice:"à partir de €370 par promo", teamsGo:"Réserver une place", teamsHeld:"Place réservée",
  legalLink:"Mentions légales et confidentialité", legalT:"Ce qu'est Wazo",
@@ -1045,7 +1046,7 @@ const ic=(n,cls="")=>`<svg class="ic ic-${n} ${cls}" viewBox="0 0 24 24" aria-hi
 function hydrateIcons(root=document){ root.querySelectorAll("[data-ic]").forEach(el=>{ if(!el.firstElementChild) el.innerHTML=ic(el.dataset.ic); }); }
 const VCLS = v => ({BUILD:"build",PIVOT:"pivot",KILL:"kill"}[v]||"pivot");
 Object.assign(T.he,{enrBtn:"הרחב לי", enrT:"הרעיון אחרי הרחבה", enrUse:"השתמש בזה", enrUseGo:"אשר ובדוק את הרעיון", enrClose:"סגור", enrLoad:"מרחיב את הרעיון...", enrNeed:"כתבו קודם רעיון קצר, ואז אוכל להרחיב אותו.", noIdeaBtn:"אין לי רעיון", noIdeaT:"מה מעניין אתכם?", noIdeaPh:"למשל: ילדים, בישול, מחשבים, לעזור לאנשים", noIdeaGo:"הציעו לי רעיונות", noIdeaLoad:"חושב על רעיונות...", noIdeaPick:"לחצו על רעיון כדי להתחיל ממנו", helpNote:"ההרחבה נכתבת על ידי בינה מלאכותית. אפשר לערוך אותה לפני הבדיקה."});
-Object.assign(T.he,{moreBelow:"הצג עוד"}); Object.assign(T.en,{moreBelow:"Show more"}); Object.assign(T.es,{moreBelow:"Mostrar más"}); Object.assign(T.fr,{moreBelow:"Afficher plus"});
+Object.assign(T.he,{moreBelow:"הצג עוד", renewNote:"מנוי חודשי: מתחדש מדי חודש עד שתחליטו להפסיק. אפשר לבטל בכל רגע."}); Object.assign(T.en,{moreBelow:"Show more", renewNote:"A monthly subscription: it renews each month until you decide to stop. Cancel any time."}); Object.assign(T.es,{moreBelow:"Mostrar más", renewNote:"Suscripción mensual: se renueva cada mes hasta que decidas parar. Cancela cuando quieras."}); Object.assign(T.fr,{moreBelow:"Afficher plus", renewNote:"Abonnement mensuel : il se renouvelle chaque mois jusqu'à ce que vous décidiez d'arrêter. Annulez à tout moment."});
 Object.assign(T.he,{testTag:"גרסת בדיקה · כל התכונות פתוחות · בלי תשלום", nextCard:"הבא", remind:"הזכר לי בעוד 7 ימים", remindTitle:"Wazo: תוצאות מבחן 7 הימים"});
 Object.assign(T.en,{enrBtn:"Expand it for me", enrT:"Your idea, expanded", enrUse:"Use this", enrUseGo:"Use this and check it", enrClose:"Close", enrLoad:"Expanding your idea...", enrNeed:"Write a short idea first, then I can expand it.", noIdeaBtn:"I have no idea", noIdeaT:"What are you interested in?", noIdeaPh:"e.g. kids, cooking, computers, helping people", noIdeaGo:"Suggest ideas", noIdeaLoad:"Thinking of ideas...", noIdeaPick:"Tap an idea to start from it", helpNote:"The expansion is written by AI. You can edit it before the check."});
 Object.assign(T.en,{testTag:"Test version · every feature open · no payment", nextCard:"Next", remind:"Remind me in 7 days", remindTitle:"Wazo: 7-day test result"});
@@ -1447,7 +1448,7 @@ async function holdPlan(k,btn){
 function plansHTML(){
   return `<div class="plans"><div class="plans-t">${esc(t("plansT"))}</div><div class="plans-s">${esc(t("plansS"))}</div>
     ${t("plans").map(([k,n,p],j)=>`<div class="plan" style="--i:${j+2}"><b>${esc(n)}</b><span class="pp">${esc(p)}</span><button type="button" data-plan="${k}">${esc(t("planHold"))}</button></div>`).join("")}
-    <div class="cav plan-note"></div></div>`;
+    <div class="cav plan-note">${esc(t("renewNote"))}</div></div>`;
 }
 
 /* ---------- share image ---------- */
