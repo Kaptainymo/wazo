@@ -12,6 +12,10 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700&family=Miriam+Libre:wght@700&family=IBM+Plex+Sans+Hebrew:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
 <style>
+  :root{--motion-micro:100ms;--motion-quick:150ms;--motion-base:200ms;--motion-moderate:250ms;--motion-emphasized:300ms;
+    --ease-out:cubic-bezier(0.22,1,0.36,1);--ease-in:cubic-bezier(0.4,0,1,1);--ease-in-out:cubic-bezier(0.65,0,0.35,1);
+    --dist-sm:8px;--dist-md:16px;--scale-press:0.97}
+  @media (prefers-reduced-motion:reduce){:root{--dist-sm:0px;--dist-md:0px;--scale-press:1;--motion-moderate:150ms;--motion-emphasized:150ms}}
   :root{--ink:#F1F0EC;--muted:#A8A6A0;--line:#2A2A2A;--coral:#F07167;--teal:#A8DADC;--ivory:#F1FAEE;--card:#1C1C1C;--nav:64px;color-scheme:dark}
   *{box-sizing:border-box}
   html{scroll-behavior:smooth;scroll-padding-top:calc(var(--nav) + 12px)}
@@ -22,8 +26,15 @@
   h1,h2,h3{font-family:"Miriam Libre","Hanken Grotesk",sans-serif;font-weight:700;margin:0;letter-spacing:-.015em}
   .mono{font-family:"IBM Plex Mono","IBM Plex Sans Hebrew",monospace}
   .wrap{width:min(1180px,100% - 40px);margin-inline:auto}
+  .cta:active,.tabs button:active,.enrlink:active,.pill:active{transform:scale(var(--scale-press))}
+  @media (hover:hover){
+    .cta.solid:hover{background:#E9E8E3}
+    .cta.line:hover{background:rgba(255,255,255,.1)}
+    .enrlink:hover{color:#fff}
+    .links a.l:hover{background:rgba(255,255,255,.09)}
+  }
   :focus-visible{outline:3px solid var(--coral);outline-offset:3px;border-radius:8px}
-  .cta{display:inline-flex;align-items:center;justify-content:center;gap:10px;height:56px;padding:0 30px;border-radius:999px;font-weight:600;font-size:17px;border:0;font-family:inherit;cursor:pointer}
+  .cta{transition:transform var(--motion-micro) var(--ease-out),background-color var(--motion-quick) var(--ease-out),box-shadow var(--motion-quick) var(--ease-out),color var(--motion-quick) var(--ease-out);display:inline-flex;align-items:center;justify-content:center;gap:10px;height:56px;padding:0 30px;border-radius:999px;font-weight:600;font-size:17px;border:0;font-family:inherit;cursor:pointer}
   .cta.solid{background:#fff;color:#0E0E0E}
   .cta.line{box-shadow:inset 0 0 0 1.4px rgba(255,255,255,.7);background:transparent;color:inherit}
 
@@ -47,7 +58,8 @@
   .burger[aria-expanded="true"] i::before{top:0;transform:rotate(45deg)}
   .burger[aria-expanded="true"] i::after{top:0;transform:rotate(-45deg)}
   .sheet{position:fixed;inset:0;z-index:40;background:#0a0708;padding:calc(var(--nav) + 28px) 24px 28px;display:flex;flex-direction:column;gap:6px;
-    transform:translateY(-8px);opacity:0;visibility:hidden;transition:opacity .25s,transform .25s,visibility .25s}
+    transform:translateY(-8px);opacity:0;visibility:hidden;transition:opacity var(--motion-quick) var(--ease-in),transform var(--motion-quick) var(--ease-in),visibility var(--motion-quick)}
+  .sheet.open{transition:opacity var(--motion-base) var(--ease-out),transform var(--motion-base) var(--ease-out),visibility 0s}
   .sheet.open{opacity:1;transform:none;visibility:visible}
   .sheet a.l{font-family:"Miriam Libre",sans-serif;font-weight:700;font-size:30px;padding:12px 0;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:center}
   .sheet a.l span{color:var(--coral);font-size:18px}
@@ -90,13 +102,22 @@
   .ask .go{height:48px;padding:0 22px;font-size:16px;border-radius:999px;white-space:nowrap}
   .tabs{display:flex;gap:6px;margin-bottom:10px;background:rgba(255,255,255,.07);border-radius:999px;padding:4px}
   .tabs button{all:unset;cursor:pointer;flex:1;text-align:center;padding:10px 8px;border-radius:999px;font-size:16px;font-weight:600;color:#CFCDC7}
+  .tabs button{transition:background-color var(--motion-quick) var(--ease-out),color var(--motion-quick) var(--ease-out),transform var(--motion-micro) var(--ease-out)}
   .tabs button[aria-selected="true"]{background:#fff;color:#0E0E0E}
+  .ask .swap{animation:swapIn var(--motion-base) var(--ease-out) both}
+  @keyframes swapIn{from{opacity:.15}to{opacity:1}}
   .tabs button:focus-visible{outline:3px solid var(--coral);outline-offset:2px}
   .acts{display:flex;gap:8px;align-items:center}
   .ask .enr{height:48px;padding:0 18px;font-size:15px;border-radius:999px;white-space:nowrap}
   a.how{display:inline-flex;align-items:center;gap:8px;margin-top:16px;font-size:15px;color:#E4E2DC;padding:8px 0}
   a.how svg{width:13px;height:13px;fill:currentColor}
   .float{position:relative;height:min(520px,64dvh);display:grid;place-items:center}
+  @media (hover:hover) and (pointer:fine) and (min-width:961px){
+    .ghost.a{translate:0 calc(var(--p,0)*-28px)}
+    .ghost.b{translate:0 calc(var(--p,0)*22px)}
+    .float .card{translate:0 calc(var(--p,0)*-10px)}
+    .stage.simple .copy{translate:0 calc(var(--h,0)*18px)}
+  }
   .ghost{position:absolute;width:min(270px,78%);aspect-ratio:3/3.9;border-radius:30px;filter:blur(14px);opacity:.55}
   .ghost.a{background:var(--teal);transform:translate(26%,-8%) rotate(7deg)}
   .ghost.b{background:var(--coral);transform:translate(-30%,10%) rotate(-8deg)}
@@ -111,10 +132,12 @@
   .card .rows div{display:flex;justify-content:space-between;gap:10px;border-top:1px dotted rgba(255,255,255,.18);padding-top:8px}
   .card.final .rows div{border-color:rgba(15,42,44,.25)}
   .card .rows b{font-family:"IBM Plex Mono",monospace;font-weight:600;direction:ltr}
-  .face{display:flex;flex-direction:column;gap:10px;animation:faceIn .5s ease both}
-  @keyframes faceIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+  .face{display:flex;flex-direction:column;gap:10px;animation:faceIn var(--motion-moderate) var(--ease-out) both}
+  @keyframes faceIn{from{opacity:0;transform:translateY(var(--dist-sm))}to{opacity:1;transform:none}}
+  .js .rv{opacity:0;transform:translateY(var(--dist-md));transition:opacity var(--motion-emphasized) var(--ease-out),transform var(--motion-emphasized) var(--ease-out);transition-delay:calc(min(var(--i,0),5)*40ms)}
+  .js .rv.in{opacity:1;transform:none}
   .qs{display:grid;gap:6px;font-family:"Miriam Libre","Hanken Grotesk",sans-serif;font-weight:700;font-size:clamp(22px,2.3vw,34px);line-height:1.15;letter-spacing:-.01em}
-  .qs button{all:unset;cursor:pointer;display:flex;align-items:center;gap:12px;padding:8px 0;color:rgba(241,240,236,.34);transition:color .4s}
+  .qs button{all:unset;cursor:pointer;display:flex;align-items:center;gap:12px;padding:8px 0;color:rgba(241,240,236,.34);transition:color var(--motion-base) var(--ease-out)}
   .qs button[aria-current="true"]{color:#fff}
   .qs button:focus-visible{outline:2px solid var(--coral);outline-offset:4px;border-radius:6px}
   .pause{all:unset;cursor:pointer;justify-self:start;font-family:'IBM Plex Sans Hebrew',sans-serif;font-size:14px;padding:8px 14px;border-radius:999px;border:1.3px solid rgba(241,240,236,.4);color:#E4E2DC;margin-top:8px}
@@ -388,6 +411,26 @@ function setSheet(on){ sheet.classList.toggle("open",on); burger.setAttribute("a
 burger.addEventListener("click",()=>setSheet(!sheet.classList.contains("open")));
 sheet.addEventListener("click",e=>{ if(e.target.closest("a")) setSheet(false); });
 addEventListener("keydown",e=>{ if(e.key==="Escape") setSheet(false); });
+/* motion: tab crossfade, reveal on scroll, subtle parallax */
+const reduce=matchMedia("(prefers-reduced-motion: reduce)").matches;
+document.documentElement.classList.add("js");
+const swapEls=[document.getElementById("idea"),document.getElementById("gotxt"),document.getElementById("hint")];
+const _setMode=setMode;
+setMode=function(n){ _setMode(n); swapEls.forEach(e=>{ e.classList.remove("swap"); void e.offsetWidth; e.classList.add("swap"); }); };
+tabHave.onclick=null; 
+(function(){
+  const groups=[".steps .step",".cards .rc",".pgrid .pcard",".tiers .tier",".trust span",".kick > div",".sec-h"];
+  groups.forEach(sel=>document.querySelectorAll(sel).forEach((el,k)=>{ el.classList.add("rv"); el.style.setProperty("--i",k); }));
+  const io=new IntersectionObserver(es=>es.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add("in"); io.unobserve(e.target); } }),{threshold:.12,rootMargin:"0px 0px -6% 0px"});
+  document.querySelectorAll(".rv").forEach(el=>io.observe(el));
+  const fine=matchMedia("(hover:hover) and (pointer:fine) and (min-width:961px)");
+  if(reduce) return;
+  const show=document.getElementById("what"), root=document.documentElement; let ticking=false;
+  const upd=()=>{ ticking=false; if(!fine.matches){ root.style.removeProperty("--p"); root.style.removeProperty("--h"); return; }
+    const r=show.getBoundingClientRect(), mid=(r.top+r.height/2-innerHeight/2)/innerHeight; root.style.setProperty("--p",Math.max(-1,Math.min(1,mid)).toFixed(3));
+    root.style.setProperty("--h",Math.max(0,Math.min(1,scrollY/innerHeight)).toFixed(3)); };
+  addEventListener("scroll",()=>{ if(!ticking){ ticking=true; requestAnimationFrame(upd); } },{passive:true}); addEventListener("resize",upd); upd();
+})();
 </script>
 </body>
 </html>
