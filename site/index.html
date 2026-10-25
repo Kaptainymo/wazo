@@ -208,6 +208,9 @@ textarea#idea:focus{outline:none}
 .ln .g{font-family:var(--f-mono);font-size:11px;font-weight:600;border:1.2px solid currentColor;border-radius:4px;padding:0 5px}
 .ev{font-size:13px;opacity:.72;margin-top:-6px}
 .nt b{font-weight:600}
+.tip{margin-top:auto;padding:14px 16px;border-radius:16px;border:1.5px solid var(--red);background:color-mix(in srgb,var(--red) 12%,transparent)}
+.tip-l{display:block;font-family:var(--f-mono);font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--red);font-weight:700;margin-bottom:6px}
+.tip p{margin:0;font-size:16.5px;font-weight:600;line-height:1.45}
 .nt ul{margin:4px 0 0;padding-inline-start:18px}
 .cav{font-size:12px;opacity:.6}
 .price-in{width:84px;border:0;border-bottom:1.5px solid currentColor;background:transparent;font-family:var(--f-mono);font-weight:600;font-size:15px;text-align:center;direction:ltr}
@@ -1148,7 +1151,7 @@ function cardHTML(b,o,only){
     4: proLocked(4) ? paywallHTML() : `<div class="nt"><b>${esc(R.grave)}</b><ul>${b.graveyard.map(g=>`<li><b>${esc(g.name)}</b>: ${esc(g.why)}</li>`).join("")}</ul></div>`
        + `<div class="nt"><b>${esc(R.comp)}</b><ul>${b.competition.map(c=>`<li><b>${esc(c.name)}</b>: ${esc(c.note)}</li>`).join("")}</ul></div>`
        + `<div class="nt"><b>${esc(R.gap)}:</b> ${esc(b.gap)}</div><div class="nt"><b>${esc(R.il)}:</b> ${esc(b.israel)}</div><div class="nt"><b>${esc(R.fit)}:</b> ${esc(b.fit)}</div><div class="cav">${esc(R.cav)}</div>`,
-    5: !unlocked() ? gateHTML() : `<div class="bline">${esc(b.headline)}</div><div class="nt"><b>${esc(R.rests)}:</b> ${esc(b.deciding)}</div>` + (b.tip?`<div class="nt"><b>${esc(R.tip)}:</b> ${esc(b.tip)}</div>`:"")
+    5: !unlocked() ? gateHTML() : `<div class="bline">${esc(b.headline)}</div><div class="nt"><b>${esc(R.rests)}:</b> ${esc(b.deciding)}</div>` + (b.tip?`<div class="tip"><span class="tip-l">${esc(R.tip)}</span><p>${esc(b.tip)}</p></div>`:"")
   };
   const titles={1:t("rowsScores"),2:t("rowsMoney"),3:t("rowsTest"),4:t("rowsFine"),5:t("rowsTotal")};
   S._cm=isWide();

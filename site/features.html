@@ -139,6 +139,7 @@
   .card .rows{display:grid;gap:9px;margin-top:6px;font-size:13.5px}
   .card .rows div{display:flex;justify-content:space-between;gap:10px;border-top:1px dotted rgba(255,255,255,.18);padding-top:8px}
   .card.final .rows div{border-color:rgba(15,42,44,.25)}
+  .card .rows div.tipr{border:1.5px solid rgba(15,42,44,.7);border-radius:12px;padding:10px 12px;font-weight:700;font-size:15px}
   .card .rows b{font-family:"IBM Plex Mono",monospace;font-weight:600;direction:ltr}
   .face{display:flex;flex-direction:column;gap:10px;animation:faceIn var(--motion-moderate) var(--ease-out) both}
   @keyframes faceIn{from{opacity:0;transform:translateY(var(--dist-sm))}to{opacity:1;transform:none}}
@@ -317,7 +318,7 @@
       <article class="rc"><div class="top mono"><span>02 · הכסף</span></div><div class="big">$12,000</div><h3>כמה אפשר להרוויח</h3><p>מחיר שאפשר לשנות, שלושה תרחישים, ומה יכול לקלקל את החישוב.</p><span class="tag">חינם</span></article>
       <article class="rc"><div class="top mono"><span>03 · ניסוי לשבוע</span></div><div class="big">$200</div><h3>ניסוי קטן לשבוע</h3><p>דבר אחד לעשות, כמה זה עולה ואיך תדעו שהצליח. אפשר לקבל תזכורת ביומן.</p><span class="tag pro">Pro</span></article>
       <article class="rc"><div class="top mono"><span>04 · מי כבר ניסה</span></div><div class="big">3·3</div><h3>מי כבר ניסה</h3><p>מי ניסה דבר דומה ומה קרה לו, מי עושה את זה היום, ומה עוד חסר בישראל.</p><span class="tag pro">Pro</span></article>
-      <article class="rc final"><div class="top mono"><span>05 · ומה עכשיו</span></div><div class="big">כדאי להתחיל</div><h3>ומה עושים עכשיו</h3><p>תשובה כנה במשפט אחד, על מה היא נשענת, וטיפ אחד שימושי.</p><span class="tag pro">Pro</span></article>
+      <article class="rc final"><div class="top mono"><span>05 · ומה עכשיו</span></div><div class="big">כדאי להתחיל</div><h3>ומה עושים עכשיו</h3><p>תשובה כנה במשפט אחד, על מה היא נשענת, וטיפ אחד מעשי שאפשר לעשות כבר השבוע.</p><span class="tag pro">Pro</span></article>
     </div>
     <p class="note">הכרטיסים הם דוגמה להמחשה.</p>
     <div class="trust">
@@ -392,7 +393,7 @@ const faces=[
   {q:"כמה אפשר להרוויח?",d:"שלושה תרחישים בלי הפרזות: מעט, סביר והרבה, עם המספרים שמאחוריהם.",top:["02 · הכסף","$"],big:"$12,000",cap:"בחודש, בתרחיש הסביר",rows:[["מעט · 120 לקוחות","$3,600"],["סביר · 400 לקוחות","$12,000"],["הרבה · 1,200 לקוחות","$36,000"]]},
   {q:"אפשר לנסות את זה בשבוע?",d:"מבחן אחד קטן לשבוע, וקריטריון ברור להצלחה, עוד לפני שמשקיעים.",top:["03 · ניסוי לשבוע","PRO"],big:"$200",cap:"7 ימים, מבחן אחד",rows:[["מה עושים","מוכרים מראש"],["הצלחה אם","10 הזמנות"]]},
   {q:"מי כבר ניסה, ומה קרה?",d:"מי עשה משהו דומה, מה קרה לו, ומה אפשר ללמוד מזה.",top:["04 · מי כבר ניסה","PRO"],big:"3·3",cap:"נסגרו · עדיין פעילים",rows:[["Shoeboxed","נסגר"],["Receipt Bank","הוחלף"],["מה חסר","עברית ומע״מ"]]},
-  {q:"כדאי להתחיל?",d:"תשובה כנה: כדאי להתחיל, כדאי לחדד, או כדאי לעצור כאן, ומה עושים במקום.",top:["05 · ומה עכשיו","PRO"],big:"כדאי להתחיל",cap:"מתחילים בקטן, עם עצמאים בישראל.",rows:[["הכול תלוי ב","שמישהו ישלם מראש"]],final:true}
+  {q:"כדאי להתחיל?",d:"תשובה כנה: כדאי להתחיל, כדאי לחדד, או כדאי לעצור כאן. ובסוף, טיפ אחד מעשי שאפשר לעשות כבר השבוע.",top:["05 · ומה עכשיו","PRO"],big:"כדאי להתחיל",cap:"מתחילים בקטן, עם עצמאים בישראל.",rows:[["הכול תלוי ב","שמישהו ישלם מראש"],["טיפ","תמכרו קודם ל־10 אנשים"]],final:true,tip:true}
 ];
 const qs=document.getElementById("qs"), card=document.getElementById("card"), pane=document.getElementById("pane"); let i=0, paused=false;
 const calm=matchMedia("(prefers-reduced-motion: reduce)").matches; if(calm) qs.classList.add("still");
@@ -403,7 +404,7 @@ function show(k){ i=k; const f=faces[k]; const btns=[...qs.querySelectorAll("but
   btns.forEach((b,n)=>{ b.setAttribute("aria-selected",n===k); const fl=b.firstChild; fl.style.animation="none"; if(n===k){ void fl.offsetWidth; fl.style.animation=""; } });
   const cur=btns[k]; qs.scrollTo({left:cur.offsetLeft-(qs.clientWidth-cur.offsetWidth)/2,behavior:calm?"auto":"smooth"});
   card.classList.toggle("final",!!f.final); [1,2].forEach(n=>{ document.getElementById("s"+n).textContent=faces[(k+n)%faces.length].top[0]; }); pq.textContent=f.q; pd.textContent=f.d;
-  card.innerHTML=`<div class="face"><div class="top"><span>${f.top[0]}</span><span>${f.top[1]}</span></div><div class="big">${f.big}</div><div class="cap">${f.cap}</div><div class="rows">${f.rows.map(r=>`<div><span>${r[0]}</span><b>${r[1]}</b></div>`).join("")}</div></div>`; }
+  card.innerHTML=`<div class="face"><div class="top"><span>${f.top[0]}</span><span>${f.top[1]}</span></div><div class="big">${f.big}</div><div class="cap">${f.cap}</div><div class="rows">${f.rows.map(r=>`<div${r[0]==="טיפ"?' class="tipr"':""}><span>${r[0]}</span><b>${r[1]}</b></div>`).join("")}</div></div>`; }
 /* the progress fill finishing is what moves to the next card, so pausing the fill pauses the show */
 qs.addEventListener("animationend",e=>{ if(e.animationName==="fill" && !paused) show((i+1)%faces.length); });
 qs.addEventListener("click",e=>{ const b=e.target.closest("[data-k]"); if(b) show(+b.dataset.k); });
