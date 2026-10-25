@@ -80,7 +80,7 @@
   .stage.simple .lead{margin-inline:auto;max-width:34ch}
   .stage.simple .ask{margin-inline:auto;text-align:right}
   .stage.simple h1{font-size:clamp(38px,5vw,66px);margin-top:0}
-  .ask textarea{font-size:20px;min-height:84px}
+  .ask textarea{font-size:20px;min-height:96px}
   .enrlink{all:unset;cursor:pointer;display:inline-flex;align-items:center;gap:6px;font-size:15px;color:#E4E2DC;text-decoration:underline;text-underline-offset:4px;padding:10px 6px}
   .enrlink:focus-visible{outline:3px solid var(--coral);outline-offset:3px;border-radius:8px}
   .showgrid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:40px;align-items:center}
@@ -93,8 +93,13 @@
   .lead{font-size:clamp(18px,1.6vw,22px);line-height:1.55;color:#D9D7D1;max-width:40ch;margin:0 0 28px}
   .btns{display:flex;gap:12px;flex-wrap:wrap}
   .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
-  .ask{max-width:520px;background:rgba(10,8,9,.62);border:1.4px solid rgba(255,255,255,.28);border-radius:20px;padding:14px 14px 12px;backdrop-filter:blur(10px);transition:border-color .2s,box-shadow .2s}
-  .ask:focus-within{border-color:#fff;box-shadow:0 0 0 4px rgba(240,113,103,.25)}
+  .ask{max-width:560px;background:linear-gradient(180deg,rgba(26,18,20,.9),rgba(10,8,9,.88));border:2px solid rgba(255,255,255,.82);border-radius:28px;padding:16px 16px 14px;backdrop-filter:blur(12px);box-shadow:0 0 0 7px rgba(240,113,103,.2),0 30px 80px rgba(0,0,0,.6);transition:border-color var(--motion-base) var(--ease-out),box-shadow var(--motion-base) var(--ease-out)}
+  .ask:focus-within{border-color:#fff;box-shadow:0 0 0 7px rgba(240,113,103,.42),0 30px 80px rgba(0,0,0,.6)}
+  .ask .go[aria-disabled="true"]{background:rgba(255,255,255,.12);color:rgba(241,240,236,.5);cursor:default}
+  .ask .go[aria-disabled="true"]:hover{background:rgba(255,255,255,.12)}
+  .enrlink[aria-disabled="true"]{opacity:.45;cursor:default;text-decoration-color:transparent}
+  .ask .go.ready{animation:ready var(--motion-emphasized) var(--ease-out)}
+  @keyframes ready{from{box-shadow:0 0 0 0 rgba(240,113,103,.7)}to{box-shadow:0 0 0 14px rgba(240,113,103,0)}}
   .ask textarea{all:unset;box-sizing:border-box;display:block;width:100%;min-height:56px;font-size:18px;line-height:1.45;color:#fff;resize:none}
   .ask textarea::placeholder{color:rgba(241,240,236,.5)}
   .askrow{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:8px}
@@ -136,10 +141,20 @@
   @keyframes faceIn{from{opacity:0;transform:translateY(var(--dist-sm))}to{opacity:1;transform:none}}
   .js .rv{opacity:0;transform:translateY(var(--dist-md));transition:opacity var(--motion-emphasized) var(--ease-out),transform var(--motion-emphasized) var(--ease-out);transition-delay:calc(min(var(--i,0),5)*40ms)}
   .js .rv.in{opacity:1;transform:none}
-  .qs{display:grid;gap:6px;font-family:"Miriam Libre","Hanken Grotesk",sans-serif;font-weight:700;font-size:clamp(22px,2.3vw,34px);line-height:1.15;letter-spacing:-.01em}
-  .qs button{all:unset;cursor:pointer;display:flex;align-items:center;gap:12px;padding:8px 0;color:rgba(241,240,236,.34);transition:color var(--motion-base) var(--ease-out)}
-  .qs button[aria-current="true"]{color:#fff}
-  .qs button:focus-visible{outline:2px solid var(--coral);outline-offset:4px;border-radius:6px}
+  .qs{display:flex;margin-bottom:28px;border:1.5px solid rgba(241,240,236,.22);border-radius:18px;overflow-x:auto;scrollbar-width:none;scroll-snap-type:x proximity}
+  .qs::-webkit-scrollbar{display:none}
+  .qs button{all:unset;cursor:pointer;position:relative;flex:1 0 auto;min-width:150px;padding:20px 22px;font-family:"IBM Plex Sans Hebrew",sans-serif;font-size:15px;font-weight:600;color:rgba(241,240,236,.55);scroll-snap-align:center;overflow:hidden;transition:color var(--motion-base) var(--ease-out)}
+  .qs button+button{border-inline-start:1.5px solid rgba(241,240,236,.22)}
+  .qs button[aria-selected="true"]{color:#fff;background:rgba(255,255,255,.06)}
+  .qs button .fill{position:absolute;inset:0;background:rgba(240,113,103,.5);transform:scaleX(0);transform-origin:right center;pointer-events:none}
+  .qs button[aria-selected="true"] .fill{animation:fill var(--dur,4200ms) linear forwards;animation-play-state:var(--run,running)}
+  .qs.still button[aria-selected="true"] .fill{animation:none;transform:scaleX(1)}
+  .qs button span{position:relative}
+  @keyframes fill{to{transform:scaleX(1)}}
+  .qs button:focus-visible{outline:3px solid var(--coral);outline-offset:-3px;border-radius:14px}
+  .pane h3{font-size:clamp(26px,3vw,40px);line-height:1.15;margin-bottom:14px}
+  .pane p{font-size:18px;line-height:1.55;color:#D9D7D1;margin:0 0 20px;max-width:34ch}
+  .pane .enrlink{padding-inline:0}
   .pause{all:unset;cursor:pointer;justify-self:start;font-family:'IBM Plex Sans Hebrew',sans-serif;font-size:14px;padding:8px 14px;border-radius:999px;border:1.3px solid rgba(241,240,236,.4);color:#E4E2DC;margin-top:8px}
   .pause:focus-visible{outline:3px solid var(--coral);outline-offset:3px}
   .trust{position:relative;z-index:2;width:min(1240px,100% - 40px);margin:0 auto 26px;display:flex;flex-wrap:wrap;gap:10px 34px;justify-content:center;font-size:13px;color:#BDBBB5}
@@ -216,9 +231,8 @@
     .links,.nav .try,.nav .pill.lang{display:none}
     .burger{display:grid}
     .stage{grid-template-columns:1fr;gap:16px;padding-top:12px}
-    .showgrid{grid-template-columns:1fr;gap:18px}.float{height:400px}.qs{font-size:22px}
+    .showgrid{grid-template-columns:1fr;gap:18px}.float{height:400px}.qs button{min-width:132px;padding:16px 16px}
     .hero{min-height:auto}.stage.simple{padding:12px 0 44px}
-    .qs button{padding:5px 0}
     .hero h1{font-size:clamp(34px,10.2vw,54px);line-height:1.06}
     .hero{background:radial-gradient(90% 40% at 50% 60%,rgba(240,113,103,.55) 0%,rgba(150,48,60,.3) 40%,rgba(8,8,8,0) 72%),linear-gradient(180deg,#120a0c 0%,#0a0708 60%,#080808 100%)}
     .askrow{flex-direction:column;align-items:stretch}.acts{flex-direction:column-reverse;align-items:stretch}.ask .go,.ask .enr{width:100%}.hint{text-align:center;order:2}.enra .cta{flex:1 1 100%}
@@ -280,11 +294,10 @@
 
   <section class="blk show" id="what"><div class="wrap">
     <div class="sec-h"><span class="eyebrow">מה תקבלו</span><h2>תשובה ברורה, בחמישה כרטיסים</h2></div>
+    <div class="qs" id="qs" role="tablist" aria-label="חמשת הכרטיסים"></div>
     <div class="showgrid">
       <div class="float" aria-live="polite"><div class="ghost a"></div><div class="ghost b"></div><div class="card" id="card"></div></div>
-      <div>
-        <div class="qs" id="qs" role="tablist" aria-label="שאלות שאנשים שואלים"></div>
-      </div>
+      <div class="pane" id="pane"></div>
     </div>
     <div class="trust">
       <span>הניתוח נכתב על ידי בינה מלאכותית (Claude)</span><span>הנתונים נשמרים באירופה</span><span>לא מוכרים מידע</span><span>עברית, אנגלית, ספרדית וצרפתית</span>
@@ -365,21 +378,27 @@
 
 <script>
 const faces=[
-  {q:"יש מי שישלם על זה?",top:["01 · כמה חזק","1–10"],big:"8 6 5 7",cap:"ארבע נקודות, כל אחת מ־1 עד 10",rows:[["הבעיה אמיתית","8/10"],["יש מי שרוצה","6/10"],["אין הרבה מתחרים","5/10"],["ישלמו על זה","7/10"]]},
-  {q:"כמה אפשר להרוויח?",top:["02 · הכסף","$"],big:"$12,000",cap:"בחודש, בתרחיש הסביר",rows:[["מעט · 120 לקוחות","$3,600"],["סביר · 400 לקוחות","$12,000"],["הרבה · 1,200 לקוחות","$36,000"]]},
-  {q:"אפשר לנסות את זה בשבוע?",top:["03 · ניסוי לשבוע","PRO"],big:"$200",cap:"7 ימים, מבחן אחד",rows:[["מה עושים","מוכרים מראש"],["הצלחה אם","10 הזמנות"]]},
-  {q:"מי כבר ניסה, ומה קרה?",top:["04 · מי כבר ניסה","PRO"],big:"3·3",cap:"נסגרו · עדיין פעילים",rows:[["Shoeboxed","נסגר"],["Receipt Bank","הוחלף"],["מה חסר","עברית ומע״מ"]]},
-  {q:"כדאי להתחיל?",top:["05 · ומה עכשיו","PRO"],big:"כדאי להתחיל",cap:"מתחילים בקטן, עם עצמאים בישראל.",rows:[["הכול תלוי ב","שמישהו ישלם מראש"]],final:true}
+  {q:"יש מי שישלם על זה?",d:"ארבע נקודות מ־1 עד 10: האם הבעיה אמיתית, האם יש מי שרוצה, כמה מתחרים יש, והאם ישלמו.",top:["01 · כמה חזק","1–10"],big:"8 6 5 7",cap:"ארבע נקודות, כל אחת מ־1 עד 10",rows:[["הבעיה אמיתית","8/10"],["יש מי שרוצה","6/10"],["אין הרבה מתחרים","5/10"],["ישלמו על זה","7/10"]]},
+  {q:"כמה אפשר להרוויח?",d:"שלושה תרחישים בלי הפרזות: מעט, סביר והרבה, עם המספרים שמאחוריהם.",top:["02 · הכסף","$"],big:"$12,000",cap:"בחודש, בתרחיש הסביר",rows:[["מעט · 120 לקוחות","$3,600"],["סביר · 400 לקוחות","$12,000"],["הרבה · 1,200 לקוחות","$36,000"]]},
+  {q:"אפשר לנסות את זה בשבוע?",d:"מבחן אחד קטן לשבוע, וקריטריון ברור להצלחה, עוד לפני שמשקיעים.",top:["03 · ניסוי לשבוע","PRO"],big:"$200",cap:"7 ימים, מבחן אחד",rows:[["מה עושים","מוכרים מראש"],["הצלחה אם","10 הזמנות"]]},
+  {q:"מי כבר ניסה, ומה קרה?",d:"מי עשה משהו דומה, מה קרה לו, ומה אפשר ללמוד מזה.",top:["04 · מי כבר ניסה","PRO"],big:"3·3",cap:"נסגרו · עדיין פעילים",rows:[["Shoeboxed","נסגר"],["Receipt Bank","הוחלף"],["מה חסר","עברית ומע״מ"]]},
+  {q:"כדאי להתחיל?",d:"תשובה כנה: כדאי להתחיל, כדאי לחדד, או כדאי לעצור כאן, ומה עושים במקום.",top:["05 · ומה עכשיו","PRO"],big:"כדאי להתחיל",cap:"מתחילים בקטן, עם עצמאים בישראל.",rows:[["הכול תלוי ב","שמישהו ישלם מראש"]],final:true}
 ];
-const qs=document.getElementById("qs"), card=document.getElementById("card"); let i=0, timer=null;
-qs.innerHTML=faces.map((f,k)=>`<button type="button" role="tab" data-k="${k}"><span>${f.q}</span></button>`).join("");
-function show(k){ i=k; const f=faces[k]; qs.querySelectorAll("button").forEach((b,n)=>b.setAttribute("aria-current",n===k)); card.classList.toggle("final",!!f.final);
+const qs=document.getElementById("qs"), card=document.getElementById("card"), pane=document.getElementById("pane"); let i=0, paused=false;
+const calm=matchMedia("(prefers-reduced-motion: reduce)").matches; if(calm) qs.classList.add("still");
+qs.innerHTML=faces.map((f,k)=>`<button type="button" role="tab" data-k="${k}"><i class="fill"></i><span>${f.top[0]}</span></button>`).join("");
+pane.innerHTML=`<h3 id="pq"></h3><p id="pd"></p><button type="button" class="enrlink" id="pgo">נסו עם הרעיון שלכם</button><br><button type="button" class="pause" id="pb">עצור תנועה</button>`;
+const pq=document.getElementById("pq"), pd=document.getElementById("pd"), pb=document.getElementById("pb");
+function show(k){ i=k; const f=faces[k]; const btns=[...qs.querySelectorAll("button")];
+  btns.forEach((b,n)=>{ b.setAttribute("aria-selected",n===k); const fl=b.firstChild; fl.style.animation="none"; if(n===k){ void fl.offsetWidth; fl.style.animation=""; } });
+  const cur=btns[k]; qs.scrollTo({left:cur.offsetLeft-(qs.clientWidth-cur.offsetWidth)/2,behavior:calm?"auto":"smooth"});
+  card.classList.toggle("final",!!f.final); pq.textContent=f.q; pd.textContent=f.d;
   card.innerHTML=`<div class="face"><div class="top"><span>${f.top[0]}</span><span>${f.top[1]}</span></div><div class="big">${f.big}</div><div class="cap">${f.cap}</div><div class="rows">${f.rows.map(r=>`<div><span>${r[0]}</span><b>${r[1]}</b></div>`).join("")}</div></div>`; }
-function play(){ clearInterval(timer); if(typeof paused!=="undefined"&&paused) return; if(!matchMedia("(prefers-reduced-motion: reduce)").matches) timer=setInterval(()=>show((i+1)%faces.length),3200); }
-qs.addEventListener("click",e=>{ const b=e.target.closest("[data-k]"); if(b){ show(+b.dataset.k); play(); } });
-const qwrap=qs; const pb=document.createElement("button"); pb.type="button"; pb.className="pause"; pb.textContent="עצור תנועה"; qwrap.after(pb);
-let paused=false; pb.addEventListener("click",()=>{ paused=!paused; pb.textContent=paused?"המשך תנועה":"עצור תנועה"; card.style.animationPlayState=paused?"paused":"running"; if(paused) clearInterval(timer); else play(); });
-show(0); play();
+/* the progress fill finishing is what moves to the next card, so pausing the fill pauses the show */
+qs.addEventListener("animationend",e=>{ if(e.animationName==="fill" && !paused) show((i+1)%faces.length); });
+qs.addEventListener("click",e=>{ const b=e.target.closest("[data-k]"); if(b) show(+b.dataset.k); });
+pb.addEventListener("click",()=>{ paused=!paused; pb.textContent=paused?"המשך תנועה":"עצור תנועה"; qs.style.setProperty("--run",paused?"paused":"running"); card.style.animationPlayState=paused?"paused":"running"; });
+show(0);
 
 /* hand the idea to the app through this browser only (never in the URL, so it is not logged) */
 const idea=document.getElementById("idea"), tabHave=document.getElementById("tabHave"), tabNone=document.getElementById("tabNone"), goTxt=document.getElementById("gotxt");
@@ -394,12 +413,18 @@ function setMode(n){
   idea.focus();
 }
 tabHave.addEventListener("click",()=>setMode(false)); tabNone.addEventListener("click",()=>setMode(true));
+const goBtn=document.getElementById("go"), enrBtn=document.getElementById("enrich");
+function sync(){ const on=idea.value.trim().length>0, was=goBtn.getAttribute("aria-disabled")==="false";
+  goBtn.setAttribute("aria-disabled",!on); enrBtn.setAttribute("aria-disabled",!on);
+  if(on&&!was&&!calm){ goBtn.classList.remove("ready"); void goBtn.offsetWidth; goBtn.classList.add("ready"); } }
+idea.addEventListener("input",sync); sync();
 function toApp(mode){
   try{ localStorage.setItem("wz.handoff",JSON.stringify({text:idea.value.trim().slice(0,1200),mode,lang:"he"})); }catch(e){}
   location.href="/#idea";
 }
-document.querySelector(".ask").addEventListener("submit",e=>{ e.preventDefault(); toApp(none()?"none":"check"); });
-document.getElementById("enrich").addEventListener("click",()=>toApp("enrich"));
+document.querySelector(".ask").addEventListener("submit",e=>{ e.preventDefault(); if(!idea.value.trim()){ idea.focus(); return; } toApp(none()?"none":"check"); });
+enrBtn.addEventListener("click",()=>{ if(!idea.value.trim()){ idea.focus(); return; } toApp("enrich"); });
+document.getElementById("pgo").addEventListener("click",()=>{ scrollTo({top:0,behavior:"smooth"}); idea.focus({preventScroll:true}); });
 
 /* nav: solid on scroll, active section, mobile sheet, sticky mobile CTA */
 const nav=document.getElementById("nav"), dock=document.getElementById("dock"), burger=document.getElementById("burger"), sheet=document.getElementById("sheet");
