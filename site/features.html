@@ -293,13 +293,25 @@
   .win .stk{background:transparent;border:1.5px solid rgba(8,8,8,.75);box-shadow:none;color:rgba(8,8,8,.6)}
   .win .stk.s2{background:transparent;border-color:rgba(8,8,8,.45)}
   #cards{padding-top:70px}
+  .slider,.pgo2{display:none}
+  .sl-i{flex:0 0 min(82vw,330px);scroll-snap-align:center;display:grid;gap:10px;align-content:start}
+  .sl-i h3{font-size:22px;color:#0A0A0A;line-height:1.15;padding-inline:2px}
+  .sl-i .card{width:100%;aspect-ratio:auto;height:auto;min-height:250px;animation:none}
   .peekopen .dock,.atend .dock{display:none}
   .peek.flat{height:auto}.peek.flat .pin{position:relative;height:auto;overflow:visible}.peek.flat .hero{height:auto;min-height:84dvh}
   .peek.flat .win{position:relative;clip-path:none;padding:70px 0 60px}.peek.flat .win-in{position:relative;opacity:1;height:auto;padding-top:0}.peek.flat .sliver{display:none}
   .peek.flat .hero .copy{opacity:1;transform:none}
   @media (max-width:960px){
-    .peek{height:380vh}
     .win .sec-h p{display:none}
+    .win .showgrid{display:none!important}
+    .pgo2{display:inline-flex;align-self:flex-start;color:#0A0A0A;margin-top:8px}
+    .slider{display:flex;gap:12px;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;margin-inline:-20px;padding-inline:20px;flex:1;min-height:0;align-items:flex-start;overscroll-behavior-x:contain}
+    .slider::-webkit-scrollbar{display:none}
+    .slider:focus-visible{outline:3px solid #0A0A0A;outline-offset:-3px}
+    .sl-i .card{padding:16px;gap:6px;border-radius:16px;box-shadow:none}
+    .sl-i p{margin:0;color:rgba(8,8,8,.88);font-size:14.5px;line-height:1.45;padding-inline:2px}
+    .sl-i .card .big{font-size:36px}.sl-i .card .cap{display:none}.sl-i .card .rows{font-size:13px;gap:5px}
+    .peek{height:230vh}
     /* softer corners on phones */
     .ask{border-radius:20px}.tabs{border-radius:999px}
     .win{clip-path:inset(calc((1 - var(--o))*(100% - 76px)) 0 0 0 round 16px 16px 0 0)}
@@ -367,7 +379,7 @@
     <div class="grain"></div>
     <div class="stage simple">
       <div class="copy">
-        <h1 data-i="h1">רעיון בראש? נבדוק יחד? <em>לפני</em> שמוציאים את השקל הראשון</h1>
+        <h1 data-i="h1">רעיון בראש? בדיקה מהירה <em>לפני</em> שמוציאים את השקל הראשון</h1>
         <p class="lead">כתבו אותו בכמה מילים וקבלו תשובה בדקות. בלי הרשמה ובלי עלות.</p>
         <form class="ask" onsubmit="event.preventDefault()">
           <div class="tabs" role="tablist" aria-label="איך מתחילים"><button type="button" role="tab" id="tabHave" aria-selected="true" aria-controls="idea">יש לי רעיון</button><button type="button" role="tab" id="tabNone" aria-selected="false" aria-controls="idea">אין לי רעיון</button></div>
@@ -383,6 +395,8 @@
       <div class="win-in wrap">
     <div class="sec-h"><span class="eyebrow">מה תקבלו</span><h2>חמישה כרטיסים. כל אחד עונה על שאלה אחת פשוטה</h2></div>
     <div class="qs" id="qs" role="tablist" aria-label="חמשת הכרטיסים" aria-controls="panelCards"></div>
+    <div class="slider" id="slider" tabindex="0" aria-label="חמשת הכרטיסים"></div>
+    <button type="button" class="enrlink pgo2" id="pgo2"></button>
     <div class="showgrid" id="panelCards" role="tabpanel">
       <div class="float" aria-live="polite"><div class="stk s2" id="s2"></div><div class="stk s1" id="s1"></div><div class="card" id="card"></div></div>
       <div class="pane" id="pane"></div>
@@ -507,6 +521,7 @@ function toApp(mode){
 }
 document.querySelector(".ask").addEventListener("submit",e=>{ e.preventDefault(); if(!idea.value.trim()){ idea.focus(); return; } toApp(none()?"none":"check"); });
 enrBtn.addEventListener("click",()=>{ if(!idea.value.trim()){ idea.focus(); return; } toApp("enrich"); });
+document.getElementById("pgo2").addEventListener("click",()=>document.getElementById("pgo").click());
 document.getElementById("pgo").addEventListener("click",()=>{ scrollTo({top:0,behavior:"smooth"}); setTimeout(()=>idea.focus({preventScroll:true}),400); });
 
 /* language: Hebrew stays here; other languages open the app in that language */
@@ -517,7 +532,7 @@ addEventListener("click",()=>langMenuSet(false)); addEventListener("keydown",e=>
 function onLang(){
   faces=WZI.faces();
   qs.innerHTML=faces.map((f,k)=>`<button type="button" role="tab" data-k="${k}"><i class="fill"></i><span>${f.top[0]}</span></button>`).join("");
-  document.getElementById("pgo").textContent=WZI.u("tryIdea"); fills(curQ);
+  document.getElementById("pgo").textContent=WZI.u("tryIdea"); buildSlider(); document.getElementById("pgo2").textContent=WZI.u("tryIdea"); fills(curQ);
   show(i); setMode(none(),true);
 }
 document.addEventListener("click",e=>{ const b=e.target.closest("[data-l]"); if(!b) return; langMenuSet(false); if(b.dataset.l===WZI.lang) return; WZI.set(b.dataset.l); onLang(); });
@@ -550,7 +565,20 @@ const peek=document.getElementById("peek"), heroCopy=peek.querySelector(".hero .
 let pinned=false, curQ=0;
 const total=()=>peek.offsetHeight-innerHeight;
 function fills(q){ curQ=q; [...qs.children].forEach((b,n)=>{ b.firstChild.style.transform=pinned?`scaleX(${clamp(q-n,0,1).toFixed(2)})`:""; }); }
+const slider=document.getElementById("slider"), mob=matchMedia("(max-width:960px)");
+function faceCard(f){ return `<div class="card${f.final?" final":""}"><div class="face"><div class="top"><span>${f.top[0]}</span><span>${f.top[1]}</span></div><div class="big">${f.big}</div><div class="cap">${f.cap}</div><div class="rows">${f.rows.map(r=>`<div${r[2]?' class="tipr"':""}><span>${r[0]}</span><b>${r[1]}</b></div>`).join("")}</div></div></div>`; }
+function buildSlider(){ slider.innerHTML=faces.map(f=>`<article class="sl-i"><h3>${f.q}</h3>${faceCard(f)}<p>${f.d}</p></article>`).join(""); }
+let slRaf=0;
+function slSync(){ slRaf=0; const kids=[...slider.children]; if(!kids.length||!mob.matches) return; const mid=slider.getBoundingClientRect().left+slider.clientWidth/2; let best=0,bd=1e9,fl=0;
+  kids.forEach((c,n)=>{ const r=c.getBoundingClientRect(), d=Math.abs(r.left+r.width/2-mid); if(d<bd){ bd=d; best=n; } });
+  const w=kids[0].getBoundingClientRect().width+12, c0=kids[0].getBoundingClientRect(); fl=Math.abs((slider.getBoundingClientRect().left+slider.clientWidth/2)-(c0.left+c0.width/2))/w;
+  if(best!==i) show(best); fills(clamp(fl,0,faces.length-1)+1); }
+slider.addEventListener("scroll",()=>{ if(!slRaf) slRaf=requestAnimationFrame(slSync); },{passive:true});
+slider.addEventListener("keydown",e=>{ const d=document.documentElement.dir==="rtl"?-1:1; let to=-1; if(e.key==="ArrowRight") to=i+d; else if(e.key==="ArrowLeft") to=i-d; else return; e.preventDefault(); goStep(clamp(to,0,faces.length-1)); });
 function tick(){ if(!pinned) return;
+  if(mob.matches){ let p=clamp(-peek.getBoundingClientRect().top/total(),0,1); if(document.activeElement===idea && p<.06) p=0;
+    const o=clamp(p/.55,0,1); peek.style.setProperty("--o",o.toFixed(3)); heroCopy.style.pointerEvents=o>.6?"none":""; heroCopy.inert=o>.6;
+    document.getElementById("win").inert=o<.5; document.body.classList.toggle("peekopen",o>.5&&p<.995); return; }
   let p=clamp(-peek.getBoundingClientRect().top/total(),0,1);
   if(document.activeElement===idea && p<.06) p=0;           /* typing: keep the hero steady */
   const o=clamp(p/OPEN,0,1); peek.style.setProperty("--o",o.toFixed(3));
@@ -561,7 +589,8 @@ function tick(){ if(!pinned) return;
   if(k!==i) show(k); fills(q); }
 function setPinned(){ pinned=!calm && innerHeight>=620; peek.classList.toggle("flat",!pinned); qs.classList.toggle("still",!pinned);
   document.getElementById("win").inert=false; heroCopy.inert=false; document.body.classList.remove("peekopen"); if(!pinned){ peek.style.removeProperty("--o"); fills(0); } else tick(); }
-function goStep(k){ if(!pinned){ show(k); return; }
+function goStep(k){ if(mob.matches){ show(k); const c=slider.children[k]; if(c) c.scrollIntoView({inline:"center",block:"nearest",behavior:calm?"auto":"smooth"}); return; }
+  if(!pinned){ show(k); return; }
   const y=peek.offsetTop+total()*(OPEN+(1-OPEN)*(k+.5)/faces.length); scrollTo({top:y,behavior:calm?"auto":"smooth"}); }
 addEventListener("scroll",()=>requestAnimationFrame(tick),{passive:true}); addEventListener("resize",setPinned); setPinned(); onLang();
 if(location.hash==="#what") setTimeout(()=>{ if(pinned) scrollTo({top:peek.offsetTop+total()*(OPEN+.02)}); },60);

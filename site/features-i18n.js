@@ -91,7 +91,7 @@ const D={
 };
 /* elements with inline markup, translated as a whole (data-i="key") */
 const H={
-h1:['רעיון בראש? נבדוק יחד? <em>לפני</em> שמוציאים את השקל הראשון','Got an idea? Let\'s check it together, <em>before</em> you spend the first dollar','¿Tienes una idea? La revisamos juntos, <em>antes</em> de gastar el primer euro','Une idée en tête ? Vérifions-la ensemble, <em>avant</em> de dépenser le premier euro'],
+h1:['רעיון בראש? בדיקה מהירה <em>לפני</em> שמוציאים את השקל הראשון','Got an idea? A quick check <em>before</em> you spend the first dollar','¿Tienes una idea? Una revisión rápida <em>antes</em> de gastar el primer euro','Une idée en tête ? Un contrôle rapide <em>avant</em> de dépenser le premier euro'],
 say:['Wazo לא מחליט בשבילך<br>הוא <em>עוזר להתחיל</em>','Wazo doesn\'t decide for you<br>It <em>helps you start</em>','Wazo no decide por ti<br>Te <em>ayuda a empezar</em>','Wazo ne décide pas à votre place<br>Il <em>aide à commencer</em>'],
 tl1:['<b>לפני שמשקיעים זמן וכסף</b>בדיקה של כמה דקות, לפני חודשים של עבודה.','<b>Before you invest time and money</b>A few minutes of checking, before months of work.','<b>Antes de invertir tiempo y dinero</b>Unos minutos de revisión, antes de meses de trabajo.','<b>Avant d\'investir temps et argent</b>Quelques minutes de vérification, avant des mois de travail.'],
 tl2:['<b>עם ניסוי קטן ביד</b>דבר אחד לעשות השבוע, ואיך תדעו אם הצליח.','<b>With a small test in hand</b>One thing to do this week, and how you\'ll know if it worked.','<b>Con una pequeña prueba en la mano</b>Una cosa que hacer esta semana y cómo sabrás si funcionó.','<b>Avec un petit test en main</b>Une chose à faire cette semaine, et comment savoir si ça a marché.'],
