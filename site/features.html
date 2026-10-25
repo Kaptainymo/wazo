@@ -80,7 +80,7 @@
   .stage.simple{grid-template-columns:minmax(0,760px);justify-content:center;text-align:center;padding:40px 0 70px}
   .stage.simple .lead{margin-inline:auto;max-width:34ch}
   .stage.simple .ask{margin-inline:auto;text-align:right}
-  .stage.simple h1{font-size:round(clamp(38px,5vw,66px),2px);margin-top:0}
+  .stage.simple h1{font-size:round(clamp(44px,5.75vw,76px),2px);margin-top:0}
   .ask textarea{font-size:20px;min-height:96px}
   .enrlink{all:unset;cursor:pointer;display:inline-flex;align-items:center;gap:6px;font-size:16px;color:#E4E2DC;text-decoration:underline;text-underline-offset:4px;padding:10px 6px}
   .enrlink:focus-visible{outline:3px solid var(--coral);outline-offset:3px;border-radius:8px}
@@ -557,7 +557,7 @@ function onLang(){
   faces=WZI.faces();
   qs.innerHTML=faces.map((f,k)=>`<button type="button" role="tab" data-k="${k}"><i class="fill"></i><span>${f.top[0]}</span></button>`).join("");
   document.getElementById("pgo").textContent=WZI.u("tryIdea"); buildSlider(); document.getElementById("pgo2").textContent=WZI.u("tryIdea"); fills(curQ);
-  show(i); setMode(none(),true);
+  show(i); setMode(none(),true); if(typeof setPinned==="function") setPinned();
 }
 document.addEventListener("click",e=>{ const b=e.target.closest("[data-l]"); if(!b) return; langMenuSet(false); if(b.dataset.l===WZI.lang) return; WZI.set(b.dataset.l); onLang(); });
 /* nav: solid on scroll, active section, mobile sheet, sticky mobile CTA */
@@ -602,17 +602,19 @@ slider.addEventListener("keydown",e=>{ const d=document.documentElement.dir==="r
 function tick(){ if(!pinned) return;
   if(mob.matches){ let p=clamp(-peek.getBoundingClientRect().top/total(),0,1); if(document.activeElement===idea) p=0;
     const o=clamp((p-.22)/.5,0,1);                              /* nothing happens for the first fifth of the scroll */
-    if(o!==lastO){ lastO=o; if(!cssTL){ winEl.style.transform=`translate3d(0,${((1-o)*100).toFixed(2)}%,0)`; heroCopy.style.opacity=(1-o*1.2).toFixed(2); } winEl.inert=o<.5; heroCopy.inert=o>.6; document.body.classList.toggle("peekopen",o>.5&&p<.995); }
+    if(o!==lastO){ lastO=o; if(!cssTL){ winEl.style.transform=`translate3d(0,${((1-o)*100).toFixed(2)}%,0)`; heroCopy.style.opacity=(1-o*1.2).toFixed(2); } heroCopy.inert=o>.6; document.body.classList.toggle("peekopen",o>.5&&p<.995); }
+    winEl.inert=o<.5||document.body.classList.contains("typing");   /* hidden under the keyboard or the form: out of the tab order */
     return; }
   let p=clamp(-peek.getBoundingClientRect().top/total(),0,1);
   if(document.activeElement===idea) p=0;                       /* typing: keep the hero steady, whatever the keyboard did to the scroll */
   const o=clamp(p/OPEN,0,1); peek.style.setProperty("--o",o.toFixed(3));
   heroCopy.style.pointerEvents=o>.6?"none":""; heroCopy.inert=o>.6;
-  document.getElementById("win").inert=o<.5;
+  document.getElementById("win").inert=o<.5||document.body.classList.contains("typing");
   document.body.classList.toggle("peekopen",o>.5&&p<.995);
   const q=clamp((p-OPEN)/(1-OPEN),0,1)*faces.length, k=Math.min(faces.length-1,Math.floor(q));
   if(k!==i) show(k); fills(q); }
-function setPinned(){ pinned=!calm && innerHeight>=620; peek.classList.toggle("flat",!pinned); qs.classList.toggle("still",!pinned);
+function setPinned(){ peek.classList.add("flat"); const need=Math.ceil(document.querySelector(".hero .ask").getBoundingClientRect().bottom+scrollY)+16;  /* the hero must fit on one screen to be pinned */
+  pinned=!calm && innerHeight>=Math.max(620,need); peek.classList.toggle("flat",!pinned); qs.classList.toggle("still",!pinned);
   document.getElementById("win").inert=false; heroCopy.inert=false; document.body.classList.remove("peekopen"); lastO=-1; winEl.style.transform=""; heroCopy.style.opacity=""; if(!pinned){ peek.style.removeProperty("--o"); fills(0); } else tick(); }
 function goStep(k){ if(mob.matches){ show(k); const c=slider.children[k]; if(c) c.scrollIntoView({inline:"center",block:"nearest",behavior:calm?"auto":"smooth"}); return; }
   if(!pinned){ show(k); return; }
