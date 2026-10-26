@@ -1,12 +1,12 @@
-/* Hero background: rows of the words that matter (money, time, demand...) drift sideways behind the form.
+/* Hero background: rows of the words that matter (money, time, demand, learning...) drift sideways behind the form.
    When someone types an idea it joins one of the rows and the rest slow down and fade.
    WZWords.init({ layer, input, lang }) ; WZWords.setLang(lang) ; the layer is decorative (aria-hidden). */
 (function(){
 const WORDS={
- he:["כסף","זמן","ביקוש","מתחרים","לקוחות","מחיר","הבעיה","ניסוי","השבוע","לחדד","להתחיל","לעצור","סיכון","תוכנית"],
- en:["Money","Time","Demand","Competitors","Customers","Price","The problem","A test","This week","Refine","Start","Stop","Risk","A plan"],
- es:["Dinero","Tiempo","Demanda","Competidores","Clientes","Precio","El problema","Una prueba","Esta semana","Afinar","Empezar","Parar","Riesgo","Un plan"],
- fr:["Argent","Temps","Demande","Concurrents","Clients","Prix","Le problème","Un essai","Cette semaine","Affiner","Commencer","Arrêter","Risque","Un plan"]
+ he:["כסף","זמן","ביקוש","מתחרים","לקוחות","מחיר","ניסוי","השבוע","לחדד","להתחיל","תוכנית","למידה","שימושי","אנושי"],
+ en:["Money","Time","Demand","Competitors","Customers","Price","A test","This week","Refine","Start","A plan","Learning","Useful","Human"],
+ es:["Dinero","Tiempo","Demanda","Competidores","Clientes","Precio","Una prueba","Esta semana","Afinar","Empezar","Un plan","Aprendizaje","Útil","Humano"],
+ fr:["Argent","Temps","Demande","Concurrents","Clients","Prix","Un essai","Cette semaine","Affiner","Commencer","Un plan","Apprentissage","Utile","Humain"]
 };
 const ROWS=7, SECS=[150,120,170,135,160,125,145];     /* seconds for one full pass: slow on purpose */
 const mobile=matchMedia("(max-width:960px)"), calm=matchMedia("(prefers-reduced-motion: reduce)").matches;
