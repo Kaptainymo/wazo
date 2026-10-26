@@ -310,12 +310,13 @@
   .sl-i .card{width:100%;aspect-ratio:auto;height:auto;min-height:250px;animation:none}
   .peekopen .dock,.atend .dock{display:none}
   /* the keyboard is up: the form stays put and the answer sheet stays down */
-  .typing .win{animation:none!important;transform:translate3d(0,100%,0)!important}
-  .typing .hero .copy{animation:none!important;opacity:1!important}
-  @media (pointer:coarse){body:has(#idea:focus) .win{animation:none!important;transform:translate3d(0,100%,0)!important}body:has(#idea:focus) .hero .copy{animation:none!important;opacity:1!important}}
+  .typing .peek:not(.flat) .win{animation:none!important;transform:translate3d(0,100%,0)!important}
+  .typing .peek:not(.flat) .hero .copy{animation:none!important;opacity:1!important}
+  @media (pointer:coarse){body:has(#idea:focus) .peek:not(.flat) .win{animation:none!important;transform:translate3d(0,100%,0)!important}body:has(#idea:focus) .peek:not(.flat) .hero .copy{animation:none!important;opacity:1!important}}
   .peek.flat{height:auto}.peek.flat .pin{position:relative;height:auto;overflow:visible}.peek.flat .hero{height:auto;min-height:84dvh}
   .peek.flat .win{position:relative;clip-path:none;padding:72px 0 60px}.peek.flat .win-in{position:relative;opacity:1;height:auto;padding-top:0}.peek.flat .sliver{display:none}
-  .peek.flat .hero .copy{opacity:1;transform:none}
+  .peek.flat .hero .copy{opacity:1!important;transform:none!important;animation:none!important}
+  .peek.flat .win{transform:none!important;animation:none!important;will-change:auto;border-radius:0}
   @media (max-width:960px){
     .win .sec-h p{display:none}
     .win .showgrid{display:none!important}
@@ -646,14 +647,14 @@ function tick(){ if(!pinned) return;
   const q=clamp((p-OPEN)/(1-OPEN),0,1)*faces.length, k=Math.min(faces.length-1,Math.floor(q));
   if(k!==i) show(k); fills(q); }
 function setPinned(){ peek.classList.add("flat"); const need=Math.ceil(document.querySelector(".hero .ask").getBoundingClientRect().bottom+scrollY)+16;  /* the hero must fit on one screen to be pinned */
-  pinned=!calm && innerHeight>=Math.max(620,need); peek.classList.toggle("flat",!pinned); qs.classList.toggle("still",!pinned);
+  pinned=!calm && !mob.matches && innerHeight>=Math.max(620,need);   /* phones get a normal section, not the sheet: no layer to collide with buttons, keyboard or dock */ peek.classList.toggle("flat",!pinned); qs.classList.toggle("still",!pinned);
   document.getElementById("win").inert=false; heroCopy.inert=false; document.body.classList.remove("peekopen"); lastO=-1; winEl.style.transform=""; heroCopy.style.opacity=""; if(!pinned){ peek.style.removeProperty("--o"); fills(0); } else tick(); }
 function goStep(k){ if(mob.matches){ show(k); const c=slider.children[k]; if(c) c.scrollIntoView({inline:"center",block:"nearest",behavior:calm?"auto":"smooth"}); return; }
   if(!pinned){ show(k); return; }
   const y=peek.offsetTop+total()*(OPEN+(1-OPEN)*(k+.5)/faces.length); scrollTo({top:y,behavior:calm?"auto":"smooth"}); }
 addEventListener("scroll",()=>requestAnimationFrame(tick),{passive:true}); addEventListener("resize",setPinned); setPinned(); onLang();
-if(location.hash==="#what") setTimeout(()=>{ if(pinned) scrollTo({top:peek.offsetTop+total()*(OPEN+.02)}); },60);
-document.querySelectorAll('a[href="#what"]').forEach(a=>a.addEventListener("click",e=>{ if(!pinned) return; e.preventDefault(); scrollTo({top:peek.offsetTop+total()*(OPEN+.02),behavior:calm?"auto":"smooth"}); }));
+if(location.hash==="#what") setTimeout(()=>{ if(pinned) scrollTo({top:peek.offsetTop+total()*(OPEN+.02)}); else winEl.scrollIntoView(); },60);
+document.querySelectorAll('a[href="#what"]').forEach(a=>a.addEventListener("click",e=>{ e.preventDefault(); if(!pinned){ winEl.scrollIntoView({behavior:calm?"auto":"smooth"}); return; } scrollTo({top:peek.offsetTop+total()*(OPEN+.02),behavior:calm?"auto":"smooth"}); }));
 /* Hebrew with Latin words: anchor the punctuation that follows a Latin run to the RTL context (an RLM), so "Pro." never flips at a line end. Idempotent. */
 const BIDI_LAT=/(<[^>]*>)|([A-Za-z0-9]+(?:[ \-\/.'’][A-Za-z0-9]+)*)(?=[.,:;!?)\]"״”׳](?!\d)|$)/g;
 const fixBidi=s=>/[א-ת]/.test(s)?s.replace(BIDI_LAT,(m,tag,run)=>tag||!/[A-Za-z]/.test(run)?m:run+"\u200F"):s;

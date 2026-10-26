@@ -473,7 +473,7 @@ dialog.sheet.scrolls .sheet-more.on{visibility:visible}
 
 /* legal sheet */
 .foot{display:grid;gap:8px;justify-items:center}
-.legal-link{border:0;background:none;color:inherit;font-size:12px;text-decoration:underline;text-underline-offset:3px;padding:8px 8px;opacity:.85}
+.legal-link{display:inline-block;border:0;background:none;color:inherit;font-size:12px;text-decoration:underline;text-underline-offset:3px;padding:8px 8px;opacity:.85}
 dialog.sheet{border:0;padding:0;margin:auto auto 0;width:min(100%,640px);max-height:88dvh;border-radius:28px 28px 0 0;--b1:#0E0E0E;--b1-ink:#F4F3EF;background:var(--b1);color:var(--b1-ink);overflow:hidden;display:flex;flex-direction:column}
 dialog.sheet:not([open]){display:none}
 dialog.sheet::backdrop{background:rgba(0,0,0,.45);backdrop-filter:blur(3px)}
@@ -606,7 +606,7 @@ dialog.sheet[open]::backdrop{animation:fadeIn .3s ease both}
     <span class="strip" id="mineStrip" aria-hidden="true"></span>
   </button>
 </main>
-<div class="foot"><b class="testtag" id="testTag" hidden></b><span data-t="foot"></span><button class="legal-link" type="button" id="legalBtn" data-t="legalLink"></button></div>
+<div class="foot"><b class="testtag" id="testTag" hidden></b><span data-t="foot"></span><a class="legal-link" href="/features" data-t="siteLink"></a><button class="legal-link" type="button" id="legalBtn" data-t="legalLink"></button></div>
 <dialog class="sheet" id="teams" aria-labelledby="teamsTitle"><div class="sheet-h"><h2 id="teamsTitle" data-t="teamsT"></h2><button class="sheet-x" type="button" data-close aria-label="Close">×</button></div><div class="sheet-b" id="teamsBody"></div></dialog>
 <dialog class="sheet" id="deep" aria-labelledby="deepTitle"><div class="sheet-h"><h2 id="deepTitle" data-t="deepT"></h2><span class="sheet-btns"><button class="sheet-cp" id="deepCopy" type="button" data-ic="copy" hidden></button><button class="sheet-x" type="button" data-close aria-label="Close">×</button></span></div><div class="sheet-b" id="deepBody"></div></dialog>
 <dialog class="sheet" id="duet" aria-labelledby="duetTitle"><div class="sheet-h"><h2 id="duetTitle"></h2><button class="sheet-x" type="button" data-close aria-label="Close">×</button></div><div class="sheet-b" id="duetBody"></div></dialog>
@@ -801,7 +801,7 @@ Object.assign(T.he,{proOnly:"Pro", pwT:"הניתוח המלא ב-Pro", pwS:"מב
 Object.assign(T.en,{proOnly:"Pro", pwT:"The full analysis is Pro", pwS:"A ready-to-run 7-day test, the graveyard, the competition, the market lens and who should build it.", pwPrice:"$13", pwPer:"per month, unlimited wazos. It renews each month until you decide to stop, and you can cancel any time", pwGo:"Hold my launch price", pwHeld:"Launch price held for you", pwNote:"Coming soon. No charge now.",
  teamsBtn:"Upgrade to Teams", teamsT:"Wazo for teams & programs", teamsLead:"For accelerators, founder programs and innovation teams: your whole cohort gets Wazo, and you see every idea in one place.",
  teamsF:["Seats for every founder in the cohort","A cohort board: every wazo, score and 7-day test","Export for committees and reports"], teamsPrice:"from $400 per cohort", teamsGo:"Hold a spot", teamsHeld:"Spot held for you"});
-Object.assign(T.he,{legalLink:"משפטי ופרטיות", legalT:"מה זה Wazo",
+Object.assign(T.he,{siteLink:"לאתר Wazo", legalLink:"משפטי ופרטיות", legalT:"מה זה Wazo",
  legalLead:"Wazo נותן חוות דעת מהירה וישירה על רעיון, כדי שתוכלו להחליט אם להשקיע בו עוד זמן וכסף, לפני שמתפטרים בשבילו.",
  legal:[["איך זה עובד","הניתוח נכתב על ידי Claude, מודל בינה מלאכותית של Anthropic, על בסיס מה שכתבתם. הוא לא גולש ברשת בזמן הניתוח, ולכן מספרים, שמות חברות ותקנות עלולים להיות לא מדויקים או לא עדכניים. כל ציון מסומן בדרגת ראיה, A עד D, כדי שתדעו על מה הוא נשען."],
   ["המלצה בלבד","כל ניתוח, ציון ופסק דין ב-Wazo הם המלצה בלבד. Wazo אינו ייעוץ השקעות, משפטי, פיננסי, מס או עסקי, ואינו תחליף לאנשי מקצוע. ההחלטה והאחריות שלכם. השתמשו בניתוח כנקודת פתיחה, ובמבחן של 7 ימים כדי לבדוק את המציאות."],
@@ -810,7 +810,7 @@ Object.assign(T.he,{legalLink:"משפטי ופרטיות", legalT:"מה זה Waz
   ["בלי הבטחות","השירות ניתן כמו שהוא, בגרסה ראשונית, ועלול להשתנות או להפסיק לפעול. Wazo אינו אחראי לנזק שנובע מהחלטות שהתקבלו על סמך הניתוח."],
   ["קשר ומחיקה","רוצה שנמחק את הפרטים שלכם? לחצו על הכפתור למטה והבקשה תגיע אלינו. נבנה על ידי WAZO."]],
  legalUpd:"עודכן: אוקטובר 2026", delReq:"בקשו מחיקת פרטים", delSent:"הבקשה נשלחה. נמחק את הפרטים שלכם.", delNo:"הבקשה זמינה מתוך Wazo ב-claude.ai, כשאתם מחוברים."});
-Object.assign(T.en,{legalLink:"Legal & privacy", legalT:"What Wazo is",
+Object.assign(T.en,{siteLink:"Website", legalLink:"Legal & privacy", legalT:"What Wazo is",
  legalLead:"Wazo gives you a fast, blunt opinion on a startup idea, so you can decide whether to put more time and money into it, before you quit your job for it.",
  legal:[["How it works","The analysis is written by Claude, an AI model made by Anthropic, from what you typed. It does not browse the web while it judges, so numbers, company names and regulations can be wrong or out of date. Every score carries an evidence grade, A to D, so you can see what it rests on."],
   ["Recommendation only","Every analysis, score and verdict on Wazo is a recommendation only. Wazo is not investment, legal, financial, tax or business advice, and it does not replace professionals. The decision and the responsibility are yours. Use the analysis as a starting point, and the 7-day test to check it against reality."],
@@ -866,7 +866,7 @@ T.es={
  proOnly:"Pro", pwT:"El análisis completo es Pro", pwS:"Una prueba de 7 días lista para lanzar, el cementerio, la competencia, la lente de mercado y quién debería construirlo.", pwPrice:"$13", pwPer:"al mes, wazos ilimitados. Se renueva cada mes hasta que decidas parar, y puedes cancelar cuando quieras", pwGo:"Guárdame el precio de lanzamiento", pwHeld:"Precio de lanzamiento guardado", pwNote:"Muy pronto. Sin cargo ahora.",
  teamsBtn:"Mejorar a Equipos", teamsT:"Wazo para equipos y programas", teamsLead:"Para aceleradoras, programas de emprendedores y equipos de innovación: toda tu cohorte usa Wazo y ves cada idea en un solo lugar.",
  teamsF:["Plazas para cada emprendedor de la cohorte","Un tablero de cohorte: cada wazo, puntuación y prueba de 7 días","Exportación para comités e informes"], teamsPrice:"desde €370 por cohorte", teamsGo:"Reservar plaza", teamsHeld:"Plaza reservada",
- legalLink:"Legal y privacidad", legalT:"Qué es Wazo",
+ siteLink:"Sitio web", legalLink:"Legal y privacidad", legalT:"Qué es Wazo",
  legalLead:"Wazo te da una opinión rápida y directa sobre una idea de startup, para que decidas si invertir más tiempo y dinero en ella, antes de dejar tu trabajo por ella.",
  legal:[["Cómo funciona","El análisis lo escribe Claude, un modelo de IA de Anthropic, a partir de lo que escribiste. No navega por la web mientras juzga, así que cifras, nombres de empresas y normativas pueden estar equivocados o desactualizados. Cada puntuación lleva una calificación de evidencia, de A a D, para que veas en qué se apoya."],
   ["Solo una recomendación","Cada análisis, puntuación y veredicto de Wazo es solo una recomendación. Wazo no es asesoramiento de inversión, legal, financiero, fiscal ni empresarial, y no sustituye a profesionales. La decisión y la responsabilidad son tuyas. Usa el análisis como punto de partida y la prueba de 7 días para contrastarlo con la realidad."],
@@ -917,7 +917,7 @@ T.fr={
  proOnly:"Pro", pwT:"L'analyse complète est Pro", pwS:"Un test de 7 jours prêt à lancer, le cimetière, la concurrence, la lentille marché et qui devrait le construire.", pwPrice:"$13", pwPer:"par mois, wazos illimités. Il se renouvelle chaque mois jusqu'à ce que vous décidiez d'arrêter, et vous pouvez annuler à tout moment", pwGo:"Garder mon prix de lancement", pwHeld:"Prix de lancement réservé", pwNote:"Bientôt disponible. Aucun paiement maintenant.",
  teamsBtn:"Passer à Équipes", teamsT:"Wazo pour équipes et programmes", teamsLead:"Pour les accélérateurs, programmes d'entrepreneurs et équipes innovation : toute votre promo utilise Wazo et vous voyez chaque idée au même endroit.",
  teamsF:["Des places pour chaque entrepreneur de la promo","Un tableau de promo : chaque wazo, note et test de 7 jours","Export pour les comités et les rapports"], teamsPrice:"à partir de €370 par promo", teamsGo:"Réserver une place", teamsHeld:"Place réservée",
- legalLink:"Mentions légales et confidentialité", legalT:"Ce qu'est Wazo",
+ siteLink:"Site web", legalLink:"Mentions légales et confidentialité", legalT:"Ce qu'est Wazo",
  legalLead:"Wazo vous donne un avis rapide et franc sur une idée de startup, pour décider s'il faut y mettre plus de temps et d'argent, avant de quitter votre emploi pour elle.",
  legal:[["Comment ça marche","L'analyse est rédigée par Claude, un modèle d'IA d'Anthropic, à partir de ce que vous avez écrit. Il ne navigue pas sur le web pendant qu'il juge, donc les chiffres, noms d'entreprises et réglementations peuvent être faux ou dépassés. Chaque note porte un niveau de preuve, de A à D, pour voir sur quoi elle repose."],
   ["Une recommandation seulement","Chaque analyse, note et verdict de Wazo est une recommandation seulement. Wazo n'est pas un conseil en investissement, juridique, financier, fiscal ou commercial, et ne remplace pas des professionnels. La décision et la responsabilité vous appartiennent. Utilisez l'analyse comme point de départ, et le test de 7 jours pour la confronter à la réalité."],
