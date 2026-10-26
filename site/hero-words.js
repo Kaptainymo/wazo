@@ -3,10 +3,10 @@
    WZWords.init({ layer, input, lang }) ; WZWords.setLang(lang) ; the layer is decorative (aria-hidden). */
 (function(){
 const WORDS={
- he:["כסף","זמן","ביקוש","מתחרים","לקוחות","מחיר","ניסוי","השבוע","לחדד","להתחיל","תוכנית","למידה","שימושי","אנושי"],
- en:["Money","Time","Demand","Competitors","Customers","Price","A test","This week","Refine","Start","A plan","Learning","Useful","Human"],
- es:["Dinero","Tiempo","Demanda","Competidores","Clientes","Precio","Una prueba","Esta semana","Afinar","Empezar","Un plan","Aprendizaje","Útil","Humano"],
- fr:["Argent","Temps","Demande","Concurrents","Clients","Prix","Un essai","Cette semaine","Affiner","Commencer","Un plan","Apprentissage","Utile","Humain"]
+ he:["כסף","זמן","ביקוש","עבודה משותפת","לקוחות","יחד","יצירה אישית","השבוע","לחדד","להתחיל","תוכנית","למידה","שימושי","אנושי"],
+ en:["Money","Time","Demand","Working together","Customers","Together","Personal creation","This week","Refine","Start","A plan","Learning","Useful","Human"],
+ es:["Dinero","Tiempo","Demanda","Trabajo en equipo","Clientes","Juntos","Creación personal","Esta semana","Afinar","Empezar","Un plan","Aprendizaje","Útil","Humano"],
+ fr:["Argent","Temps","Demande","Travail d'équipe","Clients","Ensemble","Création personnelle","Cette semaine","Affiner","Commencer","Un plan","Apprentissage","Utile","Humain"]
 };
 const ROWS=7, SECS=[150,120,170,135,160,125,145];     /* seconds for one full pass: slow on purpose */
 const mobile=matchMedia("(max-width:960px)"), calm=matchMedia("(prefers-reduced-motion: reduce)").matches;

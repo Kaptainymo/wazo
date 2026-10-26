@@ -124,7 +124,7 @@ tl3:['<b>ואז ההחלטה שלכם</b>זו המלצה ראשונה, לא תח
 };
 /* dynamic UI strings: [he,en,es,fr] */
 const U={
-phHave:["כתבו כאן את הרעיון, בכמה מילים. למשל: לפתוח דוכן קפה בשוק.","Write your idea here, in a few words. For example: open a coffee stand at the market.","Escribe aquí tu idea, en pocas palabras. Por ejemplo: abrir un puesto de café en el mercado.","Écrivez votre idée ici, en quelques mots. Par exemple : ouvrir un stand de café au marché."],
+phHave:["כתבו כאן את הרעיון, בכמה מילים. למשל: ללמד מבוגרים להשתמש בטלפון החכם.","Write your idea here, in a few words. For example: teach older adults to use their smartphone.","Escribe aquí tu idea, en pocas palabras. Por ejemplo: enseñar a personas mayores a usar el teléfono inteligente.","Écrivez votre idée ici, en quelques mots. Par exemple : apprendre aux personnes âgées à utiliser leur smartphone."],
 phNone:["מה מעניין אתכם? למשל: ילדים, בישול, מחשבים, לעזור לאנשים...","What interests you? For example: kids, cooking, computers, helping people...","¿Qué te interesa? Por ejemplo: niños, cocina, ordenadores, ayudar a la gente...","Qu'est-ce qui vous intéresse ? Par exemple : enfants, cuisine, informatique, aider les gens..."],
 goHave:["בדקו את הרעיון","Check my idea","Revisar mi idea","Vérifier mon idée"],
 goNone:["הציעו לי רעיונות","Suggest ideas","Sugiéreme ideas","Proposez-moi des idées"],
