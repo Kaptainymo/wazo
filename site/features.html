@@ -281,7 +281,7 @@
   .pin .hero .stage.simple{padding-bottom:100px}
   .hero .stage{position:relative}
   .glow{position:absolute;inset:0;pointer-events:none;overflow:hidden;opacity:calc(1 - var(--o,0)*1.5);-webkit-mask-image:linear-gradient(to top,#000 30%,transparent 92%);mask-image:linear-gradient(to top,#000 30%,transparent 92%)}
-  .glow b{position:absolute;inset:0;opacity:.85;transform:translate(var(--gx,0%),var(--gy,0%)) scale(var(--gs,1));filter:brightness(var(--gb,1));transition:transform 1.1s var(--ease-out),opacity 1.2s var(--ease-out),filter .22s ease-out}
+  .glow b{position:absolute;inset:0;opacity:.85;transform:translate(var(--gx,0%),var(--gy,0%)) scale(var(--gs,1));filter:brightness(var(--gb,1));transition:transform .7s var(--ease-out),opacity 1.2s var(--ease-out),filter .2s ease-out}
   .glow.on b{opacity:1;--gy:-6%;--gs:1.12}
   .glow i{position:absolute;inset:-6% -10% -14% -10%;background:
     radial-gradient(44% 60% at 50% 98%,rgba(244,124,150,.88),rgba(244,124,150,.42) 38%,rgba(244,124,150,.12) 62%,transparent 80%),
@@ -293,6 +293,11 @@
   .glow s{position:absolute;inset-inline:0;bottom:0;height:376px;background:linear-gradient(to top,
     var(--coral) 0,var(--coral) 20.2%,rgba(240,113,103,.9) 28%,rgba(240,113,103,.72) 38%,rgba(240,113,103,.5) 50%,rgba(240,113,103,.3) 62%,rgba(240,113,103,.16) 74%,rgba(240,113,103,.07) 85%,rgba(240,113,103,.02) 94%,transparent)}
   .peek.flat .glow s{height:200px;background:linear-gradient(to top,var(--coral) 0,rgba(240,113,103,.9) 8%,rgba(240,113,103,.72) 20%,rgba(240,113,103,.5) 34%,rgba(240,113,103,.3) 48%,rgba(240,113,103,.16) 62%,rgba(240,113,103,.07) 78%,rgba(240,113,103,.02) 90%,transparent)}
+  .glow u{position:absolute;left:var(--rx);top:var(--ry);width:var(--rs);height:var(--rs);margin:calc(var(--rs)/-2) 0 0 calc(var(--rs)/-2);border-radius:50%;pointer-events:none;
+    background:radial-gradient(closest-side,transparent 56%,rgba(244,124,150,.16) 66%,rgba(244,124,150,.5) 76%,rgba(240,113,103,.26) 86%,transparent 100%);
+    transform:scale(.12);opacity:0;animation:ripple 2.2s cubic-bezier(.16,.7,.25,1) forwards}
+  @keyframes ripple{0%{transform:scale(.12);opacity:.95}70%{opacity:.45}100%{transform:scale(1);opacity:0}}
+  @media (prefers-reduced-motion:reduce){.glow u{display:none}}
   @keyframes breathe{0%,100%{transform:translateY(0) scale(1)}50%{transform:translateY(-2%) scale(1.05)}}
   @media (prefers-reduced-motion:reduce){.glow i{animation:none}.glow b{transition:none;transform:none;filter:none}}
   .hero .copy{opacity:calc(1 - var(--o)*1.5);transform:translateY(calc(var(--o)*-36px))}
@@ -672,13 +677,23 @@ function goStep(k){ if(mob.matches){ show(k); const c=slider.children[k]; if(c) 
   if(!pinned){ show(k); return; }
   const y=peek.offsetTop+total()*(OPEN+(1-OPEN)*(k+.5)/faces.length); scrollTo({top:y,behavior:calm?"auto":"smooth"}); }
 addEventListener("scroll",()=>requestAnimationFrame(tick),{passive:true}); addEventListener("resize",setPinned); setPinned(); onLang();
-/* the glow follows the typing: it swells while there is text, drifts sideways and flashes on every keystroke */
-{ const g=document.getElementById("glow"), b=g.querySelector("b"), t=document.getElementById("idea"); let walk=0, tm=0;
+/* the glow follows the typing: it swells, jumps and slides sideways on every keystroke, and flashes bright */
+{ const g=document.getElementById("glow"), b=g.querySelector("b"), t=document.getElementById("idea"); let walk=0, tm=0, lastRip=0;
+  const hero=document.querySelector(".hero"), card=document.querySelector(".ask");
+  /* a ring spreads out from behind the form, like a ripple on water */
+  const ripple=()=>{ const hr=hero.getBoundingClientRect(), cr=card.getBoundingClientRect(), u=document.createElement("u");
+    u.style.setProperty("--rx",(cr.left+cr.width/2-hr.left).toFixed(0)+"px"); u.style.setProperty("--ry",(cr.top+cr.height/2-hr.top).toFixed(0)+"px"); u.style.setProperty("--rs",Math.round(Math.max(hr.width,hr.height)*1.15)+"px");
+    g.appendChild(u); u.addEventListener("animationend",()=>u.remove()); const all=g.querySelectorAll("u"); if(all.length>8) all[0].remove(); };
   const on=()=>g.classList.toggle("on",!!t.value.trim());
+  const rest=()=>{ walk=0; ["--gx","--gy","--gs"].forEach(p=>b.style.removeProperty(p)); };
   t.addEventListener("input",()=>{ on(); if(calm) return;
-    walk=Math.max(-16,Math.min(16,walk+(Math.random()*2-1)*9)); b.style.setProperty("--gx",walk.toFixed(1)+"%");
-    b.style.setProperty("--gb","1.6"); clearTimeout(tm); tm=setTimeout(()=>b.style.setProperty("--gb",t.value.trim()?"1.15":"1"),220);
-    if(!t.value.trim()){ walk=0; b.style.setProperty("--gx","0%"); } });
+    if(!t.value.trim()){ rest(); b.style.setProperty("--gb","1"); return; }
+    walk=Math.max(-26,Math.min(26,walk+(Math.random()*2-1)*12));
+    b.style.setProperty("--gx",walk.toFixed(1)+"%");
+    b.style.setProperty("--gy",(-8-Math.random()*8).toFixed(1)+"%");
+    b.style.setProperty("--gs",(1.14+Math.random()*.14).toFixed(2));
+    const now=performance.now(); if(now-lastRip>90){ lastRip=now; ripple(); }
+    b.style.setProperty("--gb","2.1"); clearTimeout(tm); tm=setTimeout(()=>b.style.setProperty("--gb","1.2"),240); });
   on(); }
 if(location.hash==="#what") setTimeout(()=>{ if(pinned) scrollTo({top:peek.offsetTop+total()*(OPEN+.02)}); else winEl.scrollIntoView(); },60);
 document.getElementById("sliver").addEventListener("click",()=>{ if(pinned) scrollTo({top:peek.offsetTop+total()*(OPEN+.02),behavior:calm?"auto":"smooth"}); });
