@@ -35,7 +35,7 @@ const D={
 "אין לי רעיון":["I have no idea yet","Aún no tengo idea","Je n'ai pas encore d'idée"],
 "הרעיון שלך":["Your idea","Tu idea","Votre idée"],
 "הרחב לי":["Expand it for me","Amplíala","Développez-la"],
-"רעיון, עסק קטן או חלום ישן: כתבו אותו בכמה מילים, ונראה מה אפשר לעשות איתו.":["An idea, a small business or an old dream: write it in a few words and we'll see what can be done with it.","Una idea, un pequeño negocio o un viejo sueño: escríbelo en pocas palabras y veremos qué se puede hacer con él.","Une idée, une petite entreprise ou un vieux rêve : écrivez-le en quelques mots et nous verrons ce qu'on peut en faire."],
+"רעיון, עסק קטן או חלום ישן: כתבו אותו בכמה מילים, ובדקות תדעו אם כדאי להתחיל, לחדד או לחשוב מחדש.":["An idea, a small business or an old dream: write it in a few words, and in minutes you'll know whether to start, sharpen it or rethink it.","Una idea, un pequeño negocio o un viejo sueño: escríbelo en pocas palabras y en minutos sabrás si conviene empezar, afinarlo o replantearlo.","Une idée, une petite entreprise ou un vieux rêve : écrivez-le en quelques mots, et en quelques minutes vous saurez s'il faut démarrer, affiner ou repenser."],
 "חמישה כרטיסים. כל אחד עונה על שאלה אחת פשוטה":["Five cards. Each one answers one simple question","Cinco tarjetas. Cada una responde una pregunta sencilla","Cinq cartes. Chacune répond à une question simple"],
 "דלגו לתוכן":["Skip to content","Saltar al contenido","Aller au contenu"],
 "גללו להציץ פנימה":["Scroll to peek inside","Desplázate para echar un vistazo","Faites défiler pour jeter un œil"],
