@@ -139,6 +139,13 @@ nav.top .in{display:flex;align-items:center;justify-content:space-between;height
 
 /* idea panel */
 .p-idea{background:var(--b1);color:var(--b1-ink)}
+.rip{position:absolute;inset:0;overflow:hidden;pointer-events:none;z-index:0}
+.p-idea>header,.p-idea>form{position:relative;z-index:1}
+.rip u{position:absolute;left:var(--rx);top:var(--ry);width:var(--rs);height:var(--rs);margin:calc(var(--rs)/-2) 0 0 calc(var(--rs)/-2);border-radius:50%;
+  background:radial-gradient(closest-side,transparent 40%,rgba(255,222,216,.06) 54%,rgba(255,222,216,.30) 68%,rgba(255,222,216,.12) 82%,transparent 100%);
+  transform:scale(.12);opacity:0;animation:ripple 3.4s cubic-bezier(.2,.6,.3,1) forwards}
+@keyframes ripple{0%{transform:scale(.12);opacity:.85}65%{opacity:.4}100%{transform:scale(1);opacity:0}}
+@media (prefers-reduced-motion:reduce){.rip u{display:none}}
 .p-idea,.b-idea{--red:#0A0A0A}
 .p-idea input::placeholder,.p-idea textarea::placeholder{color:#0A0A0A;opacity:.74}
 .p-idea textarea#idea::placeholder{opacity:.65}
@@ -614,6 +621,7 @@ dialog.sheet[open]::backdrop{animation:fadeIn .3s ease both}
 <dialog class="sheet" id="legal" aria-labelledby="legalTitle"><div class="sheet-h"><h2 id="legalTitle" data-t="legalT"></h2><button class="sheet-x" type="button" id="legalX" aria-label="Close">×</button></div><div class="sheet-b" id="legalBody"></div></dialog>
 
 <section class="panel p-idea" id="p-idea" hidden aria-labelledby="ideaLbl">
+  <div class="rip" id="rip" aria-hidden="true"></div>
   <header class="ph"><button class="back" type="button" data-back><span class="chev" data-ic="chev"></span><span data-t="back"></span></button><span class="ph-t" id="ideaLbl" data-t="bIdea"></span><span class="ph-r"></span></header>
   <form class="in" id="askForm">
     <label class="sr" for="idea" data-t="ideaLabel"></label>
@@ -1817,6 +1825,12 @@ function fitIdea(){
   const ta=$("#idea"); ta.style.height="auto"; ta.style.height=Math.max(ta.scrollHeight, 120)+"px";
 }
 $("#idea").addEventListener("input", fitIdea);
+/* typing an idea sends soft coral ripples out from the text box, like rings on water */
+{ const rip=$("#rip"), panel=$("#p-idea"), box=$("#idea"); let last=0;
+  box.addEventListener("input",()=>{ if(calm()||!box.value.trim()) return; const now=performance.now(); if(now-last<160) return; last=now;
+    const pr=panel.getBoundingClientRect(), br=box.getBoundingClientRect(), u=document.createElement("u");
+    u.style.setProperty("--rx",(br.left+br.width/2-pr.left).toFixed(0)+"px"); u.style.setProperty("--ry",(br.top+br.height/2-pr.top+panel.scrollTop).toFixed(0)+"px"); u.style.setProperty("--rs",Math.round(Math.max(pr.width,pr.height)*1.2)+"px");
+    rip.appendChild(u); u.addEventListener("animationend",()=>u.remove()); const all=rip.querySelectorAll("u"); if(all.length>8) all[0].remove(); }); }
 
 /* the cards fill the space above the action bar, whatever its height is on the current card */
 (()=>{ const el=$("#cardacts"); if(!el) return; const set=()=>document.documentElement.style.setProperty("--actsH",el.offsetHeight+"px");
