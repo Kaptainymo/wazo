@@ -31,7 +31,7 @@
  "rewrites": [
   {
    "source": "/d/:token",
-   "destination": "/d.html"
+   "destination": "/d"
   }
  ]
 }
