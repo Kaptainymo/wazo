@@ -134,3 +134,13 @@ Report back to the owner with: the env vars set (names only), schema done, PR #1
 ## Rollback
 
 If the live site misbehaves after the merge: Vercel → wazo → Deployments → the previous production deployment → **Promote to Production**. Nothing in the database needs undoing.
+
+## Email verification (Pro)
+
+Pro features check that the browser proved it owns the email (a 6-digit code sent by email, then a signed 30-day cookie).
+It switches on by itself once both variables below exist; until then Pro works as before.
+
+1. Supabase SQL Editor: run the `auth_codes` block at the end of `supabase/schema.sql`.
+2. Resend (resend.com): create an account, add and verify your sending domain, create an API key.
+3. Vercel, production environment variables: `RESEND_API_KEY` (the key) and `EMAIL_FROM` (for example `Wazo <hello@yourdomain>`).
+4. Optional: `SESSION_SECRET` (a long random string). If it is missing, the Supabase service key is used to sign sessions.

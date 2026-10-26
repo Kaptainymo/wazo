@@ -6,7 +6,7 @@
 //   remove { token, key }                          -> deletes the duet                          (owner)
 // The link token and the owner key are random; only their hashes are stored.
 import crypto from "node:crypto";
-import { ready, send, body, str, cleanEmail, LANGS, clientIp, ipHash, human, open, count, sinceISO, getLead, insertDuet, getDuet, answerDuet, deleteDuet, purgeDuets } from "./_lib.js";
+import { ready, send, body, str, cleanEmail, LANGS, clientIp, ipHash, human, open, count, sinceISO, getLead, proVerified, insertDuet, getDuet, answerDuet, deleteDuet, purgeDuets } from "./_lib.js";
 
 const MAX = [2, 2, 4];                         // highest option index for each of the three questions
 const DAILY_LIMIT = 10;
@@ -30,7 +30,7 @@ export default async function handler(req, res) {
       if ((await count("duets", `ip_hash=eq.${ih}&created_at=gte.${encodeURIComponent(sinceISO(24))}`)) >= DAILY_LIMIT) return send(res, 429, { code: "limit" });
       await purgeDuets();
       const email = cleanEmail(b.email);
-      const talk_open = open() || (!!email && (await getLead(email))?.plan === "pro");
+      const talk_open = open() || (!!email && proVerified(await getLead(email), email, req));
       const token = rand(), key = rand();
       const row = await insertDuet({ token_hash: hash(token), key_hash: hash(key), ip_hash: ih, lang: LANGS.includes(b.lang) ? b.lang : "en", idea, owner_answers: answers, talk_open });
       return send(res, 200, { token, key, expires_at: row.expires_at, talk_open });

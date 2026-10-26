@@ -112,3 +112,14 @@ create table if not exists duets (
 create index if not exists duets_ip_time on duets (ip_hash, created_at desc);
 create index if not exists duets_expires on duets (expires_at);
 alter table duets enable row level security;
+
+-- Email verification: a short-lived 6-digit code per email (only the hash is stored). A correct code sets a signed cookie
+-- so Pro features check that the browser proved it owns the email, not just that it typed one.
+create table if not exists auth_codes (
+  email      text        primary key,
+  code_hash  text        not null,
+  expires_at timestamptz not null,
+  attempts   integer     not null default 0,
+  created_at timestamptz not null default now()
+);
+alter table auth_codes enable row level security;

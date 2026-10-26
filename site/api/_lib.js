@@ -119,6 +119,51 @@ export async function answerDuet(id, answers) {
 }
 export async function deleteDuet(id) { await sb(`duets?id=eq.${id}`, { method: "DELETE", headers: { Prefer: "return=minimal" } }); }
 export async function purgeDuets() { await sb(`duets?expires_at=lt.${encodeURIComponent(new Date().toISOString())}`, { method: "DELETE", headers: { Prefer: "return=minimal" } }); }
+// ---------- Verified sessions (email code login) ----------
+// A visitor proves they own an email with a 6-digit code; we then set a signed cookie. Pro features check this cookie,
+// not just the email that the browser claims.
+const SESSION_COOKIE = "__Host-wz_s", SESSION_DAYS = 30;
+const sessSig = (email, exp) => crypto.createHmac("sha256", (env("SESSION_SECRET") || env("SUPABASE_SERVICE_KEY")) + "|session").update(email + "|" + exp).digest("hex");
+export function sessionCookie(email) {
+  const exp = Math.floor(Date.now() / 1000) + SESSION_DAYS * 86400;
+  return `${SESSION_COOKIE}=${Buffer.from(email).toString("base64url")}.${exp}.${sessSig(email, exp)}; Path=/; Max-Age=${SESSION_DAYS * 86400}; HttpOnly; Secure; SameSite=Strict`;
+}
+export const clearSessionCookie = () => `${SESSION_COOKIE}=; Path=/; Max-Age=0; HttpOnly; Secure; SameSite=Strict`;
+export function verifiedEmail(req) {
+  const m = String(req?.headers?.cookie || "").match(new RegExp(`(?:^|;\\s*)${SESSION_COOKIE}=([A-Za-z0-9_-]+)\\.(\\d+)\\.([0-9a-f]{64})`));
+  if (!m || Number(m[2]) < Date.now() / 1000) return "";
+  let email = ""; try { email = Buffer.from(m[1], "base64url").toString("utf8"); } catch { return ""; }
+  try { return crypto.timingSafeEqual(Buffer.from(sessSig(email, m[2]), "hex"), Buffer.from(m[3], "hex")) ? email : ""; } catch { return ""; }
+}
+// Verification is enforced once an email service is configured (RESEND_API_KEY + EMAIL_FROM). Until then it stays off,
+// so nobody who already pays is locked out while the service is being set up.
+export const enforceVerify = () => !!(env("RESEND_API_KEY") && env("EMAIL_FROM")) || env("WAZO_MOCK_MAIL") === "1";
+// Pro counts only when the email has a subscription AND this browser proved it owns the email (or the site is in test mode).
+export const proVerified = (lead, email, req) => open() || (lead?.plan === "pro" && !!email && (!enforceVerify() || verifiedEmail(req) === email));
+export const proUnverified = (lead, email, req) => !open() && enforceVerify() && lead?.plan === "pro" && !!email && verifiedEmail(req) !== email;
+
+export async function putAuthCode(email, code_hash, expires_at) {
+  await sb("auth_codes", { method: "POST", body: { email, code_hash, expires_at, attempts: 0, created_at: new Date().toISOString() }, headers: { Prefer: "resolution=merge-duplicates,return=minimal" } });
+}
+export async function getAuthCode(email) {
+  const r = await sb(`auth_codes?email=eq.${encodeURIComponent(email)}&select=*`); const rows = await r.json(); return rows[0] || null;
+}
+export async function bumpAuthAttempts(email, attempts) {
+  await sb(`auth_codes?email=eq.${encodeURIComponent(email)}`, { method: "PATCH", body: { attempts }, headers: { Prefer: "return=minimal" } });
+}
+export async function delAuthCode(email) { await sb(`auth_codes?email=eq.${encodeURIComponent(email)}`, { method: "DELETE", headers: { Prefer: "return=minimal" } }); }
+
+// ---------- Email (Resend) ----------
+export const mailReady = () => !!(env("RESEND_API_KEY") && env("EMAIL_FROM"));
+export async function sendMail({ to, subject, text, html }) {
+  if (env("WAZO_MOCK_MAIL") === "1") { globalThis.__lastMail = { to, subject, text }; return; }
+  const r = await fetch("https://api.resend.com/emails", {
+    method: "POST",
+    headers: { Authorization: "Bearer " + env("RESEND_API_KEY"), "Content-Type": "application/json" },
+    body: JSON.stringify({ from: env("EMAIL_FROM"), to: [to], subject, text, html }),
+  });
+  if (!r.ok) throw new Error("mail " + r.status + " " + (await r.text()).slice(0, 160));
+}
 export const sinceISO = (hours) => new Date(Date.now() - hours * 3600e3).toISOString();
 
 // What a visitor sees before giving an email: the idea, scores and money.

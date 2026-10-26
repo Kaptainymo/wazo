@@ -1,6 +1,6 @@
 // POST /api/unlock  { id, email, name, marketing, lang, token }
 // Saves the lead and reveals the deeper analysis for this wazo if the email is Pro.
-import { env, ready, send, body, str, cleanEmail, LANGS, clientIp, ipHash, human, count, sinceISO, getLead, upsertLead, getWazo, patchWazo, open } from "./_lib.js";
+import { env, ready, send, body, str, cleanEmail, LANGS, clientIp, ipHash, human, count, sinceISO, getLead, upsertLead, getWazo, patchWazo, open, proVerified, proUnverified } from "./_lib.js";
 
 export default async function handler(req, res) {
   if (req.method !== "POST") return send(res, 405, { code: "method" });
@@ -25,10 +25,10 @@ export default async function handler(req, res) {
     const lead = await upsertLead(row);
 
     if (w.unlocked) {
-      if (w.email && w.email !== email && lead?.plan !== "pro") return send(res, 402, { code: "need_pro" });
+      if (w.email && w.email !== email && !proVerified(lead, email, req)) return send(res, 402, { code: proUnverified(lead, email, req) ? "need_verify" : "need_pro" });
       return send(res, 200, { full: true, wazo: w.result });
     }
-    if (lead?.plan !== "pro") return send(res, 402, { code: "need_pro" });
+    if (!proVerified(lead, email, req)) return send(res, 402, { code: proUnverified(lead, email, req) ? "need_verify" : "need_pro" });
     await patchWazo(w.id, { email, unlocked: true, unlock_ip_hash: ih, unlocked_at: new Date().toISOString() });
     return send(res, 200, { full: true, wazo: w.result });
   } catch (e) {

@@ -522,6 +522,7 @@ dialog.sheet[open]::backdrop{animation:fadeIn .3s ease both}
 .dlink{width:100%;height:52px;border-radius:999px;border:1px solid color-mix(in srgb,currentColor 30%,transparent);background:transparent;color:inherit;padding:0 20px;font-family:var(--f-mono);font-size:14px}
 .drow2{display:grid;gap:12px}
 .dmsg{color:var(--red)}
+.vf{display:grid;gap:8px;font-size:14px}.vf input{height:52px;border-radius:999px;border:1px solid color-mix(in srgb,currentColor 30%,transparent);background:transparent;color:inherit;padding:0 20px;font:inherit;font-size:18px}
 .fineprint{font-size:14px;opacity:.7}
 .dtalk strong[aria-hidden]{user-select:none}
 
@@ -610,6 +611,7 @@ dialog.sheet[open]::backdrop{animation:fadeIn .3s ease both}
 <dialog class="sheet" id="teams" aria-labelledby="teamsTitle"><div class="sheet-h"><h2 id="teamsTitle" data-t="teamsT"></h2><button class="sheet-x" type="button" data-close aria-label="Close">×</button></div><div class="sheet-b" id="teamsBody"></div></dialog>
 <dialog class="sheet" id="deep" aria-labelledby="deepTitle"><div class="sheet-h"><h2 id="deepTitle" data-t="deepT"></h2><span class="sheet-btns"><button class="sheet-cp" id="deepCopy" type="button" data-ic="copy" hidden></button><button class="sheet-x" type="button" data-close aria-label="Close">×</button></span></div><div class="sheet-b" id="deepBody"></div></dialog>
 <dialog class="sheet" id="duet" aria-labelledby="duetTitle"><div class="sheet-h"><h2 id="duetTitle"></h2><button class="sheet-x" type="button" data-close aria-label="Close">×</button></div><div class="sheet-b" id="duetBody"></div></dialog>
+<dialog class="sheet" id="verify" aria-labelledby="verifyTitle"><div class="sheet-h"><h2 id="verifyTitle"></h2><button class="sheet-x" type="button" data-close aria-label="Close">×</button></div><div class="sheet-b" id="verifyBody"></div></dialog>
 <dialog class="sheet" id="langSheet" aria-labelledby="langTitle"><div class="sheet-h"><h2 id="langTitle" data-t="langT"></h2><button class="sheet-x" type="button" data-close aria-label="Close">×</button></div><div class="sheet-b" id="langList"></div></dialog>
 <dialog class="sheet" id="legal" aria-labelledby="legalTitle"><div class="sheet-h"><h2 id="legalTitle" data-t="legalT"></h2><button class="sheet-x" type="button" id="legalX" aria-label="Close">×</button></div><div class="sheet-b" id="legalBody"></div></dialog>
 
@@ -1422,6 +1424,51 @@ function goPlans(){
   let pb=$("#plansBox"); if(!pb){ $("#cardacts").insertAdjacentHTML("afterend",`<div id="plansBox">${plansHTML()}</div>`); pb=$("#plansBox"); }
   pb.scrollIntoView({behavior:calm()?"auto":"smooth",block:"start"}); pb.classList.remove("flash"); void pb.offsetWidth; pb.classList.add("flash"); pb.setAttribute("tabindex","-1"); pb.focus({preventScroll:true});
 }
+const AUTH={
+ he:{t:"אימות מייל",link:"כבר מנויים? אימות מייל",lead:"כדי לפתוח את המנוי שלכם נשלח קוד בן 6 ספרות למייל. הוא תקף ל־10 דקות.",emailLbl:"המייל של המנוי",send:"שלחו לי קוד",sent:"אם למייל הזה יש מנוי Pro, שלחנו אליו קוד. בדקו גם בתיקיית הספאם.",codeLbl:"הקוד מהמייל",verify:"אימות",resend:"שלחו שוב",wait:"אפשר לבקש קוד חדש עוד רגע.",bad:"הקוד לא נכון או שפג תוקפו.",many:"יותר מדי ניסיונות. בקשו קוד חדש.",off:"האימות עוד לא זמין כרגע.",err:"לא הצלחנו כרגע. נסו שוב עוד רגע.",ok:"המייל אומת. המנוי שלכם פעיל.",need:"כדי להמשיך צריך לאמת את המייל."},
+ en:{t:"Verify your email",link:"Already a subscriber? Verify your email",lead:"To unlock your subscription we'll send a 6-digit code to your email. It's valid for 10 minutes.",emailLbl:"Subscription email",send:"Send me a code",sent:"If this email has a Pro subscription, we sent it a code. Check your spam folder too.",codeLbl:"Code from the email",verify:"Verify",resend:"Send again",wait:"You can ask for a new code in a moment.",bad:"The code is wrong or has expired.",many:"Too many tries. Ask for a new code.",off:"Verification isn't available right now.",err:"That didn't work just now. Try again in a moment.",ok:"Email verified. Your subscription is active.",need:"To continue, please verify your email."},
+ es:{t:"Verificar tu correo",link:"¿Ya eres suscriptor? Verifica tu correo",lead:"Para activar tu suscripción te enviaremos un código de 6 dígitos por correo. Es válido durante 10 minutos.",emailLbl:"Correo de la suscripción",send:"Enviarme un código",sent:"Si este correo tiene una suscripción Pro, le enviamos un código. Revisa también el spam.",codeLbl:"Código del correo",verify:"Verificar",resend:"Enviar de nuevo",wait:"Podrás pedir un código nuevo en un momento.",bad:"El código es incorrecto o caducó.",many:"Demasiados intentos. Pide un código nuevo.",off:"La verificación no está disponible ahora.",err:"No funcionó ahora. Inténtalo de nuevo en un momento.",ok:"Correo verificado. Tu suscripción está activa.",need:"Para continuar, verifica tu correo."},
+ fr:{t:"Vérifier votre e-mail",link:"Déjà abonné ? Vérifiez votre e-mail",lead:"Pour activer votre abonnement, nous envoyons un code à 6 chiffres par e-mail. Il est valable 10 minutes.",emailLbl:"E-mail de l'abonnement",send:"Envoyez-moi un code",sent:"Si cet e-mail a un abonnement Pro, un code lui a été envoyé. Vérifiez aussi les spams.",codeLbl:"Code reçu par e-mail",verify:"Vérifier",resend:"Renvoyer",wait:"Vous pourrez demander un nouveau code dans un instant.",bad:"Le code est incorrect ou a expiré.",many:"Trop d'essais. Demandez un nouveau code.",off:"La vérification n'est pas disponible pour le moment.",err:"Ça n'a pas marché à l'instant. Réessayez dans un moment.",ok:"E-mail vérifié. Votre abonnement est actif.",need:"Pour continuer, vérifiez votre e-mail."}
+};
+const authT=()=>AUTH[S.lang]||AUTH.en;
+function openVerify(o={}){
+  S.vf={step:"ask",email:S.me.email||"",msg:"",busy:false,after:o.after||null,sentAt:0};
+  const d=$("#verify"); d.dir=S.lang==="he"?"rtl":"ltr"; $("#verifyTitle").textContent=authT().t; renderVerify();
+  if(!d.open){ if(d.showModal) d.showModal(); else d.setAttribute("open",""); }
+  if (o.auto && S.vf.email) sendCode();
+}
+function renderVerify(){
+  const a=authT(), V=S.vf, msg=V.msg?`<p class="dmsg" role="status">${esc(V.msg)}</p>`:"";
+  const em=`<label class="vf"><span>${esc(a.emailLbl)}</span><input id="vfEmail" type="email" autocomplete="email" inputmode="email" value="${esc(V.email)}" ${V.step==="code"?"readonly":""}></label>`;
+  $("#verifyBody").innerHTML = V.step==="ask"
+    ? `<p class="lead">${esc(a.lead)}</p>${em}${msg}<button type="button" class="cta light" data-vf="send" ${V.busy?"disabled":""}>${esc(a.send)}</button>`
+    : `<p class="lead">${esc(a.sent)}</p>${em}<label class="vf"><span>${esc(a.codeLbl)}</span><input id="vfCode" inputmode="numeric" autocomplete="one-time-code" maxlength="6" pattern="[0-9]*" dir="ltr"></label>${msg}<button type="button" class="cta light" data-vf="verify" ${V.busy?"disabled":""}>${esc(a.verify)}</button><button type="button" class="cta btn-ghost" data-vf="send" ${V.busy?"disabled":""}>${esc(a.resend)}</button>`;
+  const f=$(V.step==="code"?"#vfCode":"#vfEmail"); if(f&&!V.email||V.step==="code") f?.focus({preventScroll:true});
+}
+async function sendCode(){
+  const V=S.vf, a=authT(); const em=($("#vfEmail")?.value||V.email||"").trim(); if(!em||!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(em)){ V.msg=a.err; renderVerify(); return; }
+  V.email=em; V.busy=true; V.msg=""; renderVerify();
+  let r; try{ const token=await humanToken(); r=await api("auth",{action:"start",email:em,lang:S.lang,token}); }catch(e){ r={status:0,data:{}}; }
+  V.busy=false;
+  if (r.status===200){ V.step="code"; V.msg=""; V.sentAt=Date.now(); }
+  else V.msg = r.status===429 ? a.wait : r.status===503 ? a.off : a.err;
+  renderVerify();
+}
+async function submitCode(){
+  const V=S.vf, a=authT(); const code=($("#vfCode")?.value||"").replace(/\D/g,""); if(code.length!==6){ V.msg=a.bad; renderVerify(); return; }
+  V.busy=true; V.msg=""; renderVerify();
+  let r; try{ r=await api("auth",{action:"verify",email:V.email,code}); }catch(e){ r={status:0,data:{}}; }
+  V.busy=false;
+  if (r.status===200){
+    S.me={name:S.me.name||"",email:V.email}; try{ localStorage.setItem("wz.email",V.email); }catch(e){}
+    S.paid=true; $("#plansBox")?.remove(); $("#ideaPlans")?.remove(); $("#gatePlans")?.remove();
+    $("#verify").close(); setNote(a.ok); refreshPlan(); const go=V.after; if(go) go(); else if (S.current && !S.busy) renderActs();
+    return;
+  }
+  V.msg = r.data&&r.data.code==="too_many" ? a.many : r.status===0||r.status>=500 ? a.err : a.bad; V.step=r.data&&r.data.code==="too_many" ? "ask" : "code"; renderVerify();
+}
+$("#verifyBody").addEventListener("click",e=>{ const b=e.target.closest("[data-vf]"); if(!b||!S.vf) return; if(b.dataset.vf==="send") sendCode(); else submitCode(); });
+$("#verifyBody").addEventListener("keydown",e=>{ if(e.key==="Enter"&&S.vf){ e.preventDefault(); S.vf.step==="code"?submitCode():sendCode(); } });
 function openTeams(){
   const held=S.plan==="teams";
   $("#teamsBody").innerHTML=`<p class="lead">${esc(t("teamsLead"))}</p><ul class="teams-f">${t("teamsF").map(x=>`<li>${esc(x)}</li>`).join("")}</ul>
@@ -1468,6 +1515,7 @@ async function openDeep(b){
     const token=await humanToken();
     const r=await api("deepen",{id:b.sid,email:S.me.email||"",lang:S.lang,token});
     if (r.status===200 && r.data.deep){ b.deep=r.data.deep; updateMine(b); showDeep(b); }
+    else if (r.data&&r.data.code==="need_verify"){ d.close(); openVerify({auto:true,after:()=>openDeep(b)}); }
     else if (r.data&&r.data.code==="need_pro"){
       /* the plans live on the page under the buttons: close the sheet and take the user there instead of pointing at what it covers */
       d.close(); goPlans(); }
@@ -1498,6 +1546,7 @@ document.addEventListener("click", async e=>{
   if (act==="img" && b){ saveImage(b, currentCard().o, a); return; }
   if (act==="deep" && b){ openDeep(b); return; }
   if (act==="duet"){ openDuet(); return; }
+  if (act==="verify"){ openVerify({}); return; }
   if (act==="copy" && b){ const txt=receiptText(b), note=$("#actNote");
     try{ await navigator.clipboard.writeText(txt); note.textContent=t("copied"); }
     catch(_){ const ta=document.createElement("textarea"); ta.value=txt; ta.style.cssText="width:100%;min-height:160px;color:#111"; $("#cardacts").after(ta); ta.select(); } }
@@ -1543,6 +1592,7 @@ async function afterPay(){
     let r={status:0,data:{}};
     try{ const token=await humanToken(); r=await api("unlock",{id:b.sid,email:S.me.email,name:S.me.name,lang:S.lang,token}); }catch(e){}
     if (r.status===200 && r.data.full){ applyUnlock(b,r.data.wazo); [1,2,3,4].forEach(k=>S.rev.add(k)); if (S.view==="receipt"){ S.open=0; openRow(5); } return; }
+    if (r.data&&r.data.code==="need_verify"){ openVerify({auto:true,after:()=>afterPay()}); return; }
   }
 }
 async function doOptin(btn){
@@ -1562,6 +1612,7 @@ async function doOptin(btn){
   btn.disabled=false;
   const code=r.data&&r.data.code;
   if(note){ note.textContent=errCopy(code); note.className="err"; }
+  if (code==="need_verify"){ if(note){ note.textContent=authT().need; note.className="cav"; } openVerify({auto:true,after:()=>btn.click()}); return; }
   if (code==="need_pro"){
     if (!$("#gatePlans")) note?.insertAdjacentHTML("afterend",`<div id="gatePlans">${plansHTML()}</div>`);
     if (note){ note.textContent=t("toCheckout"); note.className="cav"; }
@@ -1588,7 +1639,8 @@ async function holdPlan(k,btn){
 function plansHTML(){
   return `<div class="plans"><div class="plans-t">${esc(t("plansT"))}</div><div class="plans-s">${esc(t("plansS"))}</div>
     ${t("plans").map(([k,n,p],j)=>`<div class="plan" style="--i:${j+2}"><b>${esc(n)}</b><span class="pp">${esc(p)}</span><button type="button" data-plan="${k}">${esc(t("planHold"))}</button></div>`).join("")}
-    <div class="cav plan-note">${esc(t("renewNote"))}</div></div>`;
+    <div class="cav plan-note">${esc(t("renewNote"))}</div>
+    <button type="button" class="morebtn" data-act="verify">${esc(authT().link)}</button></div>`;
 }
 
 /* ---------- share image ---------- */
@@ -1691,7 +1743,7 @@ function land(b){
 }
 
 /* ---------- verdict ---------- */
-const errCopy=c=>({bot:t("errBot"),busy:t("errBusy"),limit:t("errLimit"),limit_anon:t("errLimitAnon"),need_pro:t("errNeedPro"),not_configured:t("errSetup"),timeout:t("errTimeout"),invalid_json:t("errJson"),refused:t("errRefused"),bad_email:t("gBad"),need_idea:t("needIdea")}[c]||t("errGeneric"));
+const errCopy=c=>({need_verify:authT().need,bot:t("errBot"),busy:t("errBusy"),limit:t("errLimit"),limit_anon:t("errLimitAnon"),need_pro:t("errNeedPro"),not_configured:t("errSetup"),timeout:t("errTimeout"),invalid_json:t("errJson"),refused:t("errRefused"),bad_email:t("gBad"),need_idea:t("needIdea")}[c]||t("errGeneric"));
 async function rawApi(path,payload,signal){
   const r=await fetch("/api/"+path,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(payload),signal});
   let data={}; try{ data=await r.json(); }catch(e){} return {status:r.status,data};

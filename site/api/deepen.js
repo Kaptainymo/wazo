@@ -1,6 +1,6 @@
 // POST /api/deepen  { id, email, lang, token }
 // Pro-only. Returns a cached or freshly generated deeper follow-up analysis for a wazo.
-import { ready, send, body, cleanEmail, LANGS, clientIp, human, getLead, getWazo, patchWazo, askClaude, open } from "./_lib.js";
+import { ready, send, body, cleanEmail, LANGS, clientIp, human, getLead, getWazo, patchWazo, askClaude, open, proVerified, proUnverified } from "./_lib.js";
 import { buildDeepPrompt, shapeDeep, parseJSON } from "./_prompt.js";
 
 export const config = { maxDuration: 60 };
@@ -15,7 +15,7 @@ export default async function handler(req, res) {
   if (!(await human(b.token, ip, req, res))) return send(res, 403, { code: "bot" });
 
   try {
-    if (!open() && (await getLead(email))?.plan !== "pro") return send(res, 402, { code: "need_pro" });
+    if (!open()) { const lead = await getLead(email); if (!proVerified(lead, email, req)) return send(res, 402, { code: proUnverified(lead, email, req) ? "need_verify" : "need_pro" }); }
     const w = await getWazo(b.id);
     if (!w) return send(res, 404, { code: "not_found" });
     if (w.deep) return send(res, 200, { deep: w.deep });
