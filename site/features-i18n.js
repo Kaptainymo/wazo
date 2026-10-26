@@ -57,7 +57,6 @@ const D={
 "מי ניסה דבר דומה ומה קרה לו, מי עושה את זה היום, ומה עוד חסר בישראל.":["Who tried something similar and what happened, who does it today, and what's still missing in Israel.","Quién probó algo parecido y qué pasó, quién lo hace hoy y qué falta todavía en Israel.","Qui a essayé quelque chose de semblable et ce qui s'est passé, qui le fait aujourd'hui, et ce qui manque encore en Israël."],
 "תשובה כנה במשפט אחד, על מה היא נשענת, וטיפ אחד מעשי שאפשר לעשות כבר השבוע.":["An honest answer in one sentence, what it rests on, and one practical tip you can do this week.","Una respuesta honesta en una frase, en qué se apoya y un consejo práctico para esta semana.","Une réponse honnête en une phrase, ce sur quoi elle repose, et un conseil pratique pour cette semaine."],
 "חינם":["Free","Gratis","Gratuit"],
-"הכרטיסים הם דוגמה להמחשה.":["The cards are an illustration.","Las tarjetas son un ejemplo ilustrativo.","Les cartes sont un exemple pour illustrer."],
 "הניתוח נכתב על ידי בינה מלאכותית (Claude)":["The analysis is written by AI (Claude)","El análisis lo escribe una inteligencia artificial (Claude)","L'analyse est rédigée par une IA (Claude)"],
 "הנתונים נשמרים באירופה":["Data is stored in Europe","Los datos se guardan en Europa","Les données sont stockées en Europe"],
 "לא מוכרים מידע":["We don't sell your data","No vendemos tus datos","Nous ne vendons pas vos données"],
