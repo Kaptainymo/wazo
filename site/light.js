@@ -1,7 +1,7 @@
 /* "Draw light": the pointer leaves glowing trails on the hero, like a long exposure. Desktop only, Canvas 2D, no dependencies.
    WZLight.start(canvas, { ground:[r,g,b], active:()=>bool }) -> { dispose() } */
 (function(){
-const MAX_PARTICLES=2600, FADE=0.095;
+const MAX_PARTICLES=2600, FADE=0.14;
 const rnd=(a,b)=>a+Math.random()*(b-a), clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
 
 function start(canvas,opts){
@@ -14,7 +14,7 @@ function start(canvas,opts){
   const parts=[];
 
   /* the palette: coral with a touch of amber. The base hue sways slowly, and fast strokes drift towards amber */
-  const hueBase=()=>14+14*Math.sin(t*0.00035);
+  const hueBase=()=>8+4*Math.sin(t*0.00035);   /* soft coral only: a narrow band around Wazo's coral */
 
   function resize(){
     const r=canvas.getBoundingClientRect(); dpr=Math.min(window.devicePixelRatio||1,2);
@@ -33,20 +33,20 @@ function start(canvas,opts){
         x:x0+dx*k+rnd(-.8,.8), y:y0+dy*k+rnd(-.8,.8),
         vx:rnd(-.35,.35)*(.4+s), vy:rnd(-.35,.35)*(.4+s),
         life:1, decay:rnd(.006,.014)*(1.1-.4*s),
-        size:rnd(1.1,2.3)+s*rnd(1.5,3.2)*boost,
-        hue:hueBase()+rnd(-14,14)+s*18,
-        bright:(.55+s*.4)*boost
+        size:rnd(.9,1.8)+s*rnd(.8,1.8)*boost,
+        hue:hueBase()+rnd(-5,5),
+        bright:(.4+s*.25)*boost
       });
     }
   }
 
   function drawParticle(p){
-    const a=p.life*p.bright, r=p.size*p.life+.4, halo=r*4.5;
+    const a=p.life*p.bright, r=p.size*p.life+.4, halo=r*3.6;
     const g=ctx.createRadialGradient(p.x,p.y,0,p.x,p.y,halo);
-    g.addColorStop(0,`hsla(${p.hue},92%,62%,${(a*.26).toFixed(3)})`);
-    g.addColorStop(1,`hsla(${p.hue},92%,50%,0)`);
+    g.addColorStop(0,`hsla(${p.hue},70%,68%,${(a*.13).toFixed(3)})`);
+    g.addColorStop(1,`hsla(${p.hue},70%,60%,0)`);
     ctx.fillStyle=g; ctx.beginPath(); ctx.arc(p.x,p.y,halo,0,6.2832); ctx.fill();
-    ctx.fillStyle=`hsla(${p.hue+6},85%,86%,${(a*.62).toFixed(3)})`; ctx.beginPath(); ctx.arc(p.x,p.y,r*.55,0,6.2832); ctx.fill();
+    ctx.fillStyle=`hsla(${p.hue},72%,72%,${(a*.30).toFixed(3)})`; ctx.beginPath(); ctx.arc(p.x,p.y,r*.55,0,6.2832); ctx.fill();
   }
 
   /* the idle comet: follows a Lissajous path around the centre until someone moves the pointer over the hero */
