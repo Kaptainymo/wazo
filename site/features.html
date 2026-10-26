@@ -263,7 +263,7 @@
     .burger{display:grid}
     .stage{grid-template-columns:1fr;gap:16px;padding-top:12px}
     .showgrid{grid-template-columns:1fr;gap:20px}.float{height:400px}.qs button{min-width:132px;padding:16px 16px}
-    .hero{min-height:auto}.stage.simple{padding:12px 0 44px}
+    .hero{min-height:auto}.stage.simple{padding:76px 0 112px}
     .hero h1{font-size:round(clamp(34px,10.2vw,54px),2px);--lhr:1.06}
     .askrow{flex-direction:column;align-items:stretch}.acts{flex-direction:column-reverse;align-items:stretch}.ask .go,.ask .enr{width:100%}.hint{text-align:center;order:2}.enra .cta{flex:1 1 100%}
     section.blk{padding:60px 0}
@@ -279,6 +279,21 @@
   .pin{position:sticky;top:0;height:100vh;height:100svh;overflow:hidden;overflow:clip}
   .pin .hero{height:100%;min-height:0}
   .pin .hero .stage.simple{padding-bottom:100px}
+  .words{position:absolute;inset:0;direction:ltr;display:flex;flex-direction:column;justify-content:space-between;padding:calc(var(--nav,72px) + 8px) 0 24px;pointer-events:none;overflow:hidden;opacity:calc(1 - var(--o,0)*1.5);transition:opacity .6s}
+  .hero .stage{position:relative}
+  .w-row{overflow:hidden;white-space:nowrap;transition:opacity .8s}
+  .w-track{display:flex;width:max-content;will-change:transform}
+  .w-seq{display:flex;align-items:center}
+  .w{font-family:"Miriam Libre","Hanken Grotesk",sans-serif;font-weight:700;font-size:round(clamp(56px,7.4vw,112px),2px);--lhr:1.1;letter-spacing:-.02em;color:rgba(240,113,103,.10);padding-inline:24px}
+  .w-row:nth-child(even) .w{color:rgba(168,218,220,.07)}
+  .s{flex:none;width:round(clamp(24px,3vw,40px),4px);height:round(clamp(24px,3vw,40px),4px);background:rgba(240,113,103,.16)}
+  .w-row:nth-child(even) .s{background:rgba(168,218,220,.12)}
+  .s0{border-radius:50%}.s1{transform:rotate(45deg) scale(.8)}.s2{border-radius:28%}.s3{clip-path:polygon(50% 0,100% 100%,0 100%)}
+  .words.has-idea .w-row:not(.has-mine){opacity:.45}
+  .w.mine{color:var(--coral);animation:mineIn .7s var(--ease-out) both}
+  @keyframes mineIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+  @media (max-width:960px){.w{font-size:round(clamp(44px,13vw,64px),2px)}.w-row:nth-child(n+3){display:none}}
+  @media (prefers-reduced-motion:reduce){.w.mine{animation:none}}
   .hero .copy{opacity:calc(1 - var(--o)*1.5);transform:translateY(calc(var(--o)*-36px))}
   .win{position:absolute;inset:0;z-index:5;background:var(--coral);color:#0A0A0A;
     clip-path:inset(calc((1 - var(--o))*(100% - 76px)) 0 0 0 round 30px 30px 0 0);will-change:clip-path}
@@ -367,7 +382,7 @@
     .win .sec-h{margin-bottom:12px}
     .win .pane p{font-size:16px;margin-bottom:12px}
     .win .qs button{min-width:120px;padding:16px 16px}
-    .pin .hero .stage.simple{padding:8px 0 24px}
+    .pin .hero .stage.simple{padding:76px 0 112px}
   }
   @keyframes sheetUp{from{transform:translate3d(0,100%,0)}to{transform:translate3d(0,0,0)}}
   @keyframes copyOut{from{opacity:1}to{opacity:0}}
@@ -411,6 +426,7 @@
 <main id="top" tabindex="-1">
   <section class="peek" id="peek"><span id="what" style="position:absolute;top:0"></span><div class="pin">
   <div class="hero">
+    <div class="words" id="words" aria-hidden="true"></div>
     <div class="grain"></div>
     <div class="stage simple">
       <div class="copy">
@@ -531,6 +547,7 @@
 <div class="dock" id="dock"><a class="cta solid" href="/#idea">נסו עכשיו, בחינם</a></div>
 
 <script src="/features-i18n.js"></script>
+<script src="/hero-words.js"></script>
 <script>
 WZI.init();
 let faces=WZI.faces();
@@ -582,6 +599,7 @@ function langMenuSet(on){ langMenu.hidden=!on; langBtn.setAttribute("aria-expand
 langBtn.addEventListener("click",e=>{ e.stopPropagation(); langMenuSet(langMenu.hidden); });
 addEventListener("click",()=>langMenuSet(false)); addEventListener("keydown",e=>{ if(e.key==="Escape"&&!langMenu.hidden){ langMenuSet(false); langBtn.focus(); } });
 function onLang(){
+  if(window.WZWords){ if(!window.__ww){ window.__ww=1; WZWords.init({layer:document.getElementById("words"),input:document.getElementById("idea"),lang:WZI.lang}); } else WZWords.setLang(WZI.lang); }
   faces=WZI.faces();
   qs.innerHTML=faces.map((f,k)=>`<button type="button" role="tab" data-k="${k}"><i class="fill"></i><span>${f.top[0]}</span></button>`).join("");
   document.getElementById("pgo").textContent=WZI.u("tryIdea"); buildSlider(); document.getElementById("pgo2").textContent=WZI.u("tryIdea"); fills(curQ);

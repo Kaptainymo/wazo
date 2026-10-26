@@ -1,0 +1,51 @@
+/* Hero background: rows of the words that matter (money, time, demand...) drift sideways behind the form.
+   When someone types an idea it joins one of the rows and the rest slow down and fade.
+   WZWords.init({ layer, input, lang }) ; WZWords.setLang(lang) ; the layer is decorative (aria-hidden). */
+(function(){
+const WORDS={
+ he:["כסף","זמן","ביקוש","מתחרים","לקוחות","מחיר","הבעיה","ניסוי","השבוע","לחדד","להתחיל","לעצור","סיכון","תוכנית"],
+ en:["Money","Time","Demand","Competitors","Customers","Price","The problem","A test","This week","Refine","Start","Stop","Risk","A plan"],
+ es:["Dinero","Tiempo","Demanda","Competidores","Clientes","Precio","El problema","Una prueba","Esta semana","Afinar","Empezar","Parar","Riesgo","Un plan"],
+ fr:["Argent","Temps","Demande","Concurrents","Clients","Prix","Le problème","Un essai","Cette semaine","Affiner","Commencer","Arrêter","Risque","Un plan"]
+};
+const ROWS=7, SECS=[150,120,170,135,160,125,145];     /* seconds for one full pass: slow on purpose */
+const mobile=matchMedia("(max-width:960px)"), calm=matchMedia("(prefers-reduced-motion: reduce)").matches;
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+let layer=null,input=null,lang="he",rows=[],mine="",timer=0;
+const mineRow=()=>mobile.matches?1:3;
+
+function seq(r){
+  const list=WORDS[lang]||WORDS.en, out=[];
+  list.forEach((_,i)=>{ out.push(`<span class="w">${esc(list[(i+r*3)%list.length])}</span><i class="s s${(i+r)%4}"></i>`);
+    if(mine&&r===mineRow()&&(i===0||i===Math.floor(list.length/2))) out.push(`<span class="w mine" dir="auto">${esc(mine)}</span><i class="s s0"></i>`); });
+  return out.join("");
+}
+function fill(r){ const s=seq(r); rows[r].track.innerHTML=`<div class="w-seq">${s}</div><div class="w-seq" aria-hidden="true">${s}</div>`; }
+function play(r,at){
+  const row=rows[r]; if(row.anim){ row.anim.cancel(); row.anim=null; }
+  if(calm) return;
+  row.anim=row.track.animate([{transform:"translateX(0)"},{transform:"translateX(-50%)"}],{duration:SECS[r]*1000,iterations:Infinity,direction:r%2?"reverse":"normal",easing:"linear"});
+  if(at!=null) row.anim.currentTime=at;
+  row.anim.playbackRate=mine?.35:1;
+}
+function build(){
+  if(!layer) return; layer.innerHTML=""; rows=[];
+  for(let r=0;r<ROWS;r++){ const el=document.createElement("div"); el.className="w-row"; const track=document.createElement("div"); track.className="w-track"; el.appendChild(track); layer.appendChild(el); rows.push({el,track,anim:null}); fill(r); play(r,(r*37e3)%(SECS[r]*1000)); }
+  mark();
+}
+function mark(){ layer.classList.toggle("has-idea",!!mine); rows.forEach((x,r)=>x.el.classList.toggle("has-mine",!!mine&&r===mineRow())); }
+function onInput(){
+  clearTimeout(timer);
+  timer=setTimeout(()=>{
+    const t=(input.value||"").trim().split("\n")[0].slice(0,48); if(t===mine) return; mine=t;
+    const r=mineRow(), at=rows[r]&&rows[r].anim?rows[r].anim.currentTime:null;
+    fill(r); play(r,at); rows.forEach(x=>{ if(x.anim) x.anim.updatePlaybackRate(mine?.35:1); }); mark();
+  },350);
+}
+function init(o){
+  layer=o.layer; input=o.input; lang=o.lang||lang;
+  build(); input.addEventListener("input",onInput); mobile.addEventListener("change",build);
+}
+function setLang(l){ lang=WORDS[l]?l:"en"; if(layer){ const t=mine; build(); mine=t; } }
+window.WZWords={init,setLang};
+})();
