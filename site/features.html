@@ -284,9 +284,9 @@
   .w-row{overflow:hidden;white-space:nowrap;transition:opacity .8s}
   .w-track{display:flex;width:max-content;will-change:transform}
   .w-seq{display:flex;align-items:center}
-  .w{font-family:"Miriam Libre","Hanken Grotesk",sans-serif;font-weight:700;font-size:round(clamp(56px,7.4vw,112px),2px);--lhr:1.1;letter-spacing:-.02em;color:rgba(240,113,103,.10);padding-inline:40px}
-  .w-row:nth-child(even) .w{color:rgba(168,218,220,.07)}
-  .words.has-idea .w-row:not(.has-mine){opacity:.45}
+  .w{font-family:"Miriam Libre","Hanken Grotesk",sans-serif;font-weight:700;font-size:round(clamp(56px,7.4vw,112px),2px);--lhr:1.1;letter-spacing:-.02em;color:rgba(240,113,103,.055);padding-inline:72px}
+  .w-row:nth-child(even) .w{color:rgba(168,218,220,.04)}
+  .words.has-idea .w-row:not(.has-mine){opacity:.5}
   .w.mine{color:var(--coral);animation:mineIn .7s var(--ease-out) both}
   @keyframes mineIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
   @media (max-width:960px){.w{font-size:round(clamp(44px,13vw,64px),2px)}.w-row:nth-child(n+3){display:none}}

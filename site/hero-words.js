@@ -8,11 +8,11 @@ const WORDS={
  es:["Dinero","Tiempo","Demanda","Trabajo en equipo","Clientes","Juntos","Creación personal","Esta semana","Afinar","Empezar","Un plan","Aprendizaje","Útil","Humano"],
  fr:["Argent","Temps","Demande","Travail d'équipe","Clients","Ensemble","Création personnelle","Cette semaine","Affiner","Commencer","Un plan","Apprentissage","Utile","Humain"]
 };
-const ROWS=7, SECS=[150,120,170,135,160,125,145];     /* seconds for one full pass: slow on purpose */
+const ROWS=4, SECS=[170,140,190,155];     /* seconds for one full pass: slow on purpose */
 const mobile=matchMedia("(max-width:960px)"), calm=matchMedia("(prefers-reduced-motion: reduce)").matches;
 const esc=s=>String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 let layer=null,input=null,lang="he",rows=[],mine="",timer=0;
-const mineRow=()=>mobile.matches?1:3;
+const mineRow=()=>mobile.matches?1:2;
 
 function seq(r){
   const list=WORDS[lang]||WORDS.en, out=[];
