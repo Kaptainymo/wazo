@@ -281,8 +281,9 @@
     .burger{display:grid}
     .stage{grid-template-columns:1fr;gap:16px;padding-top:12px}
     .showgrid{grid-template-columns:1fr;gap:20px}.float{height:400px}.qs button{min-width:132px;padding:16px 16px}
-    .hero{min-height:auto}.stage.simple{padding:12px 0 132px}
-    .hero h1{font-size:round(clamp(34px,10.2vw,54px),2px);--lhr:1.06}
+    .hero{min-height:100svh}.stage.simple{padding:24px 0 40px}   /* the hero fills the whole screen; the stage centres its content in it */
+    .hero h1{font-size:round(clamp(40px,12vw,56px),2px);--lhr:1.06;margin:16px 0 24px}
+    .stage.simple .lead{margin-bottom:32px}
     .askrow{flex-direction:column;align-items:stretch}.acts{flex-direction:column-reverse;align-items:stretch}.ask .go,.ask .enr{width:100%}.hint{text-align:center;order:2}.enra .cta{flex:1 1 100%}
     section.blk{padding:60px 0}
     .kick{grid-template-columns:1fr}
@@ -354,7 +355,7 @@
   .typing .peek:not(.flat) .win{animation:none!important;transform:translate3d(0,100%,0)!important}
   .typing .peek:not(.flat) .hero .copy{animation:none!important;opacity:1!important}
   @media (pointer:coarse){body:has(#idea:focus) .peek:not(.flat) .win{animation:none!important;transform:translate3d(0,100%,0)!important}body:has(#idea:focus) .peek:not(.flat) .hero .copy{animation:none!important;opacity:1!important}}
-  .peek.flat{height:auto}.peek.flat .pin{position:relative;height:auto;overflow:visible}.peek.flat .hero{height:auto;min-height:84dvh}
+  .peek.flat{height:auto}.peek.flat .pin{position:relative;height:auto;overflow:visible}.peek.flat .hero{height:auto;min-height:100svh}
   .peek.flat .win{position:relative;clip-path:none;padding:72px 0 60px}.peek.flat .win-in{position:relative;opacity:1;height:auto;padding-top:0}.peek.flat .sliver{display:none}
   .peek.flat .hero .copy{opacity:1!important;transform:none!important;animation:none!important}
   .peek.flat .win{transform:none!important;animation:none!important;will-change:auto;border-radius:0}
@@ -408,7 +409,7 @@
     .win .sec-h{margin-bottom:12px}
     .win .pane p{font-size:16px;margin-bottom:12px}
     .win .qs button{min-width:120px;padding:16px 16px}
-    .pin .hero .stage.simple{padding:12px 0 132px}
+    .pin .hero .stage.simple{padding:24px 0 40px}
   }
   @keyframes sheetUp{from{transform:translate3d(0,100%,0)}to{transform:translate3d(0,0,0)}}
   @keyframes copyOut{from{opacity:1}to{opacity:0}}
