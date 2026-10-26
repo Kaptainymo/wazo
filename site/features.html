@@ -263,7 +263,7 @@
     .burger{display:grid}
     .stage{grid-template-columns:1fr;gap:16px;padding-top:12px}
     .showgrid{grid-template-columns:1fr;gap:20px}.float{height:400px}.qs button{min-width:132px;padding:16px 16px}
-    .hero{min-height:auto}.stage.simple{padding:76px 0 112px}
+    .hero{min-height:auto}.stage.simple{padding:12px 0 44px}
     .hero h1{font-size:round(clamp(34px,10.2vw,54px),2px);--lhr:1.06}
     .askrow{flex-direction:column;align-items:stretch}.acts{flex-direction:column-reverse;align-items:stretch}.ask .go,.ask .enr{width:100%}.hint{text-align:center;order:2}.enra .cta{flex:1 1 100%}
     section.blk{padding:60px 0}
@@ -279,18 +279,18 @@
   .pin{position:sticky;top:0;height:100vh;height:100svh;overflow:hidden;overflow:clip}
   .pin .hero{height:100%;min-height:0}
   .pin .hero .stage.simple{padding-bottom:100px}
-  .words{position:absolute;inset:0;direction:ltr;display:flex;flex-direction:column;justify-content:space-between;padding:calc(var(--nav,72px) + 8px) 0 24px;pointer-events:none;overflow:hidden;opacity:calc(1 - var(--o,0)*1.5);transition:opacity .6s}
   .hero .stage{position:relative}
-  .w-row{overflow:hidden;white-space:nowrap;transition:opacity .8s}
-  .w-track{display:flex;width:max-content;will-change:transform}
-  .w-seq{display:flex;align-items:center}
-  .w{font-family:"Miriam Libre","Hanken Grotesk",sans-serif;font-weight:700;font-size:round(clamp(56px,7.4vw,112px),2px);--lhr:1.1;letter-spacing:-.02em;color:rgba(240,113,103,.055);padding-inline:72px}
-  .w-row:nth-child(even) .w{color:rgba(168,218,220,.04)}
-  .words.has-idea .w-row:not(.has-mine){opacity:.5}
-  .w.mine{color:var(--coral);animation:mineIn .7s var(--ease-out) both}
-  @keyframes mineIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
-  @media (max-width:960px){.w{font-size:round(clamp(44px,13vw,64px),2px)}.w-row:nth-child(n+3){display:none}}
-  @media (prefers-reduced-motion:reduce){.w.mine{animation:none}}
+  .glow{position:absolute;inset:0;pointer-events:none;overflow:hidden;opacity:calc(1 - var(--o,0)*1.5);-webkit-mask-image:linear-gradient(to top,#000 30%,transparent 92%);mask-image:linear-gradient(to top,#000 30%,transparent 92%)}
+  .glow b{position:absolute;inset:0;transition:transform 1.4s var(--ease-out),opacity 1.4s var(--ease-out);opacity:.85}
+  .glow.on b{transform:translateY(-4%) scale(1.06);opacity:1}
+  .glow i{position:absolute;inset:0 -8% -12% -8%;background:
+    radial-gradient(42% 58% at 50% 98%,rgba(244,124,150,.9),transparent 76%),
+    radial-gradient(34% 48% at 16% 98%,rgba(168,218,220,.5),transparent 76%),
+    radial-gradient(46% 62% at 84% 98%,rgba(240,113,103,.9),transparent 76%),
+    radial-gradient(80% 52% at 50% 108%,rgba(240,113,103,.8),transparent 74%);
+    filter:blur(28px);animation:breathe 16s ease-in-out infinite}
+  @keyframes breathe{0%,100%{transform:translateY(0) scale(1)}50%{transform:translateY(-2%) scale(1.05)}}
+  @media (prefers-reduced-motion:reduce){.glow i{animation:none}.glow b{transition:none}}
   .hero .copy{opacity:calc(1 - var(--o)*1.5);transform:translateY(calc(var(--o)*-36px))}
   .win{position:absolute;inset:0;z-index:5;background:var(--coral);color:#0A0A0A;
     clip-path:inset(calc((1 - var(--o))*(100% - 76px)) 0 0 0 round 30px 30px 0 0);will-change:clip-path}
@@ -379,7 +379,7 @@
     .win .sec-h{margin-bottom:12px}
     .win .pane p{font-size:16px;margin-bottom:12px}
     .win .qs button{min-width:120px;padding:16px 16px}
-    .pin .hero .stage.simple{padding:76px 0 112px}
+    .pin .hero .stage.simple{padding:8px 0 24px}
   }
   @keyframes sheetUp{from{transform:translate3d(0,100%,0)}to{transform:translate3d(0,0,0)}}
   @keyframes copyOut{from{opacity:1}to{opacity:0}}
@@ -423,7 +423,7 @@
 <main id="top" tabindex="-1">
   <section class="peek" id="peek"><span id="what" style="position:absolute;top:0"></span><div class="pin">
   <div class="hero">
-    <div class="words" id="words" aria-hidden="true"></div>
+    <div class="glow" id="glow" aria-hidden="true"><b><i></i></b></div>
     <div class="grain"></div>
     <div class="stage simple">
       <div class="copy">
@@ -544,7 +544,6 @@
 <div class="dock" id="dock"><a class="cta solid" href="/#idea">נסו עכשיו, בחינם</a></div>
 
 <script src="/features-i18n.js"></script>
-<script src="/hero-words.js"></script>
 <script>
 WZI.init();
 let faces=WZI.faces();
@@ -596,7 +595,6 @@ function langMenuSet(on){ langMenu.hidden=!on; langBtn.setAttribute("aria-expand
 langBtn.addEventListener("click",e=>{ e.stopPropagation(); langMenuSet(langMenu.hidden); });
 addEventListener("click",()=>langMenuSet(false)); addEventListener("keydown",e=>{ if(e.key==="Escape"&&!langMenu.hidden){ langMenuSet(false); langBtn.focus(); } });
 function onLang(){
-  if(window.WZWords){ if(!window.__ww){ window.__ww=1; WZWords.init({layer:document.getElementById("words"),input:document.getElementById("idea"),lang:WZI.lang}); } else WZWords.setLang(WZI.lang); }
   faces=WZI.faces();
   qs.innerHTML=faces.map((f,k)=>`<button type="button" role="tab" data-k="${k}"><i class="fill"></i><span>${f.top[0]}</span></button>`).join("");
   document.getElementById("pgo").textContent=WZI.u("tryIdea"); buildSlider(); document.getElementById("pgo2").textContent=WZI.u("tryIdea"); fills(curQ);
@@ -668,6 +666,8 @@ function goStep(k){ if(mob.matches){ show(k); const c=slider.children[k]; if(c) 
   if(!pinned){ show(k); return; }
   const y=peek.offsetTop+total()*(OPEN+(1-OPEN)*(k+.5)/faces.length); scrollTo({top:y,behavior:calm?"auto":"smooth"}); }
 addEventListener("scroll",()=>requestAnimationFrame(tick),{passive:true}); addEventListener("resize",setPinned); setPinned(); onLang();
+/* the glow swells a little once there is an idea in the box */
+{ const g=document.getElementById("glow"), t=document.getElementById("idea"); const on=()=>g.classList.toggle("on",!!t.value.trim()); t.addEventListener("input",on); on(); }
 if(location.hash==="#what") setTimeout(()=>{ if(pinned) scrollTo({top:peek.offsetTop+total()*(OPEN+.02)}); else winEl.scrollIntoView(); },60);
 document.querySelectorAll('a[href="#what"]').forEach(a=>a.addEventListener("click",e=>{ e.preventDefault(); if(!pinned){ winEl.scrollIntoView({behavior:calm?"auto":"smooth"}); return; } scrollTo({top:peek.offsetTop+total()*(OPEN+.02),behavior:calm?"auto":"smooth"}); }));
 /* Hebrew with Latin words: anchor the punctuation that follows a Latin run to the RTL context (an RLM), so "Pro." never flips at a line end. Idempotent. */
