@@ -35,7 +35,7 @@ const D={
 "אין לי רעיון":["I have no idea yet","Aún no tengo idea","Je n'ai pas encore d'idée"],
 "הרעיון שלך":["Your idea","Tu idea","Votre idée"],
 "הרחב לי":["Expand it for me","Amplíala","Développez-la"],
-"כתבו אותו בכמה מילים וקבלו תשובה בדקות. בלי הרשמה ובלי עלות.":["Write it in a few words and get an answer in minutes. No sign-up, no cost.","Escríbela en pocas palabras y recibe una respuesta en minutos. Sin registro y sin coste.","Écrivez-la en quelques mots et recevez une réponse en quelques minutes. Sans inscription et sans frais."],
+"כתבו אותו בכמה מילים וקבלו תשובה כנה בדקות, לפני שמוציאים את השקל הראשון.":["Write it in a few words and get an honest answer in minutes, before you spend the first dollar.","Escríbela en pocas palabras y recibe una respuesta sincera en minutos, antes de gastar el primer euro.","Écrivez-la en quelques mots et recevez une réponse sincère en quelques minutes, avant de dépenser le premier euro."],
 "חמישה כרטיסים. כל אחד עונה על שאלה אחת פשוטה":["Five cards. Each one answers one simple question","Cinco tarjetas. Cada una responde una pregunta sencilla","Cinq cartes. Chacune répond à une question simple"],
 "דלגו לתוכן":["Skip to content","Saltar al contenido","Aller au contenu"],
 "גללו להציץ פנימה":["Scroll to peek inside","Desplázate para echar un vistazo","Faites défiler pour jeter un œil"],
@@ -116,7 +116,7 @@ const D={
 /* elements with inline markup, translated as a whole (data-i="key") */
 const H={
 paynote:['פרטים מלאים ב<a href="/he/pricing">עמוד המחירים</a> וב<a href="/he/refunds">מדיניות ההחזרים</a>.','Full details are on the <a href="/pricing">pricing page</a> and in the <a href="/refunds">refund policy</a>.','Los detalles completos están en la <a href="/pricing">página de precios</a> y en la <a href="/refunds">política de reembolsos</a>.','Tous les détails sont sur la <a href="/pricing">page des tarifs</a> et dans la <a href="/refunds">politique de remboursement</a>.'],
-h1:['רעיון בראש? בדיקה מהירה <em>לפני</em> שמוציאים את השקל הראשון','Got an idea? A quick check <em>before</em> you spend the first dollar','¿Tienes una idea? Una revisión rápida <em>antes</em> de gastar el primer euro','Une idée en tête ? Un contrôle rapide <em>avant</em> de dépenser le premier euro'],
+h1:['רעיון? נבדוק אותו <em>יחד</em>','Got an idea? Let\'s check it <em>together</em>','¿Tienes una idea? La comprobamos <em>juntos</em>','Une idée ? On la vérifie <em>ensemble</em>'],
 say:['Wazo לא מחליט בשבילך<br>הוא <em>עוזר להתחיל</em>','Wazo doesn\'t decide for you<br>It <em>helps you start</em>','Wazo no decide por ti<br>Te <em>ayuda a empezar</em>','Wazo ne décide pas à votre place<br>Il <em>aide à commencer</em>'],
 tl1:['<b>לפני שמשקיעים זמן וכסף</b>בדיקה של כמה דקות, לפני חודשים של עבודה.','<b>Before you invest time and money</b>A few minutes of checking, before months of work.','<b>Antes de invertir tiempo y dinero</b>Unos minutos de revisión, antes de meses de trabajo.','<b>Avant d\'investir temps et argent</b>Quelques minutes de vérification, avant des mois de travail.'],
 tl2:['<b>עם ניסוי קטן ביד</b>דבר אחד לעשות השבוע, ואיך תדעו אם הצליח.','<b>With a small test in hand</b>One thing to do this week, and how you\'ll know if it worked.','<b>Con una pequeña prueba en la mano</b>Una cosa que hacer esta semana y cómo sabrás si funcionó.','<b>Avec un petit test en main</b>Une chose à faire cette semaine, et comment savoir si ça a marché.'],
