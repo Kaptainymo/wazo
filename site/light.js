@@ -1,7 +1,7 @@
 /* "Draw light": the pointer leaves glowing trails on the hero, like a long exposure. Desktop only, Canvas 2D, no dependencies.
    WZLight.start(canvas, { ground:[r,g,b], active:()=>bool }) -> { dispose() } */
 (function(){
-const MAX_PARTICLES=2600, FADE=0.14;
+const MAX_PARTICLES=2600, FADE=0.06;
 const rnd=(a,b)=>a+Math.random()*(b-a), clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
 
 function start(canvas,opts){
@@ -26,14 +26,14 @@ function start(canvas,opts){
 
   function emit(x0,y0,x1,y1,speed,boost){
     const dx=x1-x0, dy=y1-y0, dist=Math.hypot(dx,dy); if(dist<0.5) return;
-    const steps=Math.min(48,Math.max(1,Math.ceil(dist/2.4)));
+    const steps=Math.min(48,Math.max(1,Math.ceil(dist/6)));
     for(let i=0;i<steps && parts.length<MAX_PARTICLES;i++){
       const k=(i+1)/steps, s=clamp(speed/18,0,1);
       parts.push({
         x:x0+dx*k+rnd(-.8,.8), y:y0+dy*k+rnd(-.8,.8),
-        vx:rnd(-.35,.35)*(.4+s), vy:rnd(-.35,.35)*(.4+s),
-        life:1, decay:rnd(.006,.014)*(1.1-.4*s),
-        size:rnd(.9,1.8)+s*rnd(.8,1.8)*boost,
+        vx:rnd(-.2,.2)*(.4+s), vy:rnd(-.2,.2)*(.4+s),
+        life:1, decay:rnd(.003,.007)*(1.1-.4*s),
+        size:rnd(2.6,4.4)+s*rnd(1.5,3)*boost,
         hue:hueBase()+rnd(-5,5),
         bright:(.4+s*.25)*boost
       });
@@ -41,18 +41,18 @@ function start(canvas,opts){
   }
 
   function drawParticle(p){
-    const a=p.life*p.bright, r=p.size*p.life+.4, halo=r*3.6;
+    const a=p.life*p.bright, r=p.size*p.life+.4, halo=r*5;
     const g=ctx.createRadialGradient(p.x,p.y,0,p.x,p.y,halo);
-    g.addColorStop(0,`hsla(${p.hue},70%,68%,${(a*.13).toFixed(3)})`);
+    g.addColorStop(0,`hsla(${p.hue},70%,68%,${(a*.03).toFixed(3)})`);
     g.addColorStop(1,`hsla(${p.hue},70%,60%,0)`);
     ctx.fillStyle=g; ctx.beginPath(); ctx.arc(p.x,p.y,halo,0,6.2832); ctx.fill();
-    ctx.fillStyle=`hsla(${p.hue},72%,72%,${(a*.30).toFixed(3)})`; ctx.beginPath(); ctx.arc(p.x,p.y,r*.55,0,6.2832); ctx.fill();
+    ctx.fillStyle=`hsla(${p.hue},72%,72%,${(a*.045).toFixed(3)})`; ctx.beginPath(); ctx.arc(p.x,p.y,r*.55,0,6.2832); ctx.fill();
   }
 
   /* the idle comet: follows a Lissajous path around the centre until someone moves the pointer over the hero */
   let cprev=null;
   function comet(){
-    const nx=w/2+Math.sin(t*0.00085)*w*.26, ny=h/2+Math.sin(t*0.0013+1.2)*h*.22;
+    const nx=w/2+Math.sin(t*0.00055)*w*.26, ny=h/2+Math.sin(t*0.0009+1.2)*h*.22;
     if(cprev) emit(cprev[0],cprev[1],nx,ny,9,.9); cprev=[nx,ny];
   }
 
@@ -63,7 +63,7 @@ function start(canvas,opts){
     ctx.globalCompositeOperation="source-over"; ctx.fillStyle=fade; ctx.fillRect(0,0,w,h);
     if(idle && !prefersCalm) comet();
     ctx.globalCompositeOperation="lighter";
-    const damp=Math.pow(.94,dt);
+    const damp=Math.pow(.96,dt);
     for(let i=parts.length-1;i>=0;i--){
       const p=parts[i]; p.x+=p.vx*dt; p.y+=p.vy*dt; p.vx*=damp; p.vy=p.vy*damp+.006*dt; p.life-=p.decay*dt;
       if(p.life<=0){ parts[i]=parts[parts.length-1]; parts.pop(); continue; }
