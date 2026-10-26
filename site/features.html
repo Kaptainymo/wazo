@@ -321,6 +321,7 @@
   .sl-i h3{font-size:24px;color:#0A0A0A;--lhr:1.15;padding-inline:2px}
   .sl-i .card{width:100%;aspect-ratio:auto;height:auto;min-height:250px;animation:none}
   .peekopen .dock,.atend .dock{display:none}
+  body:has(.sheet.open) .dock{display:none}
   /* the keyboard is up: the form stays put and the answer sheet stays down */
   .typing .peek:not(.flat) .win{animation:none!important;transform:translate3d(0,100%,0)!important}
   .typing .peek:not(.flat) .hero .copy{animation:none!important;opacity:1!important}
@@ -610,7 +611,7 @@ function onScroll(){ nav.classList.toggle("solid",scrollY>20); dock.classList.to
   const whatOn=flat?(wr.top<innerHeight*.4&&wr.bottom>innerHeight*.2):document.body.classList.contains("peekopen");
   let cur=null; secs.forEach(s=>{ const on=s.el&&(s.el.id==="what"?whatOn:s.el.getBoundingClientRect().top<innerHeight*.4); if(on) cur=s; }); secs.forEach(s=>s.a.setAttribute("aria-current",s===cur)); }
 addEventListener("scroll",onScroll,{passive:true}); onScroll();
-function setSheet(on){ sheet.classList.toggle("open",on); burger.setAttribute("aria-expanded",on); sheet.setAttribute("aria-hidden",!on); document.documentElement.style.overflow=on?"hidden":""; nav.classList.toggle("solid",on||scrollY>20); onScroll(); }
+function setSheet(on){ sheet.classList.toggle("open",on); if(on) dock.classList.remove("show"); else onScroll(); burger.setAttribute("aria-expanded",on); sheet.setAttribute("aria-hidden",!on); document.documentElement.style.overflow=on?"hidden":""; nav.classList.toggle("solid",on||scrollY>20); onScroll(); }
 burger.addEventListener("click",()=>setSheet(!sheet.classList.contains("open")));
 sheet.addEventListener("click",e=>{ if(e.target.closest("a")) setSheet(false); });
 addEventListener("keydown",e=>{ if(e.key==="Escape") setSheet(false); });
