@@ -1080,7 +1080,7 @@ try { const l=localStorage.getItem("wz.lang"); if (LANGS.some(x=>x[0]===l)) S.la
 S.cfg={ready:false,siteKey:"",umami:""};
 try { S.plan=localStorage.getItem("wz.plan")||""; S.proPreview=localStorage.getItem("wz.pro")==="1"; S.me={name:localStorage.getItem("wz.name")||"",email:localStorage.getItem("wz.email")||""}; } catch(e){}
 if(!S.me) S.me={name:"",email:""};
-S.pro=false;
+S.pro=false; S.paid=false;   /* S.pro is the preview switch; S.paid is a real subscription found on the server */
 const isFull=()=>S.isExample||S.pro||!!(S.current&&S.current.full);
 const need=()=>isFull()?[1,2,3,4]:[1,2];
 const proLocked=i=>!isFull() && (i===3||i===4);
@@ -1343,7 +1343,7 @@ function renderActs(){
     : (open5 ? `<div class="acts-row tri">${tri("img","dl",t("saveImg"))}${S.isExample?"":tri("deep","again",t("deepBtn"))}${tri("duet","duet",dT().btn)}</div>` : "");
   $("#cardacts").innerHTML = (ico3?"":main) + second + `<span class="note" id="actNote">${esc(S.savedNote)}</span>`;
   const pl=$("#plansBox"); if (pl) pl.remove();
-  if (open5 && !S.isExample && !S.pro && !S.cfg.open) $("#cardacts").insertAdjacentHTML("afterend", `<div id="plansBox">${plansHTML()}</div>`);
+  if (open5 && !S.isExample && !S.pro && !S.paid && !S.cfg.open) $("#cardacts").insertAdjacentHTML("afterend", `<div id="plansBox">${plansHTML()}</div>`);
 }
 function openRow(i){
   const st=$("#stage");
@@ -1528,9 +1528,14 @@ function applyUnlock(b,wazo){
   const nb=norm({...wazo,cur:b.cur}); nb.full=true; nb.sid=b.sid; nb._lang=b._lang; if(!nb.idea) nb.idea=b.idea;
   S.current=nb; $("#stage")._b=nb; updateMine(nb); S.rev.add(3); S.rev.add(4); track("unlock");
 }
+/* ask the server whether this email has an active Pro subscription; if so the upgrade offers disappear */
+async function refreshPlan(){
+  if (!S.me.email) return;
+  try{ const token=await humanToken(); const r=await api("plan",{email:S.me.email,token}); if (r.status===200 && !!r.data.pro!==S.paid){ S.paid=!!r.data.pro; if (S.paid){ $("#plansBox")?.remove(); $("#ideaPlans")?.remove(); } if (S.current && !S.busy) renderActs(); } }catch(e){}
+}
 // Paddle confirms the subscription by webhook a few seconds after checkout, so retry the unlock until it lands.
 async function afterPay(){
-  setNote(t("paidOk"));
+  setNote(t("paidOk")); refreshPlan(); [4000,9000,16000].forEach(ms=>setTimeout(refreshPlan,ms));
   const b=S.current; if (!b || !b.sid || b.full || !S.me.email) return;
   for (const wait of [2500,4000,6000,9000]){
     await new Promise(r=>setTimeout(r,wait));
@@ -1545,7 +1550,7 @@ async function doOptin(btn){
   if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){ if(note){ note.textContent=t("gBad"); note.className="err"; } $("#gEmail")?.focus(); return; }
   const b=S.current; if(!b) return;
   btn.disabled=true; if(note){ note.textContent=t("loading"); note.className="cav"; }
-  S.me={name,email}; try{ localStorage.setItem("wz.email",email); localStorage.setItem("wz.name",name); }catch(e){}
+  S.me={name,email}; try{ localStorage.setItem("wz.email",email); localStorage.setItem("wz.name",name); }catch(e){} refreshPlan();
   let r={status:0,data:{code:"error"}};
   if (S.isExample || !b.sid){ r={status:200,data:{full:true,wazo:b}}; }
   else { try{ const token=await humanToken(); r=await api("unlock",{id:b.sid,email,name,marketing:mk,lang:S.lang,token}); }catch(e){} }
@@ -1995,6 +2000,7 @@ async function runHandoff(){
   });
   if (!S.cfg.ready) setNote(t("errSetup"));
   runHandoff();
+  if (S.me.email && !S.cfg.open) setTimeout(refreshPlan,1200);
 })();
 })();
 </script>
