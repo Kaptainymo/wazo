@@ -263,7 +263,7 @@
     .burger{display:grid}
     .stage{grid-template-columns:1fr;gap:16px;padding-top:12px}
     .showgrid{grid-template-columns:1fr;gap:20px}.float{height:400px}.qs button{min-width:132px;padding:16px 16px}
-    .hero{min-height:auto}.stage.simple{padding:12px 0 44px}
+    .hero{min-height:auto}.stage.simple{padding:12px 0 132px}
     .hero h1{font-size:round(clamp(34px,10.2vw,54px),2px);--lhr:1.06}
     .askrow{flex-direction:column;align-items:stretch}.acts{flex-direction:column-reverse;align-items:stretch}.ask .go,.ask .enr{width:100%}.hint{text-align:center;order:2}.enra .cta{flex:1 1 100%}
     section.blk{padding:60px 0}
@@ -292,7 +292,7 @@
   /* the glow melts into the coral sheet along a long, eased ramp (no visible edge) */
   .glow s{position:absolute;inset-inline:0;bottom:0;height:376px;background:linear-gradient(to top,
     var(--coral) 0,var(--coral) 20.2%,rgba(240,113,103,.9) 28%,rgba(240,113,103,.72) 38%,rgba(240,113,103,.5) 50%,rgba(240,113,103,.3) 62%,rgba(240,113,103,.16) 74%,rgba(240,113,103,.07) 85%,rgba(240,113,103,.02) 94%,transparent)}
-  .peek.flat .glow s{height:200px;background:linear-gradient(to top,var(--coral) 0,rgba(240,113,103,.9) 8%,rgba(240,113,103,.72) 20%,rgba(240,113,103,.5) 34%,rgba(240,113,103,.3) 48%,rgba(240,113,103,.16) 62%,rgba(240,113,103,.07) 78%,rgba(240,113,103,.02) 90%,transparent)}
+  .peek.flat .glow s{height:260px;background:linear-gradient(to top,var(--coral) 0,rgba(240,113,103,.9) 8%,rgba(240,113,103,.72) 20%,rgba(240,113,103,.5) 34%,rgba(240,113,103,.3) 48%,rgba(240,113,103,.16) 62%,rgba(240,113,103,.07) 78%,rgba(240,113,103,.02) 90%,transparent)}
   .glow u{position:absolute;left:var(--rx);top:var(--ry);width:var(--rs);height:var(--rs);margin:calc(var(--rs)/-2) 0 0 calc(var(--rs)/-2);border-radius:50%;pointer-events:none;
     background:radial-gradient(closest-side,transparent 56%,rgba(244,124,150,.16) 66%,rgba(244,124,150,.5) 76%,rgba(240,113,103,.26) 86%,transparent 100%);
     transform:scale(.12);opacity:0;animation:ripple 2.2s cubic-bezier(.16,.7,.25,1) forwards}
@@ -390,7 +390,7 @@
     .win .sec-h{margin-bottom:12px}
     .win .pane p{font-size:16px;margin-bottom:12px}
     .win .qs button{min-width:120px;padding:16px 16px}
-    .pin .hero .stage.simple{padding:8px 0 24px}
+    .pin .hero .stage.simple{padding:12px 0 132px}
   }
   @keyframes sheetUp{from{transform:translate3d(0,100%,0)}to{transform:translate3d(0,0,0)}}
   @keyframes copyOut{from{opacity:1}to{opacity:0}}
