@@ -290,9 +290,9 @@
     radial-gradient(84% 56% at 50% 108%,rgba(240,113,103,.8),rgba(240,113,103,.34) 45%,transparent 80%);
     filter:blur(64px);animation:breathe 16s ease-in-out infinite}
   /* the glow melts into the coral sheet along a long, eased ramp (no visible edge) */
-  .glow s{position:absolute;inset-inline:0;bottom:76px;height:300px;background:linear-gradient(to top,
-    rgba(240,113,103,1),rgba(240,113,103,.9) 10%,rgba(240,113,103,.72) 22%,rgba(240,113,103,.5) 36%,rgba(240,113,103,.3) 50%,rgba(240,113,103,.16) 64%,rgba(240,113,103,.07) 78%,rgba(240,113,103,.02) 90%,transparent);filter:blur(10px)}
-  .peek.flat .glow s{bottom:0;height:200px}
+  .glow s{position:absolute;inset-inline:0;bottom:0;height:376px;background:linear-gradient(to top,
+    var(--coral) 0,var(--coral) 20.2%,rgba(240,113,103,.9) 28%,rgba(240,113,103,.72) 38%,rgba(240,113,103,.5) 50%,rgba(240,113,103,.3) 62%,rgba(240,113,103,.16) 74%,rgba(240,113,103,.07) 85%,rgba(240,113,103,.02) 94%,transparent);filter:blur(10px)}
+  .peek.flat .glow s{height:200px;background:linear-gradient(to top,var(--coral) 0,rgba(240,113,103,.9) 8%,rgba(240,113,103,.72) 20%,rgba(240,113,103,.5) 34%,rgba(240,113,103,.3) 48%,rgba(240,113,103,.16) 62%,rgba(240,113,103,.07) 78%,rgba(240,113,103,.02) 90%,transparent)}
   @keyframes breathe{0%,100%{transform:translateY(0) scale(1)}50%{transform:translateY(-2%) scale(1.05)}}
   @media (prefers-reduced-motion:reduce){.glow i{animation:none}.glow b{transition:none;transform:none;filter:none}}
   .hero .copy{opacity:calc(1 - var(--o)*1.5);transform:translateY(calc(var(--o)*-36px))}
