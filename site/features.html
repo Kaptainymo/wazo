@@ -281,7 +281,7 @@
   .pin .hero .stage.simple{padding-bottom:100px}
   .hero .stage{position:relative}
   .glow{position:absolute;inset:0;pointer-events:none;overflow:hidden;opacity:calc(1 - var(--o,0)*1.5);-webkit-mask-image:linear-gradient(to top,#000 30%,transparent 92%);mask-image:linear-gradient(to top,#000 30%,transparent 92%)}
-  .glow b{position:absolute;inset:0;opacity:.85;transform:translate(var(--gx,0%),var(--gy,0%)) scale(var(--gs,1));filter:brightness(var(--gb,1));transition:transform .7s var(--ease-out),opacity 1.2s var(--ease-out),filter .2s ease-out}
+  .glow b{position:absolute;inset:0;opacity:.85;transform:translate(var(--gx,0%),var(--gy,0%)) scale(var(--gs,1));filter:brightness(var(--gb,1));transition:transform 1.2s var(--ease-out),opacity 1.2s var(--ease-out),filter .45s ease-out}
   .glow.on b{opacity:1;--gy:-6%;--gs:1.12}
   .glow i{position:absolute;inset:-6% -10% -14% -10%;background:
     radial-gradient(44% 60% at 50% 98%,rgba(244,124,150,.88),rgba(244,124,150,.42) 38%,rgba(244,124,150,.12) 62%,transparent 80%),
@@ -294,9 +294,9 @@
     var(--coral) 0,var(--coral) 20.2%,rgba(240,113,103,.9) 28%,rgba(240,113,103,.72) 38%,rgba(240,113,103,.5) 50%,rgba(240,113,103,.3) 62%,rgba(240,113,103,.16) 74%,rgba(240,113,103,.07) 85%,rgba(240,113,103,.02) 94%,transparent)}
   .peek.flat .glow s{height:200px;background:linear-gradient(to top,var(--coral) 0,rgba(240,113,103,.9) 8%,rgba(240,113,103,.72) 20%,rgba(240,113,103,.5) 34%,rgba(240,113,103,.3) 48%,rgba(240,113,103,.16) 62%,rgba(240,113,103,.07) 78%,rgba(240,113,103,.02) 90%,transparent)}
   .glow u{position:absolute;left:var(--rx);top:var(--ry);width:var(--rs);height:var(--rs);margin:calc(var(--rs)/-2) 0 0 calc(var(--rs)/-2);border-radius:50%;pointer-events:none;
-    background:radial-gradient(closest-side,transparent 56%,rgba(244,124,150,.16) 66%,rgba(244,124,150,.5) 76%,rgba(240,113,103,.26) 86%,transparent 100%);
-    transform:scale(.12);opacity:0;animation:ripple 2.2s cubic-bezier(.16,.7,.25,1) forwards}
-  @keyframes ripple{0%{transform:scale(.12);opacity:.95}70%{opacity:.45}100%{transform:scale(1);opacity:0}}
+    background:radial-gradient(closest-side,transparent 40%,rgba(244,124,150,.05) 54%,rgba(244,124,150,.16) 68%,rgba(240,113,103,.09) 82%,transparent 100%);
+    transform:scale(.12);opacity:0;animation:ripple 3.4s cubic-bezier(.2,.6,.3,1) forwards}
+  @keyframes ripple{0%{transform:scale(.12);opacity:.8}65%{opacity:.35}100%{transform:scale(1);opacity:0}}
   @media (prefers-reduced-motion:reduce){.glow u{display:none}}
   @keyframes breathe{0%,100%{transform:translateY(0) scale(1)}50%{transform:translateY(-2%) scale(1.05)}}
   @media (prefers-reduced-motion:reduce){.glow i{animation:none}.glow b{transition:none;transform:none;filter:none}}
@@ -688,12 +688,12 @@ addEventListener("scroll",()=>requestAnimationFrame(tick),{passive:true}); addEv
   const rest=()=>{ walk=0; ["--gx","--gy","--gs"].forEach(p=>b.style.removeProperty(p)); };
   t.addEventListener("input",()=>{ on(); if(calm) return;
     if(!t.value.trim()){ rest(); b.style.setProperty("--gb","1"); return; }
-    walk=Math.max(-26,Math.min(26,walk+(Math.random()*2-1)*12));
+    walk=Math.max(-16,Math.min(16,walk+(Math.random()*2-1)*7));
     b.style.setProperty("--gx",walk.toFixed(1)+"%");
-    b.style.setProperty("--gy",(-8-Math.random()*8).toFixed(1)+"%");
-    b.style.setProperty("--gs",(1.14+Math.random()*.14).toFixed(2));
-    const now=performance.now(); if(now-lastRip>90){ lastRip=now; ripple(); }
-    b.style.setProperty("--gb","2.1"); clearTimeout(tm); tm=setTimeout(()=>b.style.setProperty("--gb","1.2"),240); });
+    b.style.setProperty("--gy",(-6-Math.random()*4).toFixed(1)+"%");
+    b.style.setProperty("--gs",(1.1+Math.random()*.08).toFixed(2));
+    const now=performance.now(); if(now-lastRip>160){ lastRip=now; ripple(); }
+    b.style.setProperty("--gb","1.45"); clearTimeout(tm); tm=setTimeout(()=>b.style.setProperty("--gb","1.1"),320); });
   on(); }
 if(location.hash==="#what") setTimeout(()=>{ if(pinned) scrollTo({top:peek.offsetTop+total()*(OPEN+.02)}); else winEl.scrollIntoView(); },60);
 document.getElementById("sliver").addEventListener("click",()=>{ if(pinned) scrollTo({top:peek.offsetTop+total()*(OPEN+.02),behavior:calm?"auto":"smooth"}); });
