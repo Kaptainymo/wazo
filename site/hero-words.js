@@ -16,8 +16,8 @@ const mineRow=()=>mobile.matches?1:3;
 
 function seq(r){
   const list=WORDS[lang]||WORDS.en, out=[];
-  list.forEach((_,i)=>{ out.push(`<span class="w">${esc(list[(i+r*3)%list.length])}</span><i class="s s${(i+r)%4}"></i>`);
-    if(mine&&r===mineRow()&&(i===0||i===Math.floor(list.length/2))) out.push(`<span class="w mine" dir="auto">${esc(mine)}</span><i class="s s0"></i>`); });
+  list.forEach((_,i)=>{ out.push(`<span class="w">${esc(list[(i+r*3)%list.length])}</span>`);
+    if(mine&&r===mineRow()&&(i===0||i===Math.floor(list.length/2))) out.push(`<span class="w mine" dir="auto">${esc(mine)}</span>`); });
   return out.join("");
 }
 function fill(r){ const s=seq(r); rows[r].track.innerHTML=`<div class="w-seq">${s}</div><div class="w-seq" aria-hidden="true">${s}</div>`; }
