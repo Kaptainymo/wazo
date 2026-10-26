@@ -289,6 +289,9 @@
     radial-gradient(48% 64% at 84% 98%,rgba(240,113,103,.9),rgba(240,113,103,.42) 38%,rgba(240,113,103,.12) 62%,transparent 80%),
     radial-gradient(84% 56% at 50% 108%,rgba(240,113,103,.8),rgba(240,113,103,.34) 45%,transparent 80%);
     filter:blur(64px);animation:breathe 16s ease-in-out infinite}
+  /* a feather above the coral sheet: the glow melts into the sheet instead of ending at a hard line */
+  .glow s{position:absolute;inset-inline:0;bottom:76px;height:132px;background:linear-gradient(to top,color-mix(in srgb,var(--coral) 92%,transparent),color-mix(in srgb,var(--coral) 40%,transparent) 36%,color-mix(in srgb,var(--coral) 12%,transparent) 68%,transparent)}
+  .peek.flat .glow s{bottom:0;height:110px}
   @keyframes breathe{0%,100%{transform:translateY(0) scale(1)}50%{transform:translateY(-2%) scale(1.05)}}
   @media (prefers-reduced-motion:reduce){.glow i{animation:none}.glow b{transition:none;transform:none;filter:none}}
   .hero .copy{opacity:calc(1 - var(--o)*1.5);transform:translateY(calc(var(--o)*-36px))}
@@ -424,7 +427,7 @@
 <main id="top" tabindex="-1">
   <section class="peek" id="peek"><span id="what" style="position:absolute;top:0"></span><div class="pin">
   <div class="hero">
-    <div class="glow" id="glow" aria-hidden="true"><b><i></i></b></div>
+    <div class="glow" id="glow" aria-hidden="true"><b><i></i></b><s></s></div>
     <div class="grain"></div>
     <div class="stage simple">
       <div class="copy">
