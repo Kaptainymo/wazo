@@ -34,7 +34,8 @@ function attach(o){
   const file=document.createElement("input"); file.type="file"; file.accept="image/jpeg,image/png,image/webp"; file.hidden=true; file.setAttribute("aria-hidden","true");
   const label=()=>{ micB.setAttribute("aria-label",rec?L().micStop:L().mic); micB.title=micB.getAttribute("aria-label"); imgB.setAttribute("aria-label",L().img); imgB.title=L().img; };
   if (SR) tools.appendChild(micB);
-  tools.appendChild(imgB); tools.appendChild(file); wrap.appendChild(tools);
+  if (!o.noImage){ tools.appendChild(imgB); tools.appendChild(file); }
+  wrap.appendChild(tools);
 
   /* ---- speech ---- */
   let rec=null, base="";
@@ -57,6 +58,7 @@ function attach(o){
     if (f.size>25*1024*1024) { say(L().big); return; }
     try{ const data=await shrink(f); say(""); o.onImage(data,f.name||"image"); }catch(e){ say(L().bad); }
   }
+  if (!o.noImage){
   imgB.addEventListener("click",()=>file.click());
   file.addEventListener("change",()=>{ take(file.files[0]); file.value=""; });
   const zone=o.dropZone||wrap;
@@ -67,6 +69,7 @@ function attach(o){
   zone.addEventListener("dragleave",()=>{ depth=Math.max(0,depth-1); if(!depth){ zone.classList.remove("dropping"); say(""); } });
   zone.addEventListener("drop",e=>{ if(!isFiles(e)) return; e.preventDefault(); depth=0; zone.classList.remove("dropping"); say(""); take(e.dataTransfer.files[0]); });
   ta.addEventListener("paste",e=>{ const it=[...(e.clipboardData?.items||[])].find(i=>i.kind==="file"&&OK.test(i.type)); if(it){ e.preventDefault(); take(it.getAsFile()); } });
+  }
   label();
   return { relabel:label, stop };
 }

@@ -645,7 +645,7 @@ function toApp(mode){
 }
 idea.addEventListener("focus",()=>{ if(matchMedia("(pointer:coarse)").matches){ document.body.classList.add("typing"); if(typeof tick==="function") tick(); } });
 idea.addEventListener("blur",()=>{ document.body.classList.remove("typing"); if(typeof tick==="function") tick(); });
-document.querySelector(".ask").addEventListener("submit",e=>{ e.preventDefault(); if(!idea.value.trim()){ idea.focus(); return; } toApp(none()?"none":"check"); });
+document.querySelector(".ask").addEventListener("submit",e=>{ e.preventDefault(); if(!idea.value.trim()&&!pendingImage){ idea.focus(); return; } toApp(none()?"none":"check"); });
 enrBtn.addEventListener("click",()=>{ if(!idea.value.trim()){ idea.focus(); return; } toApp("enrich"); });
 document.getElementById("pgo2").addEventListener("click",()=>document.getElementById("pgo").click());
 document.getElementById("pgo").addEventListener("click",()=>{ scrollTo({top:0,behavior:"smooth"}); setTimeout(()=>idea.focus({preventScroll:true}),400); });

@@ -1832,7 +1832,8 @@ $("#enrBtn").addEventListener("click",async()=>{
 });
 $("#noIdeaBtn").addEventListener("click",()=>{
   helpBox.hidden=false;
-  helpBox.innerHTML=`<div class="hh"><span>${esc(t("noIdeaT"))}</span><button type="button" data-hclose aria-label="${esc(t("enrClose"))}">×</button></div><div class="row"><input id="topicIn" aria-label="${esc(t("noIdeaT"))}" placeholder="${esc(t("noIdeaPh"))}" maxlength="150"><button class="cta dark" type="button" id="topicGo">${esc(t("noIdeaGo"))}</button></div><div id="topicOut"></div>`;
+  helpBox.innerHTML=`<div class="hh"><span>${esc(t("noIdeaT"))}</span><button type="button" data-hclose aria-label="${esc(t("enrClose"))}">×</button></div><div class="row"><input id="topicIn" aria-label="${esc(t("noIdeaT"))}" placeholder="${esc(t("noIdeaPh"))}" maxlength="150"><button class="cta dark" type="button" id="topicGo">${esc(t("noIdeaGo"))}</button></div><div class="itmsg" id="topicMsg" role="status" aria-live="polite"></div><div id="topicOut"></div>`;
+  WZInput.attach({wrap:helpBox.querySelector(".row"),textarea:$("#topicIn"),lang:()=>S.lang,msg:m=>{ $("#topicMsg").textContent=m; },noImage:true});
   const go=async()=>{
     const topic=$("#topicIn").value.trim(); if(!topic){ $("#topicIn").focus(); return; }
     const out=$("#topicOut"); out.innerHTML=loadHTML(t("noIdeaLoad"));
