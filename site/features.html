@@ -551,6 +551,55 @@
     section.blk .step{min-height:0}
     section.blk .tier,section.blk .tier.pro{padding:28px 24px}
   }
+
+  /* ---------- coral hero, the same as the product: solid coral, very large black type ---------- */
+  .peek .hero{background:#F07167;--muted:rgba(10,10,10,.7);color:#0A0A0A}
+  .hero .glow,.hero .grain{display:none}
+  .hero h1,.stage.simple h1{color:#0A0A0A}
+  .hero h1 em{color:inherit}
+  .hero .lead{color:#0A0A0A;opacity:.85}
+  .hero .hint{color:#0A0A0A;opacity:.7}
+  .ask{box-shadow:none}
+  .ask::after{background:conic-gradient(from var(--rim),rgba(10,10,10,0) 0deg,rgba(10,10,10,0) 190deg,rgba(10,10,10,.9) 335deg,rgba(10,10,10,0) 360deg),linear-gradient(rgba(10,10,10,.14),rgba(10,10,10,.14))}
+
+  /* ---------- all white, black navigation on scroll, outlined cards ---------- */
+  html,body{background:#fff}
+  section.blk{--bg:#fff}
+  .privacy,.sheet,.win{background:#fff}
+  footer{background:#fff;border-top:1.5px solid #141414;color:#5E5B55}
+  footer a{color:#141414}
+  header.nav.solid{background:#0A0A0A;border-color:#0A0A0A;backdrop-filter:none;-webkit-backdrop-filter:none;color:#fff;--ink:#fff}
+  header.nav.solid .logo,header.nav.solid .links a.l{color:#fff}
+  header.nav.solid .links a.l:hover,header.nav.solid .links a.l[aria-current="true"]{background:rgba(255,255,255,.18);color:#fff}
+  header.nav.solid .pill,header.nav.solid .burger{border-color:rgba(255,255,255,.6);color:#fff}
+  header.nav.solid .cta.solid{background:#fff;color:#0A0A0A}
+  @media (hover:hover){header.nav.solid .cta.solid:hover{background:#D9D9D9}}
+  /* the default button is filled; on hover it goes a little lighter, like "try now" */
+  .ask .go[aria-disabled="true"]{background:#141414;color:#fff}
+  .ask .go[aria-disabled="true"]:hover{background:#333}
+  .vc .vbtn{background:#141414;color:#fff;border-color:#141414}
+  @media (hover:hover){.vc .vbtn:hover{background:#333;color:#fff}}
+  /* cards: a black outline and no fill */
+  section.blk .step,section.blk .step:nth-child(n),section.blk .pcard,section.blk .vc,.privacy .promise{background:#F2F2F0;border:0;border-radius:28px}
+  @media (max-width:960px){section.blk .step,section.blk .pcard,section.blk .vc,.privacy .promise{border-radius:20px}}
+  /* the slideshow: black, with white icons and words */
+  .cc-stage{background:#0A0A0A;border:0}
+  .cc-card,.cc-card figcaption{color:#fff}
+  /* pricing: two plain columns, no cards */
+  @media (min-width:961px){
+    /* two columns that sit at the edges, with the line exactly halfway between their text */
+    section.blk .tiers{display:grid;grid-template-columns:minmax(0,max-content) 1.5px minmax(0,max-content);justify-content:space-between;column-gap:clamp(24px,4vw,64px)}
+    section.blk .tiers::before{content:"";grid-column:2;grid-row:1;order:1;background:#141414}
+    section.blk .tiers>.tier:first-child{grid-column:1;grid-row:1}
+    section.blk .tiers>.tier+.tier{grid-column:3;grid-row:1;border:0;padding-inline:0}
+    section.blk .tiers>.tier,section.blk .tiers>.tier.pro{padding-inline:0}
+  }
+  section.blk .tier,section.blk .tier.pro{background:none;border:0;border-radius:0;box-shadow:none;padding-block:8px;padding-inline:0 40px;color:var(--ink)}
+  section.blk .tier+.tier{border-inline-start:1.5px solid #141414;padding-inline:40px 0}
+  section.blk .tier.pro h3,section.blk .tier.pro .price{color:var(--ink)}
+  section.blk .tier.pro li,section.blk .tier.pro .renew{color:#3B3935}
+  section.blk .tier.pro .price small{color:var(--muted)}
+  section.blk .tier.pro li::before{border-color:var(--cd)}
 </style>
 </head>
 <body>
