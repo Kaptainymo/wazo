@@ -3,8 +3,9 @@
 //   verify { email, code }        -> checks the code and sets the verified-session cookie
 //   me     {}                     -> { email } of the verified session, if any
 //   logout {}                     -> clears the session
+//   plan   { email }              -> { pro, verified }: true only for a verified Pro subscriber (the email has a subscription AND this browser proved it owns it)
 import crypto from "node:crypto";
-import { ready, send, body, cleanEmail, LANGS, clientIp, human, getLead, putAuthCode, getAuthCode, bumpAuthAttempts, delAuthCode, mailReady, sendMail, sessionCookie, clearSessionCookie, verifiedEmail, env } from "./_lib.js";
+import { ready, send, body, cleanEmail, LANGS, clientIp, human, getLead, putAuthCode, getAuthCode, bumpAuthAttempts, delAuthCode, mailReady, sendMail, sessionCookie, clearSessionCookie, verifiedEmail, proVerified, enforceVerify, open, env } from "./_lib.js";
 
 const CODE_MINUTES = 10, COOLDOWN_SECONDS = 60, MAX_ATTEMPTS = 5;
 const codeHash = (email, code) => crypto.createHash("sha256").update(email + "|" + code + "|" + (env("SESSION_SECRET") || env("SUPABASE_SERVICE_KEY"))).digest("hex");
@@ -23,6 +24,14 @@ export default async function handler(req, res) {
   try {
     if (b.action === "me") return send(res, 200, { email: verifiedEmail(req) });
     if (b.action === "logout") { res.setHeader("Set-Cookie", clearSessionCookie()); return send(res, 200, { ok: true }); }
+
+    if (b.action === "plan") {
+      if (open()) return send(res, 200, { pro: true, verified: true });
+      const pe = cleanEmail(b.email), v = verifiedEmail(req);
+      if (enforceVerify() && (!pe || !v || v !== pe)) return send(res, 200, { pro: false, verified: !!v && v === pe });
+      if (!pe) return send(res, 200, { pro: false, verified: false });
+      return send(res, 200, { pro: proVerified(await getLead(pe), pe, req), verified: true });
+    }
 
     const email = cleanEmail(b.email);
     if (!email) return send(res, 400, { code: "bad_email" });

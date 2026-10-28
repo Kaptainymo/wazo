@@ -1495,7 +1495,7 @@ function applyUnlock(b,wazo){
 /* ask the server whether this email has an active Pro subscription; if so the upgrade offers disappear */
 async function refreshPlan(){
   if (!S.me.email) return;
-  try{ const token=await humanToken(); const r=await api("plan",{email:S.me.email,token}); if (r.status===200 && !!r.data.pro!==S.paid){ S.paid=!!r.data.pro; if (S.paid){ $("#plansBox")?.remove(); $("#ideaPlans")?.remove(); } if (S.current && !S.busy) renderActs(); } }catch(e){}
+  try{ const token=await humanToken(); const r=await api("auth",{action:"plan",email:S.me.email,token}); if (r.status===200 && !!r.data.pro!==S.paid){ S.paid=!!r.data.pro; if (S.paid){ $("#plansBox")?.remove(); $("#ideaPlans")?.remove(); } if (S.current && !S.busy) renderActs(); } }catch(e){}
 }
 // Paddle confirms the subscription by webhook a few seconds after checkout, so retry the unlock until it lands.
 async function afterPay(){
