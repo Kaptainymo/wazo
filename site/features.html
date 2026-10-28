@@ -48,7 +48,7 @@
 
   /* ---------- navigation ---------- */
   header.nav{position:fixed;inset:0 0 auto 0;z-index:50;height:var(--nav);padding-top:env(safe-area-inset-top,0);transition:background .3s,backdrop-filter .3s,border-color .3s;border-bottom:1px solid transparent}
-  header.nav.solid{background:rgba(8,8,8,.82);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-color:var(--line)}
+  header.nav.solid{background:rgba(8,8,8,.94);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-color:var(--line)}
   .nav .in{display:flex;align-items:center;justify-content:space-between;height:100%;gap:20px}
   .logo{direction:ltr;font-weight:700;font-size:24px;letter-spacing:-.02em}
   .logo sup{font-size:12px}
@@ -430,6 +430,38 @@
   @keyframes sheetUp{from{transform:translate3d(0,100%,0)}to{transform:translate3d(0,0,0)}}
   @keyframes copyOut{from{opacity:1}to{opacity:0}}
   @media (prefers-reduced-motion:reduce){.tabs::before{transition:none}.card,.face{animation:none}html{scroll-behavior:auto}}
+
+  /* ---------- light sheet: every section between the coral panel and the closing band ---------- */
+  section.blk{--bg:#FBF7F2;--ink:#141414;--muted:#5E5B55;--line:#E7E0D6;--card:#fff;--cd:#C2433A;--peach:#FFE2DB;--tealt:#D3ECEC;--butter:#FFF0C4;background:var(--bg);color:var(--ink)}
+  section.blk :focus-visible{outline-color:var(--cd)}
+  #cards{padding:48px 0 0}
+  section.blk .trust{color:var(--muted);margin-bottom:0}
+  section.blk .sec-h .eyebrow,section.blk .say em,#about .pcard h3,#duet .pcard h3{color:var(--cd)}
+  section.blk .step{border:0;border-radius:28px;padding:28px 28px 32px;min-height:230px}
+  section.blk .step:nth-child(1){background:var(--peach)}
+  section.blk .step:nth-child(2){background:var(--tealt)}
+  section.blk .step:nth-child(3){background:var(--butter)}
+  section.blk .step .n{display:block;font-size:44px;line-height:1;font-weight:700;color:var(--ink);margin-bottom:28px}
+  section.blk .step h3{margin-top:0}
+  section.blk .step p{color:#3B3935}
+  section.blk .pcard{background:#fff;border:1px solid var(--line);border-radius:28px;padding:26px}
+  .privacy{background:#F3EBE0;border-block:0}
+  .privacy .promise{background:#fff;border:1px solid var(--line)}
+  .tl div{color:#3B3935}.tl b{color:var(--ink)}
+  .cc-stage{background:var(--peach);border:0}
+  .cc-card{color:var(--cd)}.cc-card figcaption{color:var(--ink)}
+  .cc-dot::before{background:rgba(20,20,20,.25)}
+  .cc-pause{border-color:rgba(20,20,20,.35)}
+  section.blk .chip{color:var(--cd)}
+  section.blk .tier{background:#fff;border-radius:28px}
+  section.blk .tier li,section.blk .tier .renew{color:#3B3935}
+  section.blk .tier li::before{border-color:var(--cd)}
+  section.blk .tier.pro{background:#141414;border-color:#141414;color:#fff}
+  section.blk .tier.pro h3,section.blk .tier.pro .price{color:#fff}
+  section.blk .tier.pro li,section.blk .tier.pro .renew{color:#E9E5DC}
+  section.blk .tier.pro .price small{color:#CFCAC0}
+  section.blk .tier.pro li::before{border-color:var(--coral)}
+  section.blk .tier li.soon{color:var(--muted)}
 </style>
 </head>
 <body>
