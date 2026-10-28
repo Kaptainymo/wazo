@@ -123,3 +123,12 @@ create table if not exists auth_codes (
   created_at timestamptz not null default now()
 );
 alter table auth_codes enable row level security;
+
+-- Picture reading in the idea box: one row per picture read, only to apply a per-IP daily limit (the picture itself is never stored).
+create table if not exists vision_log (
+  id         bigserial   primary key,
+  ip_hash    text,
+  created_at timestamptz not null default now()
+);
+create index if not exists vision_log_ip_time on vision_log (ip_hash, created_at desc);
+alter table vision_log enable row level security;

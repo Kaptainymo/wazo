@@ -164,6 +164,7 @@ export async function sendMail({ to, subject, text, html }) {
   });
   if (!r.ok) throw new Error("mail " + r.status + " " + (await r.text()).slice(0, 160));
 }
+export async function logVision(ip_hash) { await sb("vision_log", { method: "POST", body: { ip_hash }, headers: { Prefer: "return=minimal" } }); }
 export const sinceISO = (hours) => new Date(Date.now() - hours * 3600e3).toISOString();
 
 // What a visitor sees before giving an email: the idea, scores and money.
@@ -171,12 +172,12 @@ export const partial = (w) => ({ idea: w.idea, title: w.title, scores: w.scores,
 
 // ---------- Anthropic ----------
 // One call to Claude. `mock` is returned verbatim when WAZO_MOCK=1 (local testing without spending tokens).
-export async function askClaude(prompt, { signal, maxTokens, mock } = {}) {
+export async function askClaude(prompt, { signal, maxTokens, mock, image } = {}) {
   if (env("WAZO_MOCK") === "1") return mock;
   const r = await fetch("https://api.anthropic.com/v1/messages", {
     method: "POST", signal,
     headers: { "x-api-key": env("ANTHROPIC_API_KEY"), "anthropic-version": "2023-06-01", "content-type": "application/json" },
-    body: JSON.stringify({ model: env("WAZO_MODEL", "claude-sonnet-5-5"), max_tokens: maxTokens, messages: [{ role: "user", content: prompt }] }),
+    body: JSON.stringify({ model: env("WAZO_MODEL", "claude-sonnet-5-5"), max_tokens: maxTokens, messages: [{ role: "user", content: image ? [{ type: "image", source: { type: "base64", media_type: image.type, data: image.data } }, { type: "text", text: prompt }] : prompt }] }),
   });
   if (r.status === 429 || r.status === 529) throw Object.assign(new Error("busy"), { code: "busy" });
   if (!r.ok) throw Object.assign(new Error("model " + r.status + " " + (await r.text()).slice(0, 200)), { code: "model" });

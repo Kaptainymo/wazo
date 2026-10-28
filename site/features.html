@@ -86,6 +86,26 @@
   .stage.simple h1{font-size:round(clamp(44px,5.75vw,76px),2px);margin-top:0}
   .ask textarea{font-size:20px;min-height:96px}
   .tawrap{position:relative}
+  .ibar{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-top:8px;min-height:44px}
+  .itools{display:flex;gap:8px}
+  .itool{all:unset;box-sizing:border-box;width:44px;height:44px;border-radius:50%;border:1px solid rgba(241,240,236,.28);color:var(--ink);display:grid;place-items:center;cursor:pointer;transition:background-color .2s,border-color .2s,color .2s}
+  .itool:focus-visible{outline:3px solid var(--coral);outline-offset:2px}
+  @media (hover:hover){.itool:hover{background:rgba(241,240,236,.1)}}
+  .itool.on{background:var(--coral);border-color:var(--coral);color:#0A0A0A;animation:micpulse 1.4s ease-in-out infinite}
+  @keyframes micpulse{0%,100%{box-shadow:0 0 0 0 rgba(240,113,103,.5)}50%{box-shadow:0 0 0 10px rgba(240,113,103,0)}}
+  .itmsg{font-size:14px;color:var(--muted);--lhr:1.4;flex:1 1 120px;min-width:0}
+  .imgchip{display:inline-flex;align-items:center;gap:8px;height:44px;padding:0 4px 0 14px;border-radius:999px;background:rgba(240,113,103,.16);color:var(--coral);font-size:14px;max-width:100%}
+  .imgchip img{width:32px;height:32px;border-radius:8px;object-fit:cover}
+  .imgchip span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:120px}
+  .imgchip button{all:unset;box-sizing:border-box;width:36px;height:36px;border-radius:50%;display:grid;place-items:center;cursor:pointer;font-size:20px;line-height:1}
+  .imgchip button:focus-visible{outline:3px solid var(--coral)}
+  .ask.dropping{box-shadow:inset 0 0 0 2px var(--coral)}
+  /* a breathing coral light around the box, like a soft pulse at its edge */
+  .ask{position:relative}
+  .ask::after{content:"";position:absolute;inset:-1px;border-radius:inherit;pointer-events:none;box-shadow:0 0 0 1px rgba(240,113,103,.7),0 0 28px 2px rgba(240,113,103,.38);opacity:.18;animation:rim 3.4s ease-in-out infinite}
+  .ask:focus-within::after{animation-duration:2.4s}
+  @keyframes rim{0%,100%{opacity:.12}50%{opacity:1}}
+  @media (prefers-reduced-motion:reduce){.ask::after{animation:none;opacity:.45}.itool.on{animation:none}}
   .caret{position:absolute;inset-inline-start:0;top:.3em;width:2px;height:1.25em;background:var(--ink);animation:blink 1.1s steps(1) infinite;pointer-events:none}
   .tawrap textarea:focus~.caret,.tawrap textarea:not(:placeholder-shown)~.caret{display:none}
   @keyframes blink{0%,55%{opacity:1}56%,100%{opacity:0}}
@@ -463,6 +483,7 @@
           <div class="tabs" role="tablist" aria-label="איך מתחילים"><button type="button" role="tab" id="tabHave" aria-selected="true" aria-controls="idea">יש לי רעיון</button><button type="button" role="tab" id="tabNone" aria-selected="false" aria-controls="idea">אין לי רעיון</button></div>
           <label class="sr" for="idea">הרעיון שלך</label>
           <div class="tawrap"><textarea id="idea" rows="2" placeholder="כתבו כאן את הרעיון, בכמה מילים. למשל: ללמד מבוגרים להשתמש בטלפון החכם."></textarea><span class="caret" aria-hidden="true"></span></div>
+          <div class="ibar"><span class="imgchip" id="imgchip" hidden><img alt=""><span></span><button type="button" id="imgchipX">×</button></span><span class="itmsg" id="itmsg" role="status" aria-live="polite"></span></div>
           <div class="askrow"><span class="hint" id="hint" data-u>מה שכתבתם נשאר שלכם.</span><span class="acts"><button class="enrlink" type="button" id="enrich">הרחב לי</button><button class="cta solid go" id="go" type="submit"><span id="gotxt" data-u>בדקו את הרעיון</span></button></span></div>
         </form>
       </div>
@@ -555,7 +576,7 @@
     <div class="tiers">
       <div class="tier"><h3>חינם</h3><div class="price">$0<small> / לתמיד</small></div>
         <ul><li>וואזו ללא הגבלה</li><li>כמה הרעיון חזק, בארבע נקודות</li><li>כמה אפשר להרוויח, עם מחיר שאפשר לשנות</li><li>עזרה בהרחבת רעיון, ורעיונות כשעוד אין</li><li>20 מגמות עולמיות לדוגמה</li><li>היסטוריה שנשמרת במכשיר</li><li>דואט: שולחים קישור לאדם שאוהבים ורואים במה אתם מסכימים</li></ul></div>
-      <div class="tier pro"><h3>Pro</h3><div class="price">$13<small> / לחודש</small></div>
+      <div class="tier pro"><h3>Pro</h3><div class="price">$29<small> / לחודש</small></div>
         <p class="renew">מנוי חודשי: מתחדש מדי חודש עד שתחליטו להפסיק, ואפשר לבטל בכל רגע.</p>
         <ul><li>הכול מהחבילה החינמית</li><li>ניסוי קטן לשבוע, עם מעקב ותזכורת</li><li>מי כבר ניסה, מי מתחרה, ומה חסר בישראל</li><li>התשובה המלאה: מה עושים עכשיו</li><li>ניתוח מעמיק: תוכנית, סיכונים וצעדים ל־90 יום</li><li>שמירת תמונה והעתקה ל־AI</li><li>דואט: השאלה לשיחה, לפי מה שלא מסכימים עליו</li></ul></div>
     </div>
@@ -576,6 +597,7 @@
 <div class="dock" id="dock"><a class="cta solid" href="/#idea">נסו עכשיו, בחינם</a></div>
 
 <script src="/features-i18n.js"></script>
+<script src="/input-tools.js"></script>
 <script>
 WZI.init();
 let faces=WZI.faces();
@@ -606,12 +628,18 @@ function setMode(n,quiet){
 }
 tabHave.addEventListener("click",()=>setMode(false)); tabNone.addEventListener("click",()=>setMode(true));
 const goBtn=document.getElementById("go"), enrBtn=document.getElementById("enrich");
-function sync(){ const on=idea.value.trim().length>0, was=goBtn.getAttribute("aria-disabled")==="false";
-  goBtn.setAttribute("aria-disabled",!on); enrBtn.setAttribute("aria-disabled",!on);
+let pendingImage=null;
+function sync(){ const has=idea.value.trim().length>0, on=has||!!pendingImage, was=goBtn.getAttribute("aria-disabled")==="false";
+  goBtn.setAttribute("aria-disabled",!on); enrBtn.setAttribute("aria-disabled",!has);
   if(on&&!was&&!calm){ goBtn.classList.remove("ready"); void goBtn.offsetWidth; goBtn.classList.add("ready"); } }
 idea.addEventListener("input",sync); sync();
+/* speak or drop a picture instead of typing; a picture is read by the app after the hand-off */
+const chip=document.getElementById("imgchip"), itmsg=document.getElementById("itmsg");
+const inputTools=WZInput.attach({wrap:document.querySelector(".ibar"),textarea:idea,lang:()=>WZI.lang,msg:t=>{ itmsg.textContent=t; },dropZone:document.querySelector(".ask"),
+  onImage:(data,name)=>{ pendingImage=data; chip.hidden=false; chip.querySelector("img").src=data; chip.querySelector("span").textContent=name.slice(0,28); itmsg.textContent=WZInput.t(WZI.lang).attached; sync(); }});
+document.getElementById("imgchipX").addEventListener("click",()=>{ pendingImage=null; chip.hidden=true; itmsg.textContent=""; sync(); });
 function toApp(mode){
-  try{ localStorage.setItem("wz.handoff",JSON.stringify({text:idea.value.trim().slice(0,1200),mode,lang:WZI.lang})); }catch(e){}
+  try{ localStorage.setItem("wz.handoff",JSON.stringify({text:idea.value.trim().slice(0,1200),mode,lang:WZI.lang,image:!!pendingImage})); if(pendingImage) sessionStorage.setItem("wz.handoffImage",pendingImage); else sessionStorage.removeItem("wz.handoffImage"); }catch(e){}
   location.href="/#idea";
 }
 idea.addEventListener("focus",()=>{ if(matchMedia("(pointer:coarse)").matches){ document.body.classList.add("typing"); if(typeof tick==="function") tick(); } });
@@ -627,7 +655,7 @@ function langMenuSet(on){ langMenu.hidden=!on; langBtn.setAttribute("aria-expand
 langBtn.addEventListener("click",e=>{ e.stopPropagation(); langMenuSet(langMenu.hidden); });
 addEventListener("click",()=>langMenuSet(false)); addEventListener("keydown",e=>{ if(e.key==="Escape"&&!langMenu.hidden){ langMenuSet(false); langBtn.focus(); } });
 function onLang(){
-  faces=WZI.faces();
+  faces=WZI.faces(); try{ inputTools.relabel(); }catch(e){}
   qs.innerHTML=faces.map((f,k)=>`<button type="button" role="tab" data-k="${k}"><i class="fill"></i><span>${f.top[0]}</span></button>`).join("");
   document.getElementById("pgo").textContent=WZI.u("tryIdea"); buildSlider(); document.getElementById("pgo2").textContent=WZI.u("tryIdea"); fills(curQ);
   show(i); setMode(none(),true); if(typeof setPinned==="function") setPinned();
