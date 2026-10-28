@@ -279,12 +279,7 @@
   .tier li.soon{color:var(--muted)} .tier li.soon::before{border-color:var(--muted)}
   .soon-tag{font-size:12px;border:1px solid var(--line);border-radius:999px;padding:1px 8px;margin-inline-start:8px;color:var(--muted)}
 
-  .final-cta{position:relative;text-align:center;padding:100px 0 112px;overflow:hidden;background:var(--bg);color:var(--ink)}
-  .final-cta .cta.solid{background:#fff;color:#0A0A0A;border:2px solid #fff}
-  .final-cta .cta.solid{transition:background-color var(--motion-quick) var(--ease-out),border-color var(--motion-quick) var(--ease-out),transform var(--motion-micro) var(--ease-out)}
-  @media (hover:hover){.final-cta .cta.solid:hover{background:var(--coral);color:#0A0A0A;border-color:var(--coral)}}
   .final-cta :focus-visible,footer :focus-visible{outline-color:var(--coral)}
-  .final-cta h2{font-size:round(clamp(32px,5.4vw,60px),2px);--lhr:1.06;margin-bottom:28px}
   footer{background:var(--bg);border-top:1px solid var(--line);padding:30px 0 calc(48px + env(safe-area-inset-bottom,0));color:var(--muted);font-size:14px}
   footer .row{display:flex;gap:20px;flex-wrap:wrap;justify-content:space-between}
   footer nav{display:flex;gap:20px;flex-wrap:wrap} footer a{color:var(--ink);text-decoration:underline;text-underline-offset:3px}
@@ -516,6 +511,26 @@
   .win .stk.s2{border-color:rgba(20,20,20,.18)}
   .win .sec-h .eyebrow{color:#C2433A}
   .win .float .card{box-shadow:0 30px 60px -20px rgba(20,20,20,.35)}
+
+  /* small ideas to start from */
+  .vcards{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+  .vc{background:#fff;border-radius:28px;padding:26px;display:flex;flex-direction:column;gap:12px;box-shadow:0 12px 32px -20px rgba(20,20,20,.14)}
+  .vc .cat{font-size:15px;color:var(--muted)}
+  .vc h3{font-size:round(clamp(24px,2.4vw,30px),2px);--lhr:1.1}
+  .vc p{margin:0;color:var(--muted);--lhr:1.55}
+  .vc .v{align-self:flex-start;border-radius:999px;padding:7px 16px;font-weight:600;font-size:15px}
+  .vc .v.build{background:var(--tealt)}.vc .v.pivot{background:var(--butter)}.vc .v.kill{background:var(--peach)}
+  .vc .vbtn{all:unset;box-sizing:border-box;margin-top:auto;align-self:flex-start;display:inline-flex;align-items:center;height:52px;padding:0 26px;border-radius:999px;border:2px solid #141414;font-weight:600;font-size:16px;cursor:pointer;transition:background-color var(--motion-quick) var(--ease-out),color var(--motion-quick) var(--ease-out),transform var(--motion-micro) var(--ease-out)}
+  .vc .vbtn:active{transform:scale(var(--scale-press))}
+  .vc .vbtn:focus-visible{outline:3px solid var(--cd);outline-offset:3px}
+  @media (hover:hover){.vc .vbtn:hover{background:#141414;color:#fff}}
+  @media (max-width:960px){.vcards{grid-template-columns:1fr}}
+  /* pricing: the Pro card is the wide dark block */
+  @media (min-width:961px){section.blk .tiers{grid-template-columns:minmax(0,.85fr) minmax(0,1.15fr)}}
+  section.blk .tier.pro{border-radius:40px;padding:44px}
+  section.blk .tier.pro h3{font-size:36px}
+  section.blk .tier.pro .price{font-family:var(--f-head);font-size:64px;font-weight:700;line-height:1;margin:20px 0 8px}
+  section.blk .tier .price{font-family:var(--f-head);font-weight:700}
 </style>
 </head>
 <body>
@@ -602,6 +617,11 @@
   </div></section>
 
 
+  <section class="blk" id="ideas" hidden><div class="wrap">
+    <div class="sec-h"><span class="eyebrow" id="idEy"></span><h2 id="idH"></h2><p id="idP"></p></div>
+    <div class="vcards" id="idCards"></div>
+  </div></section>
+
   <section class="blk" id="duet"><div class="wrap">
     <div class="sec-h"><span class="eyebrow">דואט</span><h2>לעבוד יחד</h2><p>שלחו קישור לאדם שאוהבים. הוא עונה על שלוש שאלות קצרות, ואתם רואים ביחד איפה אתם מסכימים ואיפה כדאי לדבר.</p></div>
     <div class="pgrid">
@@ -665,10 +685,6 @@
     <p class="note" data-i="paynote">פרטים מלאים ב<a href="/he/pricing">עמוד המחירים</a> וב<a href="/he/refunds">מדיניות ההחזרים</a>.</p>
   </div></section>
 
-  <section class="final-cta"><div class="wrap">
-    <h2>בואו נתחיל</h2>
-    <a class="cta solid" href="/#idea">נסו עכשיו, בחינם</a>
-  </div></section>
 </main>
 
 <footer><div class="wrap row">
@@ -748,8 +764,32 @@ const langBtn=document.getElementById("langBtn"), langMenu=document.getElementBy
 function langMenuSet(on){ langMenu.hidden=!on; langBtn.setAttribute("aria-expanded",on); }
 langBtn.addEventListener("click",e=>{ e.stopPropagation(); langMenuSet(langMenu.hidden); });
 addEventListener("click",()=>langMenuSet(false)); addEventListener("keydown",e=>{ if(e.key==="Escape"&&!langMenu.hidden){ langMenuSet(false); langBtn.focus(); } });
+const IDS={
+ he:{ey:"רעיונות",h:"רעיונות קטנים שאפשר להתחיל מהם",p:"בלי קוד ובלי הון. כל כרטיס פותח את הרעיון בתיבה, ואפשר לערוך אותו.",btn:"נסו את הרעיון הזה",v:{BUILD:"כדאי להתחיל",PIVOT:"כדאי לחדד",KILL:"כדאי לעצור כאן"}},
+ en:{ey:"Ideas",h:"Small ideas you can start from",p:"No code, no capital. Each card opens the idea in the box, and you can edit it.",btn:"Try this idea",v:{BUILD:"Worth starting",PIVOT:"Worth sharpening",KILL:"Better to stop here"}},
+ es:{ey:"Ideas",h:"Ideas pequeñas para empezar",p:"Sin código y sin capital. Cada tarjeta abre la idea en la caja y puedes editarla.",btn:"Probar esta idea",v:{BUILD:"Vale la pena empezar",PIVOT:"Vale la pena afinar",KILL:"Mejor parar aquí"}},
+ fr:{ey:"Idées",h:"De petites idées pour commencer",p:"Sans code et sans capital. Chaque carte ouvre l'idée dans la zone de texte, et vous pouvez la modifier.",btn:"Tester cette idée",v:{BUILD:"À tenter",PIVOT:"À affiner",KILL:"Mieux vaut s'arrêter là"}}
+};
+let ideaPicks=null;
+const escH=t=>String(t).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+function renderIdeas(){
+  const sec=document.getElementById("ideas"); if(!ideaPicks||!sec) return;
+  const l=IDS[WZI.lang]?WZI.lang:"he", T=IDS[l];
+  document.getElementById("idEy").textContent=T.ey; document.getElementById("idH").textContent=T.h; document.getElementById("idP").textContent=T.p;
+  document.getElementById("idCards").innerHTML=ideaPicks.map((it,k)=>`<article class="vc"><span class="cat">${escH(it.cat[l])}</span><h3>${escH(it.t[l])}</h3><p>${escH(it.l[l])}</p><span class="v ${it.v.toLowerCase()}">${escH(T.v[it.v])}</span><button type="button" class="vbtn" data-k="${k}">${escH(T.btn)}</button></article>`).join("");
+  sec.hidden=false;
+}
+document.getElementById("idCards").addEventListener("click",e=>{ const b=e.target.closest(".vbtn"); if(!b||!ideaPicks) return; const it=ideaPicks[+b.dataset.k]; if(!it) return;
+  try{ localStorage.setItem("wz.handoff",JSON.stringify({text:it.idea[WZI.lang]||it.idea.he,mode:"fill",lang:WZI.lang})); }catch(_){}
+  location.href="/#idea"; });
+(async function loadIdeas(){ try{
+  const r=await fetch("/ideas.json",{cache:"no-cache"}); if(!r.ok) return; const j=await r.json();
+  const ok=it=>it&&["BUILD","PIVOT","KILL"].includes(it.v)&&["he","en","es","fr"].every(l=>it.cat&&it.cat[l]&&it.t&&it.t[l]&&it.l&&it.l[l]&&it.idea&&it.idea[l]);
+  const items=(j&&Array.isArray(j.items)?j.items:[]).filter(ok); const pick=v=>{ const a=items.filter(i=>i.v===v); return a[Math.floor(Math.random()*a.length)]; };
+  const three=["BUILD","PIVOT","KILL"].map(pick).filter(Boolean); if(three.length<3) return; ideaPicks=three; renderIdeas();
+ }catch(e){} })();
 function onLang(){
-  faces=WZI.faces(); try{ inputTools.relabel(); }catch(e){}
+  faces=WZI.faces(); try{ inputTools.relabel(); }catch(e){} try{ renderIdeas(); }catch(e){}
   qs.innerHTML=faces.map((f,k)=>`<button type="button" role="tab" data-k="${k}"><i class="fill"></i><span>${f.top[0]}</span></button>`).join("");
   document.getElementById("pgo").textContent=WZI.u("tryIdea"); buildSlider(); document.getElementById("pgo2").textContent=WZI.u("tryIdea"); fills(curQ);
   show(i); setMode(none(),true); if(typeof setPinned==="function") setPinned();
@@ -770,7 +810,7 @@ sheet.addEventListener("click",e=>{ if(e.target.closest("a")) setSheet(false); }
 addEventListener("keydown",e=>{ if(e.key==="Escape") setSheet(false); });
 
 /* the closing section has its own button, so the floating one steps aside there */
-new IntersectionObserver(es=>es.forEach(e=>document.body.classList.toggle("atend",e.isIntersecting)),{threshold:.2}).observe(document.querySelector(".final-cta"));
+new IntersectionObserver(es=>es.forEach(e=>document.body.classList.toggle("atend",e.isIntersecting)),{threshold:.2}).observe(document.querySelector("footer"));
 /* tabs: arrow keys move between tabs, only the selected one is in the tab order */
 function roving(list){
   const tabs=()=>[...list.querySelectorAll('[role="tab"]')];
