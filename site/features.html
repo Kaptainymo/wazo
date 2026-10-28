@@ -528,11 +528,21 @@
   /* pricing: the Pro card is the wide dark block */
   @media (min-width:961px){section.blk .tiers{grid-template-columns:minmax(0,.85fr) minmax(0,1.15fr)}}
   section.blk .tier.pro{border-radius:40px;padding:44px}
-  section.blk .tier.pro h3{font-size:36px}
-  section.blk .tier.pro .price{font-family:var(--f-head);font-size:64px;font-weight:700;line-height:1;margin:20px 0 8px}
   section.blk .tier .price{font-family:var(--f-head);font-weight:700}
-  /* privacy: four cards in a row, the fifth spans the full width */
-  @media (min-width:961px){.privacy .pgrid{grid-template-columns:repeat(4,minmax(0,1fr))}.privacy .pgrid .pcard:nth-child(5){grid-column:1/-1}}
+  /* privacy: four cards in a row */
+  @media (min-width:961px){.privacy .pgrid{grid-template-columns:repeat(4,minmax(0,1fr))}}
+  /* pricing: both tiers use the same sizes */
+  section.blk .tier .price{font-size:48px;line-height:1;margin:20px 0 8px}
+  /* what you get: no link under the text; the question tabs are borderless bullets that fill with solid coral */
+  #pgo,#pgo2{display:none!important}
+  .win .qs{border:0;border-radius:0;gap:12px;overflow:visible;margin-bottom:28px}
+  .win .qs button{min-width:0;flex:1 1 0;padding:26px 4px 4px;color:rgba(20,20,20,.55);overflow:visible;background:none}
+  .win .qs button+button{border-inline-start:0}
+  .win .qs button .trk{position:absolute;top:0;inset-inline:0;height:10px;border-radius:999px;background:rgba(20,20,20,.14);overflow:hidden}
+  .win .qs button .fill{background:var(--coral)}
+  .win .qs button[aria-selected="true"]{background:none;color:#141414}
+  .win .qs button[aria-selected="true"] .fill{transform:scaleX(1)}
+  .win .qs button:focus-visible{border-radius:8px;outline-offset:4px}
 </style>
 </head>
 <body>
@@ -666,11 +676,10 @@
   <section class="blk privacy" id="privacy"><div class="wrap">
     <div class="sec-h"><span class="eyebrow">פרטיות</span><h2>הרעיון שלכם נשאר שלכם</h2><p>אנחנו לא מוכרים אותו, לא משתפים אותו ולא מפרסמים אותו. Wazo נועד לעזור לכם להתחיל בלבד.</p></div>
     <div class="pgrid">
-      <div class="pcard"><h3>נשמר רק כדי לעבוד</h3><p>הרעיון והניתוח נשמרים בשרת באיחוד האירופי כדי להפיק את הניתוח ולהחזיר לך אותו. עותק נשמר גם במכשיר שלך.</p></div>
+      <div class="pcard"><h3>נשמר רק כדי לעבוד</h3><p>הרעיון והניתוח נשמרים בשרת באיחוד האירופי כדי להפיק את הניתוח ולהחזיר לך אותו. עותק נשמר גם במכשיר שלך. אפשר לבקש מחיקה של הפרטים בכל רגע, מתוך האפליקציה.</p></div>
       <div class="pcard"><h3>לא נמכר, לא משותף</h3><p>הרעיון לא נמכר ולא מועבר לאף אחד כדי לפרסם או לשווק. הוא נשלח ל־Anthropic רק לצורך כתיבת הניתוח.</p></div>
       <div class="pcard"><h3>בלי מעקב</h3><p>אין עוגיות מעקב, ואין פרופיל פרסום עליכם. יש רק בדיקה שמוודאת שאתם אדם ולא רובוט.</p></div>
       <div class="pcard"><h3>שיתוף הוא בחירה שלכם</h3><p>אם תבדקו רעיון עם אדם שאוהבים, מי שיש לו את הקישור יראה את הרעיון ואת התשובות. הקישור פג אחרי 7 ימים, ואפשר למחוק אותו בכל רגע.</p></div>
-      <div class="pcard"><h3>אתם מחליטים</h3><p>אפשר לבקש מחיקה של הפרטים בכל רגע, מתוך האפליקציה.</p></div>
     </div>
     <div class="promise"><div><strong>עוזר להתחיל, לא מחליף אותך.</strong><p>ל־Wazo אין סמכות שוק. הניתוח נכתב על ידי בינה מלאכותית שלא מחפשת באינטרנט בזמן הכתיבה, ולכן מספרים ושמות של חברות עלולים להיות לא מעודכנים. לכל ציון יש הסבר על מה הוא נשען. זו המלצה בלבד, ולא ייעוץ משפטי, כספי או עסקי.</p></div></div>
   </div></section>
@@ -703,7 +712,7 @@ WZI.init();
 let faces=WZI.faces();
 const qs=document.getElementById("qs"), card=document.getElementById("card"), pane=document.getElementById("pane"); let i=0;
 const calm=matchMedia("(prefers-reduced-motion: reduce)").matches; if(calm) qs.classList.add("still");
-qs.innerHTML=faces.map((f,k)=>`<button type="button" role="tab" data-k="${k}"><i class="fill"></i><span>${f.top[0]}</span></button>`).join("");
+qs.innerHTML=faces.map((f,k)=>`<button type="button" role="tab" data-k="${k}"><span class="trk"><i class="fill"></i></span><span class="lb">${f.top[0]}</span></button>`).join("");
 pane.innerHTML=`<h3 id="pq"></h3><p id="pd"></p><button type="button" class="enrlink" id="pgo">${WZI.u("tryIdea")}</button>`;
 const pq=document.getElementById("pq"), pd=document.getElementById("pd");
 function show(k){ i=k; const f=faces[k]; const btns=[...qs.querySelectorAll("button")];
@@ -792,7 +801,7 @@ document.getElementById("idCards").addEventListener("click",e=>{ const b=e.targe
  }catch(e){} })();
 function onLang(){
   faces=WZI.faces(); try{ inputTools.relabel(); }catch(e){} try{ renderIdeas(); }catch(e){}
-  qs.innerHTML=faces.map((f,k)=>`<button type="button" role="tab" data-k="${k}"><i class="fill"></i><span>${f.top[0]}</span></button>`).join("");
+  qs.innerHTML=faces.map((f,k)=>`<button type="button" role="tab" data-k="${k}"><span class="trk"><i class="fill"></i></span><span class="lb">${f.top[0]}</span></button>`).join("");
   document.getElementById("pgo").textContent=WZI.u("tryIdea"); buildSlider(); document.getElementById("pgo2").textContent=WZI.u("tryIdea"); fills(curQ);
   show(i); setMode(none(),true); if(typeof setPinned==="function") setPinned();
 }
@@ -830,7 +839,7 @@ const typingNow=()=>document.activeElement===document.getElementById("idea") && 
 const peek=document.getElementById("peek"), heroCopy=peek.querySelector(".hero .copy"), OPEN=.28, clamp=(v,a,b)=>Math.min(b,Math.max(a,v));
 let pinned=false, curQ=0, lastO=-1; const cssTL=!!(window.CSS&&CSS.supports&&CSS.supports("animation-timeline: scroll()"));
 const pinEl=peek.querySelector(".pin"), winEl=document.getElementById("win"), total=()=>peek.offsetHeight-pinEl.offsetHeight;
-function fills(q){ curQ=q; [...qs.children].forEach((b,n)=>{ b.firstChild.style.transform=pinned?`scaleX(${clamp(q-n,0,1).toFixed(2)})`:""; }); }
+function fills(q){ curQ=q; [...qs.children].forEach((b,n)=>{ b.querySelector(".fill").style.transform=pinned?`scaleX(${clamp(q-n,0,1).toFixed(2)})`:""; }); }
 const slider=document.getElementById("slider"), mob=matchMedia("(max-width:960px)");
 function faceCard(f){ return `<div class="card${f.final?" final":""}"><div class="face"><div class="top"><span>${f.top[0]}</span><span>${f.top[1]}</span></div><div class="big">${f.big}</div><div class="cap">${f.cap}</div><div class="rows">${f.rows.map(r=>`<div${r[2]?' class="tipr"':""}><span>${r[0]}</span><b>${r[1]}</b></div>`).join("")}</div></div></div>`; }
 function buildSlider(){ slider.innerHTML=faces.map(f=>`<article class="sl-i"><h3>${f.q}</h3>${faceCard(f)}<p>${f.d}</p></article>`).join(""); }
