@@ -94,12 +94,6 @@
   .itool.on{background:var(--coral);border-color:var(--coral);color:#0A0A0A;animation:micpulse 1.4s ease-in-out infinite}
   @keyframes micpulse{0%,100%{box-shadow:0 0 0 0 rgba(240,113,103,.5)}50%{box-shadow:0 0 0 10px rgba(240,113,103,0)}}
   .itmsg{font-size:14px;color:var(--muted);--lhr:1.4;flex:1 1 120px;min-width:0}
-  .imgchip{display:inline-flex;align-items:center;gap:8px;height:44px;padding:0 4px 0 14px;border-radius:999px;background:rgba(240,113,103,.16);color:var(--coral);font-size:14px;max-width:100%}
-  .imgchip[hidden]{display:none}
-  .imgchip img{width:32px;height:32px;border-radius:8px;object-fit:cover}
-  .imgchip span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:120px}
-  .imgchip button{all:unset;box-sizing:border-box;width:36px;height:36px;border-radius:50%;display:grid;place-items:center;cursor:pointer;font-size:20px;line-height:1}
-  .imgchip button:focus-visible{outline:3px solid var(--coral)}
   .ask.dropping{box-shadow:inset 0 0 0 2px var(--coral)}
   /* a breathing coral light around the box, like a soft pulse at its edge */
   .ask{position:relative}
@@ -484,7 +478,7 @@
           <div class="tabs" role="tablist" aria-label="איך מתחילים"><button type="button" role="tab" id="tabHave" aria-selected="true" aria-controls="idea">יש לי רעיון</button><button type="button" role="tab" id="tabNone" aria-selected="false" aria-controls="idea">אין לי רעיון</button></div>
           <label class="sr" for="idea">הרעיון שלך</label>
           <div class="tawrap"><textarea id="idea" rows="2" placeholder="כתבו כאן את הרעיון, בכמה מילים. למשל: ללמד מבוגרים להשתמש בטלפון החכם."></textarea><span class="caret" aria-hidden="true"></span></div>
-          <div class="ibar"><span class="imgchip" id="imgchip" hidden><img alt=""><span></span><button type="button" id="imgchipX">×</button></span><span class="itmsg" id="itmsg" role="status" aria-live="polite"></span></div>
+          <div class="ibar"><span class="itmsg" id="itmsg" role="status" aria-live="polite"></span></div>
           <div class="askrow"><span class="hint" id="hint" data-u>מה שכתבתם נשאר שלכם.</span><span class="acts"><button class="enrlink" type="button" id="enrich">הרחב לי</button><button class="cta solid go" id="go" type="submit"><span id="gotxt" data-u>בדקו את הרעיון</span></button></span></div>
         </form>
       </div>
@@ -629,23 +623,35 @@ function setMode(n,quiet){
 }
 tabHave.addEventListener("click",()=>setMode(false)); tabNone.addEventListener("click",()=>setMode(true));
 const goBtn=document.getElementById("go"), enrBtn=document.getElementById("enrich");
-let pendingImage=null;
-function sync(){ const has=idea.value.trim().length>0, on=has||!!pendingImage, was=goBtn.getAttribute("aria-disabled")==="false";
+function sync(){ const has=idea.value.trim().length>0, on=has, was=goBtn.getAttribute("aria-disabled")==="false";
   goBtn.setAttribute("aria-disabled",!on); enrBtn.setAttribute("aria-disabled",!has);
   if(on&&!was&&!calm){ goBtn.classList.remove("ready"); void goBtn.offsetWidth; goBtn.classList.add("ready"); } }
 idea.addEventListener("input",sync); sync();
-/* speak or drop a picture instead of typing; a picture is read by the app after the hand-off */
-const chip=document.getElementById("imgchip"), itmsg=document.getElementById("itmsg");
-const inputTools=WZInput.attach({wrap:document.querySelector(".ibar"),textarea:idea,lang:()=>WZI.lang,msg:t=>{ itmsg.textContent=t; },dropZone:document.querySelector(".ask"),
-  onImage:(data,name)=>{ pendingImage=data; chip.hidden=false; chip.querySelector("img").src=data; chip.querySelector("span").textContent=name.slice(0,28); itmsg.textContent=WZInput.t(WZI.lang).attached; sync(); }});
-document.getElementById("imgchipX").addEventListener("click",()=>{ pendingImage=null; chip.hidden=true; itmsg.textContent=""; sync(); });
+/* speak or drop a picture instead of typing: a picture is read once by the model and its text lands in the box for editing */
+const itmsg=document.getElementById("itmsg");
+let tsLoad=null;
+async function pageToken(){
+  let cfg={}; try{ cfg=await (await fetch("/api/config",{cache:"no-store"})).json(); }catch(e){}
+  if(!cfg.siteKey||cfg.open) return "";
+  if(!tsLoad) tsLoad=new Promise(r=>{ const sc=document.createElement("script"); sc.src="https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit"; sc.async=true; sc.onload=()=>r(true); sc.onerror=()=>r(false); document.head.appendChild(sc); });
+  if(!(await tsLoad)||!window.turnstile) return "";
+  return new Promise(res=>{ const box=document.createElement("div"); box.style.cssText="position:fixed;left:0;bottom:0;z-index:60"; document.body.appendChild(box); let done=false, id=null; const end=v=>{ if(done) return; done=true; try{ turnstile.remove(id); }catch(e){} box.remove(); res(v||""); }; const to=setTimeout(()=>end(""),20000);
+    id=turnstile.render(box,{sitekey:cfg.siteKey,execution:"execute",appearance:"interaction-only",callback:v=>{ clearTimeout(to); end(v); },"error-callback":()=>end(""),"timeout-callback":()=>end("")}); try{ turnstile.execute(id); }catch(e){ end(""); } });
+}
+async function readPicture(data){
+  const T=WZInput.t(WZI.lang); itmsg.textContent=T.reading;
+  let r; try{ const token=await pageToken(); const x=await fetch("/api/vision",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({image:data,lang:WZI.lang,token})}); let d={}; try{ d=await x.json(); }catch(e){} r={status:x.status,data:d}; }catch(e){ r={status:0,data:{}}; }
+  if(r.status===200&&r.data.text){ idea.value=(idea.value.trim()?idea.value.trim()+"\n":"")+r.data.text; idea.dispatchEvent(new Event("input",{bubbles:true})); itmsg.textContent=""; idea.focus({preventScroll:true}); }
+  else itmsg.textContent=r.status===200?T.empty:r.status===429?T.limit:T.fail;
+}
+const inputTools=WZInput.attach({wrap:document.querySelector(".ibar"),textarea:idea,lang:()=>WZI.lang,msg:t=>{ itmsg.textContent=t; },dropZone:document.querySelector(".ask"),onImage:data=>readPicture(data)});
 function toApp(mode){
-  try{ localStorage.setItem("wz.handoff",JSON.stringify({text:idea.value.trim().slice(0,1200),mode,lang:WZI.lang,image:!!pendingImage})); if(pendingImage) sessionStorage.setItem("wz.handoffImage",pendingImage); else sessionStorage.removeItem("wz.handoffImage"); }catch(e){}
+  try{ localStorage.setItem("wz.handoff",JSON.stringify({text:idea.value.trim().slice(0,1200),mode,lang:WZI.lang})); }catch(e){}
   location.href="/#idea";
 }
 idea.addEventListener("focus",()=>{ if(matchMedia("(pointer:coarse)").matches){ document.body.classList.add("typing"); if(typeof tick==="function") tick(); } });
 idea.addEventListener("blur",()=>{ document.body.classList.remove("typing"); if(typeof tick==="function") tick(); });
-document.querySelector(".ask").addEventListener("submit",e=>{ e.preventDefault(); if(!idea.value.trim()&&!pendingImage){ idea.focus(); return; } toApp(none()?"none":"check"); });
+document.querySelector(".ask").addEventListener("submit",e=>{ e.preventDefault(); if(!idea.value.trim()){ idea.focus(); return; } toApp(none()?"none":"check"); });
 enrBtn.addEventListener("click",()=>{ if(!idea.value.trim()){ idea.focus(); return; } toApp("enrich"); });
 document.getElementById("pgo2").addEventListener("click",()=>document.getElementById("pgo").click());
 document.getElementById("pgo").addEventListener("click",()=>{ scrollTo({top:0,behavior:"smooth"}); setTimeout(()=>idea.focus({preventScroll:true}),400); });
