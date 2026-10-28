@@ -140,10 +140,6 @@ nav.top .in{display:flex;align-items:center;justify-content:space-between;height
 /* idea panel */
 .p-idea{background:var(--b1);color:var(--b1-ink)}
 .ibox{position:relative;border-radius:28px;padding:20px 24px;border:1px solid rgba(10,10,10,.18)}
-@property --rim{syntax:"<angle>";initial-value:0deg;inherits:false}
-.ibox::after{content:"";position:absolute;inset:-1px;border-radius:inherit;padding:4px;pointer-events:none;background:conic-gradient(from var(--rim),rgba(10,10,10,0) 0deg,rgba(10,10,10,0) 190deg,rgba(10,10,10,.85) 335deg,rgba(10,10,10,0) 360deg),linear-gradient(rgba(10,10,10,.16),rgba(10,10,10,.16));-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;animation:rim 9s linear infinite}
-.ibox:focus-within::after{animation-duration:6s}
-@keyframes rim{to{--rim:360deg}}
 .ibox.dropping{box-shadow:inset 0 0 0 2px #0A0A0A}
 .ibar{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-top:8px;min-height:44px}
 .itools{display:flex;gap:8px}
@@ -153,7 +149,7 @@ nav.top .in{display:flex;align-items:center;justify-content:space-between;height
 .itool.on{background:#0A0A0A;color:#F4F3EF;animation:micpulse 1.4s ease-in-out infinite}
 @keyframes micpulse{0%,100%{box-shadow:0 0 0 0 rgba(10,10,10,.4)}50%{box-shadow:0 0 0 10px rgba(10,10,10,0)}}
 .itmsg{font-size:14px;--lhr:1.4;flex:1 1 140px;min-width:0}
-@media (prefers-reduced-motion:reduce){.ibox::after{animation:none}.itool.on{animation:none}}
+@media (prefers-reduced-motion:reduce){.itool.on{animation:none}}
 .p-idea,.b-idea{--red:#0A0A0A}
 .p-idea input::placeholder,.p-idea textarea::placeholder{color:#0A0A0A;opacity:.74}
 .p-idea textarea#idea::placeholder{opacity:.65}
