@@ -243,8 +243,8 @@
   .cc-card.on{opacity:1;visibility:visible;transform:none;transition:opacity .6s var(--ease-out),transform .6s var(--ease-out),visibility 0s}
   .cc-card figcaption{font-size:24px;font-weight:500;color:var(--ink);text-align:center;--lhr:1.25}
   .cc-ctl{display:flex;align-items:center;justify-content:space-between;gap:16px}
-  .cc-dots{display:flex;gap:4px;flex-wrap:wrap}
-  .cc-dot{width:44px;height:44px;border:0;background:none;padding:0;cursor:pointer;display:grid;place-items:center}
+  .cc-dots{display:flex;gap:0;flex-wrap:nowrap;flex:1 1 auto;min-width:0;justify-content:flex-start}
+  .cc-dot{flex:0 1 44px;min-width:26px;height:44px;border:0;background:none;padding:0;cursor:pointer;display:grid;place-items:center}
   .cc-dot::before{content:"";width:8px;height:8px;border-radius:50%;background:rgba(241,240,236,.28);transition:background-color .3s,transform .3s}
   .cc-dot[aria-current="true"]::before{background:var(--coral);transform:scale(1.5)}
   .cc-pause{border:1px solid rgba(241,240,236,.3);background:none;color:var(--ink);height:44px;padding:0 20px;border-radius:999px;font:inherit;font-size:14px;cursor:pointer}
