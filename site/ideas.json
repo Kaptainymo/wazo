@@ -1,0 +1,545 @@
+{
+ "updated": "2026-10-28",
+ "items": [
+  {
+   "v": "BUILD",
+   "cat": {
+    "he": "שירות · גיל שלישי",
+    "en": "Service · Seniors",
+    "es": "Servicio · Mayores",
+    "fr": "Service · Seniors"
+   },
+   "t": {
+    "he": "סיפור חיים בספר קטן",
+    "en": "A life story in a small book",
+    "es": "La historia de una vida en un librito",
+    "fr": "Une vie racontée dans un petit livre"
+   },
+   "l": {
+    "he": "למשפחות יש סבא וסבתא עם סיפורים, ואין להם זמן לכתוב אותם.",
+    "en": "Families have grandparents full of stories and no time to write them down.",
+    "es": "Las familias tienen abuelos con historias y sin tiempo para escribirlas.",
+    "fr": "Les familles ont des grands-parents pleins d'histoires et pas le temps de les écrire."
+   },
+   "idea": {
+    "he": "מראיינים אדם מבוגר בכמה פגישות וכותבים את סיפור חייו בספר קטן למשפחה",
+    "en": "Interview an older person over a few sessions and write their life story as a small book for the family",
+    "es": "Entrevistas a una persona mayor en varias sesiones y escribes su vida en un librito para la familia",
+    "fr": "Vous interviewez une personne âgée en plusieurs séances et vous écrivez sa vie dans un petit livre pour la famille"
+   }
+  },
+  {
+   "v": "BUILD",
+   "cat": {
+    "he": "שירות · גיל שלישי",
+    "en": "Service · Seniors",
+    "es": "Servicio · Mayores",
+    "fr": "Service · Seniors"
+   },
+   "t": {
+    "he": "שיעורי טלפון בבית",
+    "en": "Phone lessons at home",
+    "es": "Clases de móvil en casa",
+    "fr": "Cours de téléphone à domicile"
+   },
+   "l": {
+    "he": "הילדים רחוקים, והבנק והוואטסאפ לא מחכים.",
+    "en": "The kids live far away, and the bank and WhatsApp don't wait.",
+    "es": "Los hijos viven lejos, y el banco y WhatsApp no esperan.",
+    "fr": "Les enfants habitent loin, et la banque et WhatsApp n'attendent pas."
+   },
+   "idea": {
+    "he": "ביקורי בית שבהם מלמדים מבוגרים טלפון, וואטסאפ ואפליקציית הבנק, בסבלנות",
+    "en": "Home visits that teach older people their phone, WhatsApp and banking app, patiently",
+    "es": "Visitas a domicilio para enseñar a personas mayores el móvil, WhatsApp y la app del banco, con paciencia",
+    "fr": "Des visites à domicile pour apprendre aux personnes âgées leur téléphone, WhatsApp et l'appli de la banque, avec patience"
+   }
+  },
+  {
+   "v": "PIVOT",
+   "cat": {
+    "he": "שירות · מעבר דירה",
+    "en": "Service · Moving",
+    "es": "Servicio · Mudanzas",
+    "fr": "Service · Déménagement"
+   },
+   "t": {
+    "he": "השכרת ארגזים למעבר",
+    "en": "Moving box rental",
+    "es": "Alquiler de cajas de mudanza",
+    "fr": "Location de cartons de déménagement"
+   },
+   "l": {
+    "he": "הארגזים נזרקים אחרי שבוע, אבל כולם קונים אותם מחדש.",
+    "en": "Boxes get thrown out after a week, yet everyone buys new ones.",
+    "es": "Las cajas se tiran a la semana, pero todos compran nuevas.",
+    "fr": "Les cartons finissent à la poubelle après une semaine, mais tout le monde en rachète."
+   },
+   "idea": {
+    "he": "משכירים ארגזי מעבר חזקים בשבוע, מביאים ואוספים. הקושי האמיתי הוא אחסון והובלה",
+    "en": "Rent out sturdy moving boxes for a week, deliver and collect. The real hurdle is storage and transport",
+    "es": "Alquilas cajas resistentes por una semana, las llevas y las recoges. El verdadero problema es guardarlas y transportarlas",
+    "fr": "Vous louez des caisses solides pour une semaine, vous les livrez et les récupérez. Le vrai défi, c'est le stockage et le transport"
+   }
+  },
+  {
+   "v": "PIVOT",
+   "cat": {
+    "he": "שירות · זמן",
+    "en": "Service · Time",
+    "es": "Servicio · Tiempo",
+    "fr": "Service · Temps"
+   },
+   "t": {
+    "he": "עומד בתור במקומך",
+    "en": "Waiting in line for you",
+    "es": "Hago la cola por ti",
+    "fr": "Je fais la queue pour vous"
+   },
+   "l": {
+    "he": "תורים ברשויות ובמרפאות גוזלים בוקר שלם מאנשים עובדים.",
+    "en": "Queues at offices and clinics eat a whole morning of a working person.",
+    "es": "Las colas en oficinas y clínicas se comen una mañana entera de quien trabaja.",
+    "fr": "Les files d'attente dans les administrations et les cabinets prennent toute une matinée à ceux qui travaillent."
+   },
+   "idea": {
+    "he": "לוקחים משימה אחת בכל פעם, תור, איסוף מסמך או משלוח, ועובדים לפי שעה",
+    "en": "Take one errand at a time, a queue, a document pickup or a delivery, and charge by the hour",
+    "es": "Haces un encargo cada vez, una cola, recoger un documento o una entrega, y cobras por hora",
+    "fr": "Vous prenez une course à la fois, une file d'attente, un document à récupérer ou une livraison, et vous facturez à l'heure"
+   }
+  },
+  {
+   "v": "BUILD",
+   "cat": {
+    "he": "שירות · בית",
+    "en": "Service · Home",
+    "es": "Servicio · Hogar",
+    "fr": "Service · Maison"
+   },
+   "t": {
+    "he": "סידור ארון לפני מעבר",
+    "en": "Sorting before a move",
+    "es": "Ordenar antes de una mudanza",
+    "fr": "Trier avant un déménagement"
+   },
+   "l": {
+    "he": "לפני מעבר דירה כל אחד מתקשה להחליט מה לוקחים ומה לא.",
+    "en": "Before a move, everyone struggles to decide what to take and what to leave.",
+    "es": "Antes de mudarse, a todos les cuesta decidir qué llevar y qué dejar.",
+    "fr": "Avant un déménagement, chacun a du mal à décider ce qu'il emporte et ce qu'il laisse."
+   },
+   "idea": {
+    "he": "עוזרים למשפחה למיין ולארוז חפצים לפני מעבר, ומוכרים או תורמים את מה שלא נלקח",
+    "en": "Help a family sort and pack their things before a move, and sell or donate what stays behind",
+    "es": "Ayudas a una familia a clasificar y empacar antes de mudarse, y vendes o donas lo que no se lleva",
+    "fr": "Vous aidez une famille à trier et emballer ses affaires, puis vous vendez ou donnez ce qui reste"
+   }
+  },
+  {
+   "v": "BUILD",
+   "cat": {
+    "he": "שירות · עסקים קטנים",
+    "en": "Service · Small business",
+    "es": "Servicio · Pequeños negocios",
+    "fr": "Service · Petits commerces"
+   },
+   "t": {
+    "he": "צילום מוצרים בטלפון",
+    "en": "Product photos with a phone",
+    "es": "Fotos de producto con el móvil",
+    "fr": "Photos de produits au téléphone"
+   },
+   "l": {
+    "he": "לבעלי עסק קטן אין תמונות טובות, ואין להם תקציב לצלם.",
+    "en": "Small shops have no good photos and no budget for a photographer.",
+    "es": "Los negocios pequeños no tienen buenas fotos ni presupuesto para un fotógrafo.",
+    "fr": "Les petits commerces n'ont pas de belles photos ni le budget d'un photographe."
+   },
+   "idea": {
+    "he": "מצלמים בטלפון, עם תאורה פשוטה, את המוצרים של בתי קפה, חנויות ובעלי מלאכה",
+    "en": "Shoot products for cafés, shops and craftspeople with a phone and simple lighting",
+    "es": "Fotografías con el móvil y luz sencilla los productos de cafeterías, tiendas y artesanos",
+    "fr": "Vous photographiez avec un téléphone et un éclairage simple les produits de cafés, boutiques et artisans"
+   }
+  },
+  {
+   "v": "BUILD",
+   "cat": {
+    "he": "שירות · בירוקרטיה",
+    "en": "Service · Paperwork",
+    "es": "Servicio · Trámites",
+    "fr": "Service · Paperasse"
+   },
+   "t": {
+    "he": "עזרה בטפסים",
+    "en": "Help with forms",
+    "es": "Ayuda con formularios",
+    "fr": "Aide pour les formulaires"
+   },
+   "l": {
+    "he": "טפסים ממשלתיים מבלבלים אנשים שלא גדלו עם מחשב.",
+    "en": "Government forms confuse people who didn't grow up with computers.",
+    "es": "Los formularios oficiales confunden a quienes no crecieron con ordenadores.",
+    "fr": "Les formulaires administratifs déroutent ceux qui n'ont pas grandi avec un ordinateur."
+   },
+   "idea": {
+    "he": "יושבים עם אדם ומלאים איתו טפסים, בקשות ומכתבים, בלי להחליט במקומו",
+    "en": "Sit with a person and fill in forms, applications and letters together, without deciding for them",
+    "es": "Te sientas con una persona y rellenáis juntos formularios, solicitudes y cartas, sin decidir por ella",
+    "fr": "Vous vous asseyez avec une personne et remplissez ensemble formulaires, demandes et courriers, sans décider à sa place"
+   }
+  },
+  {
+   "v": "PIVOT",
+   "cat": {
+    "he": "אוכל · שכונה",
+    "en": "Food · Neighbourhood",
+    "es": "Comida · Barrio",
+    "fr": "Cuisine · Quartier"
+   },
+   "t": {
+    "he": "ארוחות שבת מהבית",
+    "en": "Home-cooked weekend meals",
+    "es": "Comidas caseras de fin de semana",
+    "fr": "Repas maison du week-end"
+   },
+   "l": {
+    "he": "יש שכנים שאין להם כוח לבשל, ויש מי שמבשל טוב.",
+    "en": "Some neighbours have no energy to cook, and some people cook very well.",
+    "es": "Hay vecinos sin ganas de cocinar, y gente que cocina muy bien.",
+    "fr": "Certains voisins n'ont pas le courage de cuisiner, et d'autres cuisinent très bien."
+   },
+   "idea": {
+    "he": "מבשלים כמה מנות בשבוע לשכנים בהזמנה מראש. צריך לבדוק רישוי עסק לפני שמוכרים",
+    "en": "Cook a few dishes a week for neighbours on pre-order. Check licensing before selling",
+    "es": "Cocinas unos platos a la semana para los vecinos con pedido previo. Revisa la licencia antes de vender",
+    "fr": "Vous cuisinez quelques plats par semaine pour vos voisins, sur commande. Vérifiez les autorisations avant de vendre"
+   }
+  },
+  {
+   "v": "BUILD",
+   "cat": {
+    "he": "שירות · בית",
+    "en": "Service · Home",
+    "es": "Servicio · Hogar",
+    "fr": "Service · Maison"
+   },
+   "t": {
+    "he": "תיקונים קטנים לגיל השלישי",
+    "en": "Small repairs for seniors",
+    "es": "Pequeñas reparaciones para mayores",
+    "fr": "Petites réparations pour seniors"
+   },
+   "l": {
+    "he": "מבוגרים מחכים שבועות לתיקון קטן, ומתביישים לבקש.",
+    "en": "Older people wait weeks for a small fix, and feel shy to ask.",
+    "es": "Las personas mayores esperan semanas por un arreglo pequeño, y les da vergüenza pedirlo.",
+    "fr": "Les personnes âgées attendent des semaines pour un petit dépannage, et n'osent pas demander."
+   },
+   "idea": {
+    "he": "מתקנים דברים קטנים בבית, ברז, מדף, נורה, אצל מבוגרים בשכונה, לפי שעה",
+    "en": "Fix small things at home, a tap, a shelf, a bulb, for older neighbours, paid by the hour",
+    "es": "Arreglas cosas pequeñas en casa, un grifo, una estantería, una bombilla, a vecinos mayores, por horas",
+    "fr": "Vous réparez de petites choses à domicile, un robinet, une étagère, une ampoule, chez des voisins âgés, à l'heure"
+   }
+  },
+  {
+   "v": "BUILD",
+   "cat": {
+    "he": "שירות · חיות",
+    "en": "Service · Pets",
+    "es": "Servicio · Mascotas",
+    "fr": "Service · Animaux"
+   },
+   "t": {
+    "he": "קבוצת טיול לכלבים",
+    "en": "Dog walking group",
+    "es": "Grupo de paseo de perros",
+    "fr": "Balade collective pour chiens"
+   },
+   "l": {
+    "he": "אנשים עובדים לא מספיקים לטייל עם הכלב בבוקר.",
+    "en": "Working people can't always walk the dog in the morning.",
+    "es": "Quien trabaja no siempre llega a pasear al perro por la mañana.",
+    "fr": "Ceux qui travaillent n'ont pas toujours le temps de sortir le chien le matin."
+   },
+   "idea": {
+    "he": "אוספים כמה כלבים מהשכונה לטיול בוקר משותף, ושולחים תמונה לבעלים",
+    "en": "Collect a few dogs from the neighbourhood for a shared morning walk, and send the owners a photo",
+    "es": "Recoges unos perros del barrio para un paseo matinal en grupo y envías una foto a los dueños",
+    "fr": "Vous rassemblez quelques chiens du quartier pour une balade du matin et vous envoyez une photo aux propriétaires"
+   }
+  },
+  {
+   "v": "PIVOT",
+   "cat": {
+    "he": "תיירות · שכונה",
+    "en": "Tourism · Neighbourhood",
+    "es": "Turismo · Barrio",
+    "fr": "Tourisme · Quartier"
+   },
+   "t": {
+    "he": "סיור שכונתי עם סיפורים",
+    "en": "A neighbourhood walk with stories",
+    "es": "Paseo por el barrio con historias",
+    "fr": "Balade de quartier racontée"
+   },
+   "l": {
+    "he": "תיירים וגם תושבים רוצים לשמוע מה היה כאן פעם.",
+    "en": "Visitors and locals both want to hear what this place used to be.",
+    "es": "Turistas y vecinos quieren saber cómo era este lugar.",
+    "fr": "Touristes et habitants veulent savoir ce qu'était cet endroit."
+   },
+   "idea": {
+    "he": "מובילים סיור בשכונה שלכם, עם סיפורים ופינות שלא מופיעות במדריכים, בקבוצות קטנות",
+    "en": "Lead small-group walks around your neighbourhood with stories and corners guidebooks miss",
+    "es": "Guías paseos en grupos pequeños por tu barrio, con historias y rincones que no salen en las guías",
+    "fr": "Vous guidez de petites balades dans votre quartier, avec des histoires et des coins absents des guides"
+   }
+  },
+  {
+   "v": "PIVOT",
+   "cat": {
+    "he": "שירות · משפחה",
+    "en": "Service · Family",
+    "es": "Servicio · Familia",
+    "fr": "Service · Famille"
+   },
+   "t": {
+    "he": "מנהל משק בית",
+    "en": "Household manager",
+    "es": "Gestor del hogar",
+    "fr": "Gestionnaire du foyer"
+   },
+   "l": {
+    "he": "משפחה עסוקה טובעת במיילים, חשבונות ותורים.",
+    "en": "A busy family drowns in emails, bills and appointments.",
+    "es": "Una familia ocupada se ahoga en correos, facturas y citas.",
+    "fr": "Une famille débordée se noie sous les mails, les factures et les rendez-vous."
+   },
+   "idea": {
+    "he": "מנהלים אצל משפחה את המסמכים, התשלומים והתורים, כמה שעות בשבוע",
+    "en": "Run a family's paperwork, payments and appointments, a few hours a week",
+    "es": "Gestionas los papeles, pagos y citas de una familia, unas horas a la semana",
+    "fr": "Vous gérez les papiers, paiements et rendez-vous d'une famille, quelques heures par semaine"
+   }
+  },
+  {
+   "v": "BUILD",
+   "cat": {
+    "he": "מכירה · משפחות",
+    "en": "Selling · Families",
+    "es": "Venta · Familias",
+    "fr": "Vente · Familles"
+   },
+   "t": {
+    "he": "ציוד תינוקות ממשפחה למשפחה",
+    "en": "Baby gear, family to family",
+    "es": "Material de bebé de familia a familia",
+    "fr": "Matériel de bébé de famille à famille"
+   },
+   "l": {
+    "he": "ציוד תינוקות משמש חודשים ספורים, וכולם צריכים אותו.",
+    "en": "Baby gear is used for a few months, and everyone needs it.",
+    "es": "El material de bebé se usa pocos meses, y todos lo necesitan.",
+    "fr": "Le matériel de bébé ne sert que quelques mois, et tout le monde en a besoin."
+   },
+   "idea": {
+    "he": "אוספים ציוד תינוקות משומש, מנקים, ומוכרים בקבוצות שכונתיות, עם עמלה",
+    "en": "Collect used baby gear, clean it and sell it in neighbourhood groups, for a commission",
+    "es": "Recoges material de bebé usado, lo limpias y lo vendes en grupos del barrio, con comisión",
+    "fr": "Vous collectez du matériel de bébé d'occasion, le nettoyez et le vendez dans les groupes du quartier, avec une commission"
+   }
+  },
+  {
+   "v": "BUILD",
+   "cat": {
+    "he": "מתנות · משפחה",
+    "en": "Gifts · Family",
+    "es": "Regalos · Familia",
+    "fr": "Cadeaux · Famille"
+   },
+   "t": {
+    "he": "ספר המתכונים של סבתא",
+    "en": "Grandma's recipe book",
+    "es": "El libro de recetas de la abuela",
+    "fr": "Le livre de recettes de mamie"
+   },
+   "l": {
+    "he": "המתכונים של סבתא נמצאים רק בראש שלה.",
+    "en": "Grandma's recipes live only in her head.",
+    "es": "Las recetas de la abuela solo viven en su cabeza.",
+    "fr": "Les recettes de mamie n'existent que dans sa tête."
+   },
+   "idea": {
+    "he": "מתעדים מתכונים משפחתיים, עם הסיפור שמאחוריהם, וסוגרים אותם בספר מודפס קטן",
+    "en": "Record family recipes with the story behind each one, and bind them in a small printed book",
+    "es": "Recoges recetas familiares con la historia detrás de cada una y las reúnes en un librito impreso",
+    "fr": "Vous notez les recettes de la famille avec l'histoire de chacune et les réunissez dans un petit livre imprimé"
+   }
+  },
+  {
+   "v": "PIVOT",
+   "cat": {
+    "he": "שירות · כתיבה",
+    "en": "Service · Writing",
+    "es": "Servicio · Escritura",
+    "fr": "Service · Rédaction"
+   },
+   "t": {
+    "he": "מכתבי ערעור ותלונה",
+    "en": "Appeal and complaint letters",
+    "es": "Cartas de recurso y reclamación",
+    "fr": "Lettres de recours et de réclamation"
+   },
+   "l": {
+    "he": "רוב האנשים לא יודעים לכתוב ערעור שמקבלים עליו תשובה.",
+    "en": "Most people don't know how to write an appeal that gets an answer.",
+    "es": "La mayoría no sabe escribir un recurso que reciba respuesta.",
+    "fr": "La plupart des gens ne savent pas rédiger un recours qui obtient une réponse."
+   },
+   "idea": {
+    "he": "כותבים ערעור על דוח או תלונה לחברה, וגובים מחיר קבוע. לא נותנים ייעוץ משפטי",
+    "en": "Write an appeal against a fine or a complaint to a company for a fixed price. No legal advice",
+    "es": "Escribes un recurso contra una multa o una reclamación a una empresa por un precio fijo. Sin dar consejo legal",
+    "fr": "Vous rédigez un recours contre une amende ou une réclamation à une entreprise pour un prix fixe. Sans conseil juridique"
+   }
+  },
+  {
+   "v": "BUILD",
+   "cat": {
+    "he": "חינוך · שיחה",
+    "en": "Learning · Conversation",
+    "es": "Educación · Conversación",
+    "fr": "Éducation · Conversation"
+   },
+   "t": {
+    "he": "חוג שיחה בשפה זרה",
+    "en": "A language talking circle",
+    "es": "Círculo de conversación en otro idioma",
+    "fr": "Cercle de conversation en langue étrangère"
+   },
+   "l": {
+    "he": "אנשים לומדים שנים ולא מעזים לדבר.",
+    "en": "People study for years and never dare to speak.",
+    "es": "Mucha gente estudia años y no se atreve a hablar.",
+    "fr": "Beaucoup étudient pendant des années sans oser parler."
+   },
+   "idea": {
+    "he": "מנחים חוג קטן שבו מדברים רק בשפה אחת, על נושא אחד בכל פעם",
+    "en": "Host a small circle where only one language is spoken, one topic at a time",
+    "es": "Organizas un grupo pequeño donde solo se habla un idioma, un tema cada vez",
+    "fr": "Vous animez un petit groupe où l'on ne parle qu'une seule langue, un sujet à la fois"
+   }
+  },
+  {
+   "v": "PIVOT",
+   "cat": {
+    "he": "שירות · ילדים",
+    "en": "Service · Kids",
+    "es": "Servicio · Niños",
+    "fr": "Service · Enfants"
+   },
+   "t": {
+    "he": "שמרטפית גיבוי",
+    "en": "Backup babysitter",
+    "es": "Canguro de emergencia",
+    "fr": "Baby-sitter de secours"
+   },
+   "l": {
+    "he": "כשהגננת חולה או הסבתא תקועה, ההורים צריכים פתרון עד הבוקר.",
+    "en": "When the teacher is sick or grandma is stuck, parents need a fix by morning.",
+    "es": "Cuando la maestra está enferma o la abuela no puede, los padres necesitan una solución para la mañana.",
+    "fr": "Quand la maîtresse est malade ou que mamie est coincée, les parents ont besoin d'une solution pour le matin."
+   },
+   "idea": {
+    "he": "רשימה קצרה של אנשים מהימנים שזמינים להתקשרות ביום ההוא. האמון הוא כל העניין",
+    "en": "A short list of trusted people who can be called that same day. Trust is the whole thing",
+    "es": "Una lista corta de personas de confianza a quienes llamar el mismo día. La confianza lo es todo",
+    "fr": "Une courte liste de personnes de confiance à appeler le jour même. La confiance, c'est tout"
+   }
+  },
+  {
+   "v": "BUILD",
+   "cat": {
+    "he": "שירות · אירועים",
+    "en": "Service · Events",
+    "es": "Servicio · Eventos",
+    "fr": "Service · Événements"
+   },
+   "t": {
+    "he": "צילום אירוע קטן וגם עריכה",
+    "en": "Small event filmed and edited",
+    "es": "Un evento pequeño, grabado y editado",
+    "fr": "Un petit événement filmé et monté"
+   },
+   "l": {
+    "he": "ימי הולדת קטנים לא מצולמים, ואף אחד לא עורך.",
+    "en": "Small birthdays go unfilmed, and nobody edits what they do film.",
+    "es": "Los cumpleaños pequeños no se graban, y nadie edita lo que se graba.",
+    "fr": "Les petits anniversaires ne sont pas filmés, et personne ne monte ce qui l'est."
+   },
+   "idea": {
+    "he": "מצלמים אירוע משפחתי קטן בטלפון, ומוסרים למחרת סרטון קצר מוכן",
+    "en": "Film a small family event on a phone and deliver a short finished video the next day",
+    "es": "Grabas un evento familiar pequeño con el móvil y entregas al día siguiente un vídeo corto ya editado",
+    "fr": "Vous filmez un petit événement de famille au téléphone et livrez le lendemain une courte vidéo montée"
+   }
+  },
+  {
+   "v": "BUILD",
+   "cat": {
+    "he": "חינוך · הורים",
+    "en": "Learning · Parents",
+    "es": "Educación · Padres",
+    "fr": "Éducation · Parents"
+   },
+   "t": {
+    "he": "עזרה בשיעורי בית בקבוצה קטנה",
+    "en": "Homework help in a small group",
+    "es": "Deberes en un grupo pequeño",
+    "fr": "Aide aux devoirs en petit groupe"
+   },
+   "l": {
+    "he": "הורים עייפים בערב, וילדים לא רוצים שיכריחו אותם.",
+    "en": "Parents are tired in the evening, and kids don't want to be forced.",
+    "es": "Los padres están cansados por la noche, y los niños no quieren que los obliguen.",
+    "fr": "Les parents sont fatigués le soir, et les enfants n'aiment pas qu'on les force."
+   },
+   "idea": {
+    "he": "יושבים עם ארבעה ילדים מהשכונה שעה אחרי בית הספר, ועוזרים להם להתחיל",
+    "en": "Sit with four neighbourhood kids for an hour after school and help them get started",
+    "es": "Te sientas una hora después del colegio con cuatro niños del barrio y les ayudas a empezar",
+    "fr": "Vous vous asseyez une heure après l'école avec quatre enfants du quartier et vous les aidez à démarrer"
+   }
+  },
+  {
+   "v": "KILL",
+   "cat": {
+    "he": "אפליקציה · כללי",
+    "en": "App · General",
+    "es": "App · General",
+    "fr": "App · Général"
+   },
+   "t": {
+    "he": "עוד אפליקציית רשימות",
+    "en": "Yet another list app",
+    "es": "Otra app de listas",
+    "fr": "Encore une appli de listes"
+   },
+   "l": {
+    "he": "יש כבר עשרות, וחינמיות. אף אחד לא מחליף.",
+    "en": "There are dozens already, and they're free. Nobody switches.",
+    "es": "Ya hay decenas, y son gratis. Nadie cambia.",
+    "fr": "Il en existe déjà des dizaines, et elles sont gratuites. Personne ne change."
+   },
+   "idea": {
+    "he": "אפליקציה חדשה לרשימות קניות ומשימות",
+    "en": "A new app for shopping lists and tasks",
+    "es": "Una app nueva para listas de la compra y tareas",
+    "fr": "Une nouvelle appli pour listes de courses et tâches"
+   }
+  }
+ ]
+}

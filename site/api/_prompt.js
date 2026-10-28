@@ -132,11 +132,13 @@ export function shapeEnrich(b) {
 export function buildIdeatePrompt({ topic, lang }) {
   return `You help ordinary people, aged 16 to 70 with no business background, find an idea to try. They have no idea yet and gave only a topic or a feeling.
 
-Suggest exactly 4 original ideas that fit the topic. Each must be something one person can start small, with little money, and that people in the real world plausibly want.
+Suggest exactly 4 ideas that fit the topic. Each must be a small, real service, product or activity that one ordinary person can start this month with no code and little money (under about 1,000 USD), using what they already have: a phone, their time, a skill, their neighbourhood.
 
 Rules:
-- Each idea: "title" is a short plain name (under 8 words); "why" is one short sentence on why people might want it. Give reasoning, never invented statistics or company names.
+- Aim for ideas that feel fresh and a little unexpected, not the first thing everyone lists (no "start a blog", "dropshipping", "social media manager", "sell on Etsy"). Think of a specific person with a specific small problem, and what a neighbour, a family or a small business would gladly pay for or be thankful for.
+- Each idea: "title" is a short plain name (under 8 words) that says who it is for or what it does; "why" is one short sentence on the real small problem it solves and who feels it. Give reasoning, never invented statistics, numbers, quotes or company names.
 - Mix the kinds: at least one that earns money, one that helps people or a community, one that can be done from home. Different from each other.
+- If an idea needs a license, insurance or special care (food, children, health, legal advice, money), say so in "why" in a few words.
 - Plain everyday words, no business jargon, no hype. Never use dashes (—, –, -) as punctuation; use commas or periods.
 - Write ALL text in ${LANG_NAME[lang] || "English"}.
 - If the topic suggests something harmful or illegal, give safe ideas in the nearest legitimate direction.
