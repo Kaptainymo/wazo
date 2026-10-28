@@ -97,5 +97,30 @@ function attach(o){
   label();
   return { relabel:label, stop };
 }
-window.WZInput={attach,t:l=>T[l]||T.en};
+/* Quick topics: round buttons that add or remove a word in the field.
+   WZInput.chips({ textarea, words:()=>["kids","cooking"] }) -> { el, rebuild() }  (the caller puts el where it belongs) */
+function chips(o){
+  if (!document.getElementById("wz-chips-css")){
+    const st=document.createElement("style"); st.id="wz-chips-css";
+    st.textContent=".wz-chips[hidden]{display:none}.wz-chips{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0 0}.wz-chip{all:unset;box-sizing:border-box;min-height:44px;padding:0 18px;display:inline-flex;align-items:center;border:1.5px solid #0A0A0A;border-radius:999px;font-size:16px;font-weight:500;color:#0A0A0A;cursor:pointer;transition:background-color .15s,color .15s}.wz-chip[aria-pressed=true]{background:#0A0A0A;color:#fff}.wz-chip:focus-visible{outline:3px solid #0A0A0A;outline-offset:2px}@media (hover:hover){.wz-chip:hover{background:rgba(10,10,10,.08)}.wz-chip[aria-pressed=true]:hover{background:#333}}@media (prefers-reduced-motion:reduce){.wz-chip{transition:none}}";
+    document.head.appendChild(st);
+  }
+  const ta=o.textarea, el=document.createElement("div"); el.className="wz-chips"; el.setAttribute("role","group");
+  const parts=()=>ta.value.split(/[,،]/).map(s=>s.trim()).filter(Boolean);
+  const same=(a,b)=>a.toLowerCase()===b.toLowerCase();
+  function sync(){ const p=parts(); el.querySelectorAll(".wz-chip").forEach(b=>b.setAttribute("aria-pressed",p.some(s=>same(s,b.textContent)))); }
+  function rebuild(){
+    el.textContent="";
+    o.words().forEach(w=>{
+      const b=document.createElement("button"); b.type="button"; b.className="wz-chip"; b.textContent=w; b.setAttribute("aria-pressed","false");
+      b.addEventListener("click",()=>{ const p=parts(), i=p.findIndex(s=>same(s,w)); if(i>=0) p.splice(i,1); else p.push(w); ta.value=p.join(", "); ta.dispatchEvent(new Event("input",{bubbles:true})); });
+      el.appendChild(b);
+    });
+    sync();
+  }
+  ta.addEventListener("input",sync);
+  rebuild();
+  return { el, rebuild };
+}
+window.WZInput={attach,chips,t:l=>T[l]||T.en};
 })();

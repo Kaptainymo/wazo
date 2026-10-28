@@ -784,7 +784,10 @@ show(0);
 const idea=document.getElementById("idea"), tabHave=document.getElementById("tabHave"), tabNone=document.getElementById("tabNone"), goTxt=document.getElementById("gotxt");
 if(matchMedia('(min-width:961px)').matches) idea.focus({preventScroll:true});
 const none=()=>tabNone.getAttribute("aria-selected")==="true";
+/* quick topics, shown only when there is no idea yet */
+const topics=WZInput.chips({textarea:idea,words:()=>WZI.u("chipsNone").split("|")}); topics.el.hidden=true; idea.closest(".tawrap").after(topics.el);
 function setMode(n,quiet){
+  topics.el.hidden=!n;
   tabHave.setAttribute("aria-selected",!n); tabNone.setAttribute("aria-selected",n); tabHave.parentElement.dataset.sel=n?"none":"have";
   document.getElementById("enrich").hidden=n;
   idea.placeholder=WZI.u(n?"phNone":"phHave");
@@ -857,7 +860,7 @@ document.getElementById("idCards").addEventListener("click",e=>{ const b=e.targe
   const three=["BUILD","PIVOT","KILL"].map(pick).filter(Boolean); if(three.length<3) return; ideaPicks=three; renderIdeas();
  }catch(e){} })();
 function onLang(){
-  faces=WZI.faces(); try{ inputTools.relabel(); }catch(e){} try{ renderIdeas(); }catch(e){}
+  faces=WZI.faces(); try{ inputTools.relabel(); }catch(e){} try{ topics.rebuild(); }catch(e){} try{ renderIdeas(); }catch(e){}
   qs.innerHTML=faces.map((f,k)=>`<button type="button" role="tab" data-k="${k}"><span class="trk"><i class="fill"></i></span><span class="lb">${f.top[0]}</span></button>`).join("");
   document.getElementById("pgo").textContent=WZI.u("tryIdea"); buildSlider(); document.getElementById("pgo2").textContent=WZI.u("tryIdea"); fills(curQ);
   show(i); setMode(none(),true); if(typeof setPinned==="function") setPinned();

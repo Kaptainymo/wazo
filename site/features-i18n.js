@@ -126,9 +126,10 @@ tl3:['<b>ואז ההחלטה שלכם</b>זו המלצה ראשונה, לא תח
 /* dynamic UI strings: [he,en,es,fr] */
 const U={
 phHave:["כתבו כאן את הרעיון, בכמה מילים. למשל: ללמד מבוגרים להשתמש בטלפון החכם.","Write your idea here, in a few words. For example: teach older adults to use their smartphone.","Escribe aquí tu idea, en pocas palabras. Por ejemplo: enseñar a personas mayores a usar el teléfono inteligente.","Écrivez votre idée ici, en quelques mots. Par exemple : apprendre aux personnes âgées à utiliser leur smartphone."],
-phNone:["מה מעניין אתכם? למשל: ילדים, בישול, מחשבים, לעזור לאנשים...","What interests you? For example: kids, cooking, computers, helping people...","¿Qué te interesa? Por ejemplo: niños, cocina, ordenadores, ayudar a la gente...","Qu'est-ce qui vous intéresse ? Par exemple : enfants, cuisine, informatique, aider les gens..."],
+phNone:["מה מעניין אתכם? בחרו נושא למטה או כתבו בעצמכם.","What interests you? Pick a topic below or write your own.","¿Qué te interesa? Elige un tema abajo o escribe el tuyo.","Qu'est-ce qui vous intéresse ? Choisissez un thème ci-dessous ou écrivez le vôtre."],
 goHave:["בדקו את הרעיון","Check my idea","Revisar mi idea","Vérifier mon idée"],
-goNone:["הציעו לי רעיונות","Suggest ideas","Sugiéreme ideas","Proposez-moi des idées"],
+chipsNone:["ילדים|בישול|מחשבים|לעזור לאנשים","kids|cooking|computers|helping people","niños|cocina|ordenadores|ayudar a la gente","enfants|cuisine|informatique|aider les gens"],
+goNone:["הצע רעיונות","Suggest ideas","Sugiéreme ideas","Proposez-moi des idées"],
 hintHave:["מה שכתבתם נשאר שלכם.","What you write stays yours.","Lo que escribes sigue siendo tuyo.","Ce que vous écrivez reste à vous."],
 hintNone:["גם מילה אחת מספיקה.","Even one word is enough.","Con una palabra basta.","Un seul mot suffit."],
 pause:["עצרו תנועה","Pause motion","Detener movimiento","Arrêter le mouvement"],
