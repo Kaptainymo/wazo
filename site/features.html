@@ -543,6 +543,13 @@
   .win .qs button[aria-selected="true"]{background:none;color:#141414}
   .win .qs button[aria-selected="true"] .fill{transform:scaleX(1)}
   .win .qs button:focus-visible{border-radius:8px;outline-offset:4px}
+  /* phones: card groups are swipeable sliders */
+  @media (max-width:960px){
+    .vcards,.pgrid,.steps{display:flex;gap:12px;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;overscroll-behavior-x:contain;margin-inline:-20px;padding-inline:20px;padding-bottom:4px}
+    .vcards::-webkit-scrollbar,.pgrid::-webkit-scrollbar,.steps::-webkit-scrollbar{display:none}
+    .vcards>*,.pgrid>*,.steps>*{flex:0 0 min(82vw,330px);scroll-snap-align:center}
+    section.blk .step{min-height:0}
+  }
 </style>
 </head>
 <body>
