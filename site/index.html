@@ -141,7 +141,7 @@ nav.top .in{display:flex;align-items:center;justify-content:space-between;height
 .p-idea{background:var(--b1);color:var(--b1-ink)}
 .ibox{position:relative;border-radius:28px;padding:20px 24px;border:1px solid rgba(10,10,10,.18)}
 @property --rim{syntax:"<angle>";initial-value:0deg;inherits:false}
-.ibox::after{content:"";position:absolute;inset:-1px;border-radius:inherit;padding:2px;pointer-events:none;background:conic-gradient(from var(--rim),rgba(10,10,10,0) 0deg,rgba(10,10,10,0) 190deg,rgba(10,10,10,.85) 335deg,rgba(10,10,10,0) 360deg),linear-gradient(rgba(10,10,10,.16),rgba(10,10,10,.16));-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;animation:rim 9s linear infinite}
+.ibox::after{content:"";position:absolute;inset:-1px;border-radius:inherit;padding:4px;pointer-events:none;background:conic-gradient(from var(--rim),rgba(10,10,10,0) 0deg,rgba(10,10,10,0) 190deg,rgba(10,10,10,.85) 335deg,rgba(10,10,10,0) 360deg),linear-gradient(rgba(10,10,10,.16),rgba(10,10,10,.16));-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;animation:rim 9s linear infinite}
 .ibox:focus-within::after{animation-duration:6s}
 @keyframes rim{to{--rim:360deg}}
 .ibox.dropping{box-shadow:inset 0 0 0 2px #0A0A0A}
