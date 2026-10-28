@@ -462,6 +462,60 @@
   section.blk .tier.pro .price small{color:#CFCAC0}
   section.blk .tier.pro li::before{border-color:var(--coral)}
   section.blk .tier li.soon{color:var(--muted)}
+
+  /* ---------- light hero, light navigation, soft panel ---------- */
+  html,body{background:#FBF7F2}
+  header.nav,.sheet,.peek .hero{--ink:#141414;--muted:#5E5B55;--line:#E7E0D6;color:#141414}
+  .peek .hero{background:#FBF7F2}
+  .hero h1{color:#141414}
+  .hero h1 em{color:#E5594F}
+  .hero .lead{color:#5E5B55}
+  .hero .hint{color:#5E5B55}
+  .glow i{background:
+    radial-gradient(44% 60% at 50% 98%,rgba(255,205,195,.75),rgba(255,205,195,.3) 45%,transparent 80%),
+    radial-gradient(36% 50% at 16% 98%,rgba(211,236,236,.9),rgba(211,236,236,.4) 45%,transparent 80%),
+    radial-gradient(48% 64% at 84% 98%,rgba(255,226,219,.95),rgba(255,226,219,.45) 45%,transparent 80%);filter:blur(56px)}
+  .glow s{background:linear-gradient(to top,rgb(255,233,227) 0,rgb(255,233,227) 20.2%,rgba(255,233,227,.9) 28%,rgba(255,233,227,.72) 38%,rgba(255,233,227,.5) 50%,rgba(255,233,227,.3) 62%,rgba(255,233,227,.16) 74%,rgba(255,233,227,.07) 85%,rgba(255,233,227,.02) 94%,transparent)}
+  .peek.flat .glow s{background:linear-gradient(to top,rgb(255,233,227) 0,rgba(255,233,227,.9) 8%,rgba(255,233,227,.72) 20%,rgba(255,233,227,.5) 34%,rgba(255,233,227,.3) 48%,rgba(255,233,227,.16) 62%,rgba(255,233,227,.07) 78%,rgba(255,233,227,.02) 90%,transparent)}
+  .ask,.ask:focus-within{border-color:#141414}
+  .ask{background:#fff;box-shadow:0 24px 60px -24px rgba(20,20,20,.25)}
+  .ask textarea{color:#141414}
+  .ask textarea::placeholder{color:rgba(20,20,20,.5)}
+  .askrow{border-top-color:#E7E0D6}
+  .tabs{background:#F1EBE2;border:0}
+  .tabs::before{background:#141414}
+  .tabs button{color:#3B3935}
+  .tabs button[aria-selected="true"]{color:#fff}
+  .ask .cta.solid{background:#141414;color:#fff}
+  .ask .go[aria-disabled="true"]{background:rgba(20,20,20,.08);color:rgba(20,20,20,.45)}
+  .ask .go[aria-disabled="true"]:hover{background:rgba(20,20,20,.08)}
+  .ask .enrlink{color:#3B3935}
+  .itool{border-color:rgba(20,20,20,.25);color:#141414}
+  @media (hover:hover){.itool:hover{background:rgba(20,20,20,.06)}.ask .enrlink:hover{color:#141414}.ask .cta.solid:hover{background:#333}.nav .cta.solid:hover{background:#333}}
+  /* navigation over the light page */
+  header.nav.solid{background:rgba(251,247,242,.92);border-color:#E7E0D6}
+  .links a.l{color:#3B3935}
+  .links a.l:hover,.links a.l[aria-current="true"]{background:rgba(20,20,20,.06);color:#141414}
+  .pill,.burger{border-color:rgba(20,20,20,.3)}
+  .nav .cta.solid,.sheet .cta.solid,.dock .cta.solid{background:#141414;color:#fff}
+  .lm{background:#fff;border-color:#E7E0D6;box-shadow:0 20px 50px rgba(20,20,20,.15)}
+  .lm button,.sl button{color:#141414}
+  .lm button[aria-current="true"],.sl button[aria-current="true"]{background:#141414;color:#fff}
+  .sl button{border-color:rgba(20,20,20,.25)}
+  @media (hover:hover){.lm button:not([aria-current="true"]):hover,.sl button:not([aria-current="true"]):hover{background:rgba(20,20,20,.06)}}
+  .sheet{background:#FBF7F2}
+  .sheet a.l{color:#141414}
+  .sheet a.l span{color:#C2433A}
+  /* the "what you get" panel: a soft peach instead of full coral */
+  .win{background:rgb(255,233,227)}
+  .win .qs{border-color:rgba(20,20,20,.14)}
+  .win .qs button+button{border-inline-start-color:rgba(20,20,20,.14)}
+  .win .qs button[aria-selected="true"]{background:rgba(255,255,255,.55)}
+  .win .qs button .fill{background:rgba(240,113,103,.13)}
+  .win .stk{border-color:rgba(20,20,20,.3);color:rgba(20,20,20,.5)}
+  .win .stk.s2{border-color:rgba(20,20,20,.18)}
+  .win .sec-h .eyebrow{color:#C2433A}
+  .win .float .card{box-shadow:0 30px 60px -20px rgba(20,20,20,.35)}
 </style>
 </head>
 <body>
@@ -505,7 +559,7 @@
     <div class="grain"></div>
     <div class="stage simple">
       <div class="copy">
-        <h1 data-i="h1">האם הרעיון שלי יעשה כסף?</h1>
+        <h1 data-i="h1">האם הרעיון שלי <em>יעשה כסף</em>?</h1>
         <p class="lead">כתבו אותו בכמה מילים, ובדקות תדעו אם להתחיל, לחדד או לחשוב מחדש.</p>
         <form class="ask" onsubmit="event.preventDefault()">
           <div class="tabs" role="tablist" aria-label="איך מתחילים"><button type="button" role="tab" id="tabHave" aria-selected="true" aria-controls="idea">יש לי רעיון</button><button type="button" role="tab" id="tabNone" aria-selected="false" aria-controls="idea">אין לי רעיון</button></div>
