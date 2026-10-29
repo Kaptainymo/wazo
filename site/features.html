@@ -247,7 +247,6 @@
   .cc-dot{flex:0 1 44px;min-width:26px;height:44px;border:0;background:none;padding:0;cursor:pointer;display:grid;place-items:center}
   .cc-dot::before{content:"";width:8px;height:8px;border-radius:50%;background:rgba(241,240,236,.28);transition:background-color .3s,transform .3s}
   .cc-dot[aria-current="true"]::before{background:var(--coral);transform:scale(1.5)}
-  .cc-pause{border:1px solid rgba(241,240,236,.3);background:none;color:var(--ink);height:44px;padding:0 20px;border-radius:999px;font:inherit;font-size:14px;cursor:pointer}
   @media (prefers-reduced-motion:reduce){.cc-card,.cc-card.on{transition:none;transform:none}}
   .chip{padding:12px 20px;border-radius:999px;color:var(--coral);font-size:16px;background:rgba(240,113,103,.16)}
   .tl{display:grid;gap:0;margin-top:28px;padding-inline-start:26px}
@@ -446,7 +445,6 @@
   .cc-stage{background:var(--peach);border:0}
   .cc-card{color:var(--cd)}.cc-card figcaption{color:var(--ink)}
   .cc-dot::before{background:rgba(20,20,20,.25)}
-  .cc-pause{border-color:rgba(20,20,20,.35)}
   section.blk .chip{color:var(--cd)}
   section.blk .tier{background:#fff;border:0;border-radius:28px}
   section.blk .tier li,section.blk .tier .renew{color:#3B3935}
@@ -563,57 +561,172 @@
   /* the default focus ring is coral, which disappears on the coral hero and the transparent navigation above it */
   .peek .hero :focus-visible,header.nav:not(.solid) :focus-visible{outline-color:#0A0A0A}
   .ask{box-shadow:none}
-  .ask::after{background:conic-gradient(from var(--rim),rgba(10,10,10,0) 0deg,rgba(10,10,10,0) 190deg,rgba(10,10,10,.9) 335deg,rgba(10,10,10,0) 360deg),linear-gradient(rgba(10,10,10,.14),rgba(10,10,10,.14))}
+  .ask::after{background:conic-gradient(from var(--rim),rgba(241,240,236,0) 0deg,rgba(241,240,236,0) 190deg,rgba(241,240,236,.9) 335deg,rgba(241,240,236,0) 360deg),linear-gradient(rgba(241,240,236,.16),rgba(241,240,236,.16))}
+  /* the input card is black, with light text and coral buttons */
+  .peek .hero .ask{--ink:#F1F0EC;--muted:#A8A6A0;--tool-line:rgba(241,240,236,.3);background:#0A0A0A;color:#F1F0EC}
+  .ask textarea{color:#F1F0EC}
+  .ask textarea::placeholder{color:rgba(241,240,236,.6)}
+  .askrow{border-top-color:rgba(241,240,236,.16)}
+  .tabs{background:rgba(241,240,236,.1)}
+  .tabs::before{background:var(--coral)}
+  .tabs button{color:rgba(241,240,236,.78)}
+  .tabs button[aria-selected="true"]{color:#0A0A0A}
+  .ask .hint{color:#F1F0EC;opacity:.75}
+  .ask .itool{color:#F1F0EC}
+  .ask .enrlink{color:#D6D5D0}
+  .ask .cta.solid,.ask .go[aria-disabled="true"]{background:var(--coral);color:#0A0A0A}
+  @media (hover:hover){.itool:hover{background:rgba(241,240,236,.1)}.ask .enrlink:hover{color:#fff}.ask .cta.solid:hover,.ask .go[aria-disabled="true"]:hover{background:#F4857D}}
+  .peek .hero .ask :focus-visible{outline-color:var(--coral)}
+  .ask .wz-chip{color:#F1F0EC}
+  .ask .wz-chip[aria-pressed=true]{background:var(--coral);color:#0A0A0A}
+  @media (hover:hover){.ask .wz-chip:hover{background:rgba(241,240,236,.1)}.ask .wz-chip[aria-pressed=true]:hover{background:#F4857D}}
 
-  /* ---------- all white, black navigation on scroll, soft coral cards ---------- */
-  :root{--tile:#FFF0EC}
-  html,body{background:#fff}
-  section.blk{--bg:#fff}
-  .privacy,.sheet,.win{background:#fff}
-  footer{background:#fff;border-top:2px solid #141414;color:#5E5B55}
-  footer a{color:#141414}
-  header.nav.solid{background:#0A0A0A;border-color:#0A0A0A;backdrop-filter:none;-webkit-backdrop-filter:none;color:#fff;--ink:#fff}
+  /* ---------- dark below the hero: black page, light text, cards with no fill and a light outline ---------- */
+  :root{--outline:rgba(241,240,236,.28)}
+  html,body{background:#080808}
+  section.blk{--bg:#080808;--ink:#F1F0EC;--muted:#A8A6A0;--line:#2A2A2A;--card:#1C1C1C;--cd:var(--coral);background:#080808;color:var(--ink)}
+  .win,.privacy{background:#080808;color:var(--ink)}
+  .privacy{border-block:0}
+  footer{background:#080808;border-top:2px solid var(--outline);color:var(--muted)}
+  footer a{color:var(--ink)}
+  header.nav.solid{background:#0A0A0A;border-color:#2A2A2A;backdrop-filter:none;-webkit-backdrop-filter:none;color:#fff;--ink:#fff}
   header.nav.solid .logo,header.nav.solid .links a.l{color:#fff}
   header.nav.solid .links a.l:hover,header.nav.solid .links a.l[aria-current="true"]{background:rgba(255,255,255,.18);color:#fff}
   header.nav.solid .pill,header.nav.solid .burger{border-color:rgba(255,255,255,.6);color:#fff}
   header.nav.solid .cta.solid{background:#fff;color:#0A0A0A}
   @media (hover:hover){header.nav.solid .cta.solid:hover{background:#D9D9D9}}
-  /* the default button is filled; on hover it goes a little lighter, like "try now" */
-  .ask .go[aria-disabled="true"]{background:#141414;color:#fff}
-  @media (hover:hover){.ask .go[aria-disabled="true"]:hover{background:#333}}
+  /* desktop: on the dark page the main navigation is coral with black text */
+  @media (min-width:961px){
+    header.nav.solid{background:var(--coral);border-color:transparent;color:#0A0A0A;--ink:#0A0A0A}
+    header.nav.solid .logo,header.nav.solid .links a.l{color:#0A0A0A}
+    header.nav.solid .links a.l:hover,header.nav.solid .links a.l[aria-current="true"]{background:rgba(10,10,10,.14);color:#0A0A0A}
+    header.nav.solid .pill{border-color:rgba(10,10,10,.5);color:#0A0A0A}
+    header.nav.solid .cta.solid{background:#0A0A0A;color:#fff}
+    header.nav.solid :focus-visible{outline-color:#0A0A0A}
+  }
+  @media (min-width:961px) and (hover:hover){header.nav.solid .cta.solid:hover{background:#333}}
+  /* every solid button is light on black, except in the hero card (coral) and on the pastel idea cards (black) */
   .vc .vbtn{background:#141414;color:#fff;border-color:#141414}
   @media (hover:hover){.vc .vbtn:hover{background:#333;color:#fff}}
-  /* cards: a very soft coral fill and no border */
-  section.blk .step,section.blk .step:nth-child(n),section.blk .pcard,section.blk .vc,.privacy .promise{background:var(--tile);border:0;border-radius:28px}
+  .dock .cta.solid,.sheet .cta.solid,.sliver{background:#F1F0EC;color:#0A0A0A}
+  @media (hover:hover){.dock .cta.solid:hover,.sheet .cta.solid:hover,.sliver:hover{background:#D9D9D6;color:#0A0A0A}}
+  /* the menu sheet and the language menu are dark too */
+  .sheet{--ink:#F1F0EC;--muted:#A8A6A0;--line:#2A2A2A;background:#0A0A0A;color:var(--ink)}
+  .sheet a.l{color:var(--ink)}
+  .sheet a.l span{color:var(--coral)}
+  body:has(.sheet.open) header.nav{--ink:#F1F0EC;color:#F1F0EC}
+  body:has(.sheet.open) header.nav :is(.logo,.burger,.pill){color:#F1F0EC;border-color:rgba(241,240,236,.5)}
+  .lm{background:#141414;border-color:rgba(241,240,236,.2);box-shadow:0 20px 50px rgba(0,0,0,.5)}
+  .lm button,.sl button{color:#F1F0EC}
+  .lm button[aria-current="true"],.sl button[aria-current="true"]{background:#F1F0EC;color:#0A0A0A}
+  .sl button{border-color:rgba(241,240,236,.3)}
+  @media (hover:hover){.lm button:not([aria-current="true"]):hover,.sl button:not([aria-current="true"]):hover{background:rgba(241,240,236,.1)}}
+  /* what you get: the sheet is black, the tabs and text are light */
+  .win .sec-h .eyebrow{color:var(--coral)}
+  .win .sec-h h2,.win .pane h3,.sl-i h3{color:var(--ink)}
+  .win .pane p,.sl-i p{color:#D6D5D0}
+  .win .qs button{color:rgba(241,240,236,.7)}
+  .win .qs button .trk{background:rgba(241,240,236,.18)}
+  .win .qs button[aria-selected="true"]{color:var(--ink)}
+  .win :focus-visible,.slider:focus-visible{outline-color:var(--coral)}
+  /* the demo answer cards are coral with black text; the cards stacked behind are coral outlines; the last (verdict) card keeps its own color */
+  .win .stk{border-color:rgba(240,113,103,.9);color:rgba(240,113,103,.6)}
+  .win .stk.s2{border-color:rgba(240,113,103,.5)}
+  .win .float .card{box-shadow:none}
+  .win .card:not(.final){background:var(--coral);color:#0A0A0A}
+  .win .card:not(.final) :is(.top,.cap){opacity:.8}
+  .win .card:not(.final) .rows div:not(.tipr){border-top-color:rgba(10,10,10,.3)}
+  /* cards: no fill and no border */
+  section.blk .step,section.blk .step:nth-child(n),section.blk .pcard,section.blk .vc,.privacy .promise{background:transparent;border:0;border-radius:28px}
   @media (max-width:960px){section.blk .step,section.blk .pcard,section.blk .vc,.privacy .promise{border-radius:20px}}
-  /* the slideshow stage: the same soft coral, dark words */
-  .cc-stage{background:var(--tile);border:0}
-  .cc-card,.cc-card figcaption{color:#141414}
+  /* the slideshow stage: no fill and no border, light words and icons */
+  .cc-stage{background:transparent;border:0}
+  /* the slideshow column is centered: the intro line, the card and the dots share one axis */
+  .kp{text-align:center;margin-inline:auto}
+  .cc-dots{justify-content:center}
+  /* starting point on desktop: both columns have the same height, the list runs from the intro line down to the dots */
+  @media (min-width:961px){
+    .kick{align-items:stretch}
+    .kick>div:first-child{display:flex}
+    .kick .tl{margin:0;width:100%;align-content:space-between}
+  }
+  .cc-card,.cc-card figcaption{color:var(--ink)}
+  .cc-dot::before{background:rgba(241,240,236,.28)}
+  .tl div{color:#D6D5D0}
   /* pricing: two plain columns, no cards */
   @media (min-width:961px){
     /* two columns that sit at the edges, with the line exactly halfway between their text */
     section.blk .tiers{display:grid;grid-template-columns:minmax(0,max-content) 2px minmax(0,max-content);justify-content:space-between;column-gap:round(clamp(24px,4vw,64px),2px)}
-    section.blk .tiers::before{content:"";grid-column:2;grid-row:1;order:1;background:#141414}
+    section.blk .tiers::before{content:"";grid-column:2;grid-row:1;order:1;background:var(--outline)}
     section.blk .tiers>.tier:first-child{grid-column:1;grid-row:1}
     section.blk .tiers>.tier+.tier{grid-column:3;grid-row:1;border:0;padding-inline:0}
     section.blk .tiers>.tier,section.blk .tiers>.tier.pro{padding-inline:0}
   }
   section.blk .tier,section.blk .tier.pro{background:none;border:0;border-radius:0;box-shadow:none;padding-block:8px;padding-inline:0 40px;color:var(--ink)}
-  section.blk .tier+.tier{border-inline-start:2px solid #141414;padding-inline:40px 0}
+  section.blk .tier+.tier{border-inline-start:2px solid var(--outline);padding-inline:40px 0}
   section.blk .tier.pro h3,section.blk .tier.pro .price{color:var(--ink)}
-  section.blk .tier.pro li,section.blk .tier.pro .renew{color:#3B3935}
+  section.blk .tier li,section.blk .tier .renew,section.blk .tier.pro li,section.blk .tier.pro .renew{color:#D6D5D0}
   section.blk .tier.pro .price small{color:var(--muted)}
-  section.blk .tier.pro li::before{border-color:var(--cd)}
+  section.blk .tier li::before,section.blk .tier.pro li::before{border-color:var(--coral)}
+  section.blk .tier li.soon{color:var(--muted)}
+  section.blk .tier li.soon::before{border-color:var(--muted)}
 
-  /* ---------- tile cards: big bold title and short text on the soft coral fill ---------- */
-  section.blk :is(.step,.pcard,.vc){position:relative;overflow:hidden;background:var(--tile);min-height:260px;padding:28px;display:flex;flex-direction:column;gap:12px}
-  section.blk :is(.step,.pcard,.vc) h3{font-size:round(clamp(30px,3vw,44px),2px);font-weight:700;letter-spacing:-.035em;--lhr:1.02;margin:0;color:#141414}
-  section.blk :is(.step,.pcard,.vc) p{font-size:16px;max-width:38ch;margin:0}
-  #about .pcard h3,#duet .pcard h3{color:#141414}
-  section.blk .step .n{font-size:16px;font-weight:600;color:#6B6B66;margin:0}
+  /* ---------- tile cards: big bold title and short text, no fill ---------- */
+  section.blk :is(.step,.pcard,.vc){position:relative;overflow:hidden;background:transparent;min-height:260px;padding:28px;display:flex;flex-direction:column;gap:12px}
+  section.blk :is(.step,.pcard,.vc) h3{font-size:round(clamp(30px,3vw,44px),2px);font-weight:700;letter-spacing:-.035em;--lhr:1.02;margin:0;color:var(--ink)}
+  section.blk :is(.step,.pcard,.vc) p{font-size:16px;max-width:38ch;margin:0;color:#D6D5D0}
+  #about .pcard h3,#duet .pcard h3{color:var(--ink)}
+  section.blk .step .n{font-size:16px;font-weight:600;color:var(--muted);margin:0}
   section.blk .vc{min-height:300px}
+  /* idea cards: the fill follows the status (start = teal, sharpen = butter, stop = peach), dark text on it */
+  section.blk .vc[data-v="build"]{background:var(--tealt)}
+  section.blk .vc[data-v="pivot"]{background:var(--butter)}
+  section.blk .vc[data-v="kill"]{background:var(--peach)}
+  section.blk .vc h3{color:#141414}
+  section.blk .vc p{color:#3B3935}
+  section.blk .vc .cat{color:#5E5B55}
+  section.blk .vc .v{background:rgba(10,10,10,.1);color:#141414}
   @media (max-width:960px){
     section.blk :is(.step,.pcard){min-height:240px}
+  }
+
+  /* ---------- who we are: a bigger statement that builds in once, when it scrolls into view ---------- */
+  #about .sec-h h2{font-size:round(clamp(36px,6vw,72px),2px);--lhr:1.04}
+  #about .sec-h h2 .w{display:inline-block;transition:opacity var(--motion-moderate) var(--ease-out),transform var(--motion-moderate) var(--ease-out),color 400ms var(--ease-out);transition-delay:calc(var(--w)*40ms),calc(var(--w)*40ms),360ms}
+  #about .sec-h h2 .hl{color:var(--coral)}
+  #about .sec-h :is(.eyebrow,p){transition:opacity var(--motion-moderate) var(--ease-out) 200ms,transform var(--motion-moderate) var(--ease-out) 200ms}
+  #about .pcard{transition:opacity var(--motion-emphasized) var(--ease-out),transform var(--motion-emphasized) var(--ease-out);transition-delay:calc(280ms + var(--i,0)*40ms)}
+  #about .pcard h3::after{content:"";display:block;height:2px;width:48px;margin-top:12px;background:var(--coral);transform-origin:100% 50%;transition:transform var(--motion-emphasized) var(--ease-out);transition-delay:calc(420ms + var(--i,0)*40ms)}
+  [dir="ltr"] #about .pcard h3::after{transform-origin:0 50%}
+  .js #about:not(.go) .sec-h :is(.eyebrow,p){opacity:0;transform:translateY(8px)}
+  .js #about:not(.go) .sec-h h2 .w{opacity:0;transform:translateY(12px)}
+  .js #about:not(.go) .sec-h h2 .hl{color:var(--ink)}
+  .js #about:not(.go) .pcard{opacity:0;transform:translateY(16px)}
+  .js #about:not(.go) .pcard h3::after{transform:scaleX(0)}
+  @media (prefers-reduced-motion:reduce){
+    #about .sec-h h2 .w,#about .sec-h :is(.eyebrow,p),#about .pcard{transition:opacity 150ms linear;transition-delay:0s;transform:none!important}
+    #about .pcard h3::after{transition:none;transform:none!important}
+  }
+  /* the slideshow pause control is for keyboard and screen reader users: it shows only when it has focus */
+  .cc-ctl{position:relative}
+  .cc-pause-sr{position:absolute;inset-inline-end:0;top:0;height:44px;padding:0 20px;border-radius:999px;border:2px solid var(--outline);background:#080808;color:var(--ink);font-family:inherit;font-size:14px;opacity:0;pointer-events:none;cursor:pointer}
+  .cc-pause-sr:focus-visible{opacity:1;pointer-events:auto}
+  /* the mic icon stays dark on the coral recording state; the menu focus ring is light over the dark sheet */
+  .ask .itool.on{color:#0A0A0A}
+  body:has(.sheet.open) header.nav :focus-visible{outline-color:#F1F0EC}
+  /* phones: swipe rows show a clear peek of the next card and a dot per card; the two prices sit one above the other */
+  .sdots{display:none}
+  @media (max-width:960px){
+    .sdots{display:flex;margin-top:4px}
+    /* what you get: the five labelled tabs give way to the same dots, under the cards */
+    .win .qs{display:none}
+    .win .sdots{margin-top:0;flex:none}
+    section.blk :is(.step,.pcard){padding-inline:0;min-height:0}
+    .steps,.pgrid{gap:28px}
+    .steps>*,.pgrid>*{flex-basis:min(78vw,300px)}
+    section.blk .tiers{display:grid;grid-template-columns:minmax(0,1fr);gap:32px;overflow:visible;scroll-snap-type:none;margin-inline:0;padding:0}
+    section.blk .tiers>.tier,section.blk .tiers>.tier.pro{padding:0}
+    section.blk .tiers>.tier+.tier{border-inline-start:0;border-top:2px solid var(--outline);padding-top:32px}
   }
 
   /* the answer card is built like the product's: everything starts on the right (left in left-to-right languages) */
@@ -675,7 +788,7 @@
           <div class="tabs" role="tablist" aria-label="איך מתחילים"><button type="button" role="tab" id="tabHave" aria-selected="true" aria-controls="idea">יש לי רעיון</button><button type="button" role="tab" id="tabNone" aria-selected="false" aria-controls="idea">אין לי רעיון</button></div>
           <label class="sr" for="idea">הרעיון שלך</label>
           <div class="tawrap"><textarea id="idea" rows="2" placeholder="כתבו כאן את הרעיון, בכמה מילים. למשל: ללמד מבוגרים להשתמש בטלפון החכם."></textarea><span class="caret" aria-hidden="true"></span></div>
-          <div class="ibar"><span class="itmsg" id="itmsg" role="status" aria-live="polite"></span></div>
+          <div class="ibar"><span id="itwrap"></span><span class="itmsg" id="itmsg" role="status" aria-live="polite"></span></div>
           <div class="askrow"><span class="hint" id="hint" data-u>מה שכתבתם נשאר שלכם.</span><span class="acts"><button class="enrlink" type="button" id="enrich">הרחב לי</button><button class="cta solid go" id="go" type="submit"><span id="gotxt" data-u>בדקו את הרעיון</span></button></span></div>
         </form>
       </div>
@@ -740,7 +853,7 @@
       <p class="kp">לא צריך להיות יזם מנוסה, כתבו בשפה שלכם לטובת:</p>
       <div class="cc" id="cc" role="group" aria-roledescription="carousel" aria-label="אפשרויות">
         <div class="cc-stage"><figure class="cc-card on"><svg viewBox="0 0 64 64" width="96" height="96" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 28v28h48V28"/><path d="M6 14h52l4 14a8 8 0 0 1-16 0 8 8 0 0 1-16 0 8 8 0 0 1-16 0 8 8 0 0 1-16 0z"/><path d="M26 56V40h12v16"/></svg><figcaption>עסק קטן</figcaption></figure><figure class="cc-card" aria-hidden="true"><svg viewBox="0 0 64 64" width="96" height="96" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="8" y="20" width="48" height="34" rx="6"/><path d="M24 20v-6a4 4 0 0 1 4-4h8a4 4 0 0 1 4 4v6"/><path d="M8 34h48"/><path d="M29 34v5h6v-5"/></svg><figcaption>עבודה חדשה והסבה</figcaption></figure><figure class="cc-card" aria-hidden="true"><svg viewBox="0 0 64 64" width="96" height="96" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M32 16c-6-5-16-6-24-4v38c8-2 18-1 24 4 6-5 16-6 24-4V12c-8-2-18-1-24 4z"/><path d="M32 16v38"/></svg><figcaption>ללמד משהו</figcaption></figure><figure class="cc-card" aria-hidden="true"><svg viewBox="0 0 64 64" width="96" height="96" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M32 56V30"/><path d="M32 40c-9 0-14-6-14-14 9 0 14 6 14 14z"/><path d="M32 32c0-9 5-15 14-15 0 9-5 15-14 15z"/><path d="M20 56h24"/></svg><figcaption>פרויקט שישאר אחריי</figcaption></figure><figure class="cc-card" aria-hidden="true"><svg viewBox="0 0 64 64" width="96" height="96" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="6" y="12" width="52" height="38" rx="5"/><path d="M6 22h52"/><circle cx="12" cy="17" r="1"/><circle cx="17" cy="17" r="1"/><path d="M24 56h16M32 50v6"/><path d="M20 34l5 4-5 4M30 42h8"/></svg><figcaption>אתר או אפליקציה</figcaption></figure><figure class="cc-card" aria-hidden="true"><svg viewBox="0 0 64 64" width="96" height="96" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="22" cy="22" r="7"/><circle cx="42" cy="22" r="7"/><path d="M8 52c0-9 6-15 14-15s14 6 14 15"/><path d="M28 52c0-9 6-15 14-15s14 6 14 15"/></svg><figcaption>מוצר שבונים יחד עם אדם שאוהבים</figcaption></figure><figure class="cc-card" aria-hidden="true"><svg viewBox="0 0 64 64" width="96" height="96" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 12h30a4 4 0 0 1 4 4v16a4 4 0 0 1-4 4H20l-8 8v-8H8a4 4 0 0 1-4-4V16a4 4 0 0 1 4-4z"/><path d="M48 24h8a4 4 0 0 1 4 4v14a4 4 0 0 1-4 4h-2v8l-8-8H30"/></svg><figcaption>תוכן וקהילה</figcaption></figure></div>
-        <div class="cc-ctl"><div class="cc-dots"><button type="button" class="cc-dot" data-n="0" aria-current="true"></button><button type="button" class="cc-dot" data-n="1" aria-current="false"></button><button type="button" class="cc-dot" data-n="2" aria-current="false"></button><button type="button" class="cc-dot" data-n="3" aria-current="false"></button><button type="button" class="cc-dot" data-n="4" aria-current="false"></button><button type="button" class="cc-dot" data-n="5" aria-current="false"></button><button type="button" class="cc-dot" data-n="6" aria-current="false"></button></div><button type="button" class="cc-pause" id="ccPause"><span>השהיה</span><span hidden>המשך</span></button></div>
+        <div class="cc-ctl"><div class="cc-dots"><button type="button" class="cc-dot" data-n="0" aria-current="true"></button><button type="button" class="cc-dot" data-n="1" aria-current="false"></button><button type="button" class="cc-dot" data-n="2" aria-current="false"></button><button type="button" class="cc-dot" data-n="3" aria-current="false"></button><button type="button" class="cc-dot" data-n="4" aria-current="false"></button><button type="button" class="cc-dot" data-n="5" aria-current="false"></button><button type="button" class="cc-dot" data-n="6" aria-current="false"></button></div><button type="button" class="cc-pause-sr" id="ccPause"><span>השהיה</span><span hidden>המשך</span></button></div>
       </div>
     </div>
   </div>
@@ -748,11 +861,11 @@
   </section>
 
   <section class="blk" id="about"><div class="wrap">
-    <div class="sec-h"><span class="eyebrow">מי אנחנו</span><h2>בינה מלאכותית היא של כולם</h2><p>Wazo נולד מאמונה פשוטה: כל אחד ואחת ראויים ללמוד להשתמש בבינה מלאכותית ולהפיק ממנה את המיטב בשבילם. לא רק מי שמבין בטכנולוגיה.</p></div>
+    <div class="sec-h"><span class="eyebrow">מי אנחנו</span><h2 data-i="aboutH"><span class="w" style="--w:0">בינה</span> <span class="w" style="--w:1">מלאכותית</span> <span class="w" style="--w:2">היא</span> <span class="w" style="--w:3">של</span> <span class="w hl" style="--w:4">כולם</span></h2><p>Wazo נולד מאמונה פשוטה: כל אחד ואחת ראויים ללמוד להשתמש בבינה מלאכותית ולהפיק ממנה את המיטב בשבילם. לא רק מי שמבין בטכנולוגיה.</p></div>
     <div class="pgrid">
-      <div class="pcard"><h3>למידה מתוך עשייה</h3><p>כל תשובה מסבירה למה, ולא רק מה. אחרי כמה בדיקות תדעו לשאול את הבינה המלאכותית שאלות טובות בעצמכם.</p></div>
-      <div class="pcard"><h3>שימושי</h3><p>כלי פשוט שנותן תשובה שאפשר לפעול לפיה כבר השבוע. בלי מילים גבוהות ובלי ללמוד מערכת חדשה.</p></div>
-      <div class="pcard"><h3>אנושי</h3><p>נבנה לאנשים ולא למומחים, מכל גיל ומכל רקע. אין צורך לדעת כלום מראש, ואף פעם לא מאוחר מדי להתחיל.</p></div>
+      <div class="pcard" style="--i:0"><h3>למידה מתוך עשייה</h3><p>כל תשובה מסבירה למה, ולא רק מה. אחרי כמה בדיקות תדעו לשאול את הבינה המלאכותית שאלות טובות בעצמכם.</p></div>
+      <div class="pcard" style="--i:1"><h3>שימושי</h3><p>כלי פשוט שנותן תשובה שאפשר לפעול לפיה כבר השבוע. בלי מילים גבוהות ובלי ללמוד מערכת חדשה.</p></div>
+      <div class="pcard" style="--i:2"><h3>אנושי</h3><p>נבנה לאנשים ולא למומחים, מכל גיל ומכל רקע. אין צורך לדעת כלום מראש, ואף פעם לא מאוחר מדי להתחיל.</p></div>
     </div>
   </div></section>
 
@@ -850,7 +963,7 @@ async function readPicture(data){
   if(r.status===200&&r.data.text){ idea.value=(idea.value.trim()?idea.value.trim()+"\n":"")+r.data.text; idea.dispatchEvent(new Event("input",{bubbles:true})); itmsg.textContent=""; idea.focus({preventScroll:true}); }
   else itmsg.textContent=r.status===200?T.empty:r.status===429?T.limit:T.fail;
 }
-const inputTools=WZInput.attach({wrap:document.querySelector(".ibar"),textarea:idea,lang:()=>WZI.lang,msg:t=>{ itmsg.textContent=t; },dropZone:document.querySelector(".ask"),onImage:data=>readPicture(data)});
+const inputTools=WZInput.attach({wrap:document.getElementById("itwrap"),textarea:idea,lang:()=>WZI.lang,msg:t=>{ itmsg.textContent=t; },dropZone:document.querySelector(".ask"),onImage:data=>readPicture(data)});
 function toApp(mode){
   try{ localStorage.setItem("wz.handoff",JSON.stringify({text:idea.value.trim().slice(0,1200),mode,lang:WZI.lang})); }catch(e){}
   location.href="/#idea";
@@ -880,7 +993,7 @@ function renderIdeas(){
   const sec=document.getElementById("ideas"); if(!ideaPicks||!sec) return;
   const l=IDS[WZI.lang]?WZI.lang:"he", T=IDS[l];
   document.getElementById("idEy").textContent=T.ey; document.getElementById("idH").textContent=T.h; document.getElementById("idP").textContent=T.p;
-  document.getElementById("idCards").innerHTML=ideaPicks.map((it,k)=>`<article class="vc"><span class="cat">${escH(it.cat[l])}</span><h3>${escH(it.t[l])}</h3><p>${escH(it.l[l])}</p><span class="v ${it.v.toLowerCase()}">${escH(T.v[it.v])}</span><button type="button" class="vbtn" data-k="${k}">${escH(T.btn)}</button></article>`).join("");
+  document.getElementById("idCards").innerHTML=ideaPicks.map((it,k)=>`<article class="vc" data-v="${it.v.toLowerCase()}"><span class="cat">${escH(it.cat[l])}</span><h3>${escH(it.t[l])}</h3><p>${escH(it.l[l])}</p><span class="v ${it.v.toLowerCase()}">${escH(T.v[it.v])}</span><button type="button" class="vbtn" data-k="${k}">${escH(T.btn)}</button></article>`).join("");
   sec.hidden=false;
 }
 document.getElementById("idCards").addEventListener("click",e=>{ const b=e.target.closest(".vbtn"); if(!b||!ideaPicks) return; const it=ideaPicks[+b.dataset.k]; if(!it) return;
@@ -964,17 +1077,32 @@ function goStep(k){ if(mob.matches){ show(k); const c=slider.children[k]; if(c) 
   if(!pinned){ show(k); return; }
   const y=peek.offsetTop+total()*(OPEN+(1-OPEN)*(k+.5)/faces.length); scrollTo({top:y,behavior:calm?"auto":"smooth"}); }
 addEventListener("scroll",()=>requestAnimationFrame(tick),{passive:true}); addEventListener("resize",setPinned); setPinned(); onLang();
-/* the 'starting point' cards: one at a time, a new one every 3.5 seconds; pauses on hover or focus, off the screen, or with the button */
-{ const cc=document.getElementById("cc"); if(cc){ const cards=[...cc.querySelectorAll(".cc-card")], dots=[...cc.querySelectorAll(".cc-dot")], pb=document.getElementById("ccPause"); let ci=0, paused=calm, hov=false, seen=false;
+/* the 'starting point' cards: one at a time, a new one every 3.5 seconds; pauses on hover or focus, off the screen, or once someone picks a card */
+{ const cc=document.getElementById("cc"); if(cc){ const cards=[...cc.querySelectorAll(".cc-card")], dots=[...cc.querySelectorAll(".cc-dot")], pb=document.getElementById("ccPause"); let ci=0, paused=calm, hov=false, seen=false, steps=0;
   const label=k=>cards[k].querySelector("figcaption").textContent;
   const go=n=>{ ci=(n+cards.length)%cards.length; cards.forEach((c,k)=>{ c.classList.toggle("on",k===ci); c.setAttribute("aria-hidden",String(k!==ci)); }); dots.forEach((d,k)=>{ d.setAttribute("aria-current",String(k===ci)); d.setAttribute("aria-label",label(k)); }); };
   const sync=()=>{ pb.children[0].hidden=paused; pb.children[1].hidden=!paused; pb.setAttribute("aria-pressed",String(paused)); cc.querySelector(".cc-stage").setAttribute("aria-live",paused?"polite":"off"); };
+  const flip=()=>{ paused=!paused; steps=0; sync(); };
   dots.forEach(d=>d.addEventListener("click",()=>{ paused=true; sync(); go(+d.dataset.n); }));
-  pb.addEventListener("click",()=>{ paused=!paused; sync(); });
-  cc.addEventListener("mouseenter",()=>hov=true); cc.addEventListener("mouseleave",()=>hov=false); cc.addEventListener("focusin",()=>hov=true); cc.addEventListener("focusout",()=>hov=false);
+  pb.addEventListener("click",flip); cc.querySelector(".cc-stage").addEventListener("click",flip);
+  cc.addEventListener("pointerenter",e=>{ if(e.pointerType==="mouse") hov=true; }); cc.addEventListener("pointerleave",e=>{ if(e.pointerType==="mouse") hov=false; }); cc.addEventListener("focusin",()=>hov=true); cc.addEventListener("focusout",()=>hov=false);
   new IntersectionObserver(e=>{ seen=e[0].isIntersecting; }).observe(cc);
-  setInterval(()=>{ if(!paused&&!hov&&seen&&!document.hidden) go(ci+1); },3500);
+  /* one full pass, then it stops on its own; tap the card (or the hidden pause button) to run it again */
+  setInterval(()=>{ if(!paused&&!hov&&seen&&!document.hidden){ go(ci+1); if(++steps>=cards.length){ paused=true; sync(); } } },3500);
   go(0); sync(); } }
+/* who we are: the statement builds in once, when the section comes into view */
+{ const a=document.getElementById("about"); if(a){ if("IntersectionObserver" in window){ const io=new IntersectionObserver(es=>es.forEach(e=>{ if(e.isIntersecting){ a.classList.add("go"); io.disconnect(); } }),{threshold:.3}); io.observe(a); } else a.classList.add("go"); } }
+/* phones: a dot under every swipe row, so you can see how many cards there are and tap to move */
+document.querySelectorAll(".steps,#idCards,.pgrid,#slider").forEach(row=>{
+  const dots=document.createElement("div"); dots.className="cc-dots sdots"; row.after(dots);
+  const kids=()=>[...row.children];
+  const cur=()=>{ const r=row.getBoundingClientRect(), mid=r.left+r.width/2; let best=0, bd=1e9; kids().forEach((c,k)=>{ const b=c.getBoundingClientRect(), d=Math.abs(b.left+b.width/2-mid); if(d<bd){ bd=d; best=k; } }); return best; };
+  const mark=()=>{ const c=cur(); [...dots.children].forEach((d,k)=>d.setAttribute("aria-current",String(k===c))); };
+  const build=()=>{ dots.innerHTML=kids().map((_,k)=>`<button type="button" class="cc-dot" aria-label="${k+1}/${kids().length}"></button>`).join(""); mark(); };
+  dots.addEventListener("click",e=>{ const b=e.target.closest(".cc-dot"); if(!b) return; const c=kids()[[...dots.children].indexOf(b)]; if(c) c.scrollIntoView({behavior:calm?"auto":"smooth",inline:"center",block:"nearest"}); });
+  let raf=0; row.addEventListener("scroll",()=>{ if(!raf) raf=requestAnimationFrame(()=>{ raf=0; mark(); }); },{passive:true});
+  build(); new MutationObserver(()=>{ if(kids().length!==dots.children.length) build(); }).observe(row,{childList:true});
+});
 /* the glow follows the typing: it swells, jumps and slides sideways on every keystroke, and flashes bright */
 { const g=document.getElementById("glow"), b=g.querySelector("b"), t=document.getElementById("idea"); let walk=0, tm=0, lastRip=0;
   const hero=document.querySelector(".hero"), card=document.querySelector(".ask");

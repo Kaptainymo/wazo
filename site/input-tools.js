@@ -101,7 +101,7 @@ function attach(o){
   label();
   return { relabel:label, stop };
 }
-/* Quick topics: round buttons that add or remove a word in the field.
+/* Quick topics: round buttons that set the field to one word. One choice at a time; press the chosen one again to clear it.
    WZInput.chips({ textarea, words:()=>["kids","cooking"], label:()=>"What interests you?" }) -> { el, rebuild() }  (the caller puts el where it belongs) */
 function chips(o){
   if (!document.getElementById("wz-chips-css")){
@@ -110,15 +110,14 @@ function chips(o){
     document.head.appendChild(st);
   }
   const ta=o.textarea, el=document.createElement("div"); el.className="wz-chips"; el.setAttribute("role","group");
-  const parts=()=>ta.value.split(/[,،]/).map(s=>s.trim()).filter(Boolean);
-  const same=(a,b)=>a.toLowerCase()===b.toLowerCase();
-  function sync(){ const p=parts(); el.querySelectorAll(".wz-chip").forEach(b=>b.setAttribute("aria-pressed",p.some(s=>same(s,b.textContent)))); }
+  const same=(a,b)=>a.trim().toLowerCase()===b.trim().toLowerCase();
+  function sync(){ el.querySelectorAll(".wz-chip").forEach(b=>b.setAttribute("aria-pressed",same(ta.value,b.textContent))); }
   function rebuild(){
     if(o.label) el.setAttribute("aria-label",o.label());
     el.textContent="";
     o.words().forEach(w=>{
       const b=document.createElement("button"); b.type="button"; b.className="wz-chip"; b.textContent=w; b.setAttribute("aria-pressed","false");
-      b.addEventListener("click",()=>{ const p=parts(), i=p.findIndex(s=>same(s,w)); if(i>=0) p.splice(i,1); else p.push(w); ta.value=p.join(", "); ta.dispatchEvent(new Event("input",{bubbles:true})); });
+      b.addEventListener("click",()=>{ ta.value=same(ta.value,w)?"":w; ta.dispatchEvent(new Event("input",{bubbles:true})); });
       el.appendChild(b);
     });
     sync();
