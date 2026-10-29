@@ -749,6 +749,27 @@
     section.blk .tiers>.tier+.tier{border-inline-start:0;border-top:2px solid var(--outline);padding-top:32px}
   }
 
+  /* pricing cards, in the same language as the idea cards: a solid fill, the plan and its list, the price on one line above a hairline, one arrow button */
+  #pricing .tiers{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:24px;justify-content:stretch;column-gap:24px}
+  #pricing .tiers>.tier.tier{display:flex;flex-direction:column;gap:20px;padding:32px;border:0;border-radius:32px;background:#F1F0EC;color:#141414}
+  #pricing .tiers>.tier.pro{background:var(--coral)}
+  #pricing .tier h3{color:#141414;font-size:28px}
+  #pricing .tier .renew,#pricing .tier li{color:#2B2926;margin:0}
+  #pricing .tier.pro .renew,#pricing .tier.pro li{color:#141414}
+  #pricing .tier li::before,#pricing .tier.pro li::before{border-color:#141414}
+  #pricing .tier ul{flex:1;margin:0}
+  #pricing .tier .price,#pricing .tier.pro .price{order:3;display:flex;align-items:flex-end;justify-content:space-between;gap:12px;margin:0;padding-top:20px;border-top:1px solid rgba(10,10,10,.16);color:#141414}
+  #pricing .tier .price small,#pricing .tier.pro .price small{font-size:14px;font-weight:500;color:#3B3935}
+  #pricing .tier .tbtn{order:4;display:flex;align-items:center;justify-content:space-between;gap:16px;box-sizing:border-box;height:56px;padding:0 24px 0 6px;border-radius:999px;background:#141414;color:#fff;font-size:16px;font-weight:600;text-decoration:none;box-shadow:0 8px 20px rgba(10,10,10,.18);transition:background-color var(--motion-quick) var(--ease-out),transform var(--motion-micro) var(--ease-out)}
+  [dir="rtl"] #pricing .tier .tbtn{padding:0 24px 0 6px}
+  [dir="ltr"] #pricing .tier .tbtn{padding:0 6px 0 24px}
+  #pricing .tier .tbtn .arr{display:grid;place-items:center;flex:none;width:44px;height:44px;border-radius:50%;background:#fff;color:#141414;transition:transform var(--motion-quick) var(--ease-out)}
+  [dir="rtl"] #pricing .tier .tbtn .arr svg{transform:scaleX(-1)}
+  #pricing .tier .tbtn:active{transform:scale(var(--scale-press))}
+  #pricing .tier .tbtn:focus-visible{outline:3px solid #141414;outline-offset:3px}
+  @media (hover:hover){#pricing .tier .tbtn:hover{background:#333}#pricing .tier .tbtn:hover .arr{transform:rotate(45deg)}}
+  @media (max-width:960px){#pricing .tiers{grid-template-columns:minmax(0,1fr);gap:16px}#pricing .tiers>.tier.tier{padding:24px;border-top:0}}
+
   /* the start card keeps one size in both modes (the box absorbs the difference), so nothing jumps when the tabs switch */
   .ask{display:flex;flex-direction:column}
   .ask .tawrap{flex:1 1 auto;display:flex}
@@ -904,10 +925,10 @@
     <div class="sec-h"><span class="eyebrow">מחירים</span><h2>בודקים בחינם, משלמים כשצריך את העומק</h2></div>
     <div class="tiers">
       <div class="tier"><h3>חינם</h3><div class="price">$0<small> / לתמיד</small></div>
-        <ul><li>וואזו ללא הגבלה</li><li>כמה הרעיון חזק, בארבע נקודות</li><li>כמה אפשר להרוויח, עם מחיר שאפשר לשנות</li><li>עזרה בהרחבת רעיון, ורעיונות כשעוד אין</li><li>20 מגמות עולמיות לדוגמה</li><li>היסטוריה שנשמרת במכשיר</li><li>דואט: שולחים קישור לאדם שאוהבים ורואים במה אתם מסכימים</li></ul></div>
+        <ul><li>וואזו ללא הגבלה</li><li>כמה הרעיון חזק, בארבע נקודות</li><li>כמה אפשר להרוויח, עם מחיר שאפשר לשנות</li><li>עזרה בהרחבת רעיון, ורעיונות כשעוד אין</li><li>20 מגמות עולמיות לדוגמה</li><li>היסטוריה שנשמרת במכשיר</li><li>דואט: שולחים קישור לאדם שאוהבים ורואים במה אתם מסכימים</li></ul><a class="tbtn" href="/#idea"><span>נסו עכשיו, בחינם</span><i class="arr" aria-hidden="true"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M8 7h9v9"/></svg></i></a></div>
       <div class="tier pro"><h3>Pro</h3><div class="price">$29<small> / לחודש</small></div>
         <p class="renew">מנוי חודשי: מתחדש מדי חודש עד שתחליטו להפסיק, ואפשר לבטל בכל רגע.</p>
-        <ul><li>הכול מהחבילה החינמית</li><li>ניסוי קטן לשבוע, עם מעקב ותזכורת</li><li>מי כבר ניסה, מי מתחרה, ומה חסר בישראל</li><li>התשובה המלאה: מה עושים עכשיו</li><li>ניתוח מעמיק: תוכנית, סיכונים וצעדים ל־90 יום</li><li>שמירת תמונה והעתקה ל־AI</li><li>דואט: השאלה לשיחה, לפי מה שלא מסכימים עליו</li></ul></div>
+        <ul><li>הכול מהחבילה החינמית</li><li>ניסוי קטן לשבוע, עם מעקב ותזכורת</li><li>מי כבר ניסה, מי מתחרה, ומה חסר בישראל</li><li>התשובה המלאה: מה עושים עכשיו</li><li>ניתוח מעמיק: תוכנית, סיכונים וצעדים ל־90 יום</li><li>שמירת תמונה והעתקה ל־AI</li><li>דואט: השאלה לשיחה, לפי מה שלא מסכימים עליו</li></ul><a class="tbtn" href="/#idea"><span>קודם בחינם, אחר כך Pro</span><i class="arr" aria-hidden="true"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M8 7h9v9"/></svg></i></a></div>
     </div>
     <p class="note" data-i="paynote">פרטים מלאים ב<a href="/he/pricing">עמוד המחירים</a> וב<a href="/he/refunds">מדיניות ההחזרים</a>.</p>
   </div></section>
