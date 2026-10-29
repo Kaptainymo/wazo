@@ -680,7 +680,13 @@
   [dir="rtl"] .vc .vbtn{padding:0 24px 0 4px}
   .vc .vbtn .arr{display:grid;place-items:center;flex:none;width:44px;height:44px;border-radius:50%;background:#fff;color:#141414;transition:transform var(--motion-quick) var(--ease-out)}
   [dir="rtl"] .vc .vbtn .arr svg{transform:scaleX(-1)}
-  @media (hover:hover){.vc .vbtn:hover .arr{transform:rotate(45deg)}}
+  /* the arrow: on hover or focus it leaves through the corner it points to and comes back in from the opposite one */
+  .vc .vbtn .arr,#pricing .tier .tbtn .arr{overflow:hidden;--dx:1}
+  [dir="rtl"] .vc .vbtn .arr,[dir="rtl"] #pricing .tier .tbtn .arr{--dx:-1}
+  @keyframes arrowGo{0%{translate:0 0;opacity:1}45%{translate:calc(var(--dx)*16px) -16px;opacity:0}46%{translate:calc(var(--dx)*-16px) 16px;opacity:0}100%{translate:0 0;opacity:1}}
+  @media (hover:hover){.vc .vbtn:hover .arr svg,#pricing .tier .tbtn:hover .arr svg{animation:arrowGo 420ms var(--ease-out)}.vc .vbtn:hover .arr,#pricing .tier .tbtn:hover .arr{transform:scale(1.06)}}
+  .vc .vbtn:focus-visible .arr svg,#pricing .tier .tbtn:focus-visible .arr svg{animation:arrowGo 420ms var(--ease-out)}
+  @media (prefers-reduced-motion:reduce){.vc .vbtn .arr svg,#pricing .tier .tbtn .arr svg{animation:none!important}}
   /* category as small pills, the verdict as the big line above a hairline (like the stat on the case-study cards we took as a model) */
   .vc .cats{display:flex;flex-wrap:wrap;gap:8px;align-items:flex-start}
   section.blk .vc .cats .cat{display:inline-flex;align-items:center;height:32px;padding:0 14px;border-radius:999px;background:rgba(10,10,10,.08);color:#3B3935;font-size:14px;font-weight:500}
@@ -767,7 +773,7 @@
   [dir="rtl"] #pricing .tier .tbtn .arr svg{transform:scaleX(-1)}
   #pricing .tier .tbtn:active{transform:scale(var(--scale-press))}
   #pricing .tier .tbtn:focus-visible{outline:3px solid #141414;outline-offset:3px}
-  @media (hover:hover){#pricing .tier .tbtn:hover{background:#333}#pricing .tier .tbtn:hover .arr{transform:rotate(45deg)}}
+  @media (hover:hover){#pricing .tier .tbtn:hover{background:#333}}
   @media (max-width:960px){#pricing .tiers{grid-template-columns:minmax(0,1fr);gap:16px}#pricing .tiers>.tier.tier{padding:24px;border-top:0}}
 
   /* the start card keeps one size in both modes (the box absorbs the difference), so nothing jumps when the tabs switch */
