@@ -355,7 +355,7 @@
   .sl-i{flex:0 0 min(82vw,330px);scroll-snap-align:start;display:grid;gap:12px;align-content:start}
   .sl-i h3{font-size:24px;color:#0A0A0A;--lhr:1.15;padding-inline:2px}
   .sl-i .card{width:100%;aspect-ratio:auto;height:auto;min-height:250px;animation:none}
-  .peekopen .dock,.atend .dock{display:none}
+  .peekopen .dock,.atend .dock,.atpricing .dock{display:none}
   body:has(.sheet.open) .dock{display:none}
   /* the keyboard is up: the form stays put and the answer sheet stays down */
   .typing .peek:not(.flat) .win{animation:none!important;transform:translate3d(0,100%,0)!important}
@@ -1103,6 +1103,8 @@ addEventListener("keydown",e=>{ if(e.key==="Escape") setSheet(false); });
 
 /* the closing section has its own button, so the floating one steps aside there */
 new IntersectionObserver(es=>es.forEach(e=>document.body.classList.toggle("atend",e.isIntersecting)),{threshold:.2}).observe(document.querySelector("footer"));
+/* the pricing cards have their own buttons, so the floating one steps aside while they are on screen */
+new IntersectionObserver(es=>es.forEach(e=>document.body.classList.toggle("atpricing",e.isIntersecting))).observe(document.getElementById("pricing"));
 /* tabs: arrow keys move between tabs, only the selected one is in the tab order */
 function roving(list){
   const tabs=()=>[...list.querySelectorAll('[role="tab"]')];
