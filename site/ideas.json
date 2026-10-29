@@ -3,6 +3,7 @@
  "items": [
   {
    "v": "BUILD",
+   "ic": "book",
    "cat": {
     "he": "שירות · גיל שלישי",
     "en": "Service · Seniors",
@@ -30,6 +31,7 @@
   },
   {
    "v": "BUILD",
+   "ic": "phone",
    "cat": {
     "he": "שירות · גיל שלישי",
     "en": "Service · Seniors",
@@ -57,6 +59,7 @@
   },
   {
    "v": "PIVOT",
+   "ic": "box",
    "cat": {
     "he": "שירות · מעבר דירה",
     "en": "Service · Moving",
@@ -84,6 +87,7 @@
   },
   {
    "v": "PIVOT",
+   "ic": "clock",
    "cat": {
     "he": "שירות · זמן",
     "en": "Service · Time",
@@ -111,6 +115,7 @@
   },
   {
    "v": "BUILD",
+   "ic": "house",
    "cat": {
     "he": "שירות · בית",
     "en": "Service · Home",
@@ -138,6 +143,7 @@
   },
   {
    "v": "BUILD",
+   "ic": "phone",
    "cat": {
     "he": "שירות · עסקים קטנים",
     "en": "Service · Small business",
@@ -165,6 +171,7 @@
   },
   {
    "v": "BUILD",
+   "ic": "doc",
    "cat": {
     "he": "שירות · בירוקרטיה",
     "en": "Service · Paperwork",
@@ -192,6 +199,7 @@
   },
   {
    "v": "PIVOT",
+   "ic": "food",
    "cat": {
     "he": "אוכל · שכונה",
     "en": "Food · Neighbourhood",
@@ -219,6 +227,7 @@
   },
   {
    "v": "BUILD",
+   "ic": "house",
    "cat": {
     "he": "שירות · בית",
     "en": "Service · Home",
@@ -246,6 +255,7 @@
   },
   {
    "v": "BUILD",
+   "ic": "paw",
    "cat": {
     "he": "שירות · חיות",
     "en": "Service · Pets",
@@ -273,6 +283,7 @@
   },
   {
    "v": "PIVOT",
+   "ic": "pin",
    "cat": {
     "he": "תיירות · שכונה",
     "en": "Tourism · Neighbourhood",
@@ -300,6 +311,7 @@
   },
   {
    "v": "PIVOT",
+   "ic": "house",
    "cat": {
     "he": "שירות · משפחה",
     "en": "Service · Family",
@@ -327,6 +339,7 @@
   },
   {
    "v": "BUILD",
+   "ic": "store",
    "cat": {
     "he": "מכירה · משפחות",
     "en": "Selling · Families",
@@ -354,6 +367,7 @@
   },
   {
    "v": "BUILD",
+   "ic": "book",
    "cat": {
     "he": "מתנות · משפחה",
     "en": "Gifts · Family",
@@ -381,6 +395,7 @@
   },
   {
    "v": "PIVOT",
+   "ic": "doc",
    "cat": {
     "he": "שירות · כתיבה",
     "en": "Service · Writing",
@@ -408,6 +423,7 @@
   },
   {
    "v": "BUILD",
+   "ic": "chat",
    "cat": {
     "he": "חינוך · שיחה",
     "en": "Learning · Conversation",
@@ -435,6 +451,7 @@
   },
   {
    "v": "PIVOT",
+   "ic": "blocks",
    "cat": {
     "he": "שירות · ילדים",
     "en": "Service · Kids",
@@ -462,6 +479,7 @@
   },
   {
    "v": "BUILD",
+   "ic": "cal",
    "cat": {
     "he": "שירות · אירועים",
     "en": "Service · Events",
@@ -489,6 +507,7 @@
   },
   {
    "v": "BUILD",
+   "ic": "book",
    "cat": {
     "he": "חינוך · הורים",
     "en": "Learning · Parents",
@@ -516,6 +535,7 @@
   },
   {
    "v": "KILL",
+   "ic": "phone",
    "cat": {
     "he": "אפליקציה · כללי",
     "en": "App · General",

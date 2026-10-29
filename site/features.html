@@ -618,10 +618,11 @@
   .win .qs button .trk{background:rgba(241,240,236,.18)}
   .win .qs button[aria-selected="true"]{color:var(--ink)}
   .win :focus-visible,.slider:focus-visible{outline-color:var(--coral)}
-  /* the demo answer cards are coral with black text; the cards stacked behind are coral outlines; the last (verdict) card keeps its own color */
-  .win .stk{border-color:rgba(240,113,103,.9);color:rgba(240,113,103,.6)}
-  .win .stk.s2{border-color:rgba(240,113,103,.5)}
-  .win .float .card{box-shadow:none}
+  /* the demo answer cards are coral with black text; the cards stacked behind have no border, only a very faint dark fill; nothing sways or shifts; the last (verdict) card keeps its own color */
+  .win .stk{background:rgba(241,240,236,.07);border:0;color:transparent}
+  .win .stk.s2{background:rgba(241,240,236,.04)}
+  .win .float .card{box-shadow:none;animation:none}
+  .win .float .card,.win .stk.s1,.win .stk.s2{translate:none}
   .win .card:not(.final){background:var(--coral);color:#0A0A0A}
   .win .card:not(.final) :is(.top,.cap){opacity:.8}
   .win .card:not(.final) .rows div:not(.tipr){border-top-color:rgba(10,10,10,.3)}
@@ -644,11 +645,9 @@
   .tl div{color:#D6D5D0}
   /* pricing: two plain columns, no cards */
   @media (min-width:961px){
-    /* two columns that sit at the edges, with the line exactly halfway between their text */
-    section.blk .tiers{display:grid;grid-template-columns:minmax(0,max-content) 2px minmax(0,max-content);justify-content:space-between;column-gap:round(clamp(24px,4vw,64px),2px)}
-    section.blk .tiers::before{content:"";grid-column:2;grid-row:1;order:1;background:var(--outline)}
-    section.blk .tiers>.tier:first-child{grid-column:1;grid-row:1}
-    section.blk .tiers>.tier+.tier{grid-column:3;grid-row:1;border:0;padding-inline:0}
+    /* two columns that sit at the edges, no line between them */
+    section.blk .tiers{display:grid;grid-template-columns:repeat(2,minmax(0,max-content));justify-content:space-between;column-gap:round(clamp(48px,8vw,128px),2px)}
+    section.blk .tiers>.tier+.tier{border:0;padding-inline:0}
     section.blk .tiers>.tier,section.blk .tiers>.tier.pro{padding-inline:0}
   }
   section.blk .tier,section.blk .tier.pro{background:none;border:0;border-radius:0;box-shadow:none;padding-block:8px;padding-inline:0 40px;color:var(--ink)}
@@ -987,7 +986,7 @@ const IDS={
 let ideaPicks=null;
 const escH=t=>String(t).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 
-/* line drawings for the idea cards: the same 64px, 1.6px style as the starting-point slideshow; chosen from the Hebrew category */
+/* line drawings for the idea cards: the same 64px, 1.6px style as the starting-point slideshow; an idea names its own drawing (ic), else it is chosen from the Hebrew category */
 const IC={
  book:'<path d="M32 16c-6-5-16-6-24-4v38c8-2 18-1 24 4 6-5 16-6 24-4V12c-8-2-18-1-24 4z"/><path d="M32 16v38"/>',
  people:'<circle cx="22" cy="22" r="7"/><circle cx="42" cy="22" r="7"/><path d="M8 52c0-9 6-15 14-15s14 6 14 15"/><path d="M28 52c0-9 6-15 14-15s14 6 14 15"/>',
@@ -1005,16 +1004,17 @@ const IC={
  cal:'<rect x="8" y="14" width="48" height="42" rx="5"/><path d="M8 26h48M20 8v12M44 8v12"/><path d="M20 36h4M30 36h4M40 36h4M20 46h4M30 46h4"/>',
  blocks:'<rect x="8" y="34" width="20" height="20" rx="3"/><rect x="30" y="34" width="20" height="20" rx="3"/><rect x="19" y="12" width="20" height="20" rx="3"/>',
  food:'<circle cx="34" cy="34" r="16"/><circle cx="34" cy="34" r="8"/><path d="M8 14v14M12 14v14M16 14v14M12 28v22"/>',
- heart:'<path d="M32 54S8 40 8 24a12 12 0 0 1 24-4 12 12 0 0 1 24 4c0 16-24 30-24 30z"/>'
+ heart:'<path d="M32 54S8 40 8 24a12 12 0 0 1 24-4 12 12 0 0 1 24 4c0 16-24 30-24 30z"/>',
+ phone:'<rect x="18" y="5" width="28" height="54" rx="5"/><path d="M28 11h8M28 54h8"/><circle cx="25" cy="24" r="1"/><path d="M30 24h9"/><circle cx="25" cy="33" r="1"/><path d="M30 33h9"/><circle cx="25" cy="42" r="1"/><path d="M30 42h5"/>'
 };
-const ICFIRST={"מתנות":"gift","אוכל":"food","תיירות":"pin","חינוך":"book","מכירה":"store","אפליקציה":"laptop"};
+const ICFIRST={"מתנות":"gift","אוכל":"food","תיירות":"pin","חינוך":"book","מכירה":"store","אפליקציה":"phone"};
 const ICSECOND={"גיל שלישי":"heart","בית":"house","מעבר דירה":"box","זמן":"clock","עסקים קטנים":"store","בירוקרטיה":"doc","שכונה":"pin","חיות":"paw","משפחה":"people","משפחות":"people","הורים":"people","כתיבה":"book","שיחה":"chat","ילדים":"blocks","אירועים":"cal","כללי":"laptop"};
-const ideaArt=cat=>{ const [a,b]=String(cat||"").split(" · "); const k=ICFIRST[a]||ICSECOND[b]||"sprout"; return `<svg viewBox="0 0 64 64" aria-hidden="true">${IC[k].replace(/<(path|circle|rect|ellipse)\b/g,'<$1 pathLength="1"')}</svg>`; };
+const ideaArt=it=>{ const [a,b]=String(it.cat.he||"").split(" · "); const k=IC[it.ic]?it.ic:(ICFIRST[a]||ICSECOND[b]||"sprout"); return `<svg viewBox="0 0 64 64" aria-hidden="true">${IC[k].replace(/<(path|circle|rect|ellipse)\b/g,'<$1 pathLength="1"')}</svg>`; };
 function renderIdeas(){
   const sec=document.getElementById("ideas"); if(!ideaPicks||!sec) return;
   const l=IDS[WZI.lang]?WZI.lang:"he", T=IDS[l];
   document.getElementById("idEy").textContent=T.ey; document.getElementById("idH").textContent=T.h; document.getElementById("idP").textContent=T.p;
-  document.getElementById("idCards").innerHTML=ideaPicks.map((it,k)=>`<article class="vc" data-v="${it.v.toLowerCase()}" style="--i:${k}"><div class="art"><span class="v ${it.v.toLowerCase()}">${escH(T.v[it.v])}</span>${ideaArt(it.cat.he)}</div><div class="vc-body"><span class="cat">${escH(it.cat[l])}</span><h3>${escH(it.t[l])}</h3><p>${escH(it.l[l])}</p></div><button type="button" class="vbtn" data-k="${k}">${escH(T.btn)}</button></article>`).join("");
+  document.getElementById("idCards").innerHTML=ideaPicks.map((it,k)=>`<article class="vc" data-v="${it.v.toLowerCase()}" style="--i:${k}"><div class="art"><span class="v ${it.v.toLowerCase()}">${escH(T.v[it.v])}</span>${ideaArt(it)}</div><div class="vc-body"><span class="cat">${escH(it.cat[l])}</span><h3>${escH(it.t[l])}</h3><p>${escH(it.l[l])}</p></div><button type="button" class="vbtn" data-k="${k}">${escH(T.btn)}</button></article>`).join("");
   sec.hidden=false;
 }
 document.getElementById("idCards").addEventListener("click",e=>{ const b=e.target.closest(".vbtn"); if(!b||!ideaPicks) return; const it=ideaPicks[+b.dataset.k]; if(!it) return;
