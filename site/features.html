@@ -411,7 +411,7 @@
     .win .sec-h{margin-bottom:12px}
     .win .pane p{font-size:16px;margin-bottom:12px}
     .win .qs button{min-width:120px;padding:16px 16px}
-    .pin .hero .stage.simple{padding:80px 0 4px}
+    .pin .hero .stage.simple{padding:8px 0 4px}
   }
   @keyframes sheetUp{from{transform:translate3d(0,100%,0)}to{transform:translate3d(0,0,0)}}
   @keyframes copyOut{from{opacity:1}to{opacity:0}}
@@ -785,6 +785,7 @@
   .ask .tawrap textarea{flex:1 1 auto}
   /* with no idea yet the topic buttons take the space, so the box is one line: both modes end up about the same height and the card fits on a phone screen */
   .ask:has(.tabs[data-sel="none"]) .tawrap textarea{min-height:48px}
+  @media (max-width:960px){.ask .wz-chips{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;margin-inline:-16px;padding-inline:16px}.ask .wz-chips::-webkit-scrollbar{display:none}.ask .wz-chip{flex:none}}
 
   /* the answer card is built like the product's: everything starts on the right (left in left-to-right languages) */
   .card .top{direction:inherit;letter-spacing:.12em;opacity:.7}
@@ -1219,7 +1220,7 @@ const _setMode=setMode;
 setMode=function(n,q){ _setMode(n,q); swapEls.forEach(e=>{ e.classList.remove("swap"); void e.offsetWidth; e.classList.add("swap"); }); };
 /* measure the card in both modes and keep the larger size (and the wider main button), so switching tabs never moves the page */
 function lockAsk(){ const ask=document.querySelector(".ask"); ask.style.minHeight=""; goBtn.style.minWidth=""; const was=none(); let h=0,w=0;
-  [false,true].forEach(m=>{ _setMode(m,true); if(m===false||innerWidth>960) h=Math.max(h,ask.getBoundingClientRect().height); w=Math.max(w,goBtn.getBoundingClientRect().width); });  /* on phones the card keeps the shorter size so it fits the first screen */
+  [false,true].forEach(m=>{ _setMode(m,true); h=Math.max(h,ask.getBoundingClientRect().height); w=Math.max(w,goBtn.getBoundingClientRect().width); });
   _setMode(was,true); ask.style.minHeight=Math.ceil(h)+"px"; goBtn.style.minWidth=Math.ceil(w)+"px"; if(typeof setPinned==="function") setPinned(); }
 { let lt=0; const again=()=>{ clearTimeout(lt); lt=setTimeout(lockAsk,150); }; (document.fonts&&document.fonts.ready?document.fonts.ready:Promise.resolve()).then(lockAsk); addEventListener("resize",again); }
 tabHave.onclick=null; 
