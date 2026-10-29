@@ -352,7 +352,7 @@
   .win .stk{background:transparent;border:2px solid rgba(8,8,8,.75);box-shadow:none;color:rgba(8,8,8,.6)}
   .win .stk.s2{background:transparent;border-color:rgba(8,8,8,.45)}
   .slider,.pgo2{display:none}
-  .sl-i{flex:0 0 min(82vw,330px);scroll-snap-align:center;display:grid;gap:12px;align-content:start}
+  .sl-i{flex:0 0 min(82vw,330px);scroll-snap-align:start;display:grid;gap:12px;align-content:start}
   .sl-i h3{font-size:24px;color:#0A0A0A;--lhr:1.15;padding-inline:2px}
   .sl-i .card{width:100%;aspect-ratio:auto;height:auto;min-height:250px;animation:none}
   .peekopen .dock,.atend .dock{display:none}
@@ -369,7 +369,7 @@
     .win .sec-h p{display:none}
     .win .showgrid{display:none!important}
     .pgo2{display:inline-flex;align-self:flex-start;color:#0A0A0A;margin-top:8px}
-    .slider{display:flex;gap:12px;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;margin-inline:-20px;padding-inline:20px;flex:1;min-height:0;align-items:flex-start;overscroll-behavior-x:contain}
+    .slider{display:flex;gap:12px;overflow-x:auto;scroll-snap-type:x mandatory;scroll-padding-inline:20px;scrollbar-width:none;margin-inline:-20px;padding-inline:20px;flex:1;min-height:0;align-items:flex-start;overscroll-behavior-x:contain}
     .slider::-webkit-scrollbar{display:none}
     .slider:focus-visible{outline:3px solid #0A0A0A;outline-offset:-3px}
     .sl-i .card{padding:16px;gap:8px;border-radius:16px;box-shadow:none}
@@ -534,9 +534,9 @@
   .win .qs button:focus-visible{border-radius:8px;outline-offset:4px}
   /* phones: card groups are swipeable sliders */
   @media (max-width:960px){
-    .vcards,.pgrid,.steps,.tiers{display:flex;gap:12px;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;overscroll-behavior-x:contain;margin-inline:-20px;padding-inline:20px;padding-bottom:4px;align-items:stretch}
+    .vcards,.pgrid,.steps,.tiers{display:flex;gap:12px;overflow-x:auto;scroll-snap-type:x mandatory;scroll-padding-inline:20px;scrollbar-width:none;overscroll-behavior-x:contain;margin-inline:-20px;padding-inline:20px;padding-bottom:4px;align-items:stretch}
     .vcards::-webkit-scrollbar,.pgrid::-webkit-scrollbar,.steps::-webkit-scrollbar,.tiers::-webkit-scrollbar{display:none}
-    .vcards>*,.pgrid>*,.steps>*,.tiers>*{flex:0 0 min(82vw,330px);scroll-snap-align:center}
+    .vcards>*,.pgrid>*,.steps>*,.tiers>*{flex:0 0 min(82vw,330px);scroll-snap-align:start}
     section.blk .step{min-height:0}
     section.blk .tier,section.blk .tier.pro{padding:28px 24px}
   }
@@ -668,20 +668,20 @@
   #about .pcard h3,#duet .pcard h3{color:var(--ink)}
   section.blk .step .n{font-size:16px;font-weight:600;color:var(--muted);margin:0}
   /* idea cards: an illustration window on top, the idea below, one wide button */
-  section.blk .vc{min-height:0;padding:12px 12px 24px;gap:20px}
-  .vc .art{position:relative;display:grid;place-items:center;height:176px;border-radius:20px;background:rgba(255,255,255,.55)}
-  .vc .art svg{width:104px;height:104px;fill:none;stroke:#141414;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+  section.blk .vc{min-height:0;padding:28px;gap:24px;border-radius:32px}
+  .vc .art{display:flex;align-items:flex-start;justify-content:space-between;gap:12px}
+  .vc .art svg{width:96px;height:96px;flex:none;fill:none;stroke:#141414;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
   .vc .art svg *{stroke-dasharray:1;transition:stroke-dashoffset .7s var(--ease-out);transition-delay:calc(var(--i,0)*40ms + 240ms)}
-  section.blk .vc .art .v{position:absolute;inset-block-start:12px;inset-inline-start:12px;display:inline-flex;align-items:center;gap:8px;height:32px;padding:0 14px;font-size:14px}
-  .vc .art .v::before{content:"";width:8px;height:8px;border-radius:50%;background:#141414}
-  .vc .vc-body{display:grid;gap:12px;padding-inline:16px}
+  section.blk .vc .art .v{display:inline-flex;align-items:center;gap:8px;height:32px;padding:0 14px;font-size:14px}
+  .vc .art .v::before{content:"";width:8px;height:8px;border-radius:50%;background:currentColor}
+  .vc .vc-body{display:grid;gap:12px}
   section.blk .vc h3{font-size:round(clamp(28px,2.6vw,36px),2px);--lhr:1.05}
-  .vc .vbtn{align-self:stretch;justify-content:center;margin:auto 16px 0}
+  .vc .vbtn{align-self:stretch;justify-content:center;margin:auto 0 0}
   #ideas .vc{transition:opacity .3s var(--ease-out),transform .3s var(--ease-out);transition-delay:calc(var(--i,0)*40ms)}
   .js #ideas:not(.go) .vc{opacity:0;transform:translateY(16px)}
   .js #ideas:not(.go) .vc .art svg *{stroke-dashoffset:1}
   @media (prefers-reduced-motion:reduce){#ideas .vc,.vc .art svg *{transition:opacity .15s linear;transition-delay:0s;transform:none!important}.js #ideas:not(.go) .vc .art svg *{stroke-dashoffset:0}}
-  @media (max-width:960px){.vc .art{height:136px}.vc .art svg{width:80px;height:80px}}
+  @media (max-width:960px){section.blk .vc{padding:24px}.vc .art svg{width:72px;height:72px}}
   /* idea cards: the fill follows the status (start = teal, sharpen = butter, stop = peach), dark text on it */
   section.blk .vc[data-v="build"]{background:var(--tealt)}
   section.blk .vc[data-v="pivot"]{background:var(--butter)}
@@ -689,7 +689,7 @@
   section.blk .vc h3{color:#141414}
   section.blk .vc p{color:#3B3935}
   section.blk .vc .cat{color:#5E5B55}
-  section.blk .vc .v{background:rgba(10,10,10,.1);color:#141414}
+  section.blk .vc .v{background:#141414;color:#fff}
   @media (max-width:960px){
     section.blk :is(.step,.pcard){min-height:240px}
   }
@@ -722,6 +722,11 @@
   .sdots{display:none}
   @media (max-width:960px){
     .sdots{display:flex;margin-top:4px}
+    /* the five answer cards share their rows (title, card, text), so every card is the same height in every language */
+    @supports (grid-template-rows:subgrid){
+      .slider{display:grid;grid-auto-flow:column;grid-auto-columns:min(82vw,330px);grid-template-rows:auto auto auto;align-content:start;align-items:stretch;gap:12px}
+      .sl-i{grid-row:span 3;grid-template-rows:subgrid;flex:none}
+    }
     /* what you get: the five labelled tabs give way to the same dots, under the cards */
     .win .qs{display:none}
     .win .sdots{margin-top:0;flex:none}
@@ -732,6 +737,11 @@
     section.blk .tiers>.tier,section.blk .tiers>.tier.pro{padding:0}
     section.blk .tiers>.tier+.tier{border-inline-start:0;border-top:2px solid var(--outline);padding-top:32px}
   }
+
+  /* the start card keeps one size in both modes (the box absorbs the difference), so nothing jumps when the tabs switch */
+  .ask{display:flex;flex-direction:column}
+  .ask .tawrap{flex:1 1 auto;display:flex}
+  .ask .tawrap textarea{flex:1 1 auto}
 
   /* the answer card is built like the product's: everything starts on the right (left in left-to-right languages) */
   .card .top{direction:inherit;letter-spacing:.12em;opacity:.7}
@@ -1033,7 +1043,7 @@ function onLang(){
   faces=WZI.faces(); try{ inputTools.relabel(); }catch(e){} try{ topics.rebuild(); }catch(e){} try{ renderIdeas(); }catch(e){}
   qs.innerHTML=faces.map((f,k)=>`<button type="button" role="tab" data-k="${k}"><span class="trk"><i class="fill"></i></span><span class="lb">${f.top[0]}</span></button>`).join("");
   document.getElementById("pgo").textContent=WZI.u("tryIdea"); buildSlider(); document.getElementById("pgo2").textContent=WZI.u("tryIdea"); fills(curQ);
-  show(i); setMode(none(),true); if(typeof setPinned==="function") setPinned();
+  document.querySelectorAll(".steps,#idCards,.pgrid,#slider").forEach(r=>{ r.scrollLeft=0; }); show(mob.matches?0:i); setMode(none(),true); try{ lockAsk(); }catch(e){} if(typeof setPinned==="function") setPinned();
 }
 document.addEventListener("click",e=>{ const b=e.target.closest("[data-l]"); if(!b) return; langMenuSet(false); if(b.dataset.l===WZI.lang) return; WZI.set(b.dataset.l); onLang(); });
 /* nav: solid on scroll, active section, mobile sheet, sticky mobile CTA */
@@ -1074,9 +1084,8 @@ const slider=document.getElementById("slider"), mob=matchMedia("(max-width:960px
 function faceCard(f){ return `<div class="card${f.final?" final":""}">${faceHTML(f)}</div>`; }
 function buildSlider(){ slider.innerHTML=faces.map(f=>`<article class="sl-i"><h3>${f.q}</h3>${faceCard(f)}<p>${f.d}</p></article>`).join(""); }
 let slRaf=0;
-function slSync(){ slRaf=0; const kids=[...slider.children]; if(!kids.length||!mob.matches) return; const mid=slider.getBoundingClientRect().left+slider.clientWidth/2; let best=0,bd=1e9,fl=0;
-  kids.forEach((c,n)=>{ const r=c.getBoundingClientRect(), d=Math.abs(r.left+r.width/2-mid); if(d<bd){ bd=d; best=n; } });
-  const w=kids[0].getBoundingClientRect().width+12, c0=kids[0].getBoundingClientRect(); fl=Math.abs((slider.getBoundingClientRect().left+slider.clientWidth/2)-(c0.left+c0.width/2))/w;
+function slSync(){ slRaf=0; const kids=[...slider.children]; if(!kids.length||!mob.matches) return; const r0=slider.getBoundingClientRect(), rtl=document.documentElement.dir==="rtl"; let best=0,bd=1e9,fl=0;
+  kids.forEach((c,n)=>{ const r=c.getBoundingClientRect(), d=Math.abs(rtl?r0.right-r.right-20:r.left-r0.left-20); if(d<bd){ bd=d; best=n; } }); fl=best;
   if(best!==i) show(best); fills(clamp(fl,0,faces.length-1)+1); }
 slider.addEventListener("scroll",()=>{ if(!slRaf) slRaf=requestAnimationFrame(slSync); },{passive:true});
 slider.addEventListener("keydown",e=>{ const d=document.documentElement.dir==="rtl"?-1:1; let to=-1; if(e.key==="ArrowRight") to=i+d; else if(e.key==="ArrowLeft") to=i-d; else return; e.preventDefault(); goStep(clamp(to,0,faces.length-1)); });
@@ -1097,7 +1106,7 @@ function tick(){ if(!pinned) return;
 function setPinned(){ peek.classList.add("flat"); const need=Math.ceil(document.querySelector(".hero .ask").getBoundingClientRect().bottom+scrollY)+16;  /* the hero must fit on one screen to be pinned */
   pinned=!calm && !mob.matches && innerHeight>=Math.max(620,need);   /* phones get a normal section, not the sheet: no layer to collide with buttons, keyboard or dock */ peek.classList.toggle("flat",!pinned); qs.classList.toggle("still",!pinned);
   document.getElementById("win").inert=false; heroCopy.inert=false; document.body.classList.remove("peekopen"); lastO=-1; winEl.style.transform=""; heroCopy.style.opacity=""; if(!pinned){ peek.style.removeProperty("--o"); fills(0); } else tick(); }
-function goStep(k){ if(mob.matches){ show(k); const c=slider.children[k]; if(c) c.scrollIntoView({inline:"center",block:"nearest",behavior:calm?"auto":"smooth"}); return; }
+function goStep(k){ if(mob.matches){ show(k); const c=slider.children[k]; if(c) c.scrollIntoView({inline:"start",block:"nearest",behavior:calm?"auto":"smooth"}); return; }
   if(!pinned){ show(k); return; }
   const y=peek.offsetTop+total()*(OPEN+(1-OPEN)*(k+.5)/faces.length); scrollTo({top:y,behavior:calm?"auto":"smooth"}); }
 addEventListener("scroll",()=>requestAnimationFrame(tick),{passive:true}); addEventListener("resize",setPinned); setPinned(); onLang();
@@ -1122,10 +1131,10 @@ addEventListener("scroll",()=>requestAnimationFrame(tick),{passive:true}); addEv
 document.querySelectorAll(".steps,#idCards,.pgrid,#slider").forEach(row=>{
   const dots=document.createElement("div"); dots.className="cc-dots sdots"; row.after(dots);
   const kids=()=>[...row.children];
-  const cur=()=>{ const r=row.getBoundingClientRect(), mid=r.left+r.width/2; let best=0, bd=1e9; kids().forEach((c,k)=>{ const b=c.getBoundingClientRect(), d=Math.abs(b.left+b.width/2-mid); if(d<bd){ bd=d; best=k; } }); return best; };
+  const cur=()=>{ const r=row.getBoundingClientRect(), rtl=document.documentElement.dir==="rtl"; let best=0, bd=1e9; kids().forEach((c,k)=>{ const b=c.getBoundingClientRect(), d=Math.abs(rtl?r.right-b.right-20:b.left-r.left-20); if(d<bd){ bd=d; best=k; } }); return best; };
   const mark=()=>{ const c=cur(); [...dots.children].forEach((d,k)=>d.setAttribute("aria-current",String(k===c))); };
   const build=()=>{ dots.innerHTML=kids().map((_,k)=>`<button type="button" class="cc-dot" aria-label="${k+1}/${kids().length}"></button>`).join(""); mark(); };
-  dots.addEventListener("click",e=>{ const b=e.target.closest(".cc-dot"); if(!b) return; const c=kids()[[...dots.children].indexOf(b)]; if(c) c.scrollIntoView({behavior:calm?"auto":"smooth",inline:"center",block:"nearest"}); });
+  dots.addEventListener("click",e=>{ const b=e.target.closest(".cc-dot"); if(!b) return; const c=kids()[[...dots.children].indexOf(b)]; if(c) c.scrollIntoView({behavior:calm?"auto":"smooth",inline:"start",block:"nearest"}); });
   let raf=0; row.addEventListener("scroll",()=>{ if(!raf) raf=requestAnimationFrame(()=>{ raf=0; mark(); }); },{passive:true});
   build(); new MutationObserver(()=>{ if(kids().length!==dots.children.length) build(); }).observe(row,{childList:true});
 });
@@ -1163,6 +1172,11 @@ document.documentElement.classList.add("js");
 const swapEls=[document.getElementById("idea"),document.getElementById("gotxt"),document.getElementById("hint")];
 const _setMode=setMode;
 setMode=function(n,q){ _setMode(n,q); swapEls.forEach(e=>{ e.classList.remove("swap"); void e.offsetWidth; e.classList.add("swap"); }); };
+/* measure the card in both modes and keep the larger size (and the wider main button), so switching tabs never moves the page */
+function lockAsk(){ const ask=document.querySelector(".ask"); ask.style.minHeight=""; goBtn.style.minWidth=""; const was=none(); let h=0,w=0;
+  [false,true].forEach(m=>{ _setMode(m,true); h=Math.max(h,ask.getBoundingClientRect().height); w=Math.max(w,goBtn.getBoundingClientRect().width); });
+  _setMode(was,true); ask.style.minHeight=Math.ceil(h)+"px"; goBtn.style.minWidth=Math.ceil(w)+"px"; if(typeof setPinned==="function") setPinned(); }
+{ let lt=0; const again=()=>{ clearTimeout(lt); lt=setTimeout(lockAsk,150); }; (document.fonts&&document.fonts.ready?document.fonts.ready:Promise.resolve()).then(lockAsk); addEventListener("resize",again); }
 tabHave.onclick=null; 
 (function(){
   const groups=[".steps .step",".cards .rc",".pgrid .pcard",".tiers .tier",".kick > div",".sec-h"];
