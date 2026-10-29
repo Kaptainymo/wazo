@@ -580,11 +580,11 @@
   .vc .vbtn{background:#141414;color:#fff;border-color:#141414}
   @media (hover:hover){.vc .vbtn:hover{background:#333;color:#fff}}
   /* cards: a black outline and no fill */
-  section.blk .step,section.blk .step:nth-child(n),section.blk .pcard,section.blk .vc,.privacy .promise{background:#F2F2F0;border:0;border-radius:28px}
+  section.blk .step,section.blk .step:nth-child(n),section.blk .pcard,section.blk .vc,.privacy .promise{background:#FFF0EC;border:0;border-radius:28px}
   @media (max-width:960px){section.blk .step,section.blk .pcard,section.blk .vc,.privacy .promise{border-radius:20px}}
   /* the slideshow: black, with white icons and words */
-  .cc-stage{background:#0A0A0A;border:0}
-  .cc-card,.cc-card figcaption{color:#fff}
+  .cc-stage{background:#FFF0EC;border:0}
+  .cc-card,.cc-card figcaption{color:#141414}
   /* pricing: two plain columns, no cards */
   @media (min-width:961px){
     /* two columns that sit at the edges, with the line exactly halfway between their text */
@@ -600,6 +600,28 @@
   section.blk .tier.pro li,section.blk .tier.pro .renew{color:#3B3935}
   section.blk .tier.pro .price small{color:var(--muted)}
   section.blk .tier.pro li::before{border-color:var(--cd)}
+
+  /* ---------- tile cards: big bold title, short text, a colour shape with an animated line icon in the corner ---------- */
+  section.blk :is(.step,.pcard,.vc){position:relative;overflow:hidden;isolation:isolate;background:#FFF0EC;min-height:260px;padding:28px;display:flex;flex-direction:column;gap:10px}
+  section.blk :is(.step,.pcard,.vc) h3{font-size:round(clamp(30px,3vw,44px),2px);font-weight:700;letter-spacing:-.035em;line-height:1.02;margin:0;color:#141414}
+  section.blk :is(.step,.pcard,.vc) p{font-size:16px;max-width:38ch;margin:0}
+  #about .pcard h3,#duet .pcard h3{color:#141414}
+  section.blk .step .n{font-size:15px;font-weight:600;color:#6B6B66;margin:0}
+  section.blk .vc{min-height:300px}
+  @media (max-width:960px){
+    section.blk :is(.step,.pcard){min-height:240px}
+  }
+
+  /* the answer card is built like the product's: everything starts on the right (left in left-to-right languages) */
+  .card .top{direction:inherit;letter-spacing:.12em;opacity:.7}
+  .card .face,.card.final .big{text-align:start}
+  .card.final .big{font-size:round(clamp(34px,3.4vw,46px),2px);--lhr:1.05;direction:inherit}
+  .card .bline{font-weight:700;font-size:round(clamp(20px,2vw,26px),2px);--lhr:1.2;letter-spacing:-.02em;text-align:start}
+  .card .nt{font-size:16px;--lhr:1.5;text-align:start}.card .nt b{font-weight:600}
+  .card .tip{margin-top:auto;padding:16px;border-radius:16px;background:#0A0A0A;color:#F4F3EF;text-align:start}
+  .card .tip-l{display:block;font-family:"IBM Plex Mono",monospace;font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:#F07167;font-weight:700;margin-bottom:8px}
+  .card .tip p{margin:0;font-size:16px;font-weight:600;--lhr:1.45}
+  @media (max-width:960px){.win .card .bline{display:none}}
 </style>
 </head>
 <body>
@@ -766,6 +788,12 @@
 <script src="/input-tools.js"></script>
 <script>
 WZI.init();
+/* the face of a card; the last one is built exactly like the product's answer card (headline, "depends on" line, dark tip box) */
+function faceHTML(f){
+  if(f.final){ const dep=f.rows[0], tip=f.rows[1];
+    return `<div class="face"><div class="top"><span>${f.top[0]}</span></div><div class="big">${f.big}</div><div class="bline">${f.cap}</div><div class="nt"><b>${dep[0]}:</b> ${dep[1]}</div><div class="tip"><span class="tip-l">${tip[0]}</span><p>${tip[1]}</p></div></div>`; }
+  return `<div class="face"><div class="top"><span>${f.top[0]}</span><span>${f.top[1]}</span></div><div class="big">${f.big}</div><div class="cap">${f.cap}</div><div class="rows">${f.rows.map(r=>`<div${r[2]?' class="tipr"':""}><span>${r[0]}</span><b>${r[1]}</b></div>`).join("")}</div></div>`;
+}
 let faces=WZI.faces();
 const qs=document.getElementById("qs"), card=document.getElementById("card"), pane=document.getElementById("pane"); let i=0;
 const calm=matchMedia("(prefers-reduced-motion: reduce)").matches; if(calm) qs.classList.add("still");
@@ -776,7 +804,7 @@ function show(k){ i=k; const f=faces[k]; const btns=[...qs.querySelectorAll("but
   btns.forEach((b,n)=>b.setAttribute("aria-selected",n===k));
   const cur=btns[k]; qs.scrollTo({left:cur.offsetLeft-(qs.clientWidth-cur.offsetWidth)/2,behavior:calm?"auto":"smooth"});
   card.classList.toggle("final",!!f.final);  pq.textContent=f.q; pd.textContent=f.d;
-  card.innerHTML=`<div class="face"><div class="top"><span>${f.top[0]}</span><span>${f.top[1]}</span></div><div class="big">${f.big}</div><div class="cap">${f.cap}</div><div class="rows">${f.rows.map(r=>`<div${r[2]?' class="tipr"':""}><span>${r[0]}</span><b>${r[1]}</b></div>`).join("")}</div></div>`; }
+  card.innerHTML=faceHTML(f); }
 qs.addEventListener("click",e=>{ const b=e.target.closest("[data-k]"); if(b) goStep(+b.dataset.k); });
 show(0);
 
@@ -843,6 +871,7 @@ const IDS={
 };
 let ideaPicks=null;
 const escH=t=>String(t).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+
 function renderIdeas(){
   const sec=document.getElementById("ideas"); if(!ideaPicks||!sec) return;
   const l=IDS[WZI.lang]?WZI.lang:"he", T=IDS[l];
@@ -901,7 +930,7 @@ let pinned=false, curQ=0, lastO=-1; const cssTL=!!(window.CSS&&CSS.supports&&CSS
 const pinEl=peek.querySelector(".pin"), winEl=document.getElementById("win"), total=()=>peek.offsetHeight-pinEl.offsetHeight;
 function fills(q){ curQ=q; [...qs.children].forEach((b,n)=>{ b.querySelector(".fill").style.transform=pinned?`scaleX(${clamp(q-n,0,1).toFixed(2)})`:""; }); }
 const slider=document.getElementById("slider"), mob=matchMedia("(max-width:960px)");
-function faceCard(f){ return `<div class="card${f.final?" final":""}"><div class="face"><div class="top"><span>${f.top[0]}</span><span>${f.top[1]}</span></div><div class="big">${f.big}</div><div class="cap">${f.cap}</div><div class="rows">${f.rows.map(r=>`<div${r[2]?' class="tipr"':""}><span>${r[0]}</span><b>${r[1]}</b></div>`).join("")}</div></div></div>`; }
+function faceCard(f){ return `<div class="card${f.final?" final":""}">${faceHTML(f)}</div>`; }
 function buildSlider(){ slider.innerHTML=faces.map(f=>`<article class="sl-i"><h3>${f.q}</h3>${faceCard(f)}<p>${f.d}</p></article>`).join(""); }
 let slRaf=0;
 function slSync(){ slRaf=0; const kids=[...slider.children]; if(!kids.length||!mob.matches) return; const mid=slider.getBoundingClientRect().left+slider.clientWidth/2; let best=0,bd=1e9,fl=0;

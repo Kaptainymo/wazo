@@ -36,13 +36,13 @@ function attach(o){
   let tipEl=document.getElementById("wz-tip");
   if (!tipEl){
     const st=document.createElement("style");
-    st.textContent="#wz-tip{position:fixed;left:0;top:0;z-index:1000;width:max-content;max-width:min(260px,calc(100vw - 16px));padding:10px 14px;border-radius:12px;background:#141414;color:#fff;border:1px solid rgba(255,255,255,.35);font-size:14px;line-height:1.45;font-weight:500;letter-spacing:0;text-align:start;pointer-events:none;opacity:0;transition:opacity .15s}#wz-tip.on{opacity:1}@media (prefers-reduced-motion:reduce){#wz-tip{transition:none}}";
+    st.textContent="#wz-tip{position:fixed;left:0;top:0;z-index:1000;width:max-content;max-width:min(260px,calc(100vw - 16px));padding:10px 14px;border-radius:12px;background:#141414;color:#fff;border:0;font-size:14px;line-height:1.45;font-weight:500;letter-spacing:0;text-align:start;pointer-events:none;opacity:0;transition:opacity .15s}#wz-tip.on{opacity:1}@media (prefers-reduced-motion:reduce){#wz-tip{transition:none}}";
     document.head.appendChild(st);
     tipEl=document.createElement("div"); tipEl.id="wz-tip"; tipEl.setAttribute("aria-hidden","true"); document.body.appendChild(tipEl);
   }
   const hideTip=()=>tipEl.classList.remove("on");
   const showTip=(btn,text)=>{
-    tipEl.textContent=text; tipEl.classList.add("on");
+    tipEl.dir=o.lang()==="he"?"rtl":"ltr"; tipEl.style.textAlign=o.lang()==="he"?"right":"left"; tipEl.textContent=text; tipEl.classList.add("on");
     const r=btn.getBoundingClientRect(), w=tipEl.offsetWidth, h=tipEl.offsetHeight;
     const x=Math.min(Math.max(r.left+r.width/2-w/2,8),innerWidth-w-8), y=r.top-h-10>=8?r.top-h-10:r.bottom+10;
     tipEl.style.transform="translate("+Math.round(x)+"px,"+Math.round(y)+"px)";
