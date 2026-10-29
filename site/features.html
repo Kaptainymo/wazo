@@ -109,7 +109,6 @@
   .enrlink{all:unset;line-height:round(calc(var(--lhr)*1em),2px);cursor:pointer;display:inline-flex;align-items:center;gap:8px;font-size:16px;color:#E4E2DC;text-decoration:underline;text-underline-offset:4px;padding:12px 8px}
   .enrlink:focus-visible{outline:3px solid var(--coral);outline-offset:3px;border-radius:8px}
   .showgrid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:40px;align-items:center}
-  .show .trust{width:auto;margin:40px 0 0;justify-content:flex-start}
   .stage{position:relative;z-index:2;flex:1;width:min(1240px,100% - 40px);margin:0 auto;display:grid;align-items:center;gap:28px;padding:24px 0 36px;grid-template-columns:minmax(0,1.3fr) minmax(0,.75fr) minmax(0,.7fr)}
   .badge{display:inline-flex;align-items:center;gap:12px;padding:8px 16px;border-radius:999px;border:1px solid rgba(241,240,236,.25);background:rgba(0,0,0,.28);font-size:14px;color:#DDDBD5;backdrop-filter:blur(6px)}
   .badge b{color:var(--ink)} .badge i{font-style:normal;color:var(--coral)}
@@ -204,9 +203,6 @@
   [dir="ltr"] .stage.simple .ask{text-align:left}
   .pause{all:unset;line-height:round(calc(var(--lhr)*1em),2px);cursor:pointer;justify-self:start;font-family:'IBM Plex Sans Hebrew',sans-serif;font-size:14px;padding:8px 16px;border-radius:999px;border:1px solid rgba(241,240,236,.4);color:#E4E2DC;margin-top:8px}
   .pause:focus-visible{outline:3px solid var(--coral);outline-offset:3px}
-  .trust{position:relative;z-index:2;width:min(1240px,100% - 40px);margin:0 auto 28px;display:flex;flex-wrap:wrap;gap:12px 36px;justify-content:center;font-size:14px;color:#BDBBB5}
-  .trust span{display:flex;align-items:center;gap:8px}
-  .trust span::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--coral)}
 
   /* ---------- sections ---------- */
   section.blk{padding:84px 0}
@@ -354,7 +350,6 @@
   .win .float .card{box-shadow:0 30px 70px rgba(8,8,8,.4)}
   .win .stk{background:transparent;border:2px solid rgba(8,8,8,.75);box-shadow:none;color:rgba(8,8,8,.6)}
   .win .stk.s2{background:transparent;border-color:rgba(8,8,8,.45)}
-  #cards{padding-top:48px;padding-bottom:20px}
   .slider,.pgo2{display:none}
   .sl-i{flex:0 0 min(82vw,330px);scroll-snap-align:center;display:grid;gap:12px;align-content:start}
   .sl-i h3{font-size:24px;color:#0A0A0A;--lhr:1.15;padding-inline:2px}
@@ -392,10 +387,6 @@
     }
     .hero .copy{opacity:1;transform:none;will-change:opacity}
     /* the closing notes read as one tidy list */
-    #cards{padding-top:28px;padding-bottom:8px}
-    #cards .note{margin:0 0 16px;text-align:start}
-    #cards .trust{flex-direction:column;align-items:flex-start;justify-content:flex-start;gap:12px;width:auto;margin:0;font-size:14px}
-    #cards .trust span{align-items:center;text-align:start}
     /* softer corners on phones */
     .ask{border-radius:20px}.tabs{border-radius:999px}
     .card,.stk{border-radius:18px}.rc,.pcard,.tier,.promise{border-radius:18px}
@@ -428,8 +419,6 @@
   /* ---------- light sheet: every section between the coral panel and the closing band ---------- */
   section.blk{--bg:#FBF7F2;--ink:#141414;--muted:#5E5B55;--line:#E7E0D6;--card:#fff;--cd:#C2433A;--peach:#FFE2DB;--tealt:#D3ECEC;--butter:#FFF0C4;background:var(--bg);color:var(--ink)}
   section.blk :focus-visible{outline-color:var(--cd)}
-  #cards{padding:48px 0 0}
-  section.blk .trust{color:var(--muted);margin-bottom:0}
   section.blk .sec-h .eyebrow,section.blk .say em,#about .pcard h3,#duet .pcard h3{color:var(--cd)}
   section.blk .step{border:0;border-radius:28px;padding:28px 28px 32px;min-height:230px}
   section.blk .step:nth-child(1){background:var(--peach)}
@@ -809,11 +798,6 @@
     <button type="button" class="sliver" id="sliver">גללו להציץ פנימה</button>
   </div></section>
 
-  <section class="blk" id="cards"><div class="wrap">
-    <div class="trust">
-      <span>הניתוח נכתב על ידי בינה מלאכותית (Claude)</span><span>לא מוכרים מידע</span><span>עברית, אנגלית, ספרדית וצרפתית</span>
-    </div>
-  </div></section>
 
   <section class="blk" id="how"><div class="wrap">
     <div class="sec-h"><span class="eyebrow">איך זה עובד</span><h2>שלושה צעדים</h2></div>
@@ -1139,7 +1123,7 @@ const _setMode=setMode;
 setMode=function(n,q){ _setMode(n,q); swapEls.forEach(e=>{ e.classList.remove("swap"); void e.offsetWidth; e.classList.add("swap"); }); };
 tabHave.onclick=null; 
 (function(){
-  const groups=[".steps .step",".cards .rc",".pgrid .pcard",".tiers .tier",".trust span",".kick > div",".sec-h"];
+  const groups=[".steps .step",".cards .rc",".pgrid .pcard",".tiers .tier",".kick > div",".sec-h"];
   groups.forEach(sel=>document.querySelectorAll(sel).forEach((el,k)=>{ el.classList.add("rv"); el.style.setProperty("--i",k); }));
   const io=new IntersectionObserver(es=>es.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add("in"); io.unobserve(e.target); } }),{threshold:.12,rootMargin:"0px 0px -6% 0px"});
   document.querySelectorAll(".rv").forEach(el=>io.observe(el));
