@@ -1213,7 +1213,11 @@ function currentCard(){
 }
 const isCards=()=>matchMedia("(max-width:899px)").matches;
 const isWide=()=>!isCards();
-function goCard(i,instant){ const cs=$("#cs"), el=cs&&cs.querySelector(`.cc[data-card="${i}"]`); if(!el) return; S._tgt=i; const a=el.getBoundingClientRect(), r=cs.getBoundingClientRect(); cs.scrollBy({left:(a.left+a.width/2)-(r.left+r.width/2),behavior:(instant||calm())?"auto":"smooth"}); }
+function goCard(i,instant){ const cs=$("#cs"), el=cs&&cs.querySelector(`.cc[data-card="${i}"]`); if(!el) return; S._tgt=i; const beh=instant?"instant":calm()?"auto":"smooth"; if(i===cs.querySelectorAll(".cc").length){ const m=cs.scrollWidth-cs.clientWidth; cs.scrollTo({left:getComputedStyle(cs).direction==="rtl"?-m:m,behavior:beh}); return; }  /* the last card is the end of the row, wherever the layout settles */
+  const a=el.getBoundingClientRect(), r=cs.getBoundingClientRect(); cs.scrollBy({left:(a.left+a.width/2)-(r.left+r.width/2),behavior:instant?"instant":calm()?"auto":"smooth"}); }
+/* after the cards are redrawn (unlock, language) land on the same card, and once more when the layout has settled so it never falls back to the first one */
+function holdCard(i){ S.hold=i; goCard(i,true); const again=()=>{ if(S.hold===i) goCard(i,true); }; requestAnimationFrame(again); setTimeout(again,150); setTimeout(again,400); setTimeout(()=>{ if(S.hold===i) S.hold=0; },700); }
+document.addEventListener("pointerdown",e=>{ if(S.hold&&e.target.closest&&e.target.closest("#cs")) S.hold=0; },true);
 function syncDots(){ document.querySelectorAll("#cdots [data-dot]").forEach(d=>{ const n=+d.dataset.dot; d.setAttribute("aria-current",String(n===S.card)); d.classList.toggle("seen",S.rev.has(n)&&n!==S.card); }); }
 function refreshCard5(){ const st=$("#stage"), old=st.querySelector('.cc[data-card="5"]'); if(old) old.outerHTML=cardHTML(st._b,currentCard().o,5); }
 function revealFinal(){
@@ -1231,7 +1235,7 @@ function viewCard(i){
   renderCounter(true); renderActs(); syncDots();
 }
 function settleCards(){
-  const cs=$("#cs"); if(!cs) return; const r=cs.getBoundingClientRect(), mid=r.left+r.width/2; let best=0,bd=1e9;
+  const cs=$("#cs"); if(!cs||S.hold) return; const r=cs.getBoundingClientRect(), mid=r.left+r.width/2; let best=0,bd=1e9;
   cs.querySelectorAll(".cc").forEach(c=>{ const k=c.getBoundingClientRect(), d=Math.abs(k.left+k.width/2-mid); if(d<bd){ bd=d; best=+c.dataset.card; } });
   if (best && best!==S.card) viewCard(best);
 }
@@ -1284,7 +1288,7 @@ function renderActs(){
 }
 function openRow(i){
   const st=$("#stage");
-  if (isCards()){ st.innerHTML=cardHTML(st._b,currentCard().o); S.card=0; goCard(i,true); viewCard(i); return true; }
+  if (isCards()){ st.innerHTML=cardHTML(st._b,currentCard().o); S.card=0; S.hold=i; viewCard(i); holdCard(i); return true; }
   [1,2,3,4].forEach(k=>{ if(!proLocked(k)) S.rev.add(k); });
   st.innerHTML=cardHTML(st._b,currentCard().o);
   if (i===5 && unlocked()) revealFinal();
