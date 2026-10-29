@@ -666,7 +666,21 @@
   section.blk :is(.step,.pcard,.vc) p{font-size:16px;max-width:38ch;margin:0;color:#D6D5D0}
   #about .pcard h3,#duet .pcard h3{color:var(--ink)}
   section.blk .step .n{font-size:16px;font-weight:600;color:var(--muted);margin:0}
-  section.blk .vc{min-height:300px}
+  /* idea cards: an illustration window on top, the idea below, one wide button */
+  section.blk .vc{min-height:0;padding:12px 12px 24px;gap:20px}
+  .vc .art{position:relative;display:grid;place-items:center;height:176px;border-radius:20px;background:rgba(255,255,255,.55)}
+  .vc .art svg{width:104px;height:104px;fill:none;stroke:#141414;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+  .vc .art svg *{stroke-dasharray:1;transition:stroke-dashoffset .7s var(--ease-out);transition-delay:calc(var(--i,0)*40ms + 240ms)}
+  section.blk .vc .art .v{position:absolute;inset-block-start:12px;inset-inline-start:12px;display:inline-flex;align-items:center;gap:8px;height:32px;padding:0 14px;font-size:14px}
+  .vc .art .v::before{content:"";width:8px;height:8px;border-radius:50%;background:#141414}
+  .vc .vc-body{display:grid;gap:12px;padding-inline:16px}
+  section.blk .vc h3{font-size:round(clamp(28px,2.6vw,36px),2px);--lhr:1.05}
+  .vc .vbtn{align-self:stretch;justify-content:center;margin:auto 16px 0}
+  #ideas .vc{transition:opacity .3s var(--ease-out),transform .3s var(--ease-out);transition-delay:calc(var(--i,0)*40ms)}
+  .js #ideas:not(.go) .vc{opacity:0;transform:translateY(16px)}
+  .js #ideas:not(.go) .vc .art svg *{stroke-dashoffset:1}
+  @media (prefers-reduced-motion:reduce){#ideas .vc,.vc .art svg *{transition:opacity .15s linear;transition-delay:0s;transform:none!important}.js #ideas:not(.go) .vc .art svg *{stroke-dashoffset:0}}
+  @media (max-width:960px){.vc .art{height:136px}.vc .art svg{width:80px;height:80px}}
   /* idea cards: the fill follows the status (start = teal, sharpen = butter, stop = peach), dark text on it */
   section.blk .vc[data-v="build"]{background:var(--tealt)}
   section.blk .vc[data-v="pivot"]{background:var(--butter)}
@@ -973,11 +987,34 @@ const IDS={
 let ideaPicks=null;
 const escH=t=>String(t).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 
+/* line drawings for the idea cards: the same 64px, 1.6px style as the starting-point slideshow; chosen from the Hebrew category */
+const IC={
+ book:'<path d="M32 16c-6-5-16-6-24-4v38c8-2 18-1 24 4 6-5 16-6 24-4V12c-8-2-18-1-24 4z"/><path d="M32 16v38"/>',
+ people:'<circle cx="22" cy="22" r="7"/><circle cx="42" cy="22" r="7"/><path d="M8 52c0-9 6-15 14-15s14 6 14 15"/><path d="M28 52c0-9 6-15 14-15s14 6 14 15"/>',
+ laptop:'<rect x="6" y="12" width="52" height="38" rx="5"/><path d="M6 22h52"/><circle cx="12" cy="17" r="1"/><circle cx="17" cy="17" r="1"/><path d="M24 56h16M32 50v6"/><path d="M20 34l5 4-5 4M30 42h8"/>',
+ store:'<path d="M8 28v28h48V28"/><path d="M6 14h52l4 14a8 8 0 0 1-16 0 8 8 0 0 1-16 0 8 8 0 0 1-16 0 8 8 0 0 1-16 0z"/><path d="M26 56V40h12v16"/>',
+ chat:'<path d="M8 12h30a4 4 0 0 1 4 4v16a4 4 0 0 1-4 4H20l-8 8v-8H8a4 4 0 0 1-4-4V16a4 4 0 0 1 4-4z"/><path d="M48 24h8a4 4 0 0 1 4 4v14a4 4 0 0 1-4 4h-2v8l-8-8H30"/>',
+ sprout:'<path d="M32 56V30"/><path d="M32 40c-9 0-14-6-14-14 9 0 14 6 14 14z"/><path d="M32 32c0-9 5-15 14-15 0 9-5 15-14 15z"/><path d="M20 56h24"/>',
+ house:'<path d="M8 30L32 10l24 20"/><path d="M14 26v28h36V26"/><path d="M27 54V38h10v16"/>',
+ box:'<path d="M8 22l24-10 24 10v26L32 58 8 48z"/><path d="M8 22l24 10 24-10"/><path d="M32 32v26"/><path d="M20 17l24 10"/>',
+ clock:'<circle cx="32" cy="32" r="22"/><path d="M32 18v14l10 6"/>',
+ doc:'<path d="M16 8h24l10 10v38H16z"/><path d="M40 8v10h10"/><path d="M24 30h18M24 38h18M24 46h10"/>',
+ pin:'<path d="M32 58S14 40 14 26a18 18 0 0 1 36 0c0 14-18 32-18 32z"/><circle cx="32" cy="26" r="6"/>',
+ paw:'<ellipse cx="32" cy="42" rx="12" ry="9"/><circle cx="16" cy="28" r="5"/><circle cx="27" cy="19" r="5"/><circle cx="37" cy="19" r="5"/><circle cx="48" cy="28" r="5"/>',
+ gift:'<rect x="8" y="26" width="48" height="12" rx="2"/><path d="M12 38v18h40V38"/><path d="M32 26v30"/><path d="M32 26c-8 0-12-4-12-8s6-6 12 8c6-14 12-12 12-8s-4 8-12 8z"/>',
+ cal:'<rect x="8" y="14" width="48" height="42" rx="5"/><path d="M8 26h48M20 8v12M44 8v12"/><path d="M20 36h4M30 36h4M40 36h4M20 46h4M30 46h4"/>',
+ blocks:'<rect x="8" y="34" width="20" height="20" rx="3"/><rect x="30" y="34" width="20" height="20" rx="3"/><rect x="19" y="12" width="20" height="20" rx="3"/>',
+ food:'<circle cx="34" cy="34" r="16"/><circle cx="34" cy="34" r="8"/><path d="M8 14v14M12 14v14M16 14v14M12 28v22"/>',
+ heart:'<path d="M32 54S8 40 8 24a12 12 0 0 1 24-4 12 12 0 0 1 24 4c0 16-24 30-24 30z"/>'
+};
+const ICFIRST={"מתנות":"gift","אוכל":"food","תיירות":"pin","חינוך":"book","מכירה":"store","אפליקציה":"laptop"};
+const ICSECOND={"גיל שלישי":"heart","בית":"house","מעבר דירה":"box","זמן":"clock","עסקים קטנים":"store","בירוקרטיה":"doc","שכונה":"pin","חיות":"paw","משפחה":"people","משפחות":"people","הורים":"people","כתיבה":"book","שיחה":"chat","ילדים":"blocks","אירועים":"cal","כללי":"laptop"};
+const ideaArt=cat=>{ const [a,b]=String(cat||"").split(" · "); const k=ICFIRST[a]||ICSECOND[b]||"sprout"; return `<svg viewBox="0 0 64 64" aria-hidden="true">${IC[k].replace(/<(path|circle|rect|ellipse)\b/g,'<$1 pathLength="1"')}</svg>`; };
 function renderIdeas(){
   const sec=document.getElementById("ideas"); if(!ideaPicks||!sec) return;
   const l=IDS[WZI.lang]?WZI.lang:"he", T=IDS[l];
   document.getElementById("idEy").textContent=T.ey; document.getElementById("idH").textContent=T.h; document.getElementById("idP").textContent=T.p;
-  document.getElementById("idCards").innerHTML=ideaPicks.map((it,k)=>`<article class="vc" data-v="${it.v.toLowerCase()}"><span class="cat">${escH(it.cat[l])}</span><h3>${escH(it.t[l])}</h3><p>${escH(it.l[l])}</p><span class="v ${it.v.toLowerCase()}">${escH(T.v[it.v])}</span><button type="button" class="vbtn" data-k="${k}">${escH(T.btn)}</button></article>`).join("");
+  document.getElementById("idCards").innerHTML=ideaPicks.map((it,k)=>`<article class="vc" data-v="${it.v.toLowerCase()}" style="--i:${k}"><div class="art"><span class="v ${it.v.toLowerCase()}">${escH(T.v[it.v])}</span>${ideaArt(it.cat.he)}</div><div class="vc-body"><span class="cat">${escH(it.cat[l])}</span><h3>${escH(it.t[l])}</h3><p>${escH(it.l[l])}</p></div><button type="button" class="vbtn" data-k="${k}">${escH(T.btn)}</button></article>`).join("");
   sec.hidden=false;
 }
 document.getElementById("idCards").addEventListener("click",e=>{ const b=e.target.closest(".vbtn"); if(!b||!ideaPicks) return; const it=ideaPicks[+b.dataset.k]; if(!it) return;
@@ -1076,6 +1113,8 @@ addEventListener("scroll",()=>requestAnimationFrame(tick),{passive:true}); addEv
   go(0); sync(); } }
 /* who we are: the statement builds in once, when the section comes into view */
 { const a=document.getElementById("about"); if(a){ if("IntersectionObserver" in window){ const io=new IntersectionObserver(es=>es.forEach(e=>{ if(e.isIntersecting){ a.classList.add("go"); io.disconnect(); } }),{threshold:.3}); io.observe(a); } else a.classList.add("go"); } }
+/* idea cards: they rise in once and their drawings are drawn in one stroke, when the section comes into view */
+{ const s=document.getElementById("ideas"); if(s){ if("IntersectionObserver" in window){ const io=new IntersectionObserver(es=>es.forEach(e=>{ if(e.isIntersecting){ s.classList.add("go"); io.disconnect(); } }),{threshold:.2}); io.observe(s); } else s.classList.add("go"); } }
 /* phones: a dot under every swipe row, so you can see how many cards there are and tap to move */
 document.querySelectorAll(".steps,#idCards,.pgrid,#slider").forEach(row=>{
   const dots=document.createElement("div"); dots.className="cc-dots sdots"; row.after(dots);
