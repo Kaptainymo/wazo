@@ -540,11 +540,12 @@ dialog.sheet[open]::backdrop{animation:fadeIn .3s ease both}
 .dlink{width:100%;height:52px;border-radius:999px;border:1px solid color-mix(in srgb,currentColor 30%,transparent);background:transparent;color:inherit;padding:0 20px;font-family:var(--f-mono);font-size:14px}
 .drow2{display:grid;gap:12px}
 .dmsg{color:var(--red)}
+#verifyBody{grid-template-columns:minmax(0,1fr)}
 #verifyBody .vicon{justify-self:center;display:grid;place-items:center;width:72px;height:72px;border-radius:50%;background:var(--red);color:var(--kill-ink)}
 #verifyBody .lead,#verifyBody .vmail,#verifyBody .dmsg,#verifyBody .vresend{text-align:center}
 #verifyBody .vmail{margin:-8px 0 0;font-weight:700;font-size:18px}
 .otp-row{display:flex;justify-content:center;gap:8px}
-.otp{flex:1 1 0;min-width:0;max-width:52px;height:60px;box-sizing:border-box;border-radius:16px;border:1px solid color-mix(in srgb,currentColor 30%,transparent);background:transparent;color:inherit;font:inherit;font-size:24px;font-weight:600;text-align:center;padding:0;caret-color:var(--red)}
+.otp{flex:1 1 0;width:0;min-width:0;max-width:52px;height:60px;box-sizing:border-box;border-radius:16px;border:1px solid color-mix(in srgb,currentColor 30%,transparent);background:transparent;color:inherit;font:inherit;font-size:24px;font-weight:600;text-align:center;padding:0;caret-color:var(--red)}
 .otp:focus{outline:0;border-color:var(--red);box-shadow:0 0 0 3px color-mix(in srgb,var(--red) 35%,transparent)}
 .otp-row.bad .otp{border-color:var(--red);animation:otpShake .32s}
 @keyframes otpShake{25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
