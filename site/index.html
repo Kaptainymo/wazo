@@ -169,7 +169,7 @@ textarea#idea:focus{outline:none}
 .helprow{display:flex;gap:20px;flex-wrap:wrap}
 /* the three links under the idea box are buttons, the same look as the quick topics */
 .p-idea .helprow{gap:8px}
-.p-idea .helprow .morebtn,.p-idea #moreBtn{min-height:44px;padding:0 20px;border:1px solid var(--tool-line);border-radius:999px;font-size:16px;font-weight:500;color:#0A0A0A;opacity:1;text-decoration:none;line-height:round(calc(var(--lhr)*1em),2px);cursor:pointer;transition:background-color .15s,color .15s}
+.p-idea .helprow .morebtn,.p-idea #moreBtn{min-height:44px;padding:0 20px;white-space:nowrap;border:1px solid var(--tool-line);border-radius:999px;font-size:16px;font-weight:500;color:#0A0A0A;opacity:1;text-decoration:none;line-height:round(calc(var(--lhr)*1em),2px);cursor:pointer;transition:background-color .15s,color .15s}
 @media (hover:hover){.p-idea .helprow .morebtn:hover,.p-idea #moreBtn:hover{background:rgba(10,10,10,.08)}}
 .p-idea #moreBtn[aria-expanded="true"]{background:#0A0A0A;color:#fff}
 @media (hover:hover){.p-idea #moreBtn[aria-expanded="true"]:hover{background:#333}}
@@ -684,7 +684,7 @@ he:{
  eyebrow:"בוחן רעיונות", h1:"השורה התחתונה <em>על הרעיון שלכם.</em>",
  lede:"כתבו רעיון וקבלו קבלה: כל ציון עם הראיה שלו, החשבון בשלושה תרחישים, ומבחן של 7 ימים שיגיד לכם אם להמשיך.",
  ideaLabel:"הרעיון", ideaPh:"למשל: אפליקציה שהופכת הקלטה קולית של קבלן בשטח להצעת מחיר וחשבונית",
- moreDetails:"פרטים שמחדדים את התשובה (מומלץ)", phCust:"למשל: קבלני שיפוצים עצמאיים", phBudget:"למשל: 30,000", phTime:"למשל: 10 שעות", fCust:"לקוח יעד", fBudget:"תקציב לחצי שנה (₪)", fTime:"זמן פנוי בשבוע",
+ moreDetails:"פרטים שמחדדים (מומלץ)", phCust:"למשל: קבלני שיפוצים עצמאיים", phBudget:"למשל: 30,000", phTime:"למשל: 10 שעות", fCust:"לקוח יעד", fBudget:"תקציב לחצי שנה (₪)", fTime:"זמן פנוי בשבוע",
  go:"נתחו את הרעיון", stop:"עצרו ניתוח", needIdea:"כתבו רעיון קודם.",
  noSample:"הניתוח רץ על חשבון ה-Claude שלכם. לחיצה על נתחו תפתח את Wazo בתוך claude.ai.",
  errGranted:"לא ניתנה הרשאה להשתמש ב-Claude מהעמוד הזה.", errRate:"יותר מדי בקשות כרגע. נסו שוב בעוד כמה דקות.",
@@ -716,7 +716,7 @@ en:{
  eyebrow:"Startup idea checker", h1:"The bottom line <em>on your idea.</em>",
  lede:"Write an idea and get a receipt: every score with its evidence, the money in three scenarios, and a 7-day test that tells you whether to keep going.",
  ideaLabel:"The idea", ideaPh:"e.g. an app that turns a contractor's voice note from the job site into a quote and an invoice",
- moreDetails:"Details that sharpen the answer (recommended)", phCust:"e.g. independent renovation contractors", phBudget:"e.g. 30,000", phTime:"e.g. 10 hours", fCust:"Target customer", fBudget:"Budget for 6 months (₪)", fTime:"Time per week",
+ moreDetails:"Add details (recommended)", phCust:"e.g. independent renovation contractors", phBudget:"e.g. 30,000", phTime:"e.g. 10 hours", fCust:"Target customer", fBudget:"Budget for 6 months (₪)", fTime:"Time per week",
  go:"Analyze my idea", stop:"Stop analysis", needIdea:"Write an idea first.",
  noSample:"The analysis runs on your Claude account. Pressing Analyze opens Wazo inside claude.ai.",
  errGranted:"This page wasn't allowed to use Claude.", errRate:"Too many requests right now. Try again in a few minutes.",
@@ -814,7 +814,7 @@ T.es={
  eyebrow:"Verificador de ideas de startup", h1:"La conclusión <em>sobre tu idea.</em>",
  lede:"Escribe una idea y recibe un recibo: cada puntuación con su evidencia, el dinero en tres escenarios y una prueba de 7 días que te dice si seguir.",
  ideaLabel:"La idea", ideaPh:"Una app que convierte la nota de voz de un técnico en un presupuesto",
- moreDetails:"Detalles que afinan la respuesta (recomendado)", phCust:"p. ej. contratistas de reformas independientes", phBudget:"p. ej. 10.000", phTime:"p. ej. 10 horas", fCust:"Cliente objetivo", fBudget:"Presupuesto para 6 meses (€)", fTime:"Tiempo por semana",
+ moreDetails:"Añadir detalles (recomendado)", phCust:"p. ej. contratistas de reformas independientes", phBudget:"p. ej. 10.000", phTime:"p. ej. 10 horas", fCust:"Cliente objetivo", fBudget:"Presupuesto para 6 meses (€)", fTime:"Tiempo por semana",
  go:"Analizar mi idea", stop:"Detener análisis", needIdea:"Primero escribe una idea.",
  noSample:"El análisis corre en tu cuenta de Claude. Al pulsar Analizar se abre Wazo dentro de claude.ai.",
  errGranted:"Esta página no tiene permiso para usar Claude.", errRate:"Demasiadas solicitudes ahora mismo. Inténtalo en unos minutos.",
@@ -865,7 +865,7 @@ T.fr={
  eyebrow:"Testeur d'idées de startup", h1:"Le verdict <em>sur votre idée.</em>",
  lede:"Écrivez une idée et recevez un reçu : chaque note avec ses preuves, l'argent en trois scénarios et un test de 7 jours qui vous dit s'il faut continuer.",
  ideaLabel:"L'idée", ideaPh:"Une app qui transforme le mémo vocal d'un artisan en devis",
- moreDetails:"Des détails qui affinent la réponse (recommandé)", phCust:"ex. artisans rénovation indépendants", phBudget:"ex. 10 000", phTime:"ex. 10 heures", fCust:"Client cible", fBudget:"Budget sur 6 mois (€)", fTime:"Temps par semaine",
+ moreDetails:"Plus de détails (conseillé)", phCust:"ex. artisans rénovation indépendants", phBudget:"ex. 10 000", phTime:"ex. 10 heures", fCust:"Client cible", fBudget:"Budget sur 6 mois (€)", fTime:"Temps par semaine",
  go:"Analyser mon idée", stop:"Arrêter l'analyse", needIdea:"Écrivez d'abord une idée.",
  noSample:"L'analyse tourne sur votre compte Claude. Appuyer sur Analyser ouvre Wazo dans claude.ai.",
  errGranted:"Cette page n'a pas l'autorisation d'utiliser Claude.", errRate:"Trop de demandes en ce moment. Réessayez dans quelques minutes.",
