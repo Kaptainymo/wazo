@@ -26,43 +26,47 @@ function shrink(file,max=1600){
   });
 }
 
+/* One tooltip for every button and link: it says what the thing does, hides on scroll, and stays inside the screen.
+   WZInput.tip(el, ()=>"text", ()=>"he")  (the text is read each time it shows, so a language change needs nothing) */
+function tip(btn,get,lang){
+  let tipEl=document.getElementById("wz-tip");
+  if (!tipEl){
+    const st=document.createElement("style");
+    st.textContent="#wz-tip{position:fixed;left:0;top:0;z-index:1000;width:max-content;max-width:min(260px,calc(100vw - 16px));padding:12px 16px;border-radius:12px;background:#141414;color:#fff;border:0;font-size:14px;--lhr:1.45;font-weight:500;letter-spacing:0;text-align:start;pointer-events:none;opacity:0;transition:opacity .15s}#wz-tip.on{opacity:1}@media (prefers-reduced-motion:reduce){#wz-tip{transition:none}}";
+    document.head.appendChild(st);
+    tipEl=document.createElement("div"); tipEl.id="wz-tip"; tipEl.setAttribute("aria-hidden","true"); document.body.appendChild(tipEl);
+    addEventListener("scroll",()=>tipEl.classList.remove("on"),{passive:true,capture:true});
+  }
+  const d=document.createElement("span"); d.id="wz-d-"+Math.random().toString(36).slice(2,8); d.hidden=true; d.textContent=get(); btn.after(d); btn.setAttribute("aria-describedby",d.id);
+  const hide=()=>tipEl.classList.remove("on");
+  const show=()=>{
+    const text=get(), he=lang()==="he"; d.textContent=text;
+    tipEl.dir=he?"rtl":"ltr"; tipEl.style.textAlign=he?"right":"left"; tipEl.textContent=text; tipEl.classList.add("on");
+    const r=btn.getBoundingClientRect(), w=tipEl.offsetWidth, h=tipEl.offsetHeight;
+    const x=Math.min(Math.max(r.left+r.width/2-w/2,8),innerWidth-w-8), y=r.top-h-10>=8?r.top-h-10:r.bottom+10;
+    tipEl.style.transform="translate("+Math.round(x)+"px,"+Math.round(y)+"px)";
+  };
+  btn.addEventListener("mouseenter",show);
+  btn.addEventListener("focus",()=>{ if(btn.matches(":focus-visible")) show(); else d.textContent=get(); });
+  ["mouseleave","blur","pointerdown","click"].forEach(n=>btn.addEventListener(n,hide));
+  btn.addEventListener("keydown",e=>{ if(e.key==="Escape") hide(); });
+}
+
 function attach(o){
   const L=()=>T[o.lang()]||T.en, ta=o.textarea, wrap=o.wrap, say=o.msg||(()=>{});
   const tools=document.createElement("div"); tools.className="itools";
   const mk=(cls,icon)=>{ const b=document.createElement("button"); b.type="button"; b.className="itool "+cls; b.innerHTML=icon; return b; };
   const micB=mk("mic",ICON.mic), imgB=mk("img",ICON.img);
   const file=document.createElement("input"); file.type="file"; file.accept="image/jpeg,image/png,image/webp"; file.hidden=true; file.setAttribute("aria-hidden","true");
-  /* one tooltip for every button: it says what to do, and stays inside the screen */
-  let tipEl=document.getElementById("wz-tip");
-  if (!tipEl){
-    const st=document.createElement("style");
-    st.textContent="#wz-tip{position:fixed;left:0;top:0;z-index:1000;width:max-content;max-width:min(260px,calc(100vw - 16px));padding:10px 14px;border-radius:12px;background:#141414;color:#fff;border:0;font-size:14px;line-height:1.45;font-weight:500;letter-spacing:0;text-align:start;pointer-events:none;opacity:0;transition:opacity .15s}#wz-tip.on{opacity:1}@media (prefers-reduced-motion:reduce){#wz-tip{transition:none}}";
-    document.head.appendChild(st);
-    tipEl=document.createElement("div"); tipEl.id="wz-tip"; tipEl.setAttribute("aria-hidden","true"); document.body.appendChild(tipEl);
-  }
-  const hideTip=()=>tipEl.classList.remove("on");
-  const showTip=(btn,text)=>{
-    tipEl.dir=o.lang()==="he"?"rtl":"ltr"; tipEl.style.textAlign=o.lang()==="he"?"right":"left"; tipEl.textContent=text; tipEl.classList.add("on");
-    const r=btn.getBoundingClientRect(), w=tipEl.offsetWidth, h=tipEl.offsetHeight;
-    const x=Math.min(Math.max(r.left+r.width/2-w/2,8),innerWidth-w-8), y=r.top-h-10>=8?r.top-h-10:r.bottom+10;
-    tipEl.style.transform="translate("+Math.round(x)+"px,"+Math.round(y)+"px)";
-  };
-  const tipFor=(btn,get)=>{
-    btn.addEventListener("mouseenter",()=>showTip(btn,get()));
-    btn.addEventListener("focus",()=>{ if(btn.matches(":focus-visible")) showTip(btn,get()); });
-    ["mouseleave","blur","pointerdown","click"].forEach(n=>btn.addEventListener(n,hideTip));
-    btn.addEventListener("keydown",e=>{ if(e.key==="Escape") hideTip(); });
-  };
-  const desc=(btn,key)=>{ const d=document.createElement("span"); d.id="wz-d-"+key+"-"+Math.random().toString(36).slice(2,7); d.hidden=true; btn.after(d); btn.setAttribute("aria-describedby",d.id); return d; };
-  const label=()=>{ micB.setAttribute("aria-label",rec?L().micStop:L().mic); imgB.setAttribute("aria-label",L().img); micD.textContent=L().tipMic; imgD.textContent=L().tipImg; };
+  let rec=null, base="";
+  const label=()=>{ micB.setAttribute("aria-label",rec?L().micStop:L().mic); imgB.setAttribute("aria-label",L().img); };
   if (SR) tools.appendChild(micB);
   if (!o.noImage){ tools.appendChild(imgB); tools.appendChild(file); }
   wrap.appendChild(tools);
-  const micD=desc(micB,"mic"), imgD=desc(imgB,"img");
-  tipFor(micB,()=>L().tipMic); tipFor(imgB,()=>L().tipImg);
+  if (SR) tip(micB,()=>rec?L().micStop:L().tipMic,o.lang);
+  if (!o.noImage) tip(imgB,()=>L().tipImg,o.lang);
 
   /* ---- speech ---- */
-  let rec=null, base="";
   function stop(){ try{ rec&&rec.stop(); }catch(e){} }
   micB.addEventListener("click",()=>{
     if (rec){ stop(); return; }
@@ -71,7 +75,7 @@ function attach(o){
     rec.onstart=()=>{ micB.setAttribute("aria-pressed","true"); micB.classList.add("on"); label(); say(L().listening); };
     rec.onresult=e=>{ heard=true; let txt=""; for(let i=0;i<e.results.length;i++) txt+=e.results[i][0].transcript; ta.value=(base?base+" ":"")+txt.trim(); ta.dispatchEvent(new Event("input",{bubbles:true})); };
     rec.onerror=e=>{ if(e.error==="aborted") return; failed=true; say(e.error==="not-allowed"||e.error==="service-not-allowed"?L().denied:e.error==="audio-capture"?L().nomic:e.error==="no-speech"?L().none:L().unsupported); };
-    rec.onend=()=>{ micB.setAttribute("aria-pressed","false"); micB.classList.remove("on"); rec=null; label(); if(heard) say(""); else if(!failed) say(L().none); };
+    rec.onend=()=>{ micB.setAttribute("aria-pressed","false"); micB.classList.remove("on"); rec=null; label(); if(!failed) say(heard?"":L().none); };
     try{ rec.start(); }catch(e){ rec=null; say(L().unsupported); }
   });
 
@@ -98,11 +102,11 @@ function attach(o){
   return { relabel:label, stop };
 }
 /* Quick topics: round buttons that add or remove a word in the field.
-   WZInput.chips({ textarea, words:()=>["kids","cooking"] }) -> { el, rebuild() }  (the caller puts el where it belongs) */
+   WZInput.chips({ textarea, words:()=>["kids","cooking"], label:()=>"What interests you?" }) -> { el, rebuild() }  (the caller puts el where it belongs) */
 function chips(o){
   if (!document.getElementById("wz-chips-css")){
     const st=document.createElement("style"); st.id="wz-chips-css";
-    st.textContent=".wz-chips[hidden]{display:none}.wz-chips{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0 0}.wz-chip{all:unset;box-sizing:border-box;min-height:44px;padding:0 18px;display:inline-flex;align-items:center;border:1.5px solid #0A0A0A;border-radius:999px;font-size:16px;font-weight:500;color:#0A0A0A;cursor:pointer;transition:background-color .15s,color .15s}.wz-chip[aria-pressed=true]{background:#0A0A0A;color:#fff}.wz-chip:focus-visible{outline:3px solid #0A0A0A;outline-offset:2px}@media (hover:hover){.wz-chip:hover{background:rgba(10,10,10,.08)}.wz-chip[aria-pressed=true]:hover{background:#333}}@media (prefers-reduced-motion:reduce){.wz-chip{transition:none}}";
+    st.textContent=".wz-chips[hidden]{display:none}.wz-chips{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0 0}.wz-chip{all:unset;line-height:round(calc(var(--lhr)*1em),2px);box-sizing:border-box;min-height:44px;padding:0 20px;display:inline-flex;align-items:center;border:1px solid var(--tool-line,rgba(10,10,10,.38));border-radius:999px;font-size:16px;font-weight:500;color:#0A0A0A;cursor:pointer;transition:background-color .15s,color .15s}.wz-chip[aria-pressed=true]{background:#0A0A0A;color:#fff}.wz-chip:focus-visible{outline:3px solid #0A0A0A;outline-offset:2px}@media (hover:hover){.wz-chip:hover{background:rgba(10,10,10,.08)}.wz-chip[aria-pressed=true]:hover{background:#333}}@media (prefers-reduced-motion:reduce){.wz-chip{transition:none}}";
     document.head.appendChild(st);
   }
   const ta=o.textarea, el=document.createElement("div"); el.className="wz-chips"; el.setAttribute("role","group");
@@ -110,6 +114,7 @@ function chips(o){
   const same=(a,b)=>a.toLowerCase()===b.toLowerCase();
   function sync(){ const p=parts(); el.querySelectorAll(".wz-chip").forEach(b=>b.setAttribute("aria-pressed",p.some(s=>same(s,b.textContent)))); }
   function rebuild(){
+    if(o.label) el.setAttribute("aria-label",o.label());
     el.textContent="";
     o.words().forEach(w=>{
       const b=document.createElement("button"); b.type="button"; b.className="wz-chip"; b.textContent=w; b.setAttribute("aria-pressed","false");
@@ -122,5 +127,5 @@ function chips(o){
   rebuild();
   return { el, rebuild };
 }
-window.WZInput={attach,chips,t:l=>T[l]||T.en};
+window.WZInput={attach,chips,tip,t:l=>T[l]||T.en};
 })();

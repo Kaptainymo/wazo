@@ -485,7 +485,8 @@
   .ask .go[aria-disabled="true"]{background:rgba(20,20,20,.08);color:rgba(20,20,20,.45)}
   .ask .go[aria-disabled="true"]:hover{background:rgba(20,20,20,.08)}
   .ask .enrlink{color:#3B3935}
-  .itool{border-color:rgba(20,20,20,.25);color:#141414}
+  .ask{--tool-line:rgba(20,20,20,.25)}
+  .itool{border-color:var(--tool-line);color:#141414}
   @media (hover:hover){.itool:hover{background:rgba(20,20,20,.06)}.ask .enrlink:hover{color:#141414}.ask .cta.solid:hover{background:#333}.nav .cta.solid:hover{background:#333}}
   /* navigation over the light page */
   header.nav.solid{background:rgba(251,247,242,.92);border-color:#E7E0D6}
@@ -536,7 +537,7 @@
   /* what you get: no link under the text; the question tabs are borderless bullets that fill with solid coral */
   #pgo,#pgo2{display:none!important}
   .win .qs{border:0;border-radius:0;gap:12px;overflow:visible;margin-bottom:28px}
-  .win .qs button{min-width:0;flex:1 1 0;padding:26px 4px 4px;color:rgba(20,20,20,.55);overflow:visible;background:none}
+  .win .qs button{min-width:0;flex:1 1 0;padding:26px 4px 4px;color:rgba(20,20,20,.68);overflow:visible;background:none}
   .win .qs button+button{border-inline-start:0}
   .win .qs button .trk{position:absolute;top:0;inset-inline:0;height:10px;border-radius:999px;background:rgba(20,20,20,.14);overflow:hidden}
   .win .qs button .fill{background:var(--coral)}
@@ -553,20 +554,23 @@
   }
 
   /* ---------- coral hero, the same as the product: solid coral, very large black type ---------- */
-  .peek .hero{background:#F07167;--muted:rgba(10,10,10,.7);color:#0A0A0A}
+  .peek .hero{background:var(--coral);--muted:rgba(10,10,10,.7);color:#0A0A0A}
   .hero .glow,.hero .grain{display:none}
   .hero h1,.stage.simple h1{color:#0A0A0A}
   .hero h1 em{color:inherit}
   .hero .lead{color:#0A0A0A;opacity:.85}
-  .hero .hint{color:#0A0A0A;opacity:.7}
+  .hero .hint{color:#0A0A0A;opacity:.8}
+  /* the default focus ring is coral, which disappears on the coral hero and the transparent navigation above it */
+  .peek .hero :focus-visible,header.nav:not(.solid) :focus-visible{outline-color:#0A0A0A}
   .ask{box-shadow:none}
   .ask::after{background:conic-gradient(from var(--rim),rgba(10,10,10,0) 0deg,rgba(10,10,10,0) 190deg,rgba(10,10,10,.9) 335deg,rgba(10,10,10,0) 360deg),linear-gradient(rgba(10,10,10,.14),rgba(10,10,10,.14))}
 
-  /* ---------- all white, black navigation on scroll, outlined cards ---------- */
+  /* ---------- all white, black navigation on scroll, soft coral cards ---------- */
+  :root{--tile:#FFF0EC}
   html,body{background:#fff}
   section.blk{--bg:#fff}
   .privacy,.sheet,.win{background:#fff}
-  footer{background:#fff;border-top:1.5px solid #141414;color:#5E5B55}
+  footer{background:#fff;border-top:2px solid #141414;color:#5E5B55}
   footer a{color:#141414}
   header.nav.solid{background:#0A0A0A;border-color:#0A0A0A;backdrop-filter:none;-webkit-backdrop-filter:none;color:#fff;--ink:#fff}
   header.nav.solid .logo,header.nav.solid .links a.l{color:#fff}
@@ -576,37 +580,37 @@
   @media (hover:hover){header.nav.solid .cta.solid:hover{background:#D9D9D9}}
   /* the default button is filled; on hover it goes a little lighter, like "try now" */
   .ask .go[aria-disabled="true"]{background:#141414;color:#fff}
-  .ask .go[aria-disabled="true"]:hover{background:#333}
+  @media (hover:hover){.ask .go[aria-disabled="true"]:hover{background:#333}}
   .vc .vbtn{background:#141414;color:#fff;border-color:#141414}
   @media (hover:hover){.vc .vbtn:hover{background:#333;color:#fff}}
-  /* cards: a black outline and no fill */
-  section.blk .step,section.blk .step:nth-child(n),section.blk .pcard,section.blk .vc,.privacy .promise{background:#FFF0EC;border:0;border-radius:28px}
+  /* cards: a very soft coral fill and no border */
+  section.blk .step,section.blk .step:nth-child(n),section.blk .pcard,section.blk .vc,.privacy .promise{background:var(--tile);border:0;border-radius:28px}
   @media (max-width:960px){section.blk .step,section.blk .pcard,section.blk .vc,.privacy .promise{border-radius:20px}}
-  /* the slideshow: black, with white icons and words */
-  .cc-stage{background:#FFF0EC;border:0}
+  /* the slideshow stage: the same soft coral, dark words */
+  .cc-stage{background:var(--tile);border:0}
   .cc-card,.cc-card figcaption{color:#141414}
   /* pricing: two plain columns, no cards */
   @media (min-width:961px){
     /* two columns that sit at the edges, with the line exactly halfway between their text */
-    section.blk .tiers{display:grid;grid-template-columns:minmax(0,max-content) 1.5px minmax(0,max-content);justify-content:space-between;column-gap:clamp(24px,4vw,64px)}
+    section.blk .tiers{display:grid;grid-template-columns:minmax(0,max-content) 2px minmax(0,max-content);justify-content:space-between;column-gap:round(clamp(24px,4vw,64px),2px)}
     section.blk .tiers::before{content:"";grid-column:2;grid-row:1;order:1;background:#141414}
     section.blk .tiers>.tier:first-child{grid-column:1;grid-row:1}
     section.blk .tiers>.tier+.tier{grid-column:3;grid-row:1;border:0;padding-inline:0}
     section.blk .tiers>.tier,section.blk .tiers>.tier.pro{padding-inline:0}
   }
   section.blk .tier,section.blk .tier.pro{background:none;border:0;border-radius:0;box-shadow:none;padding-block:8px;padding-inline:0 40px;color:var(--ink)}
-  section.blk .tier+.tier{border-inline-start:1.5px solid #141414;padding-inline:40px 0}
+  section.blk .tier+.tier{border-inline-start:2px solid #141414;padding-inline:40px 0}
   section.blk .tier.pro h3,section.blk .tier.pro .price{color:var(--ink)}
   section.blk .tier.pro li,section.blk .tier.pro .renew{color:#3B3935}
   section.blk .tier.pro .price small{color:var(--muted)}
   section.blk .tier.pro li::before{border-color:var(--cd)}
 
-  /* ---------- tile cards: big bold title, short text, a colour shape with an animated line icon in the corner ---------- */
-  section.blk :is(.step,.pcard,.vc){position:relative;overflow:hidden;isolation:isolate;background:#FFF0EC;min-height:260px;padding:28px;display:flex;flex-direction:column;gap:10px}
-  section.blk :is(.step,.pcard,.vc) h3{font-size:round(clamp(30px,3vw,44px),2px);font-weight:700;letter-spacing:-.035em;line-height:1.02;margin:0;color:#141414}
+  /* ---------- tile cards: big bold title and short text on the soft coral fill ---------- */
+  section.blk :is(.step,.pcard,.vc){position:relative;overflow:hidden;background:var(--tile);min-height:260px;padding:28px;display:flex;flex-direction:column;gap:12px}
+  section.blk :is(.step,.pcard,.vc) h3{font-size:round(clamp(30px,3vw,44px),2px);font-weight:700;letter-spacing:-.035em;--lhr:1.02;margin:0;color:#141414}
   section.blk :is(.step,.pcard,.vc) p{font-size:16px;max-width:38ch;margin:0}
   #about .pcard h3,#duet .pcard h3{color:#141414}
-  section.blk .step .n{font-size:15px;font-weight:600;color:#6B6B66;margin:0}
+  section.blk .step .n{font-size:16px;font-weight:600;color:#6B6B66;margin:0}
   section.blk .vc{min-height:300px}
   @media (max-width:960px){
     section.blk :is(.step,.pcard){min-height:240px}
@@ -619,8 +623,8 @@
   .card .bline{font-weight:700;font-size:round(clamp(20px,2vw,26px),2px);--lhr:1.2;letter-spacing:-.02em;text-align:start}
   .card .nt{font-size:16px;--lhr:1.5;text-align:start}.card .nt b{font-weight:600}
   .card .tip{margin-top:auto;padding:16px;border-radius:16px;background:#0A0A0A;color:#F4F3EF;text-align:start}
-  .card .tip-l{display:block;font-family:"IBM Plex Mono",monospace;font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:#F07167;font-weight:700;margin-bottom:8px}
-  .card .tip p{margin:0;font-size:16px;font-weight:600;--lhr:1.45}
+  .card .tip-l{display:block;font-family:"IBM Plex Mono",monospace;font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--coral);font-weight:700;margin-bottom:8px}
+  .card .tip p{margin:0;font-size:16px;font-weight:600;--lhr:1.45;color:#F4F3EF}
   @media (max-width:960px){.win .card .bline{display:none}}
 </style>
 </head>
@@ -813,7 +817,7 @@ const idea=document.getElementById("idea"), tabHave=document.getElementById("tab
 if(matchMedia('(min-width:961px)').matches) idea.focus({preventScroll:true});
 const none=()=>tabNone.getAttribute("aria-selected")==="true";
 /* quick topics, shown only when there is no idea yet */
-const topics=WZInput.chips({textarea:idea,words:()=>WZI.u("chipsNone").split("|")}); topics.el.hidden=true; idea.closest(".tawrap").after(topics.el);
+const topics=WZInput.chips({textarea:idea,words:()=>WZI.u("chipsNone").split("|"),label:()=>WZI.u("phNone")}); topics.el.hidden=true; idea.closest(".tawrap").after(topics.el);
 function setMode(n,quiet){
   topics.el.hidden=!n;
   tabHave.setAttribute("aria-selected",!n); tabNone.setAttribute("aria-selected",n); tabHave.parentElement.dataset.sel=n?"none":"have";

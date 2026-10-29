@@ -138,12 +138,12 @@ nav.top .in{display:flex;align-items:center;justify-content:space-between;height
 .ph-r{min-width:44px;display:flex;justify-content:flex-end}
 
 /* idea panel */
-.p-idea{background:var(--b1);color:var(--b1-ink)}
+.p-idea{background:var(--b1);color:var(--b1-ink);--tool-line:rgba(10,10,10,.38)}
 .ibox{position:relative;border-radius:28px;padding:20px 24px}
 .ibox.dropping{box-shadow:inset 0 0 0 2px #0A0A0A}
 .ibar{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-top:8px;min-height:44px}
 .itools{display:flex;gap:8px}
-.itool{all:unset;box-sizing:border-box;width:44px;height:44px;border-radius:50%;border:1px solid rgba(10,10,10,.38);color:#0A0A0A;display:grid;place-items:center;cursor:pointer;transition:background-color .2s,color .2s}
+.itool{all:unset;box-sizing:border-box;width:44px;height:44px;border-radius:50%;border:1px solid var(--tool-line,rgba(10,10,10,.38));color:#0A0A0A;display:grid;place-items:center;cursor:pointer;transition:background-color .2s,color .2s}
 .itool:focus-visible{outline:3px solid #0A0A0A;outline-offset:2px}
 @media (hover:hover){.itool:hover{background:rgba(10,10,10,.1)}}
 .itool.on{background:#0A0A0A;color:#F4F3EF;animation:micpulse 1.4s ease-in-out infinite}
@@ -155,7 +155,7 @@ nav.top .in{display:flex;align-items:center;justify-content:space-between;height
 .p-idea textarea#idea::placeholder{opacity:.65}
 .p-idea .helpbox .hh,.p-idea .helpbox .hnote{opacity:1}
 .p-idea .fields input::placeholder,.p-idea .helpbox input::placeholder{opacity:.78}
-.p-idea .fields input,.p-idea .helpbox .row input{border-color:color-mix(in srgb,currentColor 70%,transparent)}
+.p-idea .fields input,.p-idea .helpbox .row input{border-color:var(--tool-line)}
 .p-idea .helpbox{border-color:color-mix(in srgb,currentColor 60%,transparent)}
 .p-idea .fields label{opacity:.9}
 .b-idea .b-lab,.b-idea .b-sub{opacity:.9}
@@ -1027,6 +1027,11 @@ Object.assign(T.es,{enrBtn:"Ampliar mi idea", enrT:"Tu idea, ampliada", enrUse:"
 Object.assign(T.es,{testTag:"Versión de prueba · todo abierto · sin pago", nextCard:"Siguiente", remind:"Recuérdame en 7 días", remindTitle:"Wazo: resultado de la prueba de 7 días"});
 Object.assign(T.fr,{enrBtn:"Développer mon idée", enrT:"Votre idée, développée", enrUse:"Utiliser", enrUseGo:"Utiliser et vérifier", enrClose:"Fermer", enrLoad:"Développement de votre idée...", enrNeed:"Écrivez d'abord une courte idée, puis je pourrai la développer.", noIdeaBtn:"Je n'ai pas d'idée", noIdeaT:"Qu'est-ce qui vous intéresse ?", noIdeaPh:"ou écrivez le vôtre", noIdeaChips:"enfants|cuisine|ordinateurs|aider les gens", noIdeaGo:"Proposez-moi des idées", noIdeaLoad:"Je réfléchis aux idées...", noIdeaPick:"Touchez une idée pour commencer", helpNote:"Le développement est écrit par une IA. Vous pouvez le modifier avant la vérification."});
 Object.assign(T.fr,{testTag:"Version de test · tout est ouvert · sans paiement", nextCard:"Suivant", remind:"Me le rappeler dans 7 jours", remindTitle:"Wazo : résultat du test de 7 jours"});
+/* tooltips for the three links under the idea box: what each one does */
+Object.assign(T.he,{tipEnr:"יש לכם רעיון בכמה מילים? לחצו ונרחיב אותו לתיאור ברור. אפשר לערוך אותו לפני הבדיקה.", tipNoIdea:"עוד לא יודעים מה לבדוק? ספרו מה מעניין אתכם ונציע כמה רעיונות להתחיל מהם.", tipMore:"לקוח יעד, תקציב וזמן פנוי. ככל שתספרו יותר, התשובה תהיה מדויקת יותר. אפשר גם לדלג."});
+Object.assign(T.en,{tipEnr:"Have an idea in a few words? Tap and we'll expand it into a clear description. You can edit it before the check.", tipNoIdea:"Not sure what to check yet? Tell us what interests you and we'll suggest a few ideas to start from.", tipMore:"Target customer, budget and free time. The more you tell us, the more accurate the answer. You can also skip it."});
+Object.assign(T.es,{tipEnr:"¿Tienes una idea en pocas palabras? Pulsa y la ampliamos en una descripción clara. Puedes editarla antes de la revisión.", tipNoIdea:"¿Aún no sabes qué revisar? Cuéntanos qué te interesa y te sugerimos algunas ideas para empezar.", tipMore:"Cliente, presupuesto y tiempo libre. Cuanto más nos cuentes, más precisa será la respuesta. También puedes omitirlo."});
+Object.assign(T.fr,{tipEnr:"Une idée en quelques mots ? Appuyez et nous la développons en une description claire. Vous pouvez la modifier avant la vérification.", tipNoIdea:"Vous ne savez pas encore quoi vérifier ? Dites-nous ce qui vous intéresse et nous proposons quelques idées pour commencer.", tipMore:"Client, budget et temps libre. Plus vous en dites, plus la réponse est précise. Vous pouvez aussi passer."});
 
 /* ---------- data ---------- */
 function undash(x){ const he=S.lang==="he"; return String(x||"").replace(/(\d)\s*[–—]\s*(\d)/g, "$1"+({he:" עד ",en:" to ",es:" a ",fr:" à "}[S.lang]||" to ")+"$2").replace(/\s+[–—-]\s+|[–—]/g, ", "); }
@@ -1729,7 +1734,7 @@ $("#noIdeaBtn").addEventListener("click",()=>{
   helpBox.hidden=false;
   helpBox.innerHTML=`<div class="hh"><span>${esc(t("noIdeaT"))}</span><button type="button" data-hclose aria-label="${esc(t("enrClose"))}">×</button></div><div class="row"><input id="topicIn" aria-label="${esc(t("noIdeaT"))}" placeholder="${esc(t("noIdeaPh"))}" maxlength="150"><button class="cta dark" type="button" id="topicGo">${esc(t("noIdeaGo"))}</button></div><div class="itmsg" id="topicMsg" role="status" aria-live="polite"></div><div id="topicOut"></div>`;
   WZInput.attach({wrap:helpBox.querySelector(".row"),textarea:$("#topicIn"),lang:()=>S.lang,msg:m=>{ $("#topicMsg").textContent=m; },noImage:true});
-  helpBox.querySelector(".hh").after(WZInput.chips({textarea:$("#topicIn"),words:()=>t("noIdeaChips").split("|")}).el);
+  helpBox.querySelector(".hh").after(WZInput.chips({textarea:$("#topicIn"),words:()=>t("noIdeaChips").split("|"),label:()=>t("noIdeaT")}).el);
   const go=async()=>{
     const topic=$("#topicIn").value.trim(); if(!topic){ $("#topicIn").focus(); return; }
     const out=$("#topicOut"); out.innerHTML=loadHTML(t("noIdeaLoad"));
@@ -1796,6 +1801,7 @@ async function readImage(data){
   else itMsg(r.status===200?T.empty:r.status===429?T.limit:T.fail);
 }
 const inputTools=WZInput.attach({wrap:$("#itwrap"),textarea:$("#idea"),lang:()=>S.lang,msg:itMsg,dropZone:$("#ibox"),onImage:data=>readImage(data)});
+[["#enrBtn","tipEnr"],["#noIdeaBtn","tipNoIdea"],["#moreBtn","tipMore"]].forEach(([sel,key])=>WZInput.tip($(sel),()=>t(key),()=>S.lang));
 
 /* the cards fill the space above the action bar, whatever its height is on the current card */
 (()=>{ const el=$("#cardacts"); if(!el) return; const set=()=>document.documentElement.style.setProperty("--actsH",el.offsetHeight+"px");
