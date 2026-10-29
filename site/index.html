@@ -540,6 +540,18 @@ dialog.sheet[open]::backdrop{animation:fadeIn .3s ease both}
 .dlink{width:100%;height:52px;border-radius:999px;border:1px solid color-mix(in srgb,currentColor 30%,transparent);background:transparent;color:inherit;padding:0 20px;font-family:var(--f-mono);font-size:14px}
 .drow2{display:grid;gap:12px}
 .dmsg{color:var(--red)}
+#verifyBody .vicon{justify-self:center;display:grid;place-items:center;width:72px;height:72px;border-radius:50%;background:var(--red);color:var(--kill-ink)}
+#verifyBody .lead,#verifyBody .vmail,#verifyBody .dmsg,#verifyBody .vresend{text-align:center}
+#verifyBody .vmail{margin:-8px 0 0;font-weight:700;font-size:18px}
+.otp-row{display:flex;justify-content:center;gap:8px}
+.otp{flex:1 1 0;min-width:0;max-width:52px;height:60px;box-sizing:border-box;border-radius:16px;border:1px solid color-mix(in srgb,currentColor 30%,transparent);background:transparent;color:inherit;font:inherit;font-size:24px;font-weight:600;text-align:center;padding:0;caret-color:var(--red)}
+.otp:focus{outline:0;border-color:var(--red);box-shadow:0 0 0 3px color-mix(in srgb,var(--red) 35%,transparent)}
+.otp-row.bad .otp{border-color:var(--red);animation:otpShake .32s}
+@keyframes otpShake{25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+@media (prefers-reduced-motion:reduce){.otp-row.bad .otp{animation:none}}
+.vresend{margin:0;font-size:14px;opacity:.85}
+.vlink{all:unset;cursor:pointer;color:var(--red);font-weight:600;text-decoration:underline;text-underline-offset:3px}
+.vlink:focus-visible{outline:3px solid var(--red);outline-offset:3px;border-radius:4px}
 .vf{display:grid;gap:8px;font-size:14px}.vf input{height:52px;border-radius:999px;border:1px solid color-mix(in srgb,currentColor 30%,transparent);background:transparent;color:inherit;padding:0 20px;font:inherit;font-size:18px}
 .fineprint{font-size:14px;opacity:.7}
 .dtalk strong[aria-hidden]{user-select:none}
@@ -1347,10 +1359,10 @@ function goPlans(){
   pb.scrollIntoView({behavior:calm()?"auto":"smooth",block:"start"}); pb.classList.remove("flash"); void pb.offsetWidth; pb.classList.add("flash"); pb.setAttribute("tabindex","-1"); pb.focus({preventScroll:true});
 }
 const AUTH={
- he:{t:"אימות מייל",link:"כבר מנויים? אימות מייל",lead:"כדי לפתוח את המנוי שלכם נשלח קוד בן 6 ספרות למייל. הוא תקף ל־10 דקות.",emailLbl:"המייל של המנוי",send:"שלחו לי קוד",sent:"אם למייל הזה יש מנוי Pro, שלחנו אליו קוד. בדקו גם בתיקיית הספאם.",codeLbl:"הקוד מהמייל",verify:"אימות",resend:"שלחו שוב",wait:"אפשר לבקש קוד חדש עוד רגע.",bad:"הקוד לא נכון או שפג תוקפו.",many:"יותר מדי ניסיונות. בקשו קוד חדש.",off:"האימות עוד לא זמין כרגע.",err:"לא הצלחנו כרגע. נסו שוב עוד רגע.",ok:"המייל אומת. המנוי שלכם פעיל.",need:"כדי להמשיך צריך לאמת את המייל."},
- en:{t:"Verify your email",link:"Already a subscriber? Verify your email",lead:"To unlock your subscription we'll send a 6-digit code to your email. It's valid for 10 minutes.",emailLbl:"Subscription email",send:"Send me a code",sent:"If this email has a Pro subscription, we sent it a code. Check your spam folder too.",codeLbl:"Code from the email",verify:"Verify",resend:"Send again",wait:"You can ask for a new code in a moment.",bad:"The code is wrong or has expired.",many:"Too many tries. Ask for a new code.",off:"Verification isn't available right now.",err:"That didn't work just now. Try again in a moment.",ok:"Email verified. Your subscription is active.",need:"To continue, please verify your email."},
- es:{t:"Verificar tu correo",link:"¿Ya eres suscriptor? Verifica tu correo",lead:"Para activar tu suscripción te enviaremos un código de 6 dígitos por correo. Es válido durante 10 minutos.",emailLbl:"Correo de la suscripción",send:"Enviarme un código",sent:"Si este correo tiene una suscripción Pro, le enviamos un código. Revisa también el spam.",codeLbl:"Código del correo",verify:"Verificar",resend:"Enviar de nuevo",wait:"Podrás pedir un código nuevo en un momento.",bad:"El código es incorrecto o caducó.",many:"Demasiados intentos. Pide un código nuevo.",off:"La verificación no está disponible ahora.",err:"No funcionó ahora. Inténtalo de nuevo en un momento.",ok:"Correo verificado. Tu suscripción está activa.",need:"Para continuar, verifica tu correo."},
- fr:{t:"Vérifier votre e-mail",link:"Déjà abonné ? Vérifiez votre e-mail",lead:"Pour activer votre abonnement, nous envoyons un code à 6 chiffres par e-mail. Il est valable 10 minutes.",emailLbl:"E-mail de l'abonnement",send:"Envoyez-moi un code",sent:"Si cet e-mail a un abonnement Pro, un code lui a été envoyé. Vérifiez aussi les spams.",codeLbl:"Code reçu par e-mail",verify:"Vérifier",resend:"Renvoyer",wait:"Vous pourrez demander un nouveau code dans un instant.",bad:"Le code est incorrect ou a expiré.",many:"Trop d'essais. Demandez un nouveau code.",off:"La vérification n'est pas disponible pour le moment.",err:"Ça n'a pas marché à l'instant. Réessayez dans un moment.",ok:"E-mail vérifié. Votre abonnement est actif.",need:"Pour continuer, vérifiez votre e-mail."}
+ he:{t:"אימות מייל",link:"כבר מנויים? אימות מייל",lead:"כדי לפתוח את המנוי שלכם נשלח קוד בן 6 ספרות למייל. הוא תקף ל־10 דקות.",emailLbl:"המייל של המנוי",send:"שלחו לי קוד",sent:"אם למייל הזה יש מנוי Pro, שלחנו אליו קוד. בדקו גם בתיקיית הספאם.",codeLbl:"הקוד מהמייל",verify:"אימות",resend:"שלחו שוב",wait:"אפשר לבקש קוד חדש עוד רגע.",bad:"הקוד לא נכון או שפג תוקפו.",many:"יותר מדי ניסיונות. בקשו קוד חדש.",off:"האימות עוד לא זמין כרגע.",err:"לא הצלחנו כרגע. נסו שוב עוד רגע.",noCode:"לא קיבלתם קוד?",ok:"המייל אומת. המנוי שלכם פעיל.",need:"כדי להמשיך צריך לאמת את המייל."},
+ en:{t:"Verify your email",link:"Already a subscriber? Verify your email",lead:"To unlock your subscription we'll send a 6-digit code to your email. It's valid for 10 minutes.",emailLbl:"Subscription email",send:"Send me a code",sent:"If this email has a Pro subscription, we sent it a code. Check your spam folder too.",codeLbl:"Code from the email",verify:"Verify",resend:"Send again",wait:"You can ask for a new code in a moment.",bad:"The code is wrong or has expired.",many:"Too many tries. Ask for a new code.",off:"Verification isn't available right now.",err:"That didn't work just now. Try again in a moment.",noCode:"Didn't get a code?",ok:"Email verified. Your subscription is active.",need:"To continue, please verify your email."},
+ es:{t:"Verificar tu correo",link:"¿Ya eres suscriptor? Verifica tu correo",lead:"Para activar tu suscripción te enviaremos un código de 6 dígitos por correo. Es válido durante 10 minutos.",emailLbl:"Correo de la suscripción",send:"Enviarme un código",sent:"Si este correo tiene una suscripción Pro, le enviamos un código. Revisa también el spam.",codeLbl:"Código del correo",verify:"Verificar",resend:"Enviar de nuevo",wait:"Podrás pedir un código nuevo en un momento.",bad:"El código es incorrecto o caducó.",many:"Demasiados intentos. Pide un código nuevo.",off:"La verificación no está disponible ahora.",err:"No funcionó ahora. Inténtalo de nuevo en un momento.",noCode:"¿No recibiste el código?",ok:"Correo verificado. Tu suscripción está activa.",need:"Para continuar, verifica tu correo."},
+ fr:{t:"Vérifier votre e-mail",link:"Déjà abonné ? Vérifiez votre e-mail",lead:"Pour activer votre abonnement, nous envoyons un code à 6 chiffres par e-mail. Il est valable 10 minutes.",emailLbl:"E-mail de l'abonnement",send:"Envoyez-moi un code",sent:"Si cet e-mail a un abonnement Pro, un code lui a été envoyé. Vérifiez aussi les spams.",codeLbl:"Code reçu par e-mail",verify:"Vérifier",resend:"Renvoyer",wait:"Vous pourrez demander un nouveau code dans un instant.",bad:"Le code est incorrect ou a expiré.",many:"Trop d'essais. Demandez un nouveau code.",off:"La vérification n'est pas disponible pour le moment.",err:"Ça n'a pas marché à l'instant. Réessayez dans un moment.",noCode:"Pas reçu de code ?",ok:"E-mail vérifié. Votre abonnement est actif.",need:"Pour continuer, vérifiez votre e-mail."}
 };
 const authT=()=>AUTH[S.lang]||AUTH.en;
 function openVerify(o={}){
@@ -1359,13 +1371,16 @@ function openVerify(o={}){
   if(!d.open){ if(d.showModal) d.showModal(); else d.setAttribute("open",""); }
   if (o.auto && S.vf.email) sendCode();
 }
+const maskEm=e=>{ const [u,d]=String(e).split("@"); if(!d) return String(e); return (u.length>4?u.slice(0,2)+"***"+u[u.length-1]:u[0]+"***")+"@"+d; };
+const VF_ICON=`<span class="vicon" aria-hidden="true"><svg viewBox="0 0 24 24" width="34" height="34" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 5 6v5c0 4.5 3 8 7 10 4-2 7-5.5 7-10V6z"/><path d="m9 12 2 2 4-4"/></svg></span>`;
 function renderVerify(){
   const a=authT(), V=S.vf, msg=V.msg?`<p class="dmsg" role="status">${esc(V.msg)}</p>`:"";
-  const em=`<label class="vf"><span>${esc(a.emailLbl)}</span><input id="vfEmail" type="email" autocomplete="email" inputmode="email" value="${esc(V.email)}" ${V.step==="code"?"readonly":""}></label>`;
+  const em=`<label class="vf"><span>${esc(a.emailLbl)}</span><input id="vfEmail" type="email" autocomplete="email" inputmode="email" value="${esc(V.email)}"></label>`;
+  const boxes=[0,1,2,3,4,5].map(i=>`<input class="otp" inputmode="numeric" pattern="[0-9]*" maxlength="${i?1:6}" autocomplete="${i?"off":"one-time-code"}" aria-label="${i+1}/6">`).join("");
   $("#verifyBody").innerHTML = V.step==="ask"
-    ? `<p class="lead">${esc(a.lead)}</p>${em}${msg}<button type="button" class="cta light" data-vf="send" ${V.busy?"disabled":""}>${esc(a.send)}</button>`
-    : `<p class="lead">${esc(a.sent)}</p>${em}<label class="vf"><span>${esc(a.codeLbl)}</span><input id="vfCode" inputmode="numeric" autocomplete="one-time-code" maxlength="6" pattern="[0-9]*" dir="ltr"></label>${msg}<button type="button" class="cta light" data-vf="verify" ${V.busy?"disabled":""}>${esc(a.verify)}</button><button type="button" class="cta btn-ghost" data-vf="send" ${V.busy?"disabled":""}>${esc(a.resend)}</button>`;
-  const f=$(V.step==="code"?"#vfCode":"#vfEmail"); if(f&&!V.email||V.step==="code") f?.focus({preventScroll:true});
+    ? `${VF_ICON}<p class="lead">${esc(a.lead)}</p>${em}${msg}<button type="button" class="cta light" data-vf="send" ${V.busy?"disabled":""}>${esc(a.send)}</button>`
+    : `${VF_ICON}<p class="lead">${esc(a.sent)}</p><p class="vmail" dir="ltr">${esc(maskEm(V.email))}</p><div class="otp-row${V.msg===a.bad?" bad":""}" dir="ltr" role="group" aria-label="${esc(a.codeLbl)}">${boxes}</div>${msg}<button type="button" class="cta light" data-vf="verify" ${V.busy?"disabled":""}>${esc(a.verify)}</button><p class="vresend">${esc(a.noCode)} <button type="button" class="vlink" data-vf="send" ${V.busy?"disabled":""}>${esc(a.resend)}</button></p>`;
+  const f=V.step==="code"?$(".otp"):$("#vfEmail"); if(f&&(!V.email||V.step==="code")) f.focus({preventScroll:true});
 }
 async function sendCode(){
   const V=S.vf, a=authT(); const em=($("#vfEmail")?.value||V.email||"").trim(); if(!em||!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(em)){ V.msg=a.err; renderVerify(); return; }
@@ -1377,7 +1392,7 @@ async function sendCode(){
   renderVerify();
 }
 async function submitCode(){
-  const V=S.vf, a=authT(); const code=($("#vfCode")?.value||"").replace(/\D/g,""); if(code.length!==6){ V.msg=a.bad; renderVerify(); return; }
+  const V=S.vf, a=authT(); if(V.busy) return; const code=[...document.querySelectorAll("#verifyBody .otp")].map(i=>i.value).join("").replace(/\D/g,""); if(code.length!==6){ V.msg=a.bad; renderVerify(); return; }
   V.busy=true; V.msg=""; renderVerify();
   let r; try{ r=await api("auth",{action:"verify",email:V.email,code}); }catch(e){ r={status:0,data:{}}; }
   V.busy=false;
@@ -1390,7 +1405,14 @@ async function submitCode(){
   V.msg = r.data&&r.data.code==="too_many" ? a.many : r.status===0||r.status>=500 ? a.err : a.bad; V.step=r.data&&r.data.code==="too_many" ? "ask" : "code"; renderVerify();
 }
 $("#verifyBody").addEventListener("click",e=>{ const b=e.target.closest("[data-vf]"); if(!b||!S.vf) return; if(b.dataset.vf==="send") sendCode(); else submitCode(); });
-$("#verifyBody").addEventListener("keydown",e=>{ if(e.key==="Enter"&&S.vf){ e.preventDefault(); S.vf.step==="code"?submitCode():sendCode(); } });
+const otps=()=>[...document.querySelectorAll("#verifyBody .otp")];
+$("#verifyBody").addEventListener("input",e=>{ const i=e.target.closest(".otp"); if(!i||!S.vf) return; const all=otps(), k=all.indexOf(i), d=i.value.replace(/\D/g,"");
+  if(d.length>1){ d.slice(0,6).split("").forEach((c,n)=>{ if(all[k+n]) all[k+n].value=c; }); all[Math.min(5,k+d.length)].focus(); }
+  else { i.value=d; if(d&&all[k+1]) all[k+1].focus(); }
+  if(all.every(x=>x.value)) submitCode(); });
+$("#verifyBody").addEventListener("paste",e=>{ const i=e.target.closest(".otp"); if(!i||!S.vf) return; e.preventDefault(); const d=(e.clipboardData.getData("text")||"").replace(/\D/g,"").slice(0,6), all=otps(); d.split("").forEach((c,n)=>{ all[n].value=c; }); all[Math.min(5,d.length)].focus(); if(d.length===6) submitCode(); });
+$("#verifyBody").addEventListener("keydown",e=>{ const i=e.target.closest&&e.target.closest(".otp"); if(i){ const all=otps(), k=all.indexOf(i); if(e.key==="Backspace"&&!i.value&&k>0){ all[k-1].value=""; all[k-1].focus(); e.preventDefault(); } else if(e.key==="ArrowLeft"&&k>0){ all[k-1].focus(); e.preventDefault(); } else if(e.key==="ArrowRight"&&k<5){ all[k+1].focus(); e.preventDefault(); } }
+  if(e.key==="Enter"&&S.vf){ e.preventDefault(); S.vf.step==="code"?submitCode():sendCode(); } });
 function openTeams(){
   const held=S.plan==="teams";
   $("#teamsBody").innerHTML=`<p class="lead">${esc(t("teamsLead"))}</p><ul class="teams-f">${t("teamsF").map(x=>`<li>${esc(x)}</li>`).join("")}</ul>
