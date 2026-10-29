@@ -783,6 +783,8 @@
   .ask{display:flex;flex-direction:column}
   .ask .tawrap{flex:1 1 auto;display:flex}
   .ask .tawrap textarea{flex:1 1 auto}
+  /* with no idea yet the topic buttons take the space, so the box is one line: both modes end up about the same height and the card fits on a phone screen */
+  .ask:has(.tabs[data-sel="none"]) .tawrap textarea{min-height:48px}
 
   /* the answer card is built like the product's: everything starts on the right (left in left-to-right languages) */
   .card .top{direction:inherit;letter-spacing:.12em;opacity:.7}
@@ -1217,7 +1219,7 @@ const _setMode=setMode;
 setMode=function(n,q){ _setMode(n,q); swapEls.forEach(e=>{ e.classList.remove("swap"); void e.offsetWidth; e.classList.add("swap"); }); };
 /* measure the card in both modes and keep the larger size (and the wider main button), so switching tabs never moves the page */
 function lockAsk(){ const ask=document.querySelector(".ask"); ask.style.minHeight=""; goBtn.style.minWidth=""; const was=none(); let h=0,w=0;
-  [false,true].forEach(m=>{ _setMode(m,true); h=Math.max(h,ask.getBoundingClientRect().height); w=Math.max(w,goBtn.getBoundingClientRect().width); });
+  [false,true].forEach(m=>{ _setMode(m,true); if(m===false||innerWidth>960) h=Math.max(h,ask.getBoundingClientRect().height); w=Math.max(w,goBtn.getBoundingClientRect().width); });  /* on phones the card keeps the shorter size so it fits the first screen */
   _setMode(was,true); ask.style.minHeight=Math.ceil(h)+"px"; goBtn.style.minWidth=Math.ceil(w)+"px"; if(typeof setPinned==="function") setPinned(); }
 { let lt=0; const again=()=>{ clearTimeout(lt); lt=setTimeout(lockAsk,150); }; (document.fonts&&document.fonts.ready?document.fonts.ready:Promise.resolve()).then(lockAsk); addEventListener("resize",again); }
 tabHave.onclick=null; 
