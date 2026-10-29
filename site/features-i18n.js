@@ -31,7 +31,7 @@ const D={
 "מחירים":["Pricing","Precios","Tarifs"],
 "נסו עכשיו":["Try it now","Pruébalo ya","Essayez maintenant"],
 "נסו עכשיו, בחינם":["Try it now, free","Pruébalo ya, gratis","Essayez maintenant, gratuitement"],
-"קודם בחינם, אחר כך Pro":["Free first, Pro later","Primero gratis, luego Pro","D'abord gratuit, Pro ensuite"],
+"התקדמו ל־Pro":["Step up to Pro","Pasa a Pro","Passez à Pro"],
 "יש לי רעיון":["I have an idea","Tengo una idea","J'ai une idée"],
 "אין לי רעיון":["I have no idea yet","Aún no tengo idea","Je n'ai pas encore d'idée"],
 "הרעיון שלך":["Your idea","Tu idea","Votre idée"],
