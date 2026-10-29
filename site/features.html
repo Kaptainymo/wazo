@@ -633,7 +633,6 @@
   @media (max-width:960px){section.blk .step,section.blk .pcard,section.blk .vc,.privacy .promise{border-radius:20px}}
   /* the slideshow stage: no fill and no border, light words and icons */
   .cc-stage{background:transparent;border:0}
-  @media (min-width:961px){.cc-stage{min-height:340px}}
   /* the slideshow column is centered: the intro line, the card and the dots share one axis */
   .kp{text-align:center;margin-inline:auto}
   .cc-dots{justify-content:center}
@@ -641,7 +640,12 @@
   @media (min-width:961px){
     .kick{align-items:stretch}
     .kick>div:first-child{display:flex}
-    .kick .tl{margin:0;width:100%;align-content:center;gap:28px}   /* the three points sit together, centered on the slideshow beside them */
+    .kick .tl{margin:0;width:100%;align-content:start;gap:28px}
+    /* the slideshow is exactly as tall as the three points beside it: the drawing starts at the first point, the dots end with the last one */
+    .kick>div:last-child{display:flex}
+    .kick .cc{flex:1;grid-template-rows:minmax(0,1fr) auto}
+    .kick .cc-stage{min-height:0}
+    .kick .cc-card{place-content:start center;padding:12px 24px 0}
   }
   .cc-card,.cc-card figcaption{color:var(--ink)}
   .cc-dot::before{background:rgba(241,240,236,.28)}
