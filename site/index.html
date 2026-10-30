@@ -670,7 +670,7 @@ dialog.sheet[open]::backdrop{animation:fadeIn .3s ease both}
 .mk-tg::after{content:"";position:absolute;top:2px;right:2px;width:22px;height:22px;border-radius:50%;background:#fff}
 .mk-x svg{width:16px;height:16px}
 .ins-app{flex:none;width:38px;height:38px;border-radius:10px;background:#0A0A0A;display:grid;place-items:center}
-.ins-app svg{width:68%;height:68%;stroke:#fff;stroke-width:10.5}
+.ins-app svg{width:100%;height:100%;fill:#fff;stroke:none}
 .ins-app.big{width:104px;height:104px;border-radius:26px;box-shadow:0 0 0 1px #2a2a2a}
 /* the Android screens */
 .ins-url{display:flex;align-items:center;gap:10px;width:88%;height:50px;border-radius:25px;background:#262626;padding:0 12px 0 18px;direction:ltr;color:#BDBBB5}
@@ -2128,7 +2128,7 @@ const II={
   chevd:'<path d="m6 9 6 6 6-6"/>'
 };
 const isv=(n,x="")=>`<svg viewBox="0 0 24 24" aria-hidden="true"${x}>${II[n]}</svg>`;
-const WAPP='<svg viewBox="0 0 100 100" aria-hidden="true"><path d="M21 29 36.5 75 50 41 63.5 75 79 29"/></svg>';
+const WAPP='<svg viewBox="0 0 100 100" aria-hidden="true"><path d="M33.78 71.21 21 28.79H29.28L38.04 59.16L46.14 31.22H53.93L61.96 59.16L70.78 28.79H79L66.22 71.21H58.61L49.36 40.66H50.64L41.45 71.21Z"/></svg>';
 const appIc=(c="")=>`<span class="ins-app${c}">${WAPP}</span>`;
 const sk=w=>`<i class="sk" style="width:${w}%"></i>`;
 /* one screen per step, drawn like the real thing (iPhone: Safari's address bar, its menu, the share sheet, the add dialog) */
