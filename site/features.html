@@ -6,6 +6,13 @@
 <title>Wazo · בודקים את הרעיון לפני שעושים אותו</title>
 <meta name="description" content="יש לכם רעיון, או שעוד אין? כותבים אותו בכמה מילים ומקבלים בדקות: כמה הוא חזק, כמה אפשר להרוויח, וצעד קטן לנסות בשבוע. בלי הרשמה ובלי עלות.">
 <meta name="theme-color" content="#080808">
+<link rel="manifest" href="/manifest.webmanifest">
+<link rel="icon" href="/icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Wazo">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta property="og:title" content="Wazo · בודקים את הרעיון לפני שעושים אותו">
 <meta property="og:description" content="יש לכם רעיון, או שעוד אין? בדקות: כמה הוא חזק, כמה אפשר להרוויח וצעד קטן לנסות בשבוע. בלי הרשמה ובלי עלות.">
 <meta property="og:type" content="website">
@@ -831,6 +838,20 @@
   .card .tip-l{display:block;font-family:"IBM Plex Mono",monospace;font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--coral);font-weight:700;margin-bottom:8px}
   .card .tip p{margin:0;font-size:16px;font-weight:600;--lhr:1.45;color:#F4F3EF}
   @media (max-width:960px){.win .card .bline{display:none}}
+  /* footer: brand and contact on top, the four pages as a tidy list, the copyright last; one row on desktop */
+  footer .wrap{display:grid;gap:24px}
+  footer .f-top{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap}
+  footer .f-logo{color:var(--ink);text-decoration:none}
+  footer .f-mail{color:var(--muted);font-size:15px;text-decoration:none;border-bottom:1px solid var(--line)}
+  footer .f-nav{display:grid;grid-template-columns:1fr 1fr;column-gap:24px;border-top:1px solid var(--line)}
+  footer .f-nav a{display:flex;align-items:center;min-height:52px;border-bottom:1px solid var(--line);color:var(--ink);font-size:16px;text-decoration:none}
+  footer .f-copy{font-size:13px;color:var(--muted)}
+  @media (min-width:961px){
+    footer .wrap{display:flex;align-items:center;justify-content:space-between;gap:32px;flex-wrap:wrap}
+    footer .f-top{gap:24px}
+    footer .f-nav{display:flex;gap:28px;border:0}
+    footer .f-nav a{min-height:0;border:0;font-size:14px;text-decoration:underline;text-underline-offset:3px}
+  }
 </style>
 </head>
 <body>
@@ -980,9 +1001,10 @@
 
 </main>
 
-<footer><div class="wrap row">
-  <span>Wazo · וואזו © 2026 · <a href="mailto:support@wazo-app.com">support@wazo-app.com</a></span>
-  <nav><a href="/he/pricing">מחירים</a><a href="/he/privacy">פרטיות</a><a href="/he/terms">תנאי שימוש</a><a href="/he/refunds">החזרים</a></nav>
+<footer><div class="wrap">
+  <div class="f-top"><a class="logo f-logo" href="/" aria-label="Wazo">WAZO<sup>®</sup></a><a class="f-mail" href="mailto:support@wazo-app.com">support@wazo-app.com</a></div>
+  <nav class="f-nav"><a href="/he/pricing">מחירים</a><a href="/he/privacy">פרטיות</a><a href="/he/terms">תנאי שימוש</a><a href="/he/refunds">החזרים</a></nav>
+  <div class="f-copy">Wazo · וואזו © 2026</div>
 </div></footer>
 
 <div class="dock" id="dock"><a class="cta solid" href="/#idea">נסו עכשיו, בחינם</a></div>
@@ -1131,15 +1153,16 @@ function onLang(){
 }
 document.addEventListener("click",e=>{ const b=e.target.closest("[data-l]"); if(!b) return; langMenuSet(false); if(b.dataset.l===WZI.lang) return; WZI.set(b.dataset.l); onLang(); });
 /* nav: solid on scroll, active section, mobile sheet, sticky mobile CTA */
+const APP=matchMedia("(display-mode: standalone)").matches||navigator.standalone===true;
 const nav=document.getElementById("nav"), dock=document.getElementById("dock"), burger=document.getElementById("burger"), sheet=document.getElementById("sheet");
 const secs=[...document.querySelectorAll(".links a.l")].map(a=>({a,el:document.querySelector(a.getAttribute("href"))}));
-function onScroll(){ nav.classList.toggle("solid",scrollY>20); dock.classList.toggle("show",scrollY>innerHeight*.7 && !sheet.classList.contains("open"));
+function onScroll(){ nav.classList.toggle("solid",scrollY>20||APP); dock.classList.toggle("show",scrollY>innerHeight*.7 && !sheet.classList.contains("open"));
   /* "What you get" is current only while the answer window is open (or in view, when the page is not pinned) */
   const win=document.getElementById("win"), flat=document.getElementById("peek").classList.contains("flat"), wr=win.getBoundingClientRect();
   const whatOn=flat?(wr.top<innerHeight*.4&&wr.bottom>innerHeight*.2):document.body.classList.contains("peekopen");
   let cur=null; secs.forEach(s=>{ const on=s.el&&(s.el.id==="what"?whatOn:s.el.getBoundingClientRect().top<innerHeight*.4); if(on) cur=s; }); secs.forEach(s=>s.a.setAttribute("aria-current",s===cur)); }
 addEventListener("scroll",onScroll,{passive:true}); onScroll();
-function setSheet(on){ sheet.classList.toggle("open",on); if(on) dock.classList.remove("show"); else onScroll(); burger.setAttribute("aria-expanded",on); sheet.setAttribute("aria-hidden",!on); document.documentElement.style.overflow=on?"hidden":""; nav.classList.toggle("solid",on||scrollY>20); onScroll(); }
+function setSheet(on){ sheet.classList.toggle("open",on); if(on) dock.classList.remove("show"); else onScroll(); burger.setAttribute("aria-expanded",on); sheet.setAttribute("aria-hidden",!on); document.documentElement.style.overflow=on?"hidden":""; nav.classList.toggle("solid",on||scrollY>20||APP); onScroll(); }
 burger.addEventListener("click",()=>setSheet(!sheet.classList.contains("open")));
 sheet.addEventListener("click",e=>{ if(e.target.closest("a")) setSheet(false); });
 addEventListener("keydown",e=>{ if(e.key==="Escape") setSheet(false); });

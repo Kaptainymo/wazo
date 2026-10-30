@@ -109,7 +109,7 @@ const D={
 "שמירת תמונה והעתקה ל־AI":["Save as an image and copy to AI","Guardar como imagen y copiar a una IA","Enregistrer en image et copier vers une IA"],
 "מנוי חודשי: מתחדש מדי חודש עד שתחליטו להפסיק, ואפשר לבטל בכל רגע.":["A monthly subscription: it renews each month until you decide to stop, and you can cancel any time.","Suscripción mensual: se renueva cada mes hasta que decidas parar, y puedes cancelar cuando quieras.","Abonnement mensuel : il se renouvelle chaque mois jusqu'à ce que vous décidiez d'arrêter, et vous pouvez annuler à tout moment."],
 "בואו נתחיל":["Let's start","Empecemos","Commençons"],
-"Wazo · וואזו © 2026 ·":["Wazo © 2026 ·","Wazo © 2026 ·","Wazo © 2026 ·"],
+"Wazo · וואזו © 2026":["Wazo © 2026","Wazo © 2026","Wazo © 2026"],
 "תנאי שימוש":["Terms of use","Condiciones de uso","Conditions d'utilisation"],
 "החזרים":["Refunds","Reembolsos","Remboursements"]
 };
