@@ -869,6 +869,8 @@
   @media (display-mode: standalone){
     .pin{height:calc(max(100svh,100lvh) + env(safe-area-inset-bottom,0px))}
     .peek.flat .hero{min-height:calc(max(100svh,100lvh) + env(safe-area-inset-bottom,0px))}
+    /* the extra height is plain coral below the content: the stage keeps its normal size, so the idea box does not slide down and out of view */
+    .peek.flat .hero .stage{flex:none;min-height:calc(100svh - var(--nav))}
   }
   /* the seven option cards: Lordicon animated icons (Wired Flat), the drawn line icons stay underneath until an animation has loaded */
   .cc-card .lo{position:relative;display:block;width:96px;height:96px}
