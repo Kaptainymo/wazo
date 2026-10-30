@@ -105,7 +105,7 @@
   /* a coral light that travels around the edge of the box, clockwise */
   @property --rim{syntax:"<angle>";initial-value:0deg;inherits:false}
   .ask{position:relative}
-  .ask::after{content:"";position:absolute;inset:-1px;border-radius:inherit;padding:4px;pointer-events:none;background:conic-gradient(from var(--rim),rgba(240,113,103,0) 0deg,rgba(240,113,103,0) 190deg,rgba(240,113,103,.95) 335deg,rgba(240,113,103,0) 360deg),linear-gradient(rgba(240,113,103,.2),rgba(240,113,103,.2));-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;animation:rim 9s linear infinite}
+  .ask::after{content:"";position:absolute;inset:-2px;border-radius:inherit;padding:4px;pointer-events:none;background:conic-gradient(from var(--rim),rgba(240,113,103,0) 0deg,rgba(240,113,103,0) 190deg,rgba(240,113,103,.95) 335deg,rgba(240,113,103,0) 360deg),linear-gradient(rgba(240,113,103,.2),rgba(240,113,103,.2));-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;animation:rim 9s linear infinite}
   .ask:focus-within::after{animation-duration:6s}
   @keyframes rim{to{--rim:360deg}}
   @media (prefers-reduced-motion:reduce){.ask::after{animation:none}.itool.on{animation:none}}
