@@ -2,6 +2,12 @@
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Wazo</title>
 <meta name="claude:viewport-fit-sides" content="cover">
+<meta name="theme-color" content="#F07167">
+<link rel="manifest" href="/manifest.webmanifest">
+<link rel="icon" href="/icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Wazo"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700&family=Unbounded:wght@500;600&family=Miriam+Libre:wght@700&family=IBM+Plex+Sans+Hebrew:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
 <style>
@@ -602,6 +608,64 @@ dialog.sheet[open]::backdrop{animation:fadeIn .3s ease both}
 .pw small{font-size:12px;opacity:.6}
 #proBtn[aria-pressed="true"]{background:var(--red);border-color:var(--red);color:#fff}
 .teams-f{margin:0;padding-inline-start:20px;display:grid;gap:4px}
+
+/* wazo as an app: the save button in the nav and its guide */
+#installBtn{display:inline-grid;place-items:center;width:36px;padding:0;background:#0A0A0A;border-color:#0A0A0A;color:#F1F0EC}
+#installBtn .ic{width:20px;height:20px;stroke-width:1.8}
+.ins{gap:14px}
+.ins-seg{display:grid;grid-template-columns:1fr 1fr;padding:4px;border-radius:999px;background:#1C1C1C;gap:4px}
+.ins-seg button{height:40px;border:0;border-radius:999px;background:transparent;color:#BDBBB5;font-weight:600;font-size:16px;display:flex;align-items:center;justify-content:center;cursor:pointer}
+.ins-seg button[aria-selected="true"]{background:var(--red);color:#0A0A0A}
+.ins-steps{display:grid;gap:14px;margin:0;padding:0;list-style:none}
+.ins-st{display:grid;gap:10px}
+.ins-sh{display:flex;gap:14px;align-items:flex-start}
+.ins-n{flex:none;width:34px;height:34px;border-radius:50%;border:1.6px solid var(--red);color:var(--red);display:grid;place-items:center;font:600 16px var(--f-mono);direction:ltr}
+.ins-sh b{display:block;font-size:18px;font-weight:600;letter-spacing:-.01em;--lhr:1.3}
+.ins-sh span:not(.ins-n){display:block;font-size:15px;color:#A8A6A0;margin-top:2px}
+.ins-ill{position:relative;height:92px;border-radius:22px;background:#161616;border:1px solid #242424;display:grid;place-items:center;overflow:hidden}
+.ins-ill svg{fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round;width:20px;height:20px;flex:none}
+.ins-tap{position:relative;display:inline-grid;place-items:center}
+.ins-tap::after{content:"";position:absolute;inset:-9px;border-radius:50%;border:2px solid var(--red);animation:insRing 1.8s var(--ease) infinite}
+.ins-tap.sq::after{border-radius:16px;inset:-6px}
+@keyframes insRing{0%{transform:scale(.8);opacity:.9}70%,100%{transform:scale(1.18);opacity:0}}
+@media (prefers-reduced-motion:reduce){.ins-tap::after{animation:none;opacity:.9}}
+.ins-bar{display:flex;align-items:center;justify-content:space-around;width:84%;height:54px;border-radius:18px;background:#262626;direction:ltr;color:#BDBBB5}
+.ins-bar .ins-tap{color:#fff}
+.ins-url{display:flex;align-items:center;gap:10px;width:86%;height:50px;border-radius:25px;background:#262626;padding:0 10px 0 18px;direction:ltr;color:#BDBBB5}
+.ins-url>span:first-child{flex:1;font:500 13px var(--f-mono)}
+.ins-url .ins-tap{color:#fff}
+.ins-list{width:84%;display:grid;border-radius:16px;background:#262626;overflow:hidden;color:#BDBBB5}
+.ins-li{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:0 14px;height:24px;font-size:13px}
+.ins-li+.ins-li{border-top:1px solid #333}
+.ins-li i{display:block;height:7px;border-radius:4px;background:#3a3a3a;width:36%}
+.ins-li svg{width:18px;height:18px}
+.ins-li.on{height:34px;background:#fff;color:#0A0A0A;font-weight:600}
+.ins-dlg{width:78%;border-radius:18px;background:#262626;padding:10px 12px;display:grid;gap:6px;color:#fff}
+.ins-dr{display:flex;align-items:center;gap:12px;font-size:15px;font-weight:600}
+.ins-app{flex:none;width:30px;height:30px;border-radius:8px;background:var(--red);color:#0A0A0A;display:grid;place-items:center;font:700 17px var(--f-sans)}
+.ins-db{display:flex;justify-content:flex-end;gap:10px}
+.ins-db span{font-size:14px;font-weight:600;padding:7px 14px;border-radius:999px;color:#BDBBB5}
+.ins-db .go{background:var(--red);color:#0A0A0A}
+.ins-add{display:flex;align-items:center;justify-content:space-between;width:84%}
+.ins-add .field{flex:1;display:flex;align-items:center;gap:12px;height:56px;border-radius:16px;background:#262626;padding:0 12px;font-size:15px;color:#fff}
+.ins-add .field .ins-app{width:32px;height:32px;font-size:17px}
+.ins-add .btn{margin-inline-start:12px;font-size:15px;font-weight:700;color:#fff;background:#0A84FF;border-radius:999px;padding:7px 16px}
+.ins-foot{flex:none;display:grid;gap:10px;padding:12px 24px calc(20px + env(safe-area-inset-bottom,0px))}
+.ins-foot p{margin:0;font-size:14px;color:#A8A6A0;text-align:center;--lhr:1.5}
+.ins-foot .cta{width:100%}
+.ins-foot .cta.go{background:var(--red);color:#0A0A0A}
+.ins-foot .cta.ghost{background:transparent;color:#F4F3EF;border:1px solid #3a3a3a}
+
+/* phones: sheets with a lot of text take the whole screen */
+@media (max-width:699px){
+  dialog.sheet.full{width:100%;max-width:none;height:100dvh;max-height:none;margin:0;border-radius:0}
+  dialog.sheet.full .sheet-h{padding:calc(16px + env(safe-area-inset-top,0px)) 24px 12px}
+  dialog.sheet.full .sheet-x{width:44px;height:44px}
+  dialog.sheet.full .sheet-b{flex:1;min-height:0;padding-bottom:calc(24px + env(safe-area-inset-bottom,0px))}
+  dialog.sheet.full .sheet-more{position:absolute;inset-inline:0;margin:0 auto;width:max-content;bottom:calc(20px + env(safe-area-inset-bottom,0px))}
+  #install .sheet-more{bottom:calc(150px + env(safe-area-inset-bottom,0px))}
+  #insTitle{font-size:20px}
+}
 </style>
 </head><body>
 
@@ -611,6 +675,7 @@ dialog.sheet[open]::backdrop{animation:fadeIn .3s ease both}
   <div class="navr">
     <div class="who" id="who" hidden><i id="whoI"></i><span id="whoN"></span></div>
     <button class="pill" id="proBtn" type="button" hidden aria-pressed="false">FREE</button>
+    <button class="pill" id="installBtn" type="button" hidden data-ic="down"></button>
     <button class="pill" id="langBtn" type="button" aria-label="Language" aria-haspopup="true" aria-expanded="false">EN</button>
     <div class="langmenu" id="langMenu" role="menu" hidden></div>
   </div>
@@ -639,12 +704,13 @@ dialog.sheet[open]::backdrop{animation:fadeIn .3s ease both}
   </button>
 </main>
 <div class="foot"><b class="testtag" id="testTag" hidden></b><span data-t="foot"></span><a class="legal-link" href="/features" data-t="siteLink"></a><button class="legal-link" type="button" id="legalBtn" data-t="legalLink"></button></div>
-<dialog class="sheet" id="teams" aria-labelledby="teamsTitle"><div class="sheet-h"><h2 id="teamsTitle" data-t="teamsT"></h2><button class="sheet-x" type="button" data-close aria-label="Close">×</button></div><div class="sheet-b" id="teamsBody"></div></dialog>
-<dialog class="sheet" id="deep" aria-labelledby="deepTitle"><div class="sheet-h"><h2 id="deepTitle" data-t="deepT"></h2><span class="sheet-btns"><button class="sheet-cp" id="deepCopy" type="button" data-ic="copy" hidden></button><button class="sheet-x" type="button" data-close aria-label="Close">×</button></span></div><div class="sheet-b" id="deepBody"></div></dialog>
+<dialog class="sheet full" id="teams" aria-labelledby="teamsTitle"><div class="sheet-h"><h2 id="teamsTitle" data-t="teamsT"></h2><button class="sheet-x" type="button" data-close aria-label="Close">×</button></div><div class="sheet-b" id="teamsBody"></div></dialog>
+<dialog class="sheet full" id="deep" aria-labelledby="deepTitle"><div class="sheet-h"><h2 id="deepTitle" data-t="deepT"></h2><span class="sheet-btns"><button class="sheet-cp" id="deepCopy" type="button" data-ic="copy" hidden></button><button class="sheet-x" type="button" data-close aria-label="Close">×</button></span></div><div class="sheet-b" id="deepBody"></div></dialog>
 <dialog class="sheet" id="duet" aria-labelledby="duetTitle"><div class="sheet-h"><h2 id="duetTitle"></h2><button class="sheet-x" type="button" data-close aria-label="Close">×</button></div><div class="sheet-b" id="duetBody"></div></dialog>
 <dialog class="sheet" id="verify" aria-labelledby="verifyTitle"><div class="sheet-h"><h2 id="verifyTitle"></h2><button class="sheet-x" type="button" data-close aria-label="Close">×</button></div><div class="sheet-b" id="verifyBody"></div></dialog>
+<dialog class="sheet full" id="install" aria-labelledby="insTitle"><div class="sheet-h"><h2 id="insTitle" data-t="instT"></h2><button class="sheet-x" type="button" data-close aria-label="Close">×</button></div><div class="sheet-b ins" id="insBody"></div><div class="ins-foot" id="insFoot"></div></dialog>
 <dialog class="sheet" id="langSheet" aria-labelledby="langTitle"><div class="sheet-h"><h2 id="langTitle" data-t="langT"></h2><button class="sheet-x" type="button" data-close aria-label="Close">×</button></div><div class="sheet-b" id="langList"></div></dialog>
-<dialog class="sheet" id="legal" aria-labelledby="legalTitle"><div class="sheet-h"><h2 id="legalTitle" data-t="legalT"></h2><button class="sheet-x" type="button" id="legalX" aria-label="Close">×</button></div><div class="sheet-b" id="legalBody"></div></dialog>
+<dialog class="sheet full" id="legal" aria-labelledby="legalTitle"><div class="sheet-h"><h2 id="legalTitle" data-t="legalT"></h2><button class="sheet-x" type="button" id="legalX" aria-label="Close">×</button></div><div class="sheet-b" id="legalBody"></div></dialog>
 
 <section class="panel p-idea" id="p-idea" hidden aria-labelledby="ideaLbl">
   <header class="ph"><button class="back" type="button" data-back><span class="chev" data-ic="chev"></span><span data-t="back"></span></button><span class="ph-t" id="ideaLbl" data-t="bIdea"></span><span class="ph-r"></span></header>
@@ -1000,6 +1066,23 @@ const LANGS=[["en","English","EN"],["es","Español","ES"],["fr","Français","FR"
 const LOC={he:"he-IL",en:"en-GB",es:"es-ES",fr:"fr-FR"};
 Object.assign(T.he,{langLock:"הניתוח נכתב בעברית ולכן נשאר בעברית. לניתוח בשפה אחרת, כתבו את הרעיון מחדש בשפה הזו."}); Object.assign(T.en,{langLock:"This analysis was written in English, so it stays in English. For another language, enter the idea again in that language."}); Object.assign(T.es,{langLock:"Este análisis está escrito en español y se queda así. Para otro idioma, escribe la idea de nuevo en ese idioma."}); Object.assign(T.fr,{langLock:"Cette analyse est rédigée en français et le reste. Pour une autre langue, saisissez l'idée à nouveau dans cette langue."});
 Object.assign(T.he,{langT:"שפה",copiedGo:"הרעיון הועתק. הדביקו אותו ב-Wazo שנפתח ב-claude.ai."}); Object.assign(T.en,{langT:"Language",copiedGo:"Your idea is copied. Paste it into Wazo on claude.ai."}); Object.assign(T.es,{langT:"Idioma",copiedGo:"Tu idea está copiada. Pégala en Wazo en claude.ai."}); Object.assign(T.fr,{langT:"Langue",copiedGo:"Votre idée est copiée. Collez-la dans Wazo sur claude.ai."});
+/* wazo as an app: the save button and its guide */
+Object.assign(T.he,{instBtn:"הוספה למסך הבית",instT:"הוסיפו את Wazo למסך הבית",
+ iosS1:"לחצו על כפתור השיתוף",iosH1:"בסרגל התחתון של Safari, או בתפריט ⋯",iosS2:"בחרו ״הוספה למסך הבית״",iosH2:"גללו למטה ברשימה אם לא רואים אותו.",iosS3:"לחצו ״הוספה״",iosH3:"Wazo תופיע ליד שאר האפליקציות.",iosNote:"רק ב־Safari. מוואטסאפ או אינסטגרם? פתחו קודם בדפדפן.",iosAdd2:"הוספה למסך הבית",iosAdd3:"הוספה",
+ andS1:"לחצו על שלוש הנקודות",andH1:"בפינה העליונה של Chrome.",andS2:"בחרו ״התקנת האפליקציה״",andH2:"או ״הוספה למסך הבית״, תלוי בגרסה.",andS3:"אשרו ״התקנה״",andH3:"Wazo נפתחת כמו כל אפליקציה אחרת.",andInst2:"התקנת האפליקציה",andDlg:"להתקין את Wazo?",andCancel:"ביטול",andGo:"התקנה",
+ instNow:"התקנה בלחיצה אחת",instNowNote:"אם הדפדפן תומך, זה קורה בלי השלבים למעלה.",instGot:"הבנתי"});
+Object.assign(T.en,{instBtn:"Add to Home Screen",instT:"Add Wazo to your Home Screen",
+ iosS1:"Tap the Share button",iosH1:"In Safari's bottom bar, or under ⋯",iosS2:"Choose “Add to Home Screen”",iosH2:"Scroll down the list if you don't see it.",iosS3:"Tap “Add”",iosH3:"Wazo appears next to your other apps.",iosNote:"Safari only. Coming from WhatsApp or Instagram? Open it in your browser first.",iosAdd2:"Add to Home Screen",iosAdd3:"Add",
+ andS1:"Tap the three dots",andH1:"In the top corner of Chrome.",andS2:"Choose “Install app”",andH2:"Or “Add to Home screen”, depending on your version.",andS3:"Confirm “Install”",andH3:"Wazo opens like any other app.",andInst2:"Install app",andDlg:"Install Wazo?",andCancel:"Cancel",andGo:"Install",
+ instNow:"Install in one tap",instNowNote:"If your browser supports it, this skips the steps above.",instGot:"Got it"});
+Object.assign(T.es,{instBtn:"Añadir a la pantalla de inicio",instT:"Añade Wazo a tu pantalla de inicio",
+ iosS1:"Toca el botón Compartir",iosH1:"En la barra inferior de Safari, o en ⋯",iosS2:"Elige «Añadir a pantalla de inicio»",iosH2:"Desplázate por la lista si no lo ves.",iosS3:"Toca «Añadir»",iosH3:"Wazo aparece junto a tus otras apps.",iosNote:"Solo en Safari. ¿Vienes de WhatsApp o Instagram? Ábrelo primero en el navegador.",iosAdd2:"Añadir a pantalla de inicio",iosAdd3:"Añadir",
+ andS1:"Toca los tres puntos",andH1:"En la esquina superior de Chrome.",andS2:"Elige «Instalar aplicación»",andH2:"O «Añadir a pantalla de inicio», según tu versión.",andS3:"Confirma «Instalar»",andH3:"Wazo se abre como cualquier otra app.",andInst2:"Instalar aplicación",andDlg:"¿Instalar Wazo?",andCancel:"Cancelar",andGo:"Instalar",
+ instNow:"Instalar con un toque",instNowNote:"Si tu navegador lo permite, se hace sin los pasos de arriba.",instGot:"Entendido"});
+Object.assign(T.fr,{instBtn:"Ajouter à l'écran d'accueil",instT:"Ajoutez Wazo à votre écran d'accueil",
+ iosS1:"Touchez le bouton Partager",iosH1:"Dans la barre du bas de Safari, ou sous ⋯",iosS2:"Choisissez « Sur l'écran d'accueil »",iosH2:"Faites défiler la liste si vous ne le voyez pas.",iosS3:"Touchez « Ajouter »",iosH3:"Wazo apparaît avec vos autres apps.",iosNote:"Safari uniquement. Vous venez de WhatsApp ou d'Instagram ? Ouvrez d'abord dans le navigateur.",iosAdd2:"Sur l'écran d'accueil",iosAdd3:"Ajouter",
+ andS1:"Touchez les trois points",andH1:"En haut de Chrome.",andS2:"Choisissez « Installer l'application »",andH2:"Ou « Ajouter à l'écran d'accueil », selon la version.",andS3:"Confirmez « Installer »",andH3:"Wazo s'ouvre comme toute autre app.",andInst2:"Installer l'application",andDlg:"Installer Wazo ?",andCancel:"Annuler",andGo:"Installer",
+ instNow:"Installer en un geste",instNowNote:"Si votre navigateur le permet, c'est fait sans les étapes ci-dessus.",instGot:"Compris"});
 /* a fresh order on every visit, and the first ideas never repeat the ones shown last time */
 (()=>{ const key="wz.feedFirst", id=f=>f.he.t; let last=[]; try{ last=JSON.parse(localStorage.getItem(key)||"[]"); }catch(e){}
   const shuffle=()=>{ for (let i=FEED.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [FEED[i],FEED[j]]=[FEED[j],FEED[i]]; } };
@@ -1024,6 +1107,7 @@ const money = n => CUR()+fmt(n);
 function setNote(s,err){ const n=$("#askNote"); n.textContent=s||""; n.className="note"+(err?" err":""); }
 const IC={
   lock:'<g><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path class="shk" pathLength="1" d="M7 11V7a5 5 0 0 1 10 0v4"/></g>',
+  down:'<g><path d="M12 5v14"/><path d="m6.5 13.5 5.5 5.5 5.5-5.5"/></g>',
   arrow:'<g><path d="M7 7h10v10"/><path d="M7 17 17 7"/></g>',
   chev:'<g><path d="m15 18-6-6 6-6"/></g>',
   spark:'<g><path d="M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8z"/></g>',
@@ -1941,6 +2025,7 @@ function applyLang(){
   $("#h1").innerHTML=t("h1");
   $("#idea").placeholder=t("ideaPh"); $("#fCust").placeholder=t("phCust"); $("#fBudget").placeholder=t("phBudget"); $("#fTime").placeholder=t("phTime");
   $("#langBtn").textContent=(LANGS.find(x=>x[0]===S.lang)||LANGS[0])[2];
+  { const ib=$("#installBtn"); ib.setAttribute("aria-label",t("instBtn")); ib.title=t("instBtn"); }
   if (S.ready && !S.cfg.ready) setNote(t("errSetup"));
   renderHome(); renderRail(); renderDrawer(); if (S.current && !S.busy) renderStage();
 }
@@ -1979,6 +2064,51 @@ $("#langList").addEventListener("click",e=>{ const b=e.target.closest("[data-lan
 $("#langSheet").addEventListener("click",e=>{ if(e.target===e.currentTarget) e.currentTarget.close(); });
 document.addEventListener("click",e=>{ if(!e.target.closest("#langMenu")) closeLangMenu(); });
 document.addEventListener("keydown",e=>{ if(e.key==="Escape"){ closeLangMenu(); } });
+/* wazo as an app: Android/Chrome can install with one tap, iPhone only through Safari's share menu, so the sheet teaches both */
+const INS={ev:null,tab:""};
+const isStandalone=()=>matchMedia("(display-mode: standalone)").matches||navigator.standalone===true;
+const insOS=()=>/android/i.test(navigator.userAgent)?"and":(/iphone|ipad|ipod/i.test(navigator.userAgent)||(navigator.platform==="MacIntel"&&navigator.maxTouchPoints>1))?"ios":"";
+const syncInstall=()=>{ $("#installBtn").hidden=isStandalone()||!(insOS()||INS.ev); };
+const II={
+  chev:'<path d="m15 5-7 7 7 7"/>',
+  share:'<path d="M12 15V4M8.3 7.5 12 3.8l3.7 3.7M8 10H6.5A1.5 1.5 0 0 0 5 11.5v7A1.5 1.5 0 0 0 6.5 20h11a1.5 1.5 0 0 0 1.5-1.5v-7a1.5 1.5 0 0 0-1.5-1.5H16"/>',
+  addsq:'<rect x="4" y="4" width="16" height="16" rx="4"/><path d="M12 8.5v7M8.5 12h7"/>',
+  book:'<path d="M12 6c-2-1.5-5-2-8-1.5v13c3-.5 6 0 8 1.5 2-1.5 5-2 8-1.5v-13C17 4 14 4.5 12 6zM12 6v13"/>',
+  tabs:'<rect x="8" y="3.5" width="12" height="12" rx="2.5"/><path d="M5 8v9a3 3 0 0 0 3 3h9"/>',
+  dots:'<circle cx="12" cy="5" r="1.4"/><circle cx="12" cy="12" r="1.4"/><circle cx="12" cy="19" r="1.4"/>',
+  inst:'<rect x="6.5" y="2.5" width="11" height="19" rx="3"/><path d="M12 7v6.5M9.2 11.2 12 14l2.8-2.8"/>',
+  copy:'<rect x="8" y="8" width="11" height="11" rx="2.5"/><path d="M5 15V6.5A1.5 1.5 0 0 1 6.5 5H15"/>',
+  print:'<rect x="5" y="9" width="14" height="8" rx="2"/><path d="M8 9V4.5h8V9M8 14h8v5.5H8z"/>'
+};
+const isv=(n,x="")=>`<svg viewBox="0 0 24 24" aria-hidden="true"${x}>${II[n]}</svg>`;
+function insIll(tab,n){
+  const list=(label,icon)=>`<div class="ins-list"><div class="ins-li"><i></i>${isv("copy")}</div><div class="ins-li on"><span>${esc(label)}</span><span class="ins-tap sq" style="margin-inline-end:6px">${isv(icon)}</span></div><div class="ins-li"><i></i>${isv("print")}</div></div>`;
+  if (tab==="ios"){
+    if (n===1) return `<div class="ins-bar">${isv("chev")}${isv("chev",' style="transform:scaleX(-1)"')}<span class="ins-tap">${isv("share")}</span>${isv("book")}${isv("tabs")}</div>`;
+    if (n===2) return list(t("iosAdd2"),"addsq");
+    return `<div class="ins-add"><div class="field"><span class="ins-app">W</span>Wazo</div><span class="ins-tap sq"><span class="btn">${esc(t("iosAdd3"))}</span></span></div>`;
+  }
+  if (n===1) return `<div class="ins-url"><span>wazo-app.com</span><span class="ins-tap">${isv("dots")}</span></div>`;
+  if (n===2) return list(t("andInst2"),"inst");
+  return `<div class="ins-dlg"><div class="ins-dr"><span class="ins-app">W</span>${esc(t("andDlg"))}</div><div class="ins-db"><span>${esc(t("andCancel"))}</span><span class="ins-tap sq go">${esc(t("andGo"))}</span></div></div>`;
+}
+function renderInstall(tab){
+  INS.tab=tab; const p=tab==="ios"?"ios":"and";
+  const seg=[["ios","iPhone"],["and","Android"]].map(([k,n])=>`<button type="button" role="tab" data-tab="${k}" aria-selected="${k===tab}">${n}</button>`).join("");
+  const steps=[1,2,3].map(n=>`<li class="ins-st"><div class="ins-sh"><span class="ins-n">${n}</span><div><b>${esc(t(p+"S"+n))}</b><span>${esc(t(p+"H"+n))}</span></div></div><div class="ins-ill">${insIll(tab,n)}</div></li>`).join("");
+  $("#insBody").innerHTML=`<div class="ins-seg" role="tablist" dir="ltr">${seg}</div><ol class="ins-steps">${steps}</ol>`;
+  const one=tab==="and"&&INS.ev;
+  $("#insFoot").innerHTML=(tab==="ios"?`<p>${esc(t("iosNote"))}</p>`:"")+(one?`<button class="cta go" type="button" id="insNow">${ic("down")}${esc(t("instNow"))}</button><p>${esc(t("instNowNote"))}</p>`:`<button class="cta ghost" type="button" id="insGot">${esc(t("instGot"))}</button>`);
+  $("#insNow")?.addEventListener("click",async()=>{ const ev=INS.ev; INS.ev=null; $("#install").close(); try{ await ev.prompt(); await ev.userChoice; }catch(e){} syncInstall(); });
+  $("#insGot")?.addEventListener("click",()=>$("#install").close());
+  $("#insBody").scrollTop=0;
+}
+$("#installBtn").addEventListener("click",()=>{ renderInstall(insOS()||"and"); const d=$("#install"); d.dir=S.lang==="he"?"rtl":"ltr"; if(d.showModal) d.showModal(); else d.setAttribute("open",""); });
+$("#insBody").addEventListener("click",e=>{ const b=e.target.closest("[data-tab]"); if(b&&b.dataset.tab!==INS.tab) renderInstall(b.dataset.tab); });
+addEventListener("beforeinstallprompt",e=>{ e.preventDefault(); INS.ev=e; syncInstall(); });
+addEventListener("appinstalled",()=>{ INS.ev=null; const d=$("#install"); if(d.open) d.close(); syncInstall(); });
+syncInstall();
+if("serviceWorker" in navigator) addEventListener("load",()=>navigator.serviceWorker.register("/sw.js").catch(()=>{}));
 
 hydrateIcons(); applyLang();
 /* newer example ideas published as /ideas.json replace the built-in ones */
