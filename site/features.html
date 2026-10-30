@@ -283,8 +283,7 @@
 
   .final-cta :focus-visible,footer :focus-visible{outline-color:var(--coral)}
   footer{background:var(--bg);border-top:1px solid var(--line);padding:30px 0 calc(48px + env(safe-area-inset-bottom,0));color:var(--muted);font-size:14px}
-  footer .row{display:flex;gap:20px;flex-wrap:wrap;justify-content:space-between}
-  footer nav{display:flex;gap:20px;flex-wrap:wrap} footer a{color:var(--ink);text-decoration:underline;text-underline-offset:3px}
+  footer a{color:var(--ink);text-decoration:underline;text-underline-offset:3px}
 
   .dock{display:none}
 
@@ -850,15 +849,8 @@
     footer .f-nav{display:flex;gap:28px;border:0}
     footer .f-nav a{min-height:0;border:0;font-size:14px;text-decoration:underline;text-underline-offset:3px}
   }
-  /* opened as an app: one solid coral header bar at every scroll position (iOS blurs anything translucent under the status bar), and the first screen runs down to the bottom edge */
-  .app header.nav,.app header.nav.solid{background:var(--coral);border-color:transparent;backdrop-filter:none;-webkit-backdrop-filter:none;color:#0A0A0A;--ink:#0A0A0A}
-  .app header.nav .logo,.app header.nav .links a.l{color:#0A0A0A}
-  .app header.nav .pill,.app header.nav .burger{border-color:rgba(10,10,10,.5);color:#0A0A0A}
-  .app header.nav .cta.solid{background:#0A0A0A;color:var(--coral)}
-  .app body:has(.sheet.open) header.nav{color:#0A0A0A;--ink:#0A0A0A}
-  .app body:has(.sheet.open) header.nav :is(.logo,.burger,.pill){color:#0A0A0A;border-color:rgba(10,10,10,.5)}
-  /* phones, in Safari too: the same one solid coral header bar at every scroll position, so the first screen looks the same everywhere */
-  @media (max-width:960px){
+  /* phones (Safari too) and the installed app: one solid coral header bar at every scroll position. iOS blurs anything translucent under the status bar, and the first screen looks the same everywhere */
+  @media (max-width:960px),(display-mode: standalone){
     header.nav,header.nav.solid{background:var(--coral);border-color:transparent;backdrop-filter:none;-webkit-backdrop-filter:none;color:#0A0A0A;--ink:#0A0A0A}
     header.nav .logo,header.nav .links a.l,header.nav.solid .logo{color:#0A0A0A}
     header.nav .pill,header.nav .burger,header.nav.solid .pill,header.nav.solid .burger{border-color:rgba(10,10,10,.5);color:#0A0A0A}
@@ -872,11 +864,11 @@
     /* the extra height is plain coral below the content: the stage keeps its normal size, so the idea box does not slide down and out of view */
     .peek.flat .hero .stage{flex:none;min-height:calc(100svh - var(--nav))}
   }
-  /* the seven option cards: Lordicon animated icons (Wired Flat), the drawn line icons stay underneath until an animation has loaded */
+  /* the seven option cards: Lordicon animated icons (Wired Flat), hosted in /icons; they fade in once loaded */
   .cc-card .lo{position:relative;display:block;width:96px;height:96px}
-  .cc-card .lo-a{position:absolute;inset:0}
+  .cc-card .lo-a{position:absolute;inset:0;opacity:0;transition:opacity .3s}
+  .cc-card .lo.ready .lo-a{opacity:1}
   .cc-card .lo-a svg{width:100%;height:100%}
-  .cc-card .lo.ready .lo-fb{visibility:hidden}
   @media (max-width:960px){.cc-card .lo{width:144px;height:144px}}
   @media (min-width:961px){.kick .cc-card .lo{width:192px;height:192px}}
   footer .f-copy{display:flex;flex-wrap:wrap;gap:4px 16px}
@@ -987,7 +979,7 @@
     </div>
     <div>
             <div class="cc" id="cc" role="group" aria-roledescription="carousel" aria-label="אפשרויות">
-        <div class="cc-stage"><figure class="cc-card on"><span class="lo" data-lo="ekbwfpuu" aria-hidden="true"><span class="lo-fb"><svg viewBox="0 0 64 64" width="96" height="96" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 28v28h48V28"/><path d="M6 14h52l4 14a8 8 0 0 1-16 0 8 8 0 0 1-16 0 8 8 0 0 1-16 0 8 8 0 0 1-16 0z"/><path d="M26 56V40h12v16"/></svg></span><span class="lo-a"></span></span><figcaption>עסק קטן</figcaption></figure><figure class="cc-card" aria-hidden="true"><span class="lo" data-lo="xuqkksyh" aria-hidden="true"><span class="lo-fb"><svg viewBox="0 0 64 64" width="96" height="96" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="8" y="20" width="48" height="34" rx="6"/><path d="M24 20v-6a4 4 0 0 1 4-4h8a4 4 0 0 1 4 4v6"/><path d="M8 34h48"/><path d="M29 34v5h6v-5"/></svg></span><span class="lo-a"></span></span><figcaption>עבודה חדשה והסבה</figcaption></figure><figure class="cc-card" aria-hidden="true"><span class="lo" data-lo="yxsbonud" aria-hidden="true"><span class="lo-fb"><svg viewBox="0 0 64 64" width="96" height="96" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M32 16c-6-5-16-6-24-4v38c8-2 18-1 24 4 6-5 16-6 24-4V12c-8-2-18-1-24 4z"/><path d="M32 16v38"/></svg></span><span class="lo-a"></span></span><figcaption>ללמד משהו</figcaption></figure><figure class="cc-card" aria-hidden="true"><span class="lo" data-lo="kkosvsms" aria-hidden="true"><span class="lo-fb"><svg viewBox="0 0 64 64" width="96" height="96" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M32 56V30"/><path d="M32 40c-9 0-14-6-14-14 9 0 14 6 14 14z"/><path d="M32 32c0-9 5-15 14-15 0 9-5 15-14 15z"/><path d="M20 56h24"/></svg></span><span class="lo-a"></span></span><figcaption>פרויקט שישאר אחריי</figcaption></figure><figure class="cc-card" aria-hidden="true"><span class="lo" data-lo="ddgirohb" aria-hidden="true"><span class="lo-fb"><svg viewBox="0 0 64 64" width="96" height="96" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="6" y="12" width="52" height="38" rx="5"/><path d="M6 22h52"/><circle cx="12" cy="17" r="1"/><circle cx="17" cy="17" r="1"/><path d="M24 56h16M32 50v6"/><path d="M20 34l5 4-5 4M30 42h8"/></svg></span><span class="lo-a"></span></span><figcaption>אתר או אפליקציה</figcaption></figure><figure class="cc-card" aria-hidden="true"><span class="lo" data-lo="qhsjyool" aria-hidden="true"><span class="lo-fb"><svg viewBox="0 0 64 64" width="96" height="96" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="22" cy="22" r="7"/><circle cx="42" cy="22" r="7"/><path d="M8 52c0-9 6-15 14-15s14 6 14 15"/><path d="M28 52c0-9 6-15 14-15s14 6 14 15"/></svg></span><span class="lo-a"></span></span><figcaption>מוצר שבונים יחד עם אדם שאוהבים</figcaption></figure><figure class="cc-card" aria-hidden="true"><span class="lo" data-lo="abhwievu" aria-hidden="true"><span class="lo-fb"><svg viewBox="0 0 64 64" width="96" height="96" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 12h30a4 4 0 0 1 4 4v16a4 4 0 0 1-4 4H20l-8 8v-8H8a4 4 0 0 1-4-4V16a4 4 0 0 1 4-4z"/><path d="M48 24h8a4 4 0 0 1 4 4v14a4 4 0 0 1-4 4h-2v8l-8-8H30"/></svg></span><span class="lo-a"></span></span><figcaption>תוכן וקהילה</figcaption></figure></div>
+        <div class="cc-stage"><figure class="cc-card on"><span class="lo" data-lo="ekbwfpuu" aria-hidden="true"><span class="lo-a"></span></span><figcaption>עסק קטן</figcaption></figure><figure class="cc-card" aria-hidden="true"><span class="lo" data-lo="xuqkksyh" aria-hidden="true"><span class="lo-a"></span></span><figcaption>עבודה חדשה והסבה</figcaption></figure><figure class="cc-card" aria-hidden="true"><span class="lo" data-lo="yxsbonud" aria-hidden="true"><span class="lo-a"></span></span><figcaption>ללמד משהו</figcaption></figure><figure class="cc-card" aria-hidden="true"><span class="lo" data-lo="kkosvsms" aria-hidden="true"><span class="lo-a"></span></span><figcaption>פרויקט שישאר אחריי</figcaption></figure><figure class="cc-card" aria-hidden="true"><span class="lo" data-lo="ddgirohb" aria-hidden="true"><span class="lo-a"></span></span><figcaption>אתר או אפליקציה</figcaption></figure><figure class="cc-card" aria-hidden="true"><span class="lo" data-lo="qhsjyool" aria-hidden="true"><span class="lo-a"></span></span><figcaption>מוצר שבונים יחד עם אדם שאוהבים</figcaption></figure><figure class="cc-card" aria-hidden="true"><span class="lo" data-lo="abhwievu" aria-hidden="true"><span class="lo-a"></span></span><figcaption>תוכן וקהילה</figcaption></figure></div>
         <div class="cc-ctl"><div class="cc-dots"><button type="button" class="cc-dot" data-n="0" aria-current="true"></button><button type="button" class="cc-dot" data-n="1" aria-current="false"></button><button type="button" class="cc-dot" data-n="2" aria-current="false"></button><button type="button" class="cc-dot" data-n="3" aria-current="false"></button><button type="button" class="cc-dot" data-n="4" aria-current="false"></button><button type="button" class="cc-dot" data-n="5" aria-current="false"></button><button type="button" class="cc-dot" data-n="6" aria-current="false"></button></div><button type="button" class="cc-pause-sr" id="ccPause"><span>השהיה</span><span hidden>המשך</span></button></div>
       </div>
     </div>
@@ -1179,7 +1171,6 @@ function onLang(){
 }
 document.addEventListener("click",e=>{ const b=e.target.closest("[data-l]"); if(!b) return; langMenuSet(false); if(b.dataset.l===WZI.lang) return; WZI.set(b.dataset.l); onLang(); });
 /* nav: solid on scroll, active section, mobile sheet, sticky mobile CTA */
-if(matchMedia("(display-mode: standalone)").matches||navigator.standalone===true) document.documentElement.classList.add("app");
 const nav=document.getElementById("nav"), dock=document.getElementById("dock"), burger=document.getElementById("burger"), sheet=document.getElementById("sheet");
 const secs=[...document.querySelectorAll(".links a.l")].map(a=>({a,el:document.querySelector(a.getAttribute("href"))}));
 function onScroll(){ nav.classList.toggle("solid",scrollY>20); dock.classList.toggle("show",scrollY>innerHeight*.7 && !sheet.classList.contains("open"));
@@ -1252,7 +1243,7 @@ addEventListener("scroll",()=>requestAnimationFrame(tick),{passive:true}); addEv
   const lo=cards.map(c=>c.querySelector(".lo")), anims=[]; let lottieP=null;
   const rest=a=>a.goToAndStop(a.totalFrames-1,true), play=k=>{ const a=anims[k]; if(!a) return; if(calm) rest(a); else a.goToAndPlay(0,true); };
   const loadLottie=()=>lottieP||(lottieP=new Promise((res,rej)=>{ if(window.lottie) return res(); const s=document.createElement("script"); s.src="/lottie.min.js"; s.onload=res; s.onerror=rej; document.head.appendChild(s); }));
-  const mount=k=>{ const el=lo[k]; if(!el||el._m) return; el._m=1; loadLottie().then(()=>{ const a=lottie.loadAnimation({container:el.querySelector(".lo-a"),renderer:"svg",loop:false,autoplay:false,path:"https://cdn.lordicon.com/"+el.dataset.lo+".json"}); anims[k]=a;
+  const mount=k=>{ const el=lo[k]; if(!el||el._m) return; el._m=1; loadLottie().then(()=>{ const a=lottie.loadAnimation({container:el.querySelector(".lo-a"),renderer:"svg",loop:false,autoplay:false,path:"/icons/"+el.dataset.lo+".json"}); anims[k]=a;
     a.addEventListener("DOMLoaded",()=>{ rest(a); el.classList.add("ready"); if(k===ci) play(k); }); }).catch(()=>{}); };
   new IntersectionObserver((e,io)=>{ if(e[0].isIntersecting){ cards.forEach((_,k)=>mount(k)); io.disconnect(); } },{rootMargin:"400px"}).observe(cc);
   const go=n=>{ ci=(n+cards.length)%cards.length; cards.forEach((c,k)=>{ c.classList.toggle("on",k===ci); c.setAttribute("aria-hidden",String(k!==ci)); }); dots.forEach((d,k)=>{ d.setAttribute("aria-current",String(k===ci)); d.setAttribute("aria-label",label(k)); }); play(ci); };
