@@ -857,6 +857,15 @@
   .app header.nav .cta.solid{background:#0A0A0A;color:var(--coral)}
   .app body:has(.sheet.open) header.nav{color:#0A0A0A;--ink:#0A0A0A}
   .app body:has(.sheet.open) header.nav :is(.logo,.burger,.pill){color:#0A0A0A;border-color:rgba(10,10,10,.5)}
+  /* phones, in Safari too: the same one solid coral header bar at every scroll position, so the first screen looks the same everywhere */
+  @media (max-width:960px){
+    header.nav,header.nav.solid{background:var(--coral);border-color:transparent;backdrop-filter:none;-webkit-backdrop-filter:none;color:#0A0A0A;--ink:#0A0A0A}
+    header.nav .logo,header.nav .links a.l,header.nav.solid .logo{color:#0A0A0A}
+    header.nav .pill,header.nav .burger,header.nav.solid .pill,header.nav.solid .burger{border-color:rgba(10,10,10,.5);color:#0A0A0A}
+    header.nav .cta.solid,header.nav.solid .cta.solid{background:#0A0A0A;color:var(--coral)}
+    body:has(.sheet.open) header.nav{color:#0A0A0A;--ink:#0A0A0A}
+    body:has(.sheet.open) header.nav :is(.logo,.burger,.pill){color:#0A0A0A;border-color:rgba(10,10,10,.5)}
+  }
   @media (display-mode: standalone){
     .pin{height:calc(max(100svh,100lvh) + env(safe-area-inset-bottom,0px))}
     .peek.flat .hero{min-height:calc(max(100svh,100lvh) + env(safe-area-inset-bottom,0px))}
