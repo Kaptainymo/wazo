@@ -803,6 +803,15 @@
   #pricing .tier .tbtn:focus-visible{outline:3px solid #141414;outline-offset:3px}
   @media (hover:hover){#pricing .tier .tbtn:hover{background:#333}}
   @media (max-width:960px){#pricing .tiers{grid-template-columns:minmax(0,1fr);gap:16px}#pricing .tiers>.tier.tier{padding:24px;border-top:0}}
+  /* phones: the two plans are a swipe row with a peek of the next one and a dot per plan, like the other rows; both cards share one height */
+  @media (max-width:960px){
+    #pricing .tiers{display:flex;gap:12px;overflow-x:auto;scroll-snap-type:x mandatory;scroll-padding-inline:20px;scrollbar-width:none;overscroll-behavior-x:contain;margin-inline:-20px;padding:0 20px 4px;align-items:stretch}
+    #pricing .tiers::-webkit-scrollbar{display:none}
+    #pricing .tiers>.tier.tier{flex:0 0 min(84vw,340px);scroll-snap-align:start;padding:24px}
+    #pricing .sdots{margin-top:0}
+    /* the next plan is mostly off to the side, so the scroll reveal would never fire for it: show both at once */
+    .js #pricing .tiers>.tier.rv{opacity:1;transform:none;transition:none}
+  }
 
   /* the start card keeps one size in both modes (the box absorbs the difference), so nothing jumps when the tabs switch */
   .ask{display:flex;flex-direction:column}
@@ -1205,7 +1214,7 @@ addEventListener("scroll",()=>requestAnimationFrame(tick),{passive:true}); addEv
 /* idea cards: they rise in once and their drawings are drawn in one stroke, when the section comes into view */
 { const s=document.getElementById("ideas"); if(s){ if("IntersectionObserver" in window){ const io=new IntersectionObserver(es=>es.forEach(e=>{ if(e.isIntersecting){ s.classList.add("go"); io.disconnect(); } }),{threshold:.2}); io.observe(s); } else s.classList.add("go"); } }
 /* phones: a dot under every swipe row, so you can see how many cards there are and tap to move */
-document.querySelectorAll(".steps,.pgrid,#slider").forEach(row=>{
+document.querySelectorAll(".steps,.pgrid,#slider,#pricing .tiers").forEach(row=>{
   const dots=document.createElement("div"); dots.className="cc-dots sdots"; row.after(dots);
   const kids=()=>[...row.children];
   const cur=()=>{ const r=row.getBoundingClientRect(), rtl=document.documentElement.dir==="rtl"; let best=0, bd=1e9; kids().forEach((c,k)=>{ const b=c.getBoundingClientRect(), d=Math.abs(rtl?r.right-b.right-20:b.left-r.left-20); if(d<bd){ bd=d; best=k; } }); return best; };
