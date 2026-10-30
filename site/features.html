@@ -5,14 +5,13 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Wazo · בודקים את הרעיון לפני שעושים אותו</title>
 <meta name="description" content="יש לכם רעיון, או שעוד אין? כותבים אותו בכמה מילים ומקבלים בדקות: כמה הוא חזק, כמה אפשר להרוויח, וצעד קטן לנסות בשבוע. בלי הרשמה ובלי עלות.">
-<meta name="theme-color" content="#080808">
+<meta name="theme-color" content="#F07167">
 <link rel="manifest" href="/manifest.webmanifest">
 <link rel="icon" href="/icon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="Wazo">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta property="og:title" content="Wazo · בודקים את הרעיון לפני שעושים אותו">
 <meta property="og:description" content="יש לכם רעיון, או שעוד אין? בדקות: כמה הוא חזק, כמה אפשר להרוויח וצעד קטן לנסות בשבוע. בלי הרשמה ובלי עלות.">
 <meta property="og:type" content="website">
@@ -852,6 +851,17 @@
     footer .f-nav{display:flex;gap:28px;border:0}
     footer .f-nav a{min-height:0;border:0;font-size:14px;text-decoration:underline;text-underline-offset:3px}
   }
+  /* opened as an app: one solid coral header bar at every scroll position (iOS blurs anything translucent under the status bar), and the first screen runs down to the bottom edge */
+  .app header.nav,.app header.nav.solid{background:var(--coral);border-color:transparent;backdrop-filter:none;-webkit-backdrop-filter:none;color:#0A0A0A;--ink:#0A0A0A}
+  .app header.nav .logo,.app header.nav .links a.l{color:#0A0A0A}
+  .app header.nav .pill,.app header.nav .burger{border-color:rgba(10,10,10,.5);color:#0A0A0A}
+  .app header.nav .cta.solid{background:#0A0A0A;color:var(--coral)}
+  .app body:has(.sheet.open) header.nav{color:#0A0A0A;--ink:#0A0A0A}
+  .app body:has(.sheet.open) header.nav :is(.logo,.burger,.pill){color:#0A0A0A;border-color:rgba(10,10,10,.5)}
+  @media (display-mode: standalone){
+    .pin{height:calc(max(100svh,100lvh) + env(safe-area-inset-bottom,0px))}
+    .peek.flat .hero{min-height:calc(max(100svh,100lvh) + env(safe-area-inset-bottom,0px))}
+  }
 </style>
 </head>
 <body>
@@ -1152,16 +1162,16 @@ function onLang(){
 }
 document.addEventListener("click",e=>{ const b=e.target.closest("[data-l]"); if(!b) return; langMenuSet(false); if(b.dataset.l===WZI.lang) return; WZI.set(b.dataset.l); onLang(); });
 /* nav: solid on scroll, active section, mobile sheet, sticky mobile CTA */
-const APP=matchMedia("(display-mode: standalone)").matches||navigator.standalone===true;
+if(matchMedia("(display-mode: standalone)").matches||navigator.standalone===true) document.documentElement.classList.add("app");
 const nav=document.getElementById("nav"), dock=document.getElementById("dock"), burger=document.getElementById("burger"), sheet=document.getElementById("sheet");
 const secs=[...document.querySelectorAll(".links a.l")].map(a=>({a,el:document.querySelector(a.getAttribute("href"))}));
-function onScroll(){ nav.classList.toggle("solid",scrollY>20||APP); dock.classList.toggle("show",scrollY>innerHeight*.7 && !sheet.classList.contains("open"));
+function onScroll(){ nav.classList.toggle("solid",scrollY>20); dock.classList.toggle("show",scrollY>innerHeight*.7 && !sheet.classList.contains("open"));
   /* "What you get" is current only while the answer window is open (or in view, when the page is not pinned) */
   const win=document.getElementById("win"), flat=document.getElementById("peek").classList.contains("flat"), wr=win.getBoundingClientRect();
   const whatOn=flat?(wr.top<innerHeight*.4&&wr.bottom>innerHeight*.2):document.body.classList.contains("peekopen");
   let cur=null; secs.forEach(s=>{ const on=s.el&&(s.el.id==="what"?whatOn:s.el.getBoundingClientRect().top<innerHeight*.4); if(on) cur=s; }); secs.forEach(s=>s.a.setAttribute("aria-current",s===cur)); }
 addEventListener("scroll",onScroll,{passive:true}); onScroll();
-function setSheet(on){ sheet.classList.toggle("open",on); if(on) dock.classList.remove("show"); else onScroll(); burger.setAttribute("aria-expanded",on); sheet.setAttribute("aria-hidden",!on); document.documentElement.style.overflow=on?"hidden":""; nav.classList.toggle("solid",on||scrollY>20||APP); onScroll(); }
+function setSheet(on){ sheet.classList.toggle("open",on); if(on) dock.classList.remove("show"); else onScroll(); burger.setAttribute("aria-expanded",on); sheet.setAttribute("aria-hidden",!on); document.documentElement.style.overflow=on?"hidden":""; nav.classList.toggle("solid",on||scrollY>20); onScroll(); }
 burger.addEventListener("click",()=>setSheet(!sheet.classList.contains("open")));
 sheet.addEventListener("click",e=>{ if(e.target.closest("a")) setSheet(false); });
 addEventListener("keydown",e=>{ if(e.key==="Escape") setSheet(false); });
