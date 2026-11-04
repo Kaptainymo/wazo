@@ -9,10 +9,10 @@
    Tap a band and it opens full screen. A receipt is a stack of big-type rows; when the verdict is
    revealed the whole sheet floods with the verdict color: BUILD green, PIVOT amber, KILL red. */
 :root{
-  --bg:#1F2A24; --ink:#EEEBDD; --muted:#8F9C92; --line:#3A4A40; --red:#E5412B;
-  --b1:#000; --b1-ink:#F1EEE2; --b2:#2B372F; --b2-ink:#EEEBDD; --b3:#1F2A24; --b3-ink:#EEEBDD;
-  --night:#1C2620; --night-ink:#F1EEE2; color-scheme:dark;
-  --build:#2DB46C; --build-ink:#0B2416; --pivot:#F6B73C; --pivot-ink:#2A1C00; --kill:#E5412B; --kill-ink:#FFFFFF;
+  --bg:#1A1A1A; --ink:#F2F2F0; --muted:#8A8A8A; --line:#2F2F2F; --red:#E5412B;
+  --b1:#000; --b1-ink:#F4F4F2; --b2:#2A2A2A; --b2-ink:#F2F2F0; --b3:#1A1A1A; --b3-ink:#F2F2F0;
+  --night:#1A1A1A; --night-ink:#F4F4F2; color-scheme:dark;
+  --build:#2DB46C; --build-ink:#0B2416; --pivot:#FF6719; --pivot-ink:#2A1C00; --kill:#E5412B; --kill-ink:#FFFFFF;
   --cta-h:52px;
   --f-sans:"Hanken Grotesk","IBM Plex Sans Hebrew","Segoe UI",system-ui,sans-serif;
   --f-wide:"Unbounded","Miriam Libre","IBM Plex Sans Hebrew",system-ui,sans-serif;
@@ -1086,7 +1086,7 @@ document.addEventListener("click", async e=>{
   if (act==="again" && b){ $("#idea").value=b.idea; runVerdict(); return; }
   if (act==="copy" && b){ const txt=receiptText(b), note=$("#actNote");
     try{ await navigator.clipboard.writeText(txt); note.textContent=t("copied"); }
-    catch(_){ const ta=document.createElement("textarea"); ta.value=txt; ta.style.cssText="width:100%;min-height:160px;color:#202B25"; $("#cardacts").after(ta); ta.select(); } }
+    catch(_){ const ta=document.createElement("textarea"); ta.value=txt; ta.style.cssText="width:100%;min-height:160px;color:#1F1F1F"; $("#cardacts").after(ta); ta.select(); } }
 });
 function receiptText(b){
   const L=T[S.lang],R=L.r, C=b.cur||CUR(), M=n=>C+fmt(n);
@@ -1139,7 +1139,7 @@ function wrapLines(x,str,maxW,maxLines){
   if (out.length>maxLines){ const keep=out.slice(0,maxLines); let last=keep[maxLines-1]; while(last && x.measureText(last+"…").width>maxW) last=last.slice(0,-1); keep[maxLines-1]=last.trim()+"…"; return keep; }
   return out;
 }
-const VC={BUILD:["#2DB46C","#0B2416"],PIVOT:["#F6B73C","#2A1C00"],KILL:["#E5412B","#FFFFFF"]};
+const VC={BUILD:["#2DB46C","#0B2416"],PIVOT:["#FF6719","#2A1C00"],KILL:["#E5412B","#FFFFFF"]};
 async function receiptImage(b,o){
   const L=T[S.lang], rtl=S.lang==="he", s=rtl?-1:1, [BG,FG]=VC[b.verdict]||VC.PIVOT;
   const sample=rtl?"אבג abc 123":"abc 123";
