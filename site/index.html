@@ -22,7 +22,7 @@
   --bg:#1F2A24; --ink:#EEEBDD; --muted:#8F9C92; --line:#3A4A40; --red:#86B79B;
   --b1:#86B79B; --b1-ink:#1C2620; --b2:#2B372F; --b2-ink:#EEEBDD; --b3:#1F2A24; --b3-ink:#EEEBDD; --b2m:#1F2A24;
   --night:#1C2620; --night-ink:#F1EEE2; color-scheme:dark;
-  --build:#A9D8B8; --build-ink:#14301F; --pivot:#F1FAEE; --pivot-ink:#1B2626; --kill:#E8A090; --kill-ink:#2B0B07;
+  --build:#BCD9C6; --build-ink:#14301F; --pivot:#EBD28A; --pivot-ink:#2B2208; --kill:#E8CDBC; --kill-ink:#3A1C10;
   --cta-h:52px;
   --f-sans:"Hanken Grotesk","IBM Plex Sans Hebrew","Segoe UI",system-ui,sans-serif;
   --f-wide:"Unbounded","Miriam Libre","IBM Plex Sans Hebrew",system-ui,sans-serif;
@@ -1758,7 +1758,7 @@ function wrapLines(x,str,maxW,maxLines){
   if (out.length>maxLines){ const keep=out.slice(0,maxLines); let last=keep[maxLines-1]; while(last && x.measureText(last+"…").width>maxW) last=last.slice(0,-1); keep[maxLines-1]=last.trim()+"…"; return keep; }
   return out;
 }
-const VC={BUILD:["#A9D8B8","#14301F"],PIVOT:["#F1FAEE","#1B2626"],KILL:["#E8A090","#2B0B07"]};
+const VC={BUILD:["#BCD9C6","#14301F"],PIVOT:["#EBD28A","#2B2208"],KILL:["#E8CDBC","#3A1C10"]};
 async function receiptImage(b,o){
   const L=T[S.lang], rtl=S.lang==="he", s=rtl?-1:1, [BG,FG]=VC[b.verdict]||VC.PIVOT;
   const sample=rtl?"אבג abc 123":"abc 123";
