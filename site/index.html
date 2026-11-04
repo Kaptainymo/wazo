@@ -1987,7 +1987,7 @@ $("#idea").addEventListener("keydown", e=>{ if(e.key==="Enter" && (e.metaKey||e.
     if (S.view==="idea" && !ta.value && !calm()){
       const list=FEED.map(f=>f.idea[S.lang]); if(!txt) txt=list[i%list.length];
       if (hold>0){ hold--; }
-      else if (dir>0){ pos++; if(pos>=txt.length){ dir=-1; hold=40; } }
+      else if (dir>0){ pos++; if(pos>=txt.length){ dir=-1; hold=40+112; } }   /* the full idea stays readable for 2 extra seconds before it is erased (ticks are 18 ms while erasing) */
       else { pos-=3; if(pos<=0){ pos=0; dir=1; i++; txt=list[i%list.length]; hold=6; } }
       ta.placeholder=txt.slice(0,pos)+(dir>0||hold?"":"");
     } else if (!ta.value) { ta.placeholder=t("ideaPh"); txt=""; pos=0; dir=1; }
