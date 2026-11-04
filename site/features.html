@@ -1315,9 +1315,9 @@ addEventListener("scroll",()=>requestAnimationFrame(tick),{passive:true}); addEv
   const label=k=>cards[k].querySelector("figcaption").textContent;
   /* Lordicon animations: the player and the icons load when the section is near the screen; each card's animation loops while the card is shown */
   const lo=cards.map(c=>c.querySelector(".lo")), anims=[]; let lottieP=null;
-  const rest=a=>a.goToAndStop(a.totalFrames-1,true), timers=[];
-  /* each icon plays through once (always at normal speed; long ones are cut at 6 seconds), rests on its finished frame, then fades out and plays again; the carousel moves on after a full play unless it is paused */
-  const play=k=>{ const a=anims[k]; if(!a) return; clearTimeout(timers[k]); lo[k].classList.remove("fade"); if(calm){ rest(a); return; } a.setSpeed(1); const fr=a.frameRate||60; if(a.totalFrames/fr>6) a.playSegments([0,Math.round(6*fr)],true); else a.goToAndPlay(0,true); };
+  const rest=a=>a.goToAndStop(a.totalFrames-1,true), timers=[], END={xuqkksyh:250};  /* the stairs stop when the piece reaches the top step (frame 250), before it starts down again */
+  /* each icon plays through once (always at normal speed; the stairs stop on the top step), rests on its finished frame, then fades out and plays again; the carousel moves on after a full play unless it is paused */
+  const play=k=>{ const a=anims[k]; if(!a) return; clearTimeout(timers[k]); lo[k].classList.remove("fade"); if(calm){ rest(a); return; } a.setSpeed(1); const fr=a.frameRate||60, e=END[lo[k].dataset.lo]; if(e){ a.playSegments([0,e],true); timers[k]=setTimeout(()=>{ a.goToAndStop(e,true); done(k); },Math.round(e/fr*1000)+80); } else a.goToAndPlay(0,true); };
   const done=k=>{ if(k!==ci||calm) return; clearTimeout(timers[k]); timers[k]=setTimeout(()=>{ if(k!==ci) return; if(!paused&&!hov&&seen&&!document.hidden){ go(ci+1); } else { lo[k].classList.add("fade"); timers[k]=setTimeout(()=>play(k),400); } },2400); };
   const loadLottie=()=>lottieP||(lottieP=new Promise((res,rej)=>{ if(window.lottie) return res(); const s=document.createElement("script"); s.src="/lottie.min.js"; s.onload=res; s.onerror=rej; document.head.appendChild(s); }));
   const mount=k=>{ const el=lo[k]; if(!el||el._m) return; el._m=1; loadLottie().then(()=>{ const a=lottie.loadAnimation({container:el.querySelector(".lo-a"),renderer:"svg",loop:false,autoplay:false,path:"/icons/"+el.dataset.lo+".json"}); anims[k]=a;
