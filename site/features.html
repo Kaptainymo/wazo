@@ -1247,22 +1247,22 @@ addEventListener("scroll",()=>requestAnimationFrame(tick),{passive:true}); addEv
 /* the 'starting point' cards: one at a time, a new one every 3.5 seconds; pauses on hover or focus, off the screen, or once someone picks a card */
 { const cc=document.getElementById("cc"); if(cc){ const cards=[...cc.querySelectorAll(".cc-card")], dots=[...cc.querySelectorAll(".cc-dot")], pb=document.getElementById("ccPause"); let ci=0, paused=calm, hov=false, seen=false, steps=0;
   const label=k=>cards[k].querySelector("figcaption").textContent;
-  /* Lordicon animations: the player and the icons load when the section is near the screen; each card's animation plays once when the card appears */
+  /* Lordicon animations: the player and the icons load when the section is near the screen; each card's animation loops while the card is shown */
   const lo=cards.map(c=>c.querySelector(".lo")), anims=[]; let lottieP=null;
   const rest=a=>a.goToAndStop(a.totalFrames-1,true), play=k=>{ const a=anims[k]; if(!a) return; if(calm) rest(a); else a.goToAndPlay(0,true); };
   const loadLottie=()=>lottieP||(lottieP=new Promise((res,rej)=>{ if(window.lottie) return res(); const s=document.createElement("script"); s.src="/lottie.min.js"; s.onload=res; s.onerror=rej; document.head.appendChild(s); }));
-  const mount=k=>{ const el=lo[k]; if(!el||el._m) return; el._m=1; loadLottie().then(()=>{ const a=lottie.loadAnimation({container:el.querySelector(".lo-a"),renderer:"svg",loop:false,autoplay:false,path:"/icons/"+el.dataset.lo+".json"}); anims[k]=a;
+  const mount=k=>{ const el=lo[k]; if(!el||el._m) return; el._m=1; loadLottie().then(()=>{ const a=lottie.loadAnimation({container:el.querySelector(".lo-a"),renderer:"svg",loop:true,autoplay:false,path:"/icons/"+el.dataset.lo+".json"}); anims[k]=a;
     a.addEventListener("DOMLoaded",()=>{ rest(a); el.classList.add("ready"); if(k===ci) play(k); }); }).catch(()=>{}); };
   new IntersectionObserver((e,io)=>{ if(e[0].isIntersecting){ cards.forEach((_,k)=>mount(k)); io.disconnect(); } },{rootMargin:"400px"}).observe(cc);
-  const go=n=>{ ci=(n+cards.length)%cards.length; cards.forEach((c,k)=>{ c.classList.toggle("on",k===ci); c.setAttribute("aria-hidden",String(k!==ci)); }); dots.forEach((d,k)=>{ d.setAttribute("aria-current",String(k===ci)); d.setAttribute("aria-label",label(k)); }); play(ci); };
+  const go=n=>{ ci=(n+cards.length)%cards.length; cards.forEach((c,k)=>{ c.classList.toggle("on",k===ci); c.setAttribute("aria-hidden",String(k!==ci)); }); dots.forEach((d,k)=>{ d.setAttribute("aria-current",String(k===ci)); d.setAttribute("aria-label",label(k)); }); anims.forEach((a,k)=>{ if(a&&k!==ci) a.pause(); }); play(ci); };
   const sync=()=>{ pb.children[0].hidden=paused; pb.children[1].hidden=!paused; pb.setAttribute("aria-pressed",String(paused)); cc.querySelector(".cc-stage").setAttribute("aria-live",paused?"polite":"off"); };
   const flip=()=>{ paused=!paused; steps=0; sync(); };
   dots.forEach(d=>d.addEventListener("click",()=>{ paused=true; sync(); go(+d.dataset.n); }));
   pb.addEventListener("click",flip); cc.querySelector(".cc-stage").addEventListener("click",flip);
   cc.addEventListener("pointerenter",e=>{ if(e.pointerType==="mouse") hov=true; }); cc.addEventListener("pointerleave",e=>{ if(e.pointerType==="mouse") hov=false; }); cc.addEventListener("focusin",()=>hov=true); cc.addEventListener("focusout",()=>hov=false);
   new IntersectionObserver(e=>{ seen=e[0].isIntersecting; }).observe(cc);
-  /* one full pass, then it stops on its own; tap the card (or the hidden pause button) to run it again */
-  setInterval(()=>{ if(!paused&&!hov&&seen&&!document.hidden){ go(ci+1); if(++steps>=cards.length){ paused=true; sync(); } } },3500);
+  /* it keeps cycling for good; hover, focus or a tap on the card pauses it */
+  setInterval(()=>{ if(!paused&&!hov&&seen&&!document.hidden){ go(ci+1);  } },3500);
   go(0); sync(); } }
 /* who we are: the statement builds in once, when the section comes into view */
 { const a=document.getElementById("about"); if(a){ if("IntersectionObserver" in window){ const io=new IntersectionObserver(es=>es.forEach(e=>{ if(e.isIntersecting){ a.classList.add("go"); io.disconnect(); } }),{threshold:.3}); io.observe(a); } else a.classList.add("go"); } }
