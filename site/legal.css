@@ -2,7 +2,7 @@
 :root{--lhr:1.4}
 *,*::before,*::after{line-height:round(calc(var(--lhr)*1em),2px)}
 @supports not (width:round(1px,1px)){*,*::before,*::after{line-height:var(--lhr)}}
-:root{--bg:#1F2A24;--ink:#EEEBDD;--muted:#8F9C92;--line:#3A4A40;--accent:#86B79B}
+:root{--bg:#1F2A24;--ink:#EEEBDD;--muted:#8F9C92;--line:#3A4A40;--accent:#E9C46A}
 *{box-sizing:border-box}
 body{margin:0;background:var(--bg);color:var(--ink);font-family:"Hanken Grotesk",sans-serif;--lhr:1.6;padding:64px 20px 96px}
 .wrap{max-width:680px;margin:0 auto}

@@ -869,6 +869,7 @@
   .cc-card .lo{position:relative;display:block;width:96px;height:96px}
   .cc-card .lo-a{position:absolute;inset:0;opacity:0;transition:opacity .3s}
   .cc-card .lo.ready .lo-a{opacity:1}
+  .cc-card .lo.ready.fade .lo-a{opacity:0}
   .cc-card .lo-a svg{width:100%;height:100%}
   @media (max-width:960px){.cc-card .lo{width:144px;height:144px}}
   @media (min-width:961px){.kick .cc-card .lo{width:192px;height:192px}}
@@ -881,6 +882,59 @@
   @media (hover:hover){.ask .cta.solid:hover,.ask .go[aria-disabled="true"]:hover,.ask .wz-chip[aria-pressed=true]:hover{background:#fff}}
   .peek .hero,.peek .pin{background:radial-gradient(60% 50% at 50% 34%,#9BC4AC 0%,#86B79B 52%,#74A38A 100%)}
   header.nav.solid .cta.solid{background:#1C2620;color:#EEEBDD}
+  /* ---------- amber-butter accents: action and progress ---------- */
+  :root{--amber:#E9C46A;--amber-hi:#F2D890;--amber-ink:#2B2208}
+  /* nav "try now" */
+  header.nav .cta.solid,header.nav.solid .cta.solid,.nav .cta.solid{background:var(--amber);color:var(--amber-ink)}
+  @media (hover:hover){header.nav .cta.solid:hover,header.nav.solid .cta.solid:hover,.nav .cta.solid:hover{background:var(--amber-hi);color:var(--amber-ink)}}
+  /* a thin reading-progress line under the nav */
+  header.nav::after{content:"";position:absolute;inset:auto 0 0 0;height:4px;background:var(--amber);transform:scaleX(0);transform-origin:right;animation:navprog linear both;animation-timeline:scroll(root)}
+  [dir="ltr"] header.nav::after,html[dir="ltr"] header.nav::after{transform-origin:left}
+  @keyframes navprog{to{transform:scaleX(1)}}
+  /* active dot, small labels, key words, ticks */
+  .cc-dot[aria-current="true"]::before{background:var(--amber)}
+  section.blk{--cd:var(--amber)}
+  .sec-h .eyebrow,.step .n,.say em,.tag.pro,.chip,#about .pcard h3,#duet .pcard h3{color:var(--amber)}
+  .chip{background:rgba(233,196,106,.14)}
+  .tl div::before{background:var(--amber)}
+  .tier li::before{border-color:var(--amber)}
+  .tier.pro{border-color:var(--amber);background:linear-gradient(180deg,rgba(233,196,106,.08),transparent)}
+  /* the Pro plan card in butter-amber */
+  #pricing .tiers>.tier.pro{background:var(--amber)}
+  #pricing .tier.pro .tbtn .arr{background:var(--amber)}
+  /* the idea box: cream tab, amber main button; the main button stays dim until there is text */
+  .tabs::before{background:#EEEBDD}
+  .tabs button[aria-selected="true"]{color:#1F2A24}
+  .ask .wz-chip[aria-pressed=true]{background:#EEEBDD;color:#1F2A24}
+  .ask .cta.solid{background:var(--amber);color:var(--amber-ink)}
+  .ask .go[aria-disabled="true"]{background:rgba(238,235,221,.14);color:rgba(238,235,221,.45);cursor:not-allowed}
+  @media (hover:hover){.ask .cta.solid:hover{background:var(--amber-hi)}.ask .wz-chip[aria-pressed=true]:hover{background:#fff}.ask .go[aria-disabled="true"]:hover{background:rgba(238,235,221,.14);color:rgba(238,235,221,.45)}}
+  /* idea cards: sage, butter-amber, warm clay (no pink) */
+  section.blk{--tealt:#BCD9C6;--butter:#EBD28A;--peach:#E8CDBC}
+  /* ---------- dark green hero and dark navigation ---------- */
+  .peek .hero,.peek .pin{background:#1B221D}
+  .peek .hero{--ink:#EEEBDD;--muted:#A9B4AA;color:#EEEBDD}
+  .hero h1,.stage.simple h1{color:#EEEBDD}
+  .hero .lead{color:#C9D2C9;opacity:1}
+  .hero .hint{color:#A9B4AA;opacity:1}
+  .glow{display:none}
+  .glow s,.peek.flat .glow s{background:none}
+  .peek .hero .ask{background:#252E28}
+  header.nav{--ink:#EEEBDD;color:#EEEBDD}
+  header.nav .logo,header.nav .links a.l{color:#EEEBDD}
+  header.nav .links a.l:hover,header.nav .links a.l[aria-current="true"]{background:rgba(238,235,221,.12);color:#EEEBDD}
+  header.nav .pill,header.nav .burger{border-color:rgba(238,235,221,.45);color:#EEEBDD}
+  header.nav.solid{background:#1B221D;border-color:#3A4A40;color:#EEEBDD;--ink:#EEEBDD}
+  header.nav.solid .logo,header.nav.solid .links a.l{color:#EEEBDD}
+  header.nav.solid .links a.l:hover,header.nav.solid .links a.l[aria-current="true"]{background:rgba(238,235,221,.12);color:#EEEBDD}
+  header.nav.solid .pill,header.nav.solid .burger{border-color:rgba(238,235,221,.45);color:#EEEBDD}
+  header.nav :focus-visible,header.nav.solid :focus-visible{outline-color:#EEEBDD}
+  @media (max-width:960px),(display-mode: standalone){
+    header.nav,header.nav.solid{background:#1B221D;color:#EEEBDD;--ink:#EEEBDD;border-color:transparent}
+    header.nav .logo,header.nav .links a.l,header.nav.solid .logo{color:#EEEBDD}
+    header.nav .pill,header.nav .burger,header.nav.solid .pill,header.nav.solid .burger{border-color:rgba(238,235,221,.45);color:#EEEBDD}
+    header.nav .cta.solid,header.nav.solid .cta.solid{background:var(--amber);color:var(--amber-ink)}
+  }
 </style>
 </head>
 <body>
@@ -1245,24 +1299,27 @@ function goStep(k){ if(mob.matches){ show(k); const c=slider.children[k]; if(c) 
   const y=peek.offsetTop+total()*(OPEN+(1-OPEN)*(k+.5)/faces.length); scrollTo({top:y,behavior:calm?"auto":"smooth"}); }
 addEventListener("scroll",()=>requestAnimationFrame(tick),{passive:true}); addEventListener("resize",setPinned); setPinned(); onLang();
 /* the 'starting point' cards: one at a time, a new one every 3.5 seconds; pauses on hover or focus, off the screen, or once someone picks a card */
-{ const cc=document.getElementById("cc"); if(cc){ const cards=[...cc.querySelectorAll(".cc-card")], dots=[...cc.querySelectorAll(".cc-dot")], pb=document.getElementById("ccPause"); let ci=0, paused=calm, hov=false, seen=false, steps=0;
+{ const cc=document.getElementById("cc"); if(cc){ const cards=[...cc.querySelectorAll(".cc-card")], dots=[...cc.querySelectorAll(".cc-dot")], pb=document.getElementById("ccPause"); let ci=0, paused=calm, hov=false, seen=false, steps=0, safety=0;
   const label=k=>cards[k].querySelector("figcaption").textContent;
   /* Lordicon animations: the player and the icons load when the section is near the screen; each card's animation loops while the card is shown */
   const lo=cards.map(c=>c.querySelector(".lo")), anims=[]; let lottieP=null;
-  const rest=a=>a.goToAndStop(a.totalFrames-1,true), play=k=>{ const a=anims[k]; if(!a) return; if(calm) rest(a); else a.goToAndPlay(0,true); };
+  const rest=a=>a.goToAndStop(a.totalFrames-1,true), timers=[];
+  /* each icon plays through once (sped up if it is long), rests on its finished frame, then fades out and plays again; the carousel moves on after a full play unless it is paused */
+  const play=k=>{ const a=anims[k]; if(!a) return; clearTimeout(timers[k]); lo[k].classList.remove("fade"); if(calm){ rest(a); return; } a.setSpeed(Math.max(1,(a.totalFrames/(a.frameRate||60))/5)); a.goToAndPlay(0,true); };
+  const done=k=>{ if(k!==ci||calm) return; clearTimeout(timers[k]); timers[k]=setTimeout(()=>{ if(k!==ci) return; if(!paused&&!hov&&seen&&!document.hidden){ go(ci+1); } else { lo[k].classList.add("fade"); timers[k]=setTimeout(()=>play(k),400); } },2400); };
   const loadLottie=()=>lottieP||(lottieP=new Promise((res,rej)=>{ if(window.lottie) return res(); const s=document.createElement("script"); s.src="/lottie.min.js"; s.onload=res; s.onerror=rej; document.head.appendChild(s); }));
-  const mount=k=>{ const el=lo[k]; if(!el||el._m) return; el._m=1; loadLottie().then(()=>{ const a=lottie.loadAnimation({container:el.querySelector(".lo-a"),renderer:"svg",loop:true,autoplay:false,path:"/icons/"+el.dataset.lo+".json"}); anims[k]=a;
-    a.addEventListener("DOMLoaded",()=>{ rest(a); el.classList.add("ready"); if(k===ci) play(k); }); }).catch(()=>{}); };
+  const mount=k=>{ const el=lo[k]; if(!el||el._m) return; el._m=1; loadLottie().then(()=>{ const a=lottie.loadAnimation({container:el.querySelector(".lo-a"),renderer:"svg",loop:false,autoplay:false,path:"/icons/"+el.dataset.lo+".json"}); anims[k]=a;
+    a.addEventListener("DOMLoaded",()=>{ rest(a); el.classList.add("ready"); if(k===ci) play(k); }); a.addEventListener("complete",()=>done(k)); }).catch(()=>{}); };
   new IntersectionObserver((e,io)=>{ if(e[0].isIntersecting){ cards.forEach((_,k)=>mount(k)); io.disconnect(); } },{rootMargin:"400px"}).observe(cc);
-  const go=n=>{ ci=(n+cards.length)%cards.length; cards.forEach((c,k)=>{ c.classList.toggle("on",k===ci); c.setAttribute("aria-hidden",String(k!==ci)); }); dots.forEach((d,k)=>{ d.setAttribute("aria-current",String(k===ci)); d.setAttribute("aria-label",label(k)); }); anims.forEach((a,k)=>{ if(a&&k!==ci) a.pause(); }); play(ci); };
+  const go=n=>{ ci=(n+cards.length)%cards.length; cards.forEach((c,k)=>{ c.classList.toggle("on",k===ci); c.setAttribute("aria-hidden",String(k!==ci)); }); dots.forEach((d,k)=>{ d.setAttribute("aria-current",String(k===ci)); d.setAttribute("aria-label",label(k)); }); anims.forEach((a,k)=>{ if(a&&k!==ci){ a.pause(); clearTimeout(timers[k]); } }); clearTimeout(safety); play(ci); safety=setTimeout(()=>{ if(!paused&&!hov&&seen&&!calm) go(ci+1); },16000); };
   const sync=()=>{ pb.children[0].hidden=paused; pb.children[1].hidden=!paused; pb.setAttribute("aria-pressed",String(paused)); cc.querySelector(".cc-stage").setAttribute("aria-live",paused?"polite":"off"); };
   const flip=()=>{ paused=!paused; steps=0; sync(); };
   dots.forEach(d=>d.addEventListener("click",()=>{ paused=true; sync(); go(+d.dataset.n); }));
   pb.addEventListener("click",flip); cc.querySelector(".cc-stage").addEventListener("click",flip);
   cc.addEventListener("pointerenter",e=>{ if(e.pointerType==="mouse") hov=true; }); cc.addEventListener("pointerleave",e=>{ if(e.pointerType==="mouse") hov=false; }); cc.addEventListener("focusin",()=>hov=true); cc.addEventListener("focusout",()=>hov=false);
-  new IntersectionObserver(e=>{ seen=e[0].isIntersecting; }).observe(cc);
-  /* it keeps cycling for good; hover, focus or a tap on the card pauses it */
-  setInterval(()=>{ if(!paused&&!hov&&seen&&!document.hidden){ go(ci+1);  } },3500);
+  new IntersectionObserver(e=>{ seen=e[0].isIntersecting; const a=anims[ci]; if(a&&!calm){ if(seen) a.play(); else a.pause(); } }).observe(cc);
+  /* it keeps cycling for good: each card moves on after its icon finishes; hover, focus or a tap on the card pauses it (the icon then replays in place) */
+  setInterval(()=>{ if(calm&&!paused&&!hov&&seen&&!document.hidden){ go(ci+1); } },3500);
   go(0); sync(); } }
 /* who we are: the statement builds in once, when the section comes into view */
 { const a=document.getElementById("about"); if(a){ if("IntersectionObserver" in window){ const io=new IntersectionObserver(es=>es.forEach(e=>{ if(e.isIntersecting){ a.classList.add("go"); io.disconnect(); } }),{threshold:.3}); io.observe(a); } else a.classList.add("go"); } }
