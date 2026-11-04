@@ -22,7 +22,7 @@
   --bg:#1F2A24; --ink:#EEEBDD; --muted:#8F9C92; --line:#3A4A40; --red:#86B79B;
   --b1:#86B79B; --b1-ink:#1C2620; --b2:#2B372F; --b2-ink:#EEEBDD; --b3:#1F2A24; --b3-ink:#EEEBDD; --b2m:#1F2A24;
   --night:#1C2620; --night-ink:#F1EEE2; color-scheme:dark;
-  --build:#BCD9C6; --build-ink:#14301F; --pivot:#EBD28A; --pivot-ink:#2B2208; --kill:#E8CDBC; --kill-ink:#3A1C10;
+  --build:#BCD9C6; --build-ink:#14301F; --pivot:#F5C654; --pivot-ink:#2B1D04; --kill:#E8CDBC; --kill-ink:#3A1C10;
   --cta-h:52px;
   --f-sans:"Hanken Grotesk","IBM Plex Sans Hebrew","Segoe UI",system-ui,sans-serif;
   --f-wide:"Unbounded","Miriam Libre","IBM Plex Sans Hebrew",system-ui,sans-serif;
@@ -714,7 +714,7 @@ dialog.sheet[open]::backdrop{animation:fadeIn .3s ease both}
 .cc.is-lock .cta,.pw .cta{background:#EEEBDD;color:#1F2A24}
 .b-idea{background:radial-gradient(70% 90% at 50% 40%,#9BC4AC 0%,#86B79B 55%,#74A38A 100%)}
 /* amber-butter accents */
-:root{--amber:#E9C46A}
+:root{--amber:#F5B82E}
 .ins-prog i.on{background:var(--amber)}
 .hload .bar::after{background:var(--amber)}
 .caret{background:var(--amber)}
@@ -734,7 +734,7 @@ nav.top{background:#1B221D;color:#EEEBDD}
 .p-idea #moreBtn[aria-expanded="true"]{background:#EEEBDD;color:#1F2A24}
 .p-idea .cta:not(.dark):not(.light){background:#EEEBDD;color:#1F2A24}
 /* main button: amber when there is text, dim while the box is empty */
-.p-idea .cta.light{background:var(--amber);color:#2B2208}
+.p-idea .cta.light{background:var(--amber);color:#2B1D04}
 .p-idea .cta.light.idle{background:rgba(238,235,221,.14);color:rgba(238,235,221,.45)}
 #installBtn{background:#2D3730;border-color:#2D3730;color:var(--amber)}
 /* the home headline is amber */
@@ -1758,7 +1758,7 @@ function wrapLines(x,str,maxW,maxLines){
   if (out.length>maxLines){ const keep=out.slice(0,maxLines); let last=keep[maxLines-1]; while(last && x.measureText(last+"…").width>maxW) last=last.slice(0,-1); keep[maxLines-1]=last.trim()+"…"; return keep; }
   return out;
 }
-const VC={BUILD:["#BCD9C6","#14301F"],PIVOT:["#EBD28A","#2B2208"],KILL:["#E8CDBC","#3A1C10"]};
+const VC={BUILD:["#BCD9C6","#14301F"],PIVOT:["#F5C654","#2B1D04"],KILL:["#E8CDBC","#3A1C10"]};
 async function receiptImage(b,o){
   const L=T[S.lang], rtl=S.lang==="he", s=rtl?-1:1, [BG,FG]=VC[b.verdict]||VC.PIVOT;
   const sample=rtl?"אבג abc 123":"abc 123";
