@@ -9,9 +9,9 @@
    Tap a band and it opens full screen. A receipt is a stack of big-type rows; when the verdict is
    revealed the whole sheet floods with the verdict color: BUILD green, PIVOT amber, KILL red. */
 :root{
-  --bg:#0E0E0E; --ink:#F1F0EC; --muted:#8E8C87; --line:#2A2A2A; --red:#E5412B;
-  --b1:#000; --b1-ink:#F4F3EF; --b2:#1C1C1C; --b2-ink:#F1F0EC; --b3:#0E0E0E; --b3-ink:#F1F0EC;
-  --night:#0A0A0A; --night-ink:#F4F3EF; color-scheme:dark;
+  --bg:#1F2A24; --ink:#EEEBDD; --muted:#8F9C92; --line:#3A4A40; --red:#E5412B;
+  --b1:#000; --b1-ink:#F1EEE2; --b2:#2B372F; --b2-ink:#EEEBDD; --b3:#1F2A24; --b3-ink:#EEEBDD;
+  --night:#1C2620; --night-ink:#F1EEE2; color-scheme:dark;
   --build:#2DB46C; --build-ink:#0B2416; --pivot:#F6B73C; --pivot-ink:#2A1C00; --kill:#E5412B; --kill-ink:#FFFFFF;
   --cta-h:52px;
   --f-sans:"Hanken Grotesk","IBM Plex Sans Hebrew","Segoe UI",system-ui,sans-serif;
@@ -1086,7 +1086,7 @@ document.addEventListener("click", async e=>{
   if (act==="again" && b){ $("#idea").value=b.idea; runVerdict(); return; }
   if (act==="copy" && b){ const txt=receiptText(b), note=$("#actNote");
     try{ await navigator.clipboard.writeText(txt); note.textContent=t("copied"); }
-    catch(_){ const ta=document.createElement("textarea"); ta.value=txt; ta.style.cssText="width:100%;min-height:160px;color:#111"; $("#cardacts").after(ta); ta.select(); } }
+    catch(_){ const ta=document.createElement("textarea"); ta.value=txt; ta.style.cssText="width:100%;min-height:160px;color:#202B25"; $("#cardacts").after(ta); ta.select(); } }
 });
 function receiptText(b){
   const L=T[S.lang],R=L.r, C=b.cur||CUR(), M=n=>C+fmt(n);

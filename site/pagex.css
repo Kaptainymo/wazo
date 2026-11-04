@@ -1,7 +1,7 @@
 /* close button for the standalone pages (pricing, terms, privacy; English and Hebrew): same look and place everywhere */
-.pg-x{position:fixed;top:max(12px,env(safe-area-inset-top,0px));left:max(12px,env(safe-area-inset-left,0px));z-index:50;width:44px;height:44px;border-radius:50%;background:#F07167;color:#2B0B07;display:grid;place-items:center;font-size:0;text-decoration:none;--lhr:0;transition:transform .28s cubic-bezier(.3,1.6,.5,1),filter .2s}
+.pg-x{position:fixed;top:max(12px,env(safe-area-inset-top,0px));left:max(12px,env(safe-area-inset-left,0px));z-index:50;width:44px;height:44px;border-radius:50%;background:#EEEBDD;color:#1F2A24;display:grid;place-items:center;font-size:0;text-decoration:none;--lhr:0;transition:transform .28s cubic-bezier(.3,1.6,.5,1),filter .2s}
 .pg-x::before,.pg-x::after{content:"";position:absolute;width:17px;height:2px;border-radius:2px;background:currentColor;transform:rotate(45deg)}
 .pg-x::after{transform:rotate(-45deg)}
 .pg-x:hover{filter:brightness(1.08)}
 .pg-x:active{transform:scale(.9)}
-.pg-x:focus-visible{outline:3px solid #F1F0EC;outline-offset:3px}
+.pg-x:focus-visible{outline:3px solid #EEEBDD;outline-offset:3px}

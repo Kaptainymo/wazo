@@ -5,7 +5,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700&family=Miriam+Libre:wght@700&family=IBM+Plex+Sans+Hebrew:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
 <style>
-:root{--bg:#0E0E0E;--ink:#F1F0EC;--muted:#A8A6A0;--red:#F07167;--build:#A8DADC;--card:#1C1C1C;--lhr:1.5;--f-sans:"Hanken Grotesk","IBM Plex Sans Hebrew","Segoe UI",system-ui,sans-serif;--f-mono:"IBM Plex Mono","IBM Plex Sans Hebrew",ui-monospace,Menlo,monospace;color-scheme:dark}
+:root{--bg:#1F2A24;--ink:#EEEBDD;--muted:#A9B4AA;--red:#86B79B;--build:#A9D8B8;--card:#2B372F;--lhr:1.5;--f-sans:"Hanken Grotesk","IBM Plex Sans Hebrew","Segoe UI",system-ui,sans-serif;--f-mono:"IBM Plex Mono","IBM Plex Sans Hebrew",ui-monospace,Menlo,monospace;color-scheme:dark}
 *,*::before,*::after{box-sizing:border-box;line-height:round(calc(var(--lhr)*1em),2px)}
 @supports not (width:round(1px,1px)){*,*::before,*::after{line-height:var(--lhr)}}
 html,body{margin:0;background:var(--bg);color:var(--ink)}
@@ -17,16 +17,16 @@ h1{margin:0;font-size:32px;--lhr:1.15;font-family:"Miriam Libre","Hanken Grotesk
 p{margin:0}
 #c{display:grid;gap:20px}
 .lead{color:var(--muted);--lhr:1.55}
-.idea{border:2px solid #2A2A2A;border-radius:16px;padding:16px;font-size:20px;font-weight:600;--lhr:1.35;overflow-wrap:anywhere}
+.idea{border:2px solid #3A4A40;border-radius:16px;padding:16px;font-size:20px;font-weight:600;--lhr:1.35;overflow-wrap:anywhere}
 .ilbl{font-family:var(--f-mono);font-size:12px;letter-spacing:.1em;font-weight:600;opacity:.7;margin-bottom:8px;display:block}
 .dgrp{display:grid;gap:16px;background:var(--card);border-radius:20px;padding:20px}
 .dq{display:grid;gap:12px}.dq b{font-weight:600}
 .dchips{display:flex;flex-wrap:wrap;gap:8px}
 .dchip{border:0;border-radius:999px;min-height:44px;padding:0 16px;font-family:inherit;font-size:16px;background:color-mix(in srgb,var(--red) 16%,transparent);color:var(--red);cursor:pointer}
-.dchip[aria-pressed=true]{background:var(--red);color:#0A0A0A;font-weight:600}
-.cta{height:52px;border:0;border-radius:999px;padding:0 28px;font-family:inherit;font-weight:600;font-size:16px;display:inline-flex;align-items:center;justify-content:center;width:100%;text-decoration:none;cursor:pointer;background:#F4F3EF;color:#0A0A0A}
+.dchip[aria-pressed=true]{background:var(--red);color:#1C2620;font-weight:600}
+.cta{height:52px;border:0;border-radius:999px;padding:0 28px;font-family:inherit;font-weight:600;font-size:16px;display:inline-flex;align-items:center;justify-content:center;width:100%;text-decoration:none;cursor:pointer;background:#F1EEE2;color:#1C2620}
 .cta:disabled{opacity:.6;cursor:default}
-.cta.ghost{background:transparent;color:var(--ink);box-shadow:inset 0 0 0 1px rgba(241,240,236,.4)}
+.cta.ghost{background:transparent;color:var(--ink);box-shadow:inset 0 0 0 1px rgba(238,235,221,.4)}
 .fine{font-size:14px;color:var(--muted)}
 .dmsg{color:var(--red)}
 .dh{font-size:24px;margin:0;font-weight:600;outline:none}
@@ -35,11 +35,11 @@ p{margin:0}
 .cmprow.ok .tg{color:var(--build)}.cmprow.no .tg{color:var(--red)}
 .cmprow strong{font-size:18px;font-weight:600}
 .dtwo{display:grid;grid-template-columns:1fr 1fr;gap:8px;font-size:14px}.dtwo b{font-weight:600}
-.dtalk{background:var(--red);color:#0A0A0A;border-radius:20px;padding:20px;display:grid;gap:8px}
+.dtalk{background:var(--red);color:#1C2620;border-radius:20px;padding:20px;display:grid;gap:8px}
 .dtalk .tg{font-family:var(--f-mono);font-size:12px;letter-spacing:.1em;font-weight:600;opacity:.7}
 .dtalk strong{font-size:20px;--lhr:1.3;font-weight:600}
 .dtalk.locked strong{filter:blur(5px);user-select:none}
-.dtalk .cta{background:#0A0A0A;color:#fff}
+.dtalk .cta{background:#1C2620;color:#fff}
 :focus-visible{outline:2px solid var(--red);outline-offset:2px}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 </style></head>
