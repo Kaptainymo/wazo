@@ -2255,6 +2255,6 @@ async function runHandoff(){
 </script>
 <script>
 /* dim the main button until something is typed */
-(function(){const t=document.getElementById("idea"),b=document.getElementById("goBtn"); if(!t||!b) return; const sync=()=>b.classList.toggle("idle",!t.value.trim().length); t.addEventListener("input",sync); new MutationObserver(sync).observe(t,{attributes:true}); sync(); setInterval(sync,500);})();
+(function(){const t=document.getElementById("idea"),b=document.getElementById("goBtn"); if(!t||!b) return; const sync=()=>{ const idle=!t.value.trim().length; b.classList.toggle("idle",idle); b.setAttribute("aria-disabled",String(idle)); }; t.addEventListener("input",sync); sync(); setInterval(sync,500);})();
 </script>
 </body></html>
