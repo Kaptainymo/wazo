@@ -736,7 +736,7 @@ nav.top{background:#171717;color:#F2F2F0}
 /* main button: amber when there is text, dim while the box is empty */
 .p-idea .cta.light{background:var(--amber);color:#1C0A00}
 .p-idea .cta.light.idle{background:rgba(242,242,240,.14);color:rgba(242,242,240,.45)}
-#installBtn{background:#262626;border-color:#262626;color:var(--amber)}
+#installBtn{background:#FF6719;border-color:#FF6719;color:#1A1A1A}
 /* the home headline is cream */
 .b-idea .b-big{color:#F2F2F0}
 /* locked tiles: a green-tinted neutral instead of grey */
@@ -746,6 +746,8 @@ nav.top{background:#171717;color:#F2F2F0}
 
 /* all remaining text is cream */
 .dmsg,.tg,.err,.vlink,.testtag,.dwarn,.dchip,.tip-l,.helpbox .chips span{color:#F2F2F0}
+/* no ring animation around the bottom-line title */
+#vword.hit::after,#vword.hit::before{content:none;animation:none}
 </style>
 </head><body>
 

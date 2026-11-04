@@ -973,12 +973,11 @@
   #pricing .tier.pro .price small{color:#3B3935}
   #pricing .tier:not(.pro) .tbtn{background:#F2F2F0;color:#1A1A1A}
   section.blk{--tealt:#E9E9E6;--butter:#D4D4D0;--peach:#BEBEBA}
-  /* uniform pill buttons: dark pill, orange arrow circle; the whole button turns orange on hover */
+  /* uniform pill buttons: dark pill, orange arrow circle; an orange border appears on hover */
   #pricing .tier .tbtn,#pricing .tier:not(.pro) .tbtn{background:#1A1A1A;color:#F2F2F0}
   .vc .vbtn .arr,.vc[data-v="pivot"] .vbtn .arr,.vc[data-v="kill"] .vbtn .arr,#pricing .tier .tbtn .arr,#pricing .tier.pro .tbtn .arr{background:#FF6719;color:#1A1A1A}
   @media (hover:hover){
-    .vc .vbtn:hover,#pricing .tier .tbtn:hover,#pricing .tier:not(.pro) .tbtn:hover{background:#FF6719;color:#1A1A1A;border-color:#FF6719}
-    .vc .vbtn:hover .arr,#pricing .tier .tbtn:hover .arr{background:#1A1A1A;color:#FF6719}
+    .vc .vbtn:hover,#pricing .tier .tbtn:hover,#pricing .tier:not(.pro) .tbtn:hover{background:#1A1A1A;color:#F2F2F0;border-color:#FF6719;box-shadow:inset 0 0 0 2px #FF6719}
   }
   /* section names (the small labels above each heading) are orange */
   .sec-h .eyebrow,.win .sec-h .eyebrow,section.blk .sec-h .eyebrow{color:#FF6719}
