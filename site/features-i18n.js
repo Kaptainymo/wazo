@@ -109,7 +109,6 @@ const D={
 "בואו נתחיל":["Let's start","Empecemos","Commençons"],
 "Wazo · וואזו © 2026":["Wazo © 2026","Wazo © 2026","Wazo © 2026"],
 "תנאי שימוש":["Terms of use","Condiciones de uso","Conditions d'utilisation"],
-"החזרים":["Refunds","Reembolsos","Remboursements"]
 };
 /* elements with inline markup, translated as a whole (data-i="key") */
 const H={

@@ -42,5 +42,17 @@
    "source": "/d/:token",
    "destination": "/d"
   }
+ ],
+ "redirects": [
+  {
+   "source": "/refunds",
+   "destination": "/pricing#refunds",
+   "permanent": true
+  },
+  {
+   "source": "/he/refunds",
+   "destination": "/he/pricing#refunds",
+   "permanent": true
+  }
  ]
 }
