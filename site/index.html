@@ -718,6 +718,25 @@ dialog.sheet[open]::backdrop{animation:fadeIn .3s ease both}
 .ins-prog i.on{background:var(--amber)}
 .hload .bar::after{background:var(--amber)}
 .caret{background:var(--amber)}
+
+/* the app uses the hero's flat dark green */
+:root{--b1:#1B221D;--b1-ink:#EEEBDD;--b2:#242D27;--b3:#2D3730}
+.b-idea{background:#1B221D;color:#EEEBDD}
+.p-idea,.b-idea{--red:var(--amber);--tool-line:rgba(238,235,221,.38)}
+nav.top{background:#1B221D;color:#EEEBDD}
+.p-idea{--tool-line:rgba(238,235,221,.38)}
+.itool{color:#EEEBDD}
+.itool:focus-visible,.p-idea .helprow .morebtn:focus-visible,.p-idea #moreBtn:focus-visible{outline-color:#EEEBDD}
+@media (hover:hover){.itool:hover{background:rgba(238,235,221,.1)}.p-idea .helprow .morebtn:hover,.p-idea #moreBtn:hover{background:rgba(238,235,221,.08)}}
+.itool.on{background:#EEEBDD;color:#1F2A24}
+.p-idea input::placeholder,.p-idea textarea::placeholder{color:#EEEBDD}
+.p-idea .helprow .morebtn,.p-idea #moreBtn{color:#EEEBDD}
+.p-idea #moreBtn[aria-expanded="true"]{background:#EEEBDD;color:#1F2A24}
+.p-idea .cta:not(.dark):not(.light){background:#EEEBDD;color:#1F2A24}
+/* main button: amber when there is text, dim while the box is empty */
+.p-idea .cta.light{background:var(--amber);color:#2B2208}
+.p-idea .cta.light.idle{background:rgba(238,235,221,.14);color:rgba(238,235,221,.45)}
+#installBtn{background:#2D3730;border-color:#2D3730;color:var(--amber)}
 </style>
 </head><body>
 
@@ -2233,5 +2252,9 @@ async function runHandoff(){
   if (S.me.email && !S.cfg.open) setTimeout(refreshPlan,1200);
 })();
 })();
+</script>
+<script>
+/* dim the main button until something is typed */
+(function(){const t=document.getElementById("idea"),b=document.getElementById("goBtn"); if(!t||!b) return; const sync=()=>b.classList.toggle("idle",!t.value.trim().length); t.addEventListener("input",sync); new MutationObserver(sync).observe(t,{attributes:true}); sync(); setInterval(sync,500);})();
 </script>
 </body></html>
