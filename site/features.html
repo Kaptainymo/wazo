@@ -844,8 +844,9 @@
   footer .f-nav a{display:flex;align-items:center;min-height:52px;border-bottom:1px solid var(--line);color:var(--ink);font-size:16px;text-decoration:none}
   footer .f-copy{font-size:13px;color:var(--muted)}
   @media (min-width:961px){
-    footer .wrap{display:flex;align-items:center;justify-content:space-between;gap:32px;flex-wrap:wrap}
-    footer .f-top{gap:24px}
+    footer .wrap{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:32px}
+    footer .f-top{gap:24px;justify-self:start}
+    footer .f-copy{justify-self:end}
     footer .f-nav{display:flex;gap:28px;border:0}
     footer .f-nav a{min-height:0;border:0;font-size:14px;text-decoration:underline;text-underline-offset:3px}
   }
