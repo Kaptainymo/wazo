@@ -22,7 +22,7 @@
   --bg:#1A1A1A; --ink:#F2F2F0; --muted:#8A8A8A; --line:#2F2F2F; --red:#FF6719;
   --b1:#FF6719; --b1-ink:#1A1A1A; --b2:#2A2A2A; --b2-ink:#F2F2F0; --b3:#1A1A1A; --b3-ink:#F2F2F0; --b2m:#1A1A1A;
   --night:#1A1A1A; --night-ink:#F4F4F2; color-scheme:dark;
-  --build:#BCD9C6; --build-ink:#14301F; --pivot:#FFB36B; --pivot-ink:#1C0A00; --kill:#E8CDBC; --kill-ink:#3A1C10;
+  --build:#3DDC84; --build-ink:#06210F; --pivot:#FFB36B; --pivot-ink:#1C0A00; --kill:#E8CDBC; --kill-ink:#3A1C10;
   --cta-h:52px;
   --f-sans:"Hanken Grotesk","IBM Plex Sans Hebrew","Segoe UI",system-ui,sans-serif;
   --f-wide:"Unbounded","Miriam Libre","IBM Plex Sans Hebrew",system-ui,sans-serif;
@@ -741,6 +741,11 @@ nav.top{background:#171717;color:#F2F2F0}
 .b-idea .b-big{color:#F2F2F0}
 /* locked tiles: a green-tinted neutral instead of grey */
 .strip i.u{background:#3A3A3A}
+/* all text is cream: orange stays on shapes */
+.tip-l,.vlink,.testtag,.helpbox .chips span,.dwarn{color:#F2F2F0}
+
+/* all remaining text is cream */
+.dmsg,.tg,.err,.vlink,.testtag,.dwarn,.dchip,.tip-l,.helpbox .chips span{color:#F2F2F0}
 </style>
 </head><body>
 
@@ -1760,7 +1765,7 @@ function wrapLines(x,str,maxW,maxLines){
   if (out.length>maxLines){ const keep=out.slice(0,maxLines); let last=keep[maxLines-1]; while(last && x.measureText(last+"…").width>maxW) last=last.slice(0,-1); keep[maxLines-1]=last.trim()+"…"; return keep; }
   return out;
 }
-const VC={BUILD:["#BCD9C6","#14301F"],PIVOT:["#FFB36B","#1C0A00"],KILL:["#E8CDBC","#3A1C10"]};
+const VC={BUILD:["#3DDC84","#06210F"],PIVOT:["#FFB36B","#1C0A00"],KILL:["#E8CDBC","#3A1C10"]};
 async function receiptImage(b,o){
   const L=T[S.lang], rtl=S.lang==="he", s=rtl?-1:1, [BG,FG]=VC[b.verdict]||VC.PIVOT;
   const sample=rtl?"אבג abc 123":"abc 123";
