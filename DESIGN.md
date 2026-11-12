@@ -23,18 +23,23 @@ Padding, margin and gap use a 4px grid: 4, 8, 12, 16, 20, 24, 28, 32 and up. Onl
 
 ## Colour
 
+Neutral dark grey-black with one orange accent (Substack-like). Text is cream; orange is for buttons, shapes and section names only.
+
 | Token | Value | Use |
 |---|---|---|
-| bg | `#080808` (landing), `#0E0E0E` (app) | page |
-| card | `#1C1C1C` | cards, ask box |
-| ink | `#F1F0EC` | text |
-| muted | `#A8A6A0` | secondary text |
-| line | `#2A2A2A` | dividers |
-| coral | `#F07167` | accent, idea band, closing section, window |
-| teal | `#A8DADC` | final verdict card |
-| text on coral | `#0A0A0A` | at least 4.5:1 |
+| bg | `#171717` (landing, hero), `#1A1A1A` (app) | page |
+| surface | `#222222`, `#2A2A2A` | idea box, cards, free plan |
+| ink | `#F2F2F0` | all text, headlines in one colour |
+| muted | `#9B9B9B` / `#8A8A8A` | secondary text |
+| line | `#2F2F2F` | dividers |
+| orange | `#FF6719` (hover `#FF9A66`) | main buttons, arrow circles, section names, running light, save button |
+| text on orange | `#1C0A00` | at least 4.5:1 |
+| light grey | `#E6E6E3`, `#E9E9E6` | Pro plan, "what you get" cards, idea cards (with `#D4D4D0`, `#BEBEBA`) |
+| verdict: start | `#3DDC84` on `#06210F` | "worth starting" cards; home tiles use the softer `#86BF9E` |
+| verdict: refine | `#FFB36B` on `#1C0A00` | "worth refining"; home tiles `#DDB48F` |
+| verdict: stop | `#E8CDBC` on `#3A1C10` | "stop here"; home tiles `#C9B0A6` |
 
-Dim text on coral must stay at 78% opacity or more to pass 4.5:1.
+Buttons: dark pill with an orange arrow circle; on hover an orange 2px outline, never a full orange fill. A button that cannot act yet is dim (`rgba(242,242,240,.14)` with 75% text), never hidden.
 
 ## Motion
 

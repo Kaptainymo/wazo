@@ -629,14 +629,14 @@ dialog.sheet[open]::backdrop{animation:fadeIn .3s ease both}
 .ins-t{margin:0;font-size:24px;font-weight:600;letter-spacing:-.02em;--lhr:1.25}
 .ins-h{margin:-8px 0 0;font-size:15px;color:#9B9B9B;--lhr:1.55}
 .ins-note{margin:0;padding:10px 14px;border-radius:14px;background:#2A2A2A;font-size:14px;color:#B4B4B4;--lhr:1.5}
-.hit{position:relative}
-.hit::after{content:"";position:absolute;inset:-5px;border-radius:var(--hr,50%);border:2px solid var(--red);animation:insRing 1.8s var(--ease) infinite;pointer-events:none}
+.ins-stage .hit{position:relative}
+.ins-stage .hit::after{content:"";position:absolute;inset:-5px;border-radius:var(--hr,50%);border:2px solid var(--red);animation:insRing 1.8s var(--ease) infinite;pointer-events:none}
 @keyframes insRing{0%{transform:scale(.8);opacity:.9}70%,100%{transform:scale(1.18);opacity:0}}
 @keyframes insHold{0%{transform:scale(1.35);opacity:0}45%{transform:scale(.96);opacity:1}100%{transform:scale(.96);opacity:1}}
-.hit.hold::after{animation:insHold 2s var(--ease) infinite}
-.hit.hold::before{content:"";position:absolute;inset:-5px;border-radius:50%;background:var(--red);opacity:.22;animation:insHoldFill 2s var(--ease) infinite}
+.ins-stage .hit.hold::after{animation:insHold 2s var(--ease) infinite}
+.ins-stage .hit.hold::before{content:"";position:absolute;inset:-5px;border-radius:50%;background:var(--red);opacity:.22;animation:insHoldFill 2s var(--ease) infinite}
 @keyframes insHoldFill{0%,20%{transform:scale(0)}70%,100%{transform:scale(1)}}
-@media (prefers-reduced-motion:reduce){.hit::after,.hit.hold::after{animation:none;opacity:.9}.hit.hold::before{animation:none;transform:none}.ins-stage>*{animation:none}}
+@media (prefers-reduced-motion:reduce){.ins-stage .hit::after,.ins-stage .hit.hold::after{animation:none;opacity:.9}.ins-stage .hit.hold::before{animation:none;transform:none}.ins-stage>*{animation:none}}
 .sk{display:block;height:8px;border-radius:4px;background:#C7C7CC}
 /* the iPhone screens, drawn like the real ones */
 .mk-bar{width:90%;display:flex;align-items:center;gap:10px;direction:ltr}
@@ -710,16 +710,15 @@ dialog.sheet[open]::backdrop{animation:fadeIn .3s ease both}
   #insTitle{font-size:20px}
 }
 
-/* soft green concept: cream buttons */
+/* cream buttons on locked cards */
 .cc.is-lock .cta,.pw .cta{background:#F2F2F0;color:#1A1A1A}
-.b-idea{background:radial-gradient(70% 90% at 50% 40%,#FF6719 0%,#FF6719 55%,#FF6719 100%)}
 /* amber-butter accents */
 :root{--amber:#FF6719}
 .ins-prog i.on{background:var(--amber)}
 .hload .bar::after{background:var(--amber)}
 .caret{background:var(--amber)}
 
-/* the app uses the hero's flat dark green */
+/* the app uses the hero's flat dark background */
 :root{--b1:#171717;--b1-ink:#F2F2F0;--b2:#202020;--b3:#262626}
 .b-idea{background:#171717;color:#F2F2F0}
 .p-idea,.b-idea{--red:var(--amber);--tool-line:rgba(242,242,240,.38)}
@@ -735,26 +734,29 @@ nav.top{background:#171717;color:#F2F2F0}
 .p-idea .cta:not(.dark):not(.light){background:#F2F2F0;color:#1A1A1A}
 /* main button: amber when there is text, dim while the box is empty */
 .p-idea .cta.light{background:var(--amber);color:#1C0A00}
-.p-idea .cta.light.idle{background:rgba(242,242,240,.14);color:rgba(242,242,240,.45)}
+.p-idea .cta.light.idle{background:rgba(242,242,240,.14);color:rgba(242,242,240,.75)}
 #installBtn{background:#FF6719;border-color:#FF6719;color:#1A1A1A}
 /* the home headline is cream */
 .b-idea .b-big{color:#F2F2F0}
-/* locked tiles: a green-tinted neutral instead of grey */
+/* locked tiles */
 .strip i.u{background:#3A3A3A}
 /* all text is cream: orange stays on shapes */
 .tip-l,.vlink,.testtag,.helpbox .chips span,.dwarn{color:#F2F2F0}
 
 /* all remaining text is cream */
 .dmsg,.tg,.err,.vlink,.testtag,.dwarn,.dchip,.tip-l,.helpbox .chips span{color:#F2F2F0}
-/* no ring animation around the bottom-line title */
-#vword.hit::after,#vword.hit::before{content:none;animation:none}
 /* chips in the "no idea" box: cream text on the dark panel */
 .p-idea .wz-chip{color:#F2F2F0}
 .p-idea .wz-chip[aria-pressed=true]{background:#F2F2F0;color:#1A1A1A}
 /* the moving tiles on the home screen: softer tones (the cards keep the strong verdict colours) */
-.strip i[style*="--build"]{background:#86BF9E!important}
-.strip i[style*="--pivot"]{background:#DDB48F!important}
-.strip i[style*="--kill"]{background:#C9B0A6!important}
+.strip i.t-build{background:#86BF9E}
+.strip i.t-pivot{background:#DDB48F}
+.strip i.t-kill{background:#C9B0A6}
+/* 44px tap areas for the small top-bar and footer controls; the look is unchanged */
+.pill,.brand,.legal-link{position:relative}
+.pill::after{content:"";position:absolute;inset:-4px}
+.brand::after{content:"";position:absolute;inset:-7px -4px}
+.legal-link::after{content:"";position:absolute;inset:-5px 0}
 </style>
 </head><body>
 
@@ -1277,7 +1279,7 @@ addEventListener("keydown",e=>{ if(e.key==="Escape" && S.view && !S.busy) home()
 /* ---------- home bands ---------- */
 function fillStrip(el,verdicts,always){
   const sig=verdicts.slice(0,9).join()+"|"+el.clientWidth; if(el._sig===sig) return; el._sig=sig;
-  const tiles=verdicts.slice(0,9).map(v=>v?`<i style="background:var(--${VCLS(v)})"></i>`:`<i class="u"></i>`).join("");
+  const tiles=verdicts.slice(0,9).map(v=>v?`<i class="t-${VCLS(v)}"></i>`:`<i class="u"></i>`).join("");
   el.classList.remove("mq"); el.innerHTML=tiles;
   const first=el.firstElementChild; if(!first||calm()) return;
   const gap=parseFloat(getComputedStyle(el).columnGap)||0;
