@@ -765,6 +765,15 @@ nav.top{background:#171717;color:#F2F2F0}
 .seg4 .sg:nth-child(2) i{animation-delay:.2s}.seg4 .sg:nth-child(3) i{animation-delay:.4s}.seg4 .sg:nth-child(4) i{animation-delay:.6s}
 @keyframes segFill{from{transform:scaleX(0)}}
 @media (prefers-reduced-motion:reduce){.seg4 .sg i{animation:none}}
+/* card 3: where the 7-day test stands; the days fill in one after the other, once */
+.days{margin:6px 0 4px}
+.days .dd{display:flex;gap:4px}
+.days .dd i{flex:1;height:8px;border-radius:4px;background:rgba(242,242,240,.16)}
+.days .dd i.on{background:#F2F2F0;animation:dayIn .5s var(--ease) both}
+.days .dd i:nth-child(2){animation-delay:.1s}.days .dd i:nth-child(3){animation-delay:.2s}.days .dd i:nth-child(4){animation-delay:.3s}.days .dd i:nth-child(5){animation-delay:.4s}.days .dd i:nth-child(6){animation-delay:.5s}.days .dd i:nth-child(7){animation-delay:.6s}
+.days .dl{font-size:13px;opacity:.78;margin-top:6px}
+@keyframes dayIn{from{opacity:0;transform:scaleY(.4)}}
+@media (prefers-reduced-motion:reduce){.days .dd i.on{animation:none}}
 </style>
 </head><body>
 
@@ -1163,6 +1172,7 @@ Object.entries(W).forEach(([l,o])=>{ const {legal,...rest}=o; Object.assign(T[l]
 
 const LANGS=[["en","English","EN"],["es","Español","ES"],["fr","Français","FR"],["he","עברית","עב"]];
 const LOC={he:"he-IL",en:"en-GB",es:"es-ES",fr:"fr-FR"};
+Object.assign(T.he,{dayOf:"יום {n} מתוך 7"}); Object.assign(T.en,{dayOf:"Day {n} of 7"}); Object.assign(T.es,{dayOf:"Día {n} de 7"}); Object.assign(T.fr,{dayOf:"Jour {n} sur 7"});
 Object.assign(T.he,{langLock:"הניתוח נכתב בעברית ולכן נשאר בעברית. לניתוח בשפה אחרת, כתבו את הרעיון מחדש בשפה הזו."}); Object.assign(T.en,{langLock:"This analysis was written in English, so it stays in English. For another language, enter the idea again in that language."}); Object.assign(T.es,{langLock:"Este análisis está escrito en español y se queda así. Para otro idioma, escribe la idea de nuevo en ese idioma."}); Object.assign(T.fr,{langLock:"Cette analyse est rédigée en français et le reste. Pour une autre langue, saisissez l'idée à nouveau dans cette langue."});
 Object.assign(T.he,{langT:"שפה",copiedGo:"הרעיון הועתק. הדביקו אותו ב-Wazo שנפתח ב-claude.ai."}); Object.assign(T.en,{langT:"Language",copiedGo:"Your idea is copied. Paste it into Wazo on claude.ai."}); Object.assign(T.es,{langT:"Idioma",copiedGo:"Tu idea está copiada. Pégala en Wazo en claude.ai."}); Object.assign(T.fr,{langT:"Langue",copiedGo:"Votre idée est copiée. Collez-la dans Wazo sur claude.ai."});
 /* wazo as an app: the save button and its guide */
@@ -1355,13 +1365,15 @@ function cardHTML(b,o,only){
     4:`${N(b.graveyard.length)}·${N(b.competition.length)}`,
   };
   const sub={1:t("unitScores"),2:t("unit"),3:t("unitTest"),4:t("unitFine")};
+  const dayNo=S.isExample?0:Math.min(7,Math.max(1,Math.floor((Date.now()-d.getTime())/864e5)+1));
+  const daysHTML=()=>dayNo?`<div class="days" role="img" aria-label="${esc(t("dayOf").replace("{n}",dayNo))}"><div class="dd">${[1,2,3,4,5,6,7].map(k=>`<i class="${k<=dayNo?"on":""}"></i>`).join("")}</div><div class="dl">${esc(t("dayOf").replace("{n}",dayNo))}</div></div>`:"";  /* where the 7-day test stands, counted from the day the wazo was made */
   const seg=`<div class="seg4" aria-hidden="true">${b.scores.map(s=>`<span class="sg" style="--p:${Math.max(.1,Math.min(1,s.score/10))}"><i></i></span>`).join("")}</div>`;  /* four short bars under the score number, one per score, filled once */
   const body={
     1: b.scores.map(s=>ln(L.sc[s.key],`${s.score}/10`,s.grade)+`<div class="ev">${esc(s.evidence)}</div>`).join(""),
     2: `<div class="ln"><span class="k">${esc(R.price)}</span><span class="fill"></span><span class="v">${C}<input class="price-in" id="priceIn" type="number" min="0" step="10" value="${b.money.price}" aria-label="${esc(R.price)}"></span></div>`
        + ["low","base","high"].map(k=>`<div class="ln"><span class="k">${esc(R[k])} · ${fmt(b.money[k])} ${esc(R.cust)}</span><span class="fill"></span><span class="v" data-m="${k}">${M(b.money[k]*b.money.price)}</span></div>`).join("")
        + `<div class="nt"><b>${esc(R.breaker)}:</b> ${esc(b.money.breaker)}</div>`,
-    3: proLocked(3) ? paywallHTML() : `<div class="nt">${esc(b.kill.action)}</div><div class="nt"><b>${esc(R.pass)}:</b> ${esc(b.kill.pass)}</div>`
+    3: proLocked(3) ? paywallHTML() : daysHTML()+`<div class="nt">${esc(b.kill.action)}</div><div class="nt"><b>${esc(R.pass)}:</b> ${esc(b.kill.pass)}</div>`
        + (o.id?`<div class="ks" data-kt="${esc(o.id)}"><span>${esc(R.ks)}:</span>${[["pending",R.ksP],["pass",R.ksY],["fail",R.ksN]].map(([v,l])=>`<button type="button" data-ks="${v}" aria-pressed="${ks===v}"><span>${esc(l)}</span></button>`).join("")}</div>`:""),
     4: proLocked(4) ? paywallHTML() : `<div class="nt"><b>${esc(R.grave)}</b><ul>${b.graveyard.map(g=>`<li><b>${esc(g.name)}</b>: ${esc(g.why)}</li>`).join("")}</ul></div>`
        + `<div class="nt"><b>${esc(R.comp)}</b><ul>${b.competition.map(c=>`<li><b>${esc(c.name)}</b>: ${esc(c.note)}</li>`).join("")}</ul></div>`
