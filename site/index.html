@@ -757,6 +757,14 @@ nav.top{background:#171717;color:#F2F2F0}
 .pill::after{content:"";position:absolute;inset:-4px}
 .brand::after{content:"";position:absolute;inset:-7px -4px}
 .legal-link::after{content:"";position:absolute;inset:-5px 0}
+/* card 1: four short bars under the score, filled once and slowly */
+.seg4{display:flex;gap:4px;margin:10px 0 6px}
+.seg4 .sg{flex:1;height:8px;border-radius:4px;background:rgba(242,242,240,.16);overflow:hidden}
+.seg4 .sg i{display:block;height:100%;border-radius:4px;background:#F2F2F0;transform:scaleX(var(--p));transform-origin:left;animation:segFill .8s var(--ease) both}
+[dir="rtl"] .seg4 .sg i{transform-origin:right}
+.seg4 .sg:nth-child(2) i{animation-delay:.2s}.seg4 .sg:nth-child(3) i{animation-delay:.4s}.seg4 .sg:nth-child(4) i{animation-delay:.6s}
+@keyframes segFill{from{transform:scaleX(0)}}
+@media (prefers-reduced-motion:reduce){.seg4 .sg i{animation:none}}
 </style>
 </head><body>
 
@@ -1347,6 +1355,7 @@ function cardHTML(b,o,only){
     4:`${N(b.graveyard.length)}·${N(b.competition.length)}`,
   };
   const sub={1:t("unitScores"),2:t("unit"),3:t("unitTest"),4:t("unitFine")};
+  const seg=`<div class="seg4" aria-hidden="true">${b.scores.map(s=>`<span class="sg" style="--p:${Math.max(.1,Math.min(1,s.score/10))}"><i></i></span>`).join("")}</div>`;  /* four short bars under the score number, one per score, filled once */
   const body={
     1: b.scores.map(s=>ln(L.sc[s.key],`${s.score}/10`,s.grade)+`<div class="ev">${esc(s.evidence)}</div>`).join(""),
     2: `<div class="ln"><span class="k">${esc(R.price)}</span><span class="fill"></span><span class="v">${C}<input class="price-in" id="priceIn" type="number" min="0" step="10" value="${b.money.price}" aria-label="${esc(R.price)}"></span></div>`
@@ -1368,7 +1377,7 @@ function cardHTML(b,o,only){
       const lk=proLocked(i);
       const cls="cc"+(lk?" is-lock":"")+(i===5?" final":"")+(i===5&&seen5?" v-"+VCLS(b.verdict):"");
       let inner;
-      if (i<5) inner = lk ? paywallHTML() : `<div class="cc-big">${big[i]}</div><div class="cc-cap">${esc(sub[i])}</div><div class="cc-body">${body[i]}</div>${i===3?`<div class="cc-cta">${remind}</div>`:""}`;
+      if (i<5) inner = lk ? paywallHTML() : `<div class="cc-big">${big[i]}</div>${i===1?seg:""}<div class="cc-cap">${esc(sub[i])}</div><div class="cc-body">${body[i]}</div>${i===3?`<div class="cc-cta">${remind}</div>`:""}`;
       else if (!done) inner = `<div class="cc-big lk">${ic("lock")}</div><div class="cc-cap">${esc(t("locked"))}</div>`;
       else if (!unlocked()) inner = `<div class="cc-body">${gateHTML()}</div>`;
       else if (!seen5) inner = `<div class="cc-big lk">${ic("lock","idle")}</div>${S._cm?`<div class="cc-cta"><button class="cta" type="button" data-act="reveal">${esc(t("reveal"))}</button></div>`:""}`;
